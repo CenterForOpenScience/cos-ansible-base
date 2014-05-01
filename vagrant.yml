@@ -1,0 +1,20 @@
+---
+
+- name: Collecting facts
+  hosts: all
+  gather_facts: yes
+
+
+- hosts: "{{host}}"
+
+- name: Provision machines
+  hosts: "{{host}}"
+  remote_user: "{{user}}"
+  gather_facts: True
+  roles:
+    - ansible
+    - apt
+    - auth
+    - csf
+    - nginx
+    - security_checks
