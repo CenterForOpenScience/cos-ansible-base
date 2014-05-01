@@ -1,0 +1,22 @@
+# http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
+- name: Security Check | Find Form Mail
+  shell: find / -name "[Ff]orm[mM]ai*"
+  sudo: yes
+  register: result
+- debug: msg="Find Form Mail"
+  when: result
+
+# http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
+- name: Security Check | Find CGIeMail
+  shell: find / -name "[Cc]giemai*"
+  sudo: yes
+  register: result
+- debug: msg="Find CGIeMail"
+  when: result|failed
+
+# chrootkit http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
+
+# /etc/motd http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
+
+# disable telnet http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
+

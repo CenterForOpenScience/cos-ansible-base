@@ -1,0 +1,16 @@
+csf_testing: 0
+csf_testing_interval: 5
+csf_tcp_in: "22,80,6666"
+csf_tcp_out: "22,80,6666"
+csf_udp_in: ""
+csf_udp_out: ""
+csf_tcp6_in: "22,80,6666"
+csf_tcp6_out: "22,80,6666"
+csf_udp6_in: ""
+csf_udp6_out: ""
+csf_lf_alert_to: ""
+csf_lf_alert_from: ""
+csf_ui: 1
+csf_ui_allow: 1
+csf_ui_user: username
+csf_ui_password: password

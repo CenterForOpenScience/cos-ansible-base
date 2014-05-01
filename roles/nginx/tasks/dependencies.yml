@@ -1,0 +1,10 @@
+- name: Nginx | Make sure the nginx dependencies are installed
+  apt: pkg={{ item }}
+  with_items:
+    - git
+    - libgoogle-perftools-dev
+    - libpcre3
+    - libpcre3-dev
+    - openssl
+    - zlib1g-dev
+  sudo: yes

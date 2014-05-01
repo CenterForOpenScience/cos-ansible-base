@@ -1,0 +1,17 @@
+- name: Update APT package cache
+  action: apt update_cache=yes
+  sudo: yes
+
+- name: Run apt-get upgrade
+  action: apt upgrade=full
+  sudo: yes
+
+- name: Check for vagrant
+  shell: ls -ld .vbox_version | awk '{print $3}'
+  register: is_vagrant
+# https://github.com/pjan/the-ansibles/blob/master/roles/apt/tasks/main.yml
+- name: If vagrant
+  #debug: msg="If vagrant, reboot the machine; login; run `sudo /etc/init.d/vboxadd setup` to repare the vagrant specifics."
+  shell: /etc/init.d/vboxadd setup
+  sudo: yes
+  when: is_vagrant.stdout == 'vagrant'

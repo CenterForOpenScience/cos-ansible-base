@@ -1,0 +1,6 @@
+- name: Ansible | Install apt and pycurl
+  apt: pkg={{ item }}
+  with_items:
+    - python-apt
+    - python-pycurl
+  sudo: yes
