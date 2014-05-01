@@ -1,6 +1,6 @@
 from invoke import run, task
 
-cmd = 'ansible-playbook {playbook} --extra-vars "host={host} user={user}" -i {hosts} {more}'
+cmd = 'ansible-playbook playbooks/{playbook} --extra-vars "host={host} user={user}" -i {hosts} {more}'
 
 @task
 def users():
