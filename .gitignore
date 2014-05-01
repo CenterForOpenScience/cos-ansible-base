@@ -1,4 +1,4 @@
-# OS generated files 
+# OS generated files
 ######################
 .DS_Store
 .DS_Store?
@@ -9,7 +9,7 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# R                   
+# R
 #######################
 .Rhistory
 
@@ -38,3 +38,11 @@ nosetests.xml
 *.mo
 .idea
 junk
+
+
+# Local config
+##############
+
+group_vars/all
+hosts
+hosts_vagrant
