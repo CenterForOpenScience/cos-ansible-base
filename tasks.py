@@ -8,7 +8,7 @@ def users():
         playbook='add_users.yml',
         host='vagrant1',
         user='vagrant',
-        hosts='vagrant_hosts',
+        hosts='hosts_vagrant',
         more='--ask-pass'
     ))
 
@@ -18,7 +18,7 @@ def vagrant():
         playbook='test.yml',
         host='vagrant1',
         user='jspies',
-        hosts='vagrant_hosts',
+        hosts='hosts_vagrant',
         more=''
     ))
 
@@ -28,7 +28,7 @@ def check():
         playbook='security_check.yml',
         host='vagrant1',
         user='jspies',
-        hosts='vagrant_hosts',
+        hosts='hosts_vagrant',
         more='--ask-sudo-pass'
     ))
 
@@ -38,6 +38,6 @@ def secure():
         playbook='secure_ubuntu.yml',
         host='vagrant1',
         user='jspies',
-        hosts='vagrant_hosts',
+        hosts='hosts_vagrant',
         more='--ask-sudo-pass'
     ))
