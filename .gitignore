@@ -46,3 +46,4 @@ junk
 group_vars/all
 hosts
 hosts_vagrant
+.vagrant
