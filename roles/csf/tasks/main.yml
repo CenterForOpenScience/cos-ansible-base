@@ -20,7 +20,8 @@
   sudo: yes
   when: check_path.stat.exists == false
 
-- shell: cd /tmp/csf/; sh install.sh
+- name: csf | install
+  shell: cd /tmp/csf/; sh install.sh
   sudo: yes
   when: check_path.stat.exists == false
 
@@ -33,6 +34,7 @@
 - name: copy conf
   template: src=csf.conf.j2 dest=/etc/csf/csf.conf
   sudo: yes
+
 
 - name: copy csf.allow
   template: src=csf.allow.j2 dest=/etc/csf/csf.allow
