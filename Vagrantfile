@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     web_config.vm.provision :ansible do |ansible|
       ansible.playbook = "vagrant.yml"
       ansible.extra_vars = {
-        host: "group1",
+        host: "testbox",
         user: "vagrant"
       }
       ansible.inventory_path = "hosts_vagrant"

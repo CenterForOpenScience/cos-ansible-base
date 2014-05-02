@@ -1,3 +1,5 @@
+---
+
 - name: Auth | Make sure the users are present
   user: name={{ item.name }} password={{ item.password }} shell={{ item.shell }} groups={{ ",".join(item.groups) }} append=yes
   with_items: $users
