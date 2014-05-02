@@ -1,3 +1,4 @@
+# Variables used for all hosts that are part of the "textbox" (vagrant) group
 
 users:
   - name: vagrant
