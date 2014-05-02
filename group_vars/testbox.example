@@ -38,3 +38,10 @@ keys:
     key: CHANGEME_SSH_key
   - user: CHANGEME_String
     key: CHANGEME_SSH_key
+
+
+# --- csf
+csf_allowed_ips:
+  - CHANGEME
+csf_ui_user: CHANGEME
+csf_ui_password: CHANGEME
