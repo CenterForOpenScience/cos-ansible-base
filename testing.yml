@@ -1,0 +1,12 @@
+---
+
+- hosts: testbox
+  tasks:
+    - name: csf | enable testing mode
+      lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="1"' state=present
+    - name: csf restart
+      shell: csf -r
+      sudo: yes
+    - name: lfd restart
+      service: name=lfd state=restarted
+      sudo: yes
