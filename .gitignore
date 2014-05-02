@@ -47,3 +47,5 @@ group_vars/all
 hosts
 hosts_vagrant
 .vagrant
+
+group_vars/testbox
