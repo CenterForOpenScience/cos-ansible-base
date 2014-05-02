@@ -1,0 +1,13 @@
+---
+# Security check playbook
+
+- name: Collecting facts
+  hosts: all
+  gather_facts: yes
+
+- hosts: all
+  roles:
+    - role: security_checks
+      tags:
+        - security
+        - checks
