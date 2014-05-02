@@ -13,14 +13,10 @@ def users():
     ))
 
 @task
-def vagrant():
-    run(cmd.format(
-        playbook='test.yml',
-        host='vagrant1',
-        user='jspies',
-        hosts='hosts_vagrant',
-        more=''
-    ))
+def vagrant(up=False):
+    if up:
+        run('vagrant up')
+    run('ansible-playbook vagrant.yml -i vagrant -s', pty=True)
 
 @task
 def check():
