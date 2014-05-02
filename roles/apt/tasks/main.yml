@@ -1,9 +1,9 @@
-- name: Update APT package cache
-  action: apt update_cache=yes
+- name: Apt | Update APT package cache
+  apt: update_cache=yes
   sudo: yes
 
-- name: Run apt-get upgrade
-  action: apt upgrade=full
+- name: Apt | Run apt-get upgrade
+  apt: upgrade=full
   sudo: yes
 
 - name: Check for vagrant

@@ -1,21 +1,4 @@
----
+# file: roles/auth/tasks/main.yml
 
-- name: Auth | Make sure the users are present
-  user: name={{ item.name }} password={{ item.password }} shell={{ item.shell }} groups={{ ",".join(item.groups) }} append=yes
-  with_items: $users
-  sudo: yes
-
-- name: Auth | Add keys
-  authorized_key: user={{ item.name }} key="{{ lookup('file', inventory_dir+'/files/'+item.key) }}"
-  with_items: $users
-  sudo: yes
-
-- name: Disallow root SSH access
-  lineinfile: dest=/etc/ssh/sshd_config regexp="^#{0,1}PermitRootLogin" line="PermitRootLogin no" state=present
-  notify: restart ssh
-  sudo: yes
-
-- name: Disallow password authentication
-  lineinfile: dest=/etc/ssh/sshd_config regexp="^#{0,1}PasswordAuthentication" line="PasswordAuthentication no" state=present
-  notify: restart ssh
-  sudo: yes
+- include: users.yml
+- include: keys.yml
