@@ -16,6 +16,7 @@
     - sysstat
     - tmux
     - tshark
+    - bash-completion
 
 - name: Common | Make sure git is installed
   apt: pkg=git

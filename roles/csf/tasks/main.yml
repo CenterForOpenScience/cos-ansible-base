@@ -1,9 +1,6 @@
-- name: csf | Dependencies
-  apt: pkg={{ item }}
-  with_items:
-    - sendmail
-    - libwww-perl
-  sudo: yes
+
+# Install dependencies
+- include: deps.yml
 
 - name: csf | Check if csf exists
   stat: path=/usr/local/csf/bin/csftest.pl
