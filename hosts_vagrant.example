@@ -1,5 +1,0 @@
-[local]
-localhost ansible_python_interpreter=FILLINPATH
-
-[server]
-FILLIN:22 ansible_ssh_private_key_file=FILLINPATH
