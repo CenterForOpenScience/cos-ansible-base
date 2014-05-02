@@ -5,7 +5,7 @@
     - libwww-perl
   sudo: yes
 
-- name: Check if csf exists
+- name: csf | Check if csf exists
   stat: path=/usr/local/csf/bin/csftest.pl
   sudo: yes
   register: check_path

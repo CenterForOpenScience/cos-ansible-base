@@ -18,10 +18,23 @@ users:
     - admin
     - staff
     append: no
+  - name: CHANGEME_username
+    passwd: CHANGE_password
+    comment: CHANGEME_comment
+    uid: 2000
+    shell: /bin/bash
+    groups:
+    - adm
+    - sudo
+    - admin
+    - staff
+    append: yes
 
 # Set your key here
 # You can use a file like so:
 # "{{ lookup('file', '/Users/you/.ssh/id_rsa.pub') }}"
 keys:
   - user: vagrant
+    key: CHANGEME_SSH_key
+  - user: CHANGEME_String
     key: CHANGEME_SSH_key

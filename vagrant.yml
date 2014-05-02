@@ -6,13 +6,20 @@
 
 - hosts: all
   roles:
+
     - role: auth
       tags:
         - common
         - auth
+
     - role: common
       tags:
         - common
+
+    # - role: csf
+      # tags:
+        # - security
+
     # - role: security
     #   tags:
     #     - security
