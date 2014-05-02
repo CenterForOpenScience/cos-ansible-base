@@ -1,0 +1,15 @@
+# CSF checks
+
+
+- name: Enable testing mode
+  lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="1"' state=present
+  tags:
+    - csf
+    - testing
+
+
+
+- name: Disable mode
+  lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="0"' state=present
+  tags:
+    - csf

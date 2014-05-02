@@ -29,6 +29,10 @@ def check():
     ))
 
 @task
+def vssh(user='vagrant'):
+    run('ssh -p 2222 {0}@localhost'.format(user), pty=True)
+
+@task
 def secure():
     run(cmd.format(
         playbook='secure_ubuntu.yml',

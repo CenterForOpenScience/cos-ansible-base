@@ -20,6 +20,13 @@
       tags:
         - security
 
+    - role: security_checks
+      tags:
+        - security
+        - checks
+
+
+
     # - role: security
     #   tags:
     #     - security
