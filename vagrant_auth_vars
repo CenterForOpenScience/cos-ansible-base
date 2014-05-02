@@ -1,0 +1,23 @@
+
+users:
+  - name: vagrant
+    passwd: satrF5fwANvrQ
+    comment: 'vagrant'
+    uid: 1000
+    shell: /bin/bash
+    groups:
+    - vagrant
+    - adm
+    - cdrom
+    - sudo
+    - dip
+    - plugdev
+    - lpadmin
+    - sambashare
+    - admin
+    - staff
+    append: no
+
+keys:
+  - user: vagrant
+    key: id_vagrant.pub
