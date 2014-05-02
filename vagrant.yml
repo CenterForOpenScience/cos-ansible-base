@@ -16,9 +16,9 @@
       tags:
         - common
 
-    # - role: csf
-      # tags:
-        # - security
+    - role: csf
+      tags:
+        - security
 
     # - role: security
     #   tags:
