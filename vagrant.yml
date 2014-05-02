@@ -9,12 +9,12 @@
     - role: common
       tags:
         - common
-    - role: security
-      tags:
-        - security
-    - role: supervisor
-      tags:
-        - supervisor
-    - role: monit
-      tags:
-        - monit
+    # - role: security
+    #   tags:
+    #     - security
+    # - role: supervisor
+    #   tags:
+    #     - supervisor
+    # - role: monit
+    #   tags:
+    #     - monit

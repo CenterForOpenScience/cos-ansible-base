@@ -5,7 +5,6 @@
 
 - name: Setup users
   hosts: testbox
-  vars_files:
-    - vagrant_auth_vars
-  tasks:
-    - include: roles/auth/tasks/main.yml
+  roles:
+    - role: auth
+      tags: common
