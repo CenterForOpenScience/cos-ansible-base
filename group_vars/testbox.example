@@ -1,0 +1,27 @@
+# Variables used for all hosts that are part of the "textbox" (vagrant) group
+
+users:
+  - name: vagrant
+    passwd: satrF5fwANvrQ
+    comment: 'vagrant'
+    uid: 1000
+    shell: /bin/bash
+    groups:
+    - vagrant
+    - adm
+    - cdrom
+    - sudo
+    - dip
+    - plugdev
+    - lpadmin
+    - sambashare
+    - admin
+    - staff
+    append: no
+
+# Set your key here
+# You can use a file like so:
+# "{{ lookup('file', '/Users/you/.ssh/id_rsa.pub') }}"
+keys:
+  - user: vagrant
+    key: CHANGEME_SSH_key
