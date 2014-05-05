@@ -10,3 +10,5 @@ nginx_binary: /usr/sbin/nginx
 nginx_pid: /var/run/nginx.pid
 
 nginx_worker_processes: 4
+
+nginx_setup_default: true

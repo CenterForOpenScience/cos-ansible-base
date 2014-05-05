@@ -1,11 +1,13 @@
 ---
+# adapted from: https://github.com/pjan/the-ansibles
+
 - include: dependencies.yml
 - include: user.yml
 - include: package_install.yml
 - include: configure.yml
+- include: default.yml
+  when: nginx_setup_default == true
 
-#- include: default.yml
-#  when: nginx_setup_default == true
 #- include: monit.yml
 #  when: monit_protection == true
 
