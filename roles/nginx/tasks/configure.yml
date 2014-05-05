@@ -9,8 +9,12 @@
   notify:
     - restart nginx
 
-#- name: Update the default site configuration
-#  template: src=default.site.j2 dest={{ nginx_dir }}/sites-available/default owner=root group=root mode=0644
+- name: Nginx | Update the default site configuration
+  template: src=default.site.j2 dest={{ nginx_dir }}/sites-available/default owner=root group=root mode=0644
+  sudo: yes
 
-#- name: Enable the default site
-#  file: path={{ nginx_dir }}/sites-enabled/default src={{ nginx_dir }}/sites-available/default state=link
+- name: Nginx | Enable the default site
+  file: path={{ nginx_dir }}/sites-enabled/default src={{ nginx_dir }}/sites-available/default state=link
+  sudo: yes
+  notify:
+    - restart nginx

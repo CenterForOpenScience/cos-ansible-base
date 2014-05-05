@@ -1,3 +1,4 @@
+# source: https://github.com/pjan/the-ansibles
 - name: Nginx | Make sure the nginx group is present
   action: group gid={{ nginx_gid }} name={{ nginx_group }} state=present
 
