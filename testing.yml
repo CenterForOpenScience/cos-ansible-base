@@ -1,5 +1,6 @@
 ---
 
+# Enable testing mode on vagrant boxes
 - hosts: testbox
   tasks:
     - name: csf | enable testing mode

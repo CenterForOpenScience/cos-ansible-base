@@ -13,7 +13,7 @@ def users():
     ))
 
 @task
-def vagrant(up=False):
+def vagrant_setup(up=False):
     if up:
         run('vagrant up')
     run('ansible-playbook vagrant.yml -i vagrant -s', pty=True)

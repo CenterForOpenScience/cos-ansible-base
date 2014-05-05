@@ -1,5 +1,4 @@
-cos-ansible-base
-================
+# cos-ansible-base
 
 
 ## Vagrant setup
@@ -18,7 +17,6 @@ $ ssh-keygen
 ```bash
 $ cp group_vars/testbox.example group_vars/testbox
 ```
-
 
 - Modify `group_vars/testbox` with your user and key info where you see "CHANGEME". You can either paste in your key as a string, or use a file, like so:
 
@@ -48,6 +46,13 @@ keys:
       key: "{{ lookup('file', '/Users/sloria/.ssh/id_vagrant.pub') }}"
     - user: sloria
       key: "{{ lookup('file', '/Users/sloria/.ssh/id_rsa.pub') }}"
+
+# You should also enter CSF settings in this file
+# --- csf
+csf_allowed_ips:
+    - CHANGEME
+csf_ui_user: FILLIN
+csf_ui_password: FILLIN
 ```
 
 - Run `$ vagrant up`. This will start the VM provision it with the `vagrant.yml` playbook.
@@ -55,3 +60,14 @@ keys:
 ```bash
 $ vagrant up
 ```
+
+### SSH
+
+To ssh into your Vagrant box, you can run (must have invoke installed):
+
+```bash
+$ invoke vssh -u yourusername
+```
+
+
+

@@ -7,7 +7,11 @@
     - csf
     - testing
 
+- name: csf restart
+  shell: csf -r
+  sudo: yes
 
+# TODO: Test CSF
 
 - name: Disable mode
   lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="0"' state=present
