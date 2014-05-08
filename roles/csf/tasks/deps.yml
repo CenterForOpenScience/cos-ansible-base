@@ -1,7 +1,10 @@
 - name: csf | Install sendmail
-  apt: pkg=sendmail
+  apt: pkg={{ item }}
   sudo: yes
   register: install_sendmail
+  with_items:
+    - sendmail-bin
+    - sendmail
 
 # If sendmail installation fails with apt-get, try aptitude
 - name: csf | Install sendmail with aptitude
