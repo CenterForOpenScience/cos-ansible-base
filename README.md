@@ -1,5 +1,9 @@
 # cos-ansible-base
 
+## Requirements 
+
+- ansible >= 1.6
+- vagrant >= 1.5
 
 ## Vagrant setup
 
