@@ -3,16 +3,7 @@
   sudo: yes
   register: install_sendmail
 
-# If sendmail installation fails with apt-get, try aptitude
-- name: csf | Install sendmail with aptitude
-  shell: aptitude install sendmail
-  when: install_sendmail|failed and ansible_distribution == 'Ubuntu'
-
 - name: csf | Install libwww-perl
   apt: pkg=libwww-perl
   sudo: yes
   register: install_libwww
-
-- name: csf | Install libwww-perl with aptitude
-  shell: aptitude install sendmail
-  when: install_libwww|failed and ansible_distribution == 'Ubuntu'
