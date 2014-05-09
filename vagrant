@@ -1,2 +1,5 @@
 [testbox]
 192.168.111.111
+
+[nginx:children]
+testbox

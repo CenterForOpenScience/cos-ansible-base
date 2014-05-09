@@ -25,6 +25,11 @@
         - security
         - checks
 
+- hosts: nginx
+  roles:
+    - role: nginx
+      tags:
+        - nginx
 
 
     # - role: security
