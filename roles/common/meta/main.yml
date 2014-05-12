@@ -1,14 +1,11 @@
 # file: roles/common/meta/main.yml
 
 dependencies:
-  - { role: hostname }
-  - { role: timezone }
+  - { role: Ansibles.hostname }
+  - { role: Ansibles.timezone }
   - { role: directories }
-  - { role: apt }
+  - { role: Ansibles.apt }
   - { role: vim }
-  - { role: build }
-  - { role: cron }
-  - { role: logwatch }
-  - { role: tmpreaper }
+  - { role: Ansibles.build-essential }
+  - { role: Ansibles.cron }
   - { role: ssh }
-  - { role: powerdns }

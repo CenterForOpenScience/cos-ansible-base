@@ -1,0 +1,12 @@
+# file: nginx/tasks/main.yml
+
+- include: package.yml
+  when: nginx_install_method == "package"
+- include: source.yml
+  when: nginx_install_method == "source"
+- include: scripts.yml
+- include: configure.yml
+- include: default_site.yml
+- include: sites.yml
+- include: monit.yml
+  when: monit_protection is defined and monit_protection == true

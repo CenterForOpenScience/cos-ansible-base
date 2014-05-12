@@ -7,14 +7,14 @@
 - hosts: all
   roles:
 
+    - role: Ansibles.timezone
+      tags:
+        - common
+
     - role: auth
       tags:
         - common
         - auth
-
-    - role: common
-      tags:
-        - common
 
     - role: csf
       tags:
@@ -25,19 +25,8 @@
         - security
         - checks
 
-- hosts: nginx
-  roles:
-    - role: nginx
-      tags:
-        - nginx
-
-
-    # - role: security
-    #   tags:
-    #     - security
-    # - role: supervisor
-    #   tags:
-    #     - supervisor
-    # - role: monit
-    #   tags:
-    #     - monit
+# - hosts: nginx
+#   roles:
+#     - role: Ansibles.nginx
+#       tags:
+#         - nginx
