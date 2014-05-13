@@ -7,7 +7,3 @@
 - hosts: all
   roles:
     - role: csf
-
-- hosts: nginx
-  roles:
-    - role: nginx

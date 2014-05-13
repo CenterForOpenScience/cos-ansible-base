@@ -9,7 +9,7 @@
 PROJECT_NAME  = ENV['PROJECT_NAME']  || "ANSIBLES"
 
 BOX_IMAGE     = ENV['BOX_IMAGE']     || "ubuntu/trusty64"
-BOX_NAME      = ENV['BOX_NAME']      || "testbox"
+BOX_NAME      = ENV['BOX_NAME']      || "vagrantbox"
 BOX_ADMIN     = ENV['BOX_ADMIN']     || "vagrant"
 BOX_IP_ZONE   = ENV['BOX_IP_ZONE']   || "192.168.111"
 BOX_IP_END    = ENV['BOX_IP_END']    || "111"
@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.provision :shell, :inline => $docker_cmd
 
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = "main.yml"
+    ansible.playbook = "site.yml"
     ansible.inventory_path = "vagrant"
     ansible.sudo = true
     ansible.limit = BOX_NAME
