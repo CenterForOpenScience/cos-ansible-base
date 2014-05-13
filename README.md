@@ -4,6 +4,7 @@
 
 - ansible >= 1.6
 - vagrant >= 1.5
+- invoke (Python task execution library)
 
 ## Vagrant setup
 
@@ -71,6 +72,20 @@ To ssh into your Vagrant box, you can run (must have invoke installed):
 
 ```bash
 $ invoke vssh -u yourusername
+```
+
+### Installing roles
+
+Ansible-galaxy roles should be enumerated in roles.txt and installed to the roles directory. To reinstall all roles, run
+
+```bash
+$ ansible-galaxy install -r roles.txt -p ./roles -f
+```
+
+Or, for short:
+
+```bash
+$ invoke install_roles -f
 ```
 
 

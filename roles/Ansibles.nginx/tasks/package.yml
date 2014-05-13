@@ -1,0 +1,19 @@
+# file: nginx/tasks/package.yml
+
+- name: Nginx | Make sure the ansible required dependencies are installed
+  apt:
+    pkg: python-pycurl
+    state: present
+
+- name: Nginx | Add the nginx repository
+  apt_repository:
+    repo: ppa:nginx/stable
+
+- include: directories.yml
+
+- name: Nginx | Make sure nginx is installed (package)
+  apt:
+    pkg: nginx
+    state: present
+  notify:
+    - restart nginx

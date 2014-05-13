@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from invoke import run, task
 
 cmd = 'ansible-playbook playbooks/{playbook} --extra-vars "host={host} user={user}" -i {hosts} {more}'
@@ -11,6 +13,15 @@ def users():
         hosts='hosts_vagrant',
         more='--ask-pass'
     ))
+
+@task
+def install_roles(force=False, ignore_errors=False):
+    command = 'ansible-galaxy install -r roles.txt -p roles'
+    if force:
+        command += ' --force'
+    if ignore_errors:
+        command += ' --ignore-errors'
+    run(command, pty=True)
 
 @task
 def vagrant_setup(up=False):
