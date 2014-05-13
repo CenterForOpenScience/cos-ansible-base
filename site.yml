@@ -7,4 +7,3 @@
 - hosts: all
   roles:
     - role: csf
-
