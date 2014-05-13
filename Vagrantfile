@@ -8,7 +8,7 @@
 
 PROJECT_NAME  = ENV['PROJECT_NAME']  || "ANSIBLES"
 
-BOX_IMAGE     = ENV['BOX_IMAGE']     || "hashicorp/precise64"
+BOX_IMAGE     = ENV['BOX_IMAGE']     || "ubuntu/trusty64"
 BOX_NAME      = ENV['BOX_NAME']      || "testbox"
 BOX_ADMIN     = ENV['BOX_ADMIN']     || "vagrant"
 BOX_IP_ZONE   = ENV['BOX_IP_ZONE']   || "192.168.111"
