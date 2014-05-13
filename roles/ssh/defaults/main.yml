@@ -30,3 +30,6 @@ ssh_settings:
   UseDNS: "no"
   ClientAliveInterval: "1750"
   ClientAliveCountMax: "0"
+
+# User for testing
+ssh_testuser: vagrant

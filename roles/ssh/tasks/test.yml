@@ -1,0 +1,9 @@
+
+- name: test ssh | Password authentication disallowed
+  connection: local
+  # Force password login; login should fail
+  shell: ssh -p {{ssh_testuser}}@localhost -o PubkeyAuthentication=no
+  when: ssh_settings["PasswordAuthentication"] == "no"
+  register: login_attempt
+  failed_when: login_attempt|success
+
