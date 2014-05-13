@@ -13,7 +13,11 @@
 
 # TODO: Test CSF
 
-- name: Disable mode
+- name: Disable testing mode
   lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="0"' state=present
   tags:
     - csf
+
+- name: csf restart
+  shell: csf -r
+  sudo: yes
