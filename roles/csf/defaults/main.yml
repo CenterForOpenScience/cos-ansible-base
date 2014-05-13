@@ -1,11 +1,16 @@
 csf_testing: 0
 csf_testing_interval: 5
+# 22 is required for inbound SSH
 csf_tcp_in: "22"
-csf_tcp_out: "22,443"
+csf_tcp6_in: "22"
+
+# 80 is required for outbound HTTP (e.g., apt)
+# 443 is required for outbound SSL (e.g., pip)
+csf_tcp_out: "80,443"
+csf_tcp6_out: "80,443"
+
 csf_udp_in: ""
 csf_udp_out: ""
-csf_tcp6_in: "22"
-csf_tcp6_out: "22"
 csf_udp6_in: ""
 csf_udp6_out: ""
 csf_lf_alert_to: ""
