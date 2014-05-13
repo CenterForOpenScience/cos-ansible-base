@@ -11,7 +11,7 @@
       tags:
         - common
 
-    - role: auth
+    - role: Ansibles.generic-users
       tags:
         - common
         - auth
