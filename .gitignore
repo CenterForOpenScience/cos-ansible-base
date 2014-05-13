@@ -45,4 +45,4 @@ hosts
 hosts_vagrant
 .vagrant
 
-group_vars/testbox
+group_vars/vagrantbox
