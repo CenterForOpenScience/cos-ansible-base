@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.provision :shell, :inline => $docker_cmd
 
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = "vagrant.yml"
+    ansible.playbook = "base.yml"
     ansible.inventory_path = "vagrant"
     ansible.sudo = true
     ansible.limit = BOX_NAME
