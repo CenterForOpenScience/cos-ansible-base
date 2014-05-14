@@ -4,9 +4,11 @@
   gather_facts: yes
 
 # Execute common roles
-- hosts: all
+- name: Common Ubuntu setup
+  hosts: all
   roles:
     - role: Ansibles.generic-users
+    - role: Ansibles.timezone
     - role: ssh
     - role: apt
     - role: csf

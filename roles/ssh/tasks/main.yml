@@ -6,3 +6,5 @@
     - restart ssh
 
 - include: test.yml
+  tags:
+    - test
