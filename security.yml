@@ -1,0 +1,7 @@
+
+- name: Common Ubuntu security
+  hosts: all
+  roles:
+    - role: csf
+    - role: chkrootkit
+    - role: security_checks

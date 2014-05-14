@@ -23,8 +23,6 @@
 - include: csf.yml
 
 
-# chrootkit http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
-
 # /etc/motd http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
 
 # disable telnet http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
