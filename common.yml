@@ -1,0 +1,8 @@
+# Execute common roles
+- name: Common Ubuntu setup
+  hosts: all
+  roles:
+    - role: Ansibles.generic-users
+    - role: Ansibles.timezone
+    - role: ssh
+    - role: apt

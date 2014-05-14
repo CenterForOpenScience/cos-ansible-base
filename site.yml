@@ -3,13 +3,5 @@
   hosts: all
   gather_facts: yes
 
-# Execute common roles
-- name: Common Ubuntu setup
-  hosts: all
-  roles:
-    - role: Ansibles.generic-users
-    - role: Ansibles.timezone
-    - role: ssh
-    - role: apt
-
+- include: common.yml
 - include: security.yml

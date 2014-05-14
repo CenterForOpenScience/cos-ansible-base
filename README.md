@@ -97,6 +97,19 @@ Or, for short:
 $ invoke install_roles -f
 ```
 
+## Running playbooks
+
+Playbooks can be run with the `ansible-playbook` command. You need to specify which inventory file with the `-i` option as well as a user with the `-u` option. Run in sudo mode with `-s`
+
+```bash
+$ ansible-playbook security.yml -i vagrant -u sloria1 -s
+```
+
+Or, using invoke for shorthand:
+
+```bash
+$ invoke play security.yml -i vagrant -u sloria1
+```
 
 ## Provisioning 
 
@@ -116,7 +129,7 @@ Or, if you prefer to use invoke:
 $ invoke provision -i vagrant -u sloria1
 ```
 
-NOTE: You can also just run `invoke provision` with no arguments to provision the vagrant box.
+NOTE: You can also provision the vagrant box by running `invoke provision` with no arguments.
 
 Many of the roles have variables use variables defined in their `defaults/main.yml` file. You can override these on the command line with the `-e` option:
 
