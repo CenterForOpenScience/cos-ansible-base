@@ -16,7 +16,16 @@ def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False, ext
     """Run the site.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
-    cmd = 'ansible-playbook site.yml -i {inventory} -u {user}'.format(**locals())
+    play(playbook='site.yml',
+        inventory=inventory,
+        user=user,
+        sudo=sudo,
+        verbose=verbose, extra=extra)
+
+@task
+def play(playbook, inventory='vagrant', user='vagrant', sudo=True, verbose=False, extra=''):
+    """Run a playbook. Defaults to using the vagrant inventory and vagrant user."""
+    cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
         cmd += ' -s'
     if verbose:
