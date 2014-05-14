@@ -124,6 +124,12 @@ Many of the roles have variables use variables defined in their `defaults/main.y
 $ ansible-playbook site.yml -i vagrant -u sloria1 -e "ssh_test=false"
 ```
 
+or, equivalently:
+
+```bash
+$ invoke provision -u sloria1 -e "ssh_test=false"
+```
+
 The above would temporarily disable SSH configuration testing.
 
 

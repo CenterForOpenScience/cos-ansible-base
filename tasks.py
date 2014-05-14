@@ -12,7 +12,7 @@ def install_roles(force=False, ignore_errors=False):
     run(command, pty=True)
 
 @task
-def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False):
+def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False, extra=''):
     """Run the site.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
@@ -21,6 +21,8 @@ def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False):
         cmd += ' -s'
     if verbose:
         cmd += ' -vvvv'
+    if extra:
+        cmd += ' -e {0}'.format(extra)
     run(cmd, pty=True)
 
 @task
