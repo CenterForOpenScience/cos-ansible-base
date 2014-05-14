@@ -2,6 +2,7 @@
 # http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
 - name: Security Check | Find Form Mail
   shell: find / -name "[Ff]orm[mM]ai*"
+  when: check_mailers
   sudo: yes
   register: result
 - debug: msg="Find Form Mail"
@@ -11,6 +12,7 @@
 
 - name: Security Check | Find CGIeMail
   shell: find / -name "[Cc]giemai*"
+  when: check_mailers
   sudo: yes
   register: result
 - debug: msg="Find CGIeMail"

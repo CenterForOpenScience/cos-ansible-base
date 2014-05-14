@@ -12,3 +12,4 @@
     - role: ssh
     - role: apt
     - role: csf
+    - role: security_checks
