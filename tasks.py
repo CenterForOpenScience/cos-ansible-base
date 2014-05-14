@@ -12,13 +12,15 @@ def install_roles(force=False, ignore_errors=False):
     run(command, pty=True)
 
 @task
-def provision(inventory='vagrant', user='vagrant', sudo=True):
+def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False):
     """Run the site.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
     cmd = 'ansible-playbook site.yml -i {inventory} -u {user}'.format(**locals())
     if sudo:
         cmd += ' -s'
+    if verbose:
+        cmd += ' -vvvv'
     run(cmd, pty=True)
 
 @task
