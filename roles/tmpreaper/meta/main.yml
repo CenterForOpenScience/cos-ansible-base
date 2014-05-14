@@ -1,4 +1,0 @@
-# file: roles/tmpreaper/meta/main.yml
-
-dependencies:
-  - { role: cron }
