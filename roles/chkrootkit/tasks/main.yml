@@ -1,0 +1,13 @@
+
+- name: Make sure chkrootkit is installed
+  apt:
+    pkg: "chkrootkit"
+    state: present
+
+- name: Update chkrootkit configuration
+  template: src=etc_chkrootkit.conf.j2 dest=/etc/chkrootkit.conf owner=root group=root mode=0644
+
+- name: Run chrkrootkit
+  shell: chkrootkit
+
+# TODO: copy chkrootkit.conf

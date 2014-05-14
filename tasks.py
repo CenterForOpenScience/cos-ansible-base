@@ -25,6 +25,7 @@ def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False, ext
         cmd += ' -e {0}'.format(extra)
     run(cmd, pty=True)
 
+
 @task
 def vssh(user='vagrant'):
     run('ssh -p 2222 {0}@localhost'.format(user), pty=True)
