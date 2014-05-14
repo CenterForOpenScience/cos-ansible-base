@@ -4,9 +4,10 @@
   shell: find / -name "[Ff]orm[mM]ai*"
   when: check_mailers
   sudo: yes
+  # Failed if any files are found
   register: result
-- debug: msg="Find Form Mail"
-  when: result
+  failed_when: result.stdout
+  ignore_errors: yes
 
 # http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
 
@@ -14,9 +15,10 @@
   shell: find / -name "[Cc]giemai*"
   when: check_mailers
   sudo: yes
+  # Fail if any files are found
   register: result
-- debug: msg="Find CGIeMail"
-  when: result
+  failed_when: result.stdout
+  ignore_errors: yes
 
 - include: csf.yml
 
