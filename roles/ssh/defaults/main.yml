@@ -31,5 +31,7 @@ ssh_settings:
   ClientAliveInterval: "1750"
   ClientAliveCountMax: "0"
 
+# run tests
+ssh_test: yes
 # User for testing
 ssh_testuser: vagrant

@@ -6,5 +6,6 @@
     - restart ssh
 
 - include: test.yml
+  when: ssh_test
   tags:
     - test

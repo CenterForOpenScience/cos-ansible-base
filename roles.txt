@@ -1,5 +1,4 @@
 Ansibles.hostname,v1.0.1
-Ansibles.apt,v1.0.1
 Ansibles.build-essential,v1.0.0
 Ansibles.perl,v1.0.1
 Ansibles.monit,v1.0.0
