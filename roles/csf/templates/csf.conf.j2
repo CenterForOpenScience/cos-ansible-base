@@ -54,7 +54,7 @@ UDP_IN = "{{csf_udp_in}}"
 UDP_OUT = "{{csf_udp_out}}"
 
 # Allow incoming PING
-ICMP_IN = "1"
+ICMP_IN = "{{csf_imp_in}}"
 
 # Set the per IP address incoming ICMP packet rate
 # To disable rate limiting set to "0"
@@ -246,7 +246,7 @@ VERBOSE = "1"
 #
 # If you see packets being dropped that you would rather allow then disable
 # this option by setting it to "0"
-PACKET_FILTER = "1"
+PACKET_FILTER = "{{csf_packet_filter}}"
 
 # Perform reverse DNS lookups on IP addresses. (See also CC_LOOKUPS)
 LF_LOOKUPS = "1"
@@ -293,9 +293,9 @@ SMTP_ALLOWGROUP = "mail,mailman"
 # Note: This option should ONLY be enabled if you know you are under a SYN
 # flood attack as it will slow down all new connections from any IP address to
 # the server if triggered
-SYNFLOOD = "0"
-SYNFLOOD_RATE = "100/s"
-SYNFLOOD_BURST = "150"
+SYNFLOOD = "{{csf_synflood}}"
+SYNFLOOD_RATE = {{csf_synflood_rate}}
+SYNFLOOD_BURST = "{{csf_synflood_burst}}"
 
 # Connection Limit Protection. This option configures iptables to offer more
 # protection from DOS attacks against specific ports. It can also be used as a
@@ -313,7 +313,7 @@ SYNFLOOD_BURST = "150"
 #
 # Note: Run /etc/csf/csftest.pl to check whether this option will function on
 # this server
-CONNLIMIT = ""
+CONNLIMIT = {{csf_connlimit}}
 
 # Port Flood Protection. This option configures iptables to offer protection
 # from DOS attacks against specific ports. This option limits the number of
@@ -329,7 +329,7 @@ CONNLIMIT = ""
 #
 # Note: Run /etc/csf/csftest.pl to check whether this option will function on
 # this server
-PORTFLOOD = ""
+PORTFLOOD = {{csf_portflood}}
 
 # Outgoing UDP Flood Protection. This option limits outbound UDP packet floods.
 # These typically originate from exploit scripts uploaded through vulnerable

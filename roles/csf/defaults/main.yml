@@ -19,3 +19,32 @@ csf_ui: 1
 csf_ui_allow: 1
 csf_ui_user: username
 csf_ui_password: password
+
+# Allow ping requests
+csf_icmp_in: 1
+
+# Filter invalid, unwanted, and illegal packets
+csf_packet_filter: 1
+
+# Synflood protection. Slows initialization of all connections, so
+# ONLY enable if you know you are under attack
+csf_synflood: 0
+csf_synflood_rate: "100/s"
+csf_synflood_burst: 150
+
+
+# limit number of concurrent active connections on port
+# Example:
+# 22;5;443;20
+# allows 5 concurrent connections on port 22 and 20 concurrent connections on port 443
+csf_connlimit: ""
+
+
+# Limit number of connections per time interval that can be made to specific
+# ports.
+# Example:
+# 22;tcp;5;250
+# would block the IP address i more than 5 connections are established on port 22 using
+# TCP within 250 seconds
+csf_portflood: ""
+
