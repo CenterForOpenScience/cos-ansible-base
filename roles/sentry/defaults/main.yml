@@ -1,0 +1,10 @@
+sentry_db_name: sentry
+sentry_db_user: sentry
+sentry_db_pass: sentry
+sentry_db_host: localhost
+sentry_db_port: 5432
+
+sentry_url_prefix: http://localhost
+
+sentry_host: 0.0.0.0
+sentry_port: 9000

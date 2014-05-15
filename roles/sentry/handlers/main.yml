@@ -1,0 +1,5 @@
+- name: start sentry
+  supervisorctl: name=sentry state=started
+
+- name: restart sentry
+  supervisorctl: name=sentry state=restarted
