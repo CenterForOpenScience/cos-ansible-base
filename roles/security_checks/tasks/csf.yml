@@ -1,23 +1,37 @@
 # CSF checks
 
 
-- name: Enable testing mode
+- name: test csf | Enable testing mode
   lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="1"' state=present
   tags:
     - csf
     - testing
 
-- name: csf restart
+- name: test csf | csf restart
   shell: csf -r
   sudo: yes
 
-# TODO: Test CSF
 
-- name: Disable testing mode
+# FIXME: This task does not yet work correctly. The doalarm command works correctly, but the
+# failed_when conditional cannot execute properly
+
+# - name: test csf | Port scans are denied
+#   connection: local
+#   sudo: no
+#   # doalarm runs a command and returns an error if no output was captured in
+#   # {{check_portscan_timeout}} seconds
+#   # Here, a portscan is attempted; CSF should hang the connection, so doalarm() should
+#   # return an error
+#   command: doalarm () { perl -e 'alarm shift; exec @ARGV' "$@"; } && doalarm 3 nc -z 192.168.111.111 1-1023
+#   register: portscan_result
+#   failed_when: portscan_result.stdout
+
+
+- name: test csf | Disable testing mode
   lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="0"' state=present
   tags:
     - csf
 
-- name: csf restart
+- name: test csf | csf restart
   shell: csf -r
   sudo: yes

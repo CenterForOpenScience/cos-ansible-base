@@ -21,6 +21,7 @@
   ignore_errors: yes
 
 - include: csf.yml
+  when: check_csf
 
 
 # /etc/motd http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/

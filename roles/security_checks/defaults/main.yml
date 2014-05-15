@@ -1,2 +1,4 @@
 
 check_mailers: yes
+check_csf: yes
+check_portscan_timeout: 3
