@@ -1,0 +1,10 @@
+- name: Install source files for building Python packages
+  apt: pkg=python-dev
+  sudo: yes
+
+- name: Ensure pip is installed
+  apt: pkg=python-pip
+  sudo: yes
+
+- name: Ensure virtualenv is installed
+  pip: name=virtualenv state=present
