@@ -1,7 +1,8 @@
 ---
 
 # Enable testing mode on vagrant boxes
-- hosts: testbox
+- name: Enable csf testing mode
+  hosts: vagrantbox
   tasks:
     - name: csf | enable testing mode
       lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="1"' state=present
