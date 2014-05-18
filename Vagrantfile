@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "site.yml"
-    ansible.inventory_path = "vagrant"
+    ansible.inventory_path = "vagranthosts"
     ansible.sudo = true
     ansible.limit = BOX_NAME
   end

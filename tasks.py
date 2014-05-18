@@ -12,7 +12,7 @@ def install_roles(force=False, ignore_errors=False):
     run(command, pty=True)
 
 @task
-def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False, extra=''):
+def provision(inventory='vagranthosts', user='vagrant', sudo=True, verbose=False, extra=''):
     """Run the site.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
@@ -23,7 +23,7 @@ def provision(inventory='vagrant', user='vagrant', sudo=True, verbose=False, ext
         verbose=verbose, extra=extra)
 
 @task
-def play(playbook, inventory='vagrant', user='vagrant', sudo=True, verbose=False, extra=''):
+def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=False, extra=''):
     """Run a playbook. Defaults to using the vagrant inventory and vagrant user."""
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:

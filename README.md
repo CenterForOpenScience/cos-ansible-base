@@ -3,8 +3,25 @@
 ## Requirements 
 
 - ansible >= 1.6
+- virtualbox
 - vagrant >= 1.5
 - invoke (Python task execution library)
+
+### For Mac OSX users using homebrew
+
+Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew installed, run the following in the project directory
+
+```sh
+$ brew bundle
+```
+
+### Installing invoke
+
+Invoke can be installed with pip
+
+```sh
+$ pip install invoke
+```
 
 ## Vagrant setup
 
