@@ -25,6 +25,7 @@ def provision(inventory='vagranthosts', user='vagrant', sudo=True, verbose=False
 @task
 def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=False, extra=''):
     """Run a playbook. Defaults to using the vagrant inventory and vagrant user."""
+    print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(playbook, inventory, user))
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
         cmd += ' -s'
