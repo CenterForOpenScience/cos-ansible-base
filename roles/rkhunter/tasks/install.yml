@@ -36,3 +36,4 @@
 - name: Update rkhunter data files
   command: rkhunter --update
   sudo: yes
+  when: rkhunter_update

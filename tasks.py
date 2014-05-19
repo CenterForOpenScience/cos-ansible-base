@@ -33,6 +33,7 @@ def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=
         cmd += ' -vvvv'
     if extra:
         cmd += ' -e {0}'.format(extra)
+    print('[invoke] {0!r}'.format(cmd))
     run(cmd, pty=True)
 
 

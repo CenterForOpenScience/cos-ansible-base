@@ -5,5 +5,13 @@
   command: rkhunter --propupd
   sudo: yes
 
-- name: Enable rkhunter
+- name: Enable rkhunter and run checks
   command: rkhunter -c --enable all --disable none --skip-keypress
+  sudo: yes
+  when: rkhunter_run_checks
+  # Ansible will show the output of the rkhunter check. Ignore errors because
+  # rkhunter will return an error code even if there are only warnings and
+  # we don't want ansible execution to stop
+  ignore_errors: yes
+
+
