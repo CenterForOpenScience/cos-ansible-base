@@ -1,2 +1,9 @@
 
 - include: install.yml
+
+- name: Set baseline file properties
+  command: rkhunter --propupd
+  sudo: yes
+
+- name: Enable rkhunter
+  command: rkhunter -c --enable all --disable none --skip-keypress

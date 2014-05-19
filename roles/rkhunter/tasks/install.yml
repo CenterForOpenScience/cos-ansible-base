@@ -31,3 +31,8 @@
     - ssl-cert
     - unhide.rb
     - mailutils
+
+
+- name: Update rkhunter data files
+  command: rkhunter --update
+  sudo: yes
