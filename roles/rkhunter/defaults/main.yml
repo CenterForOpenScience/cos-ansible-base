@@ -4,15 +4,21 @@ rkhunter_version: 1.4.2
 # Whether to update database files
 rkhunter_update: yes
 
+rkhunter_update_apt: yes
+
 rkhunter_run_checks: yes
-
-
 
 # /etc/rkhunter.conf variables
 
 # Email to receive notifications
 rkhunter_mail_on_warnings: ""
 
+# Assertion checks this value agains the value in your sshd configuration file
+rkhunter_allow_root_login: "no"
+
+# NOTE: The below defaults should supress any false positives on a Ubuntu
+# trusty machine
+# source: https://www.digitalocean.com/community/articles/how-to-use-rkhunter-to-guard-against-rootkits-on-an-ubuntu-vps
 
 # Tell rkhunter which files are expected to be scripts instead of binaries
 rkhunter_scriptwhitelist:
@@ -24,3 +30,19 @@ rkhunter_scriptwhitelist:
 # Files in /dev that won't be marked as suspicious
 rkhunter_allowed_dev_files:
   - "/dev/.udev/rules.d/root.rules"
+
+rkhunter_allowed_hidden_dirs:
+  - "/dev/.udev"
+
+rkhunter_allowed_hidden_files:
+  - "/dev/.blkid.tab"
+  - "/dev/.blkid.tab.old"
+  - "/dev/.initramfs"
+
+rkhunter_enable_tests: "ALL"
+rkhunter_disable_tests:
+  - suspscan
+  - hidden_ports
+  - hidden_procs
+  - deleted_files
+  - packet_cap_apps

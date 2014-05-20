@@ -307,7 +307,7 @@ AUTO_X_DETECT=1
 #
 # The default value is 'no'.
 #
-#ALLOW_SSH_ROOT_USER=no
+ALLOW_SSH_ROOT_USER={{rkhunter_allow_root_login}}
 
 #
 # Set this option to '1' to allow the use of the SSH-1 protocol, but note
@@ -353,8 +353,8 @@ AUTO_X_DETECT=1
 # either of the options below are specified, then they will override the
 # program defaults.
 #
-ENABLE_TESTS=ALL
-DISABLE_TESTS=suspscan hidden_ports hidden_procs deleted_files packet_cap_apps
+ENABLE_TESTS={{rkhunter_enable_tests}}
+DISABLE_TESTS={{" ".join(rkhunter_disable_tests)}}
 
 #
 # The HASH_CMD option can be used to specify the command to use for the file
@@ -612,6 +612,10 @@ SCRIPTWHITELIST="{{script}}"
 #ALLOWHIDDENDIR=/dev/.udev
 #ALLOWHIDDENDIR=/dev/.udevdb
 #ALLOWHIDDENDIR=/dev/.mdadm
+{% for path in rkhunter_allowed_hidden_dirs %}
+ALLOWHIDDENDIR="{{path}}"
+{% endfor %}
+
 
 #
 # Allow the specified hidden file to be whitelisted.
@@ -627,6 +631,10 @@ SCRIPTWHITELIST="{{script}}"
 #ALLOWHIDDENFILE=/usr/lib/hmaccalc/sha1hmac.hmac
 #ALLOWHIDDENFILE=/usr/lib/hmaccalc/sha256hmac.hmac
 #ALLOWHIDDENFILE=/usr/sbin/.sshd.hmac
+{% for path in rkhunter_allowed_hidden_files %}
+ALLOWHIDDENFILE="{{path}}"
+{% endfor %}
+
 
 #
 # Allow the specified process to use deleted files. The process name may be

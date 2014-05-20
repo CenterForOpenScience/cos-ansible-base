@@ -4,17 +4,14 @@
 - name: Update rkhunter configuration
   template: src=etc_rkhunter.conf.j2 dest=/etc/rkhunter.conf owner=root group=root mode=0644
 
+
+# TODO(sloria): This should only be run when config files are known to be good
 - name: Set baseline file properties
   command: rkhunter --propupd
   sudo: yes
 
 - name: Enable rkhunter and run checks
-  command: rkhunter -c --enable all --disable none --skip-keypress
+  command: rkhunter -c --skip-keypress
   sudo: yes
-  when: rkhunter_run_checks
-  # Ansible will show the output of the rkhunter check. Ignore errors because
-  # rkhunter will return an error code even if there are only warnings and
-  # we don't want ansible execution to stop
-  ignore_errors: yes
-
+  when: rkhunter_run_checks|bool
 

@@ -22,6 +22,7 @@
 - name: Run apt-get upgrade
   apt: upgrade=full
   sudo: yes
+  when: rkhunter_update_apt|bool
 
 - name: Install utilities needed for full rkhunter functionality
   apt: pkg={{item}} state=present
@@ -33,8 +34,7 @@
     - unhide.rb
     - mailutils
 
-
 - name: Update rkhunter data files
   command: rkhunter --update
   sudo: yes
-  when: rkhunter_update
+  when: rkhunter_update|bool
