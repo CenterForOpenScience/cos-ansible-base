@@ -43,3 +43,9 @@ csf_allowed_ips:
   - CHANGEME
 csf_ui_user: CHANGEME
 csf_ui_password: CHANGEME
+
+
+# --- rkhunter
+
+# Email address to receive rkhunter warnings, "" for no emails
+rkhunter_mail_on_warnings: ""

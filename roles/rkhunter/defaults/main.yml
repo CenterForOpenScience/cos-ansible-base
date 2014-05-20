@@ -6,9 +6,15 @@ rkhunter_update: yes
 
 rkhunter_update_apt: yes
 
+# Whether to set baseline config ("rkhunter --propupd") during the play
+# This should be run initially during server set up. Subsequently, this should
+# only be run when config values are known to be good.
+rkhunter_propupd: yes
+# Whether to run checks during the play
 rkhunter_run_checks: yes
 
 # /etc/rkhunter.conf variables
+##############################
 
 # Email to receive notifications
 rkhunter_mail_on_warnings: ""

@@ -9,9 +9,19 @@
 - name: Set baseline file properties
   command: rkhunter --propupd
   sudo: yes
+  when: rkhunter_propupd
 
-- name: Enable rkhunter and run checks
+# NOTE: This task will fail if there are any warnings detected.
+# If this occurs and you know that all current values are known to be good,
+# you can update the known-good values with sudo rkhunter
+- name: Run checks
   command: rkhunter -c --skip-keypress
   sudo: yes
   when: rkhunter_run_checks|bool
 
+# TODO: Perform configuration check: sudo rkhunter -C
+# Right, now getting error output: "Unknown configuration file option: "
+# But rkhunter seems to be running correctly
+
+
+# TODO: Set up cron job
