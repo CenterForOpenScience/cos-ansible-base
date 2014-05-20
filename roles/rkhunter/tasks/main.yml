@@ -1,6 +1,9 @@
 
 - include: install.yml
 
+- name: Update rkhunter configuration
+  template: src=etc_rkhunter.conf.j2 dest=/etc/rkhunter.conf owner=root group=root mode=0644
+
 - name: Set baseline file properties
   command: rkhunter --propupd
   sudo: yes

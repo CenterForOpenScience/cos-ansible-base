@@ -6,3 +6,21 @@ rkhunter_update: yes
 
 rkhunter_run_checks: yes
 
+
+
+# /etc/rkhunter.conf variables
+
+# Email to receive notifications
+rkhunter_mail_on_warnings: ""
+
+
+# Tell rkhunter which files are expected to be scripts instead of binaries
+rkhunter_scriptwhitelist:
+  - "/usr/sbin/adduser"
+  - "/usr/bin/ldd"
+  - "/usr/bin/lwp-request"
+  - "/bin/which"
+
+# Files in /dev that won't be marked as suspicious
+rkhunter_allowed_dev_files:
+  - "/dev/.udev/rules.d/root.rules"

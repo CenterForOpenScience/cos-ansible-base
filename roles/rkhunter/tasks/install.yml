@@ -18,6 +18,7 @@
     chdir=/tmp/rkhunter-{{rkhunter_version}}
 
 # Install utilities needed for full functionality
+
 - name: Run apt-get upgrade
   apt: upgrade=full
   sudo: yes
