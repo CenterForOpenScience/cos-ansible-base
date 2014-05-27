@@ -1,4 +1,7 @@
 
+# site.yml
+# This playbook is responsible for provisioning all machines in an inventory
+
 - name: Collecting facts
   hosts: all
   gather_facts: yes

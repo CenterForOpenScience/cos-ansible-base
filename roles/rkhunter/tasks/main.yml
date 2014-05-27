@@ -5,7 +5,7 @@
   template: src=etc_rkhunter.conf.j2 dest=/etc/rkhunter.conf owner=root group=root mode=0644
 
 
-# TODO(sloria): This should only be run when config files are known to be good
+# NOTE: This should only be run when config files are known to be good
 - name: Set baseline file properties
   command: rkhunter --propupd
   sudo: yes
@@ -24,4 +24,4 @@
 # But rkhunter seems to be running correctly
 
 
-# TODO: Set up cron job
+- include: cron.yml
