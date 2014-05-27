@@ -9,7 +9,7 @@
   changed_when: false
 
 - name: test csf | csf restart
-  shell: csf -r
+  command: csf -r
   sudo: yes
   changed_when: false
 
@@ -34,6 +34,6 @@
   changed_when: false
 
 - name: test csf | csf restart
-  shell: csf -r
+  command: csf -r
   sudo: yes
   changed_when: false

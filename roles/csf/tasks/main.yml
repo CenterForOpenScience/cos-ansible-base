@@ -10,20 +10,20 @@
 - get_url: url=http://www.configserver.com/free/csf.tgz dest=/tmp/
   when: check_path.stat.exists == false
 
-- shell: tar -xzf /tmp/csf.tgz -C /tmp/
+- command: tar -xzf /tmp/csf.tgz -C /tmp/
   when: check_path.stat.exists == false
 
-- shell: ufw disable
+- command: ufw disable
   sudo: yes
   when: check_path.stat.exists == false
 
 - name: csf | install
-  shell: cd /tmp/csf/; sh install.sh
+  command: cd /tmp/csf/; sh install.sh
   sudo: yes
   when: check_path.stat.exists == false
 
 - name: Test if csf is working
-  shell: perl /usr/local/csf/bin/csftest.pl
+  command: perl /usr/local/csf/bin/csftest.pl
   sudo: yes
   register: check_contents
   failed_when: check_contents.stdout.find("csf should function on this server") == -1
@@ -43,11 +43,11 @@
 
 
 - name: csf enable
-  shell: csf -e
+  command: csf -e
   sudo: yes
 
 - name: csf restart
-  shell: csf -r
+  command: csf -r
   sudo: yes
 
 - name: lfd restart
