@@ -25,16 +25,29 @@ def provision(inventory='vagranthosts', user='vagrant', sudo=True, verbose=False
 @task
 def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=False, extra=''):
     """Run a playbook. Defaults to using the vagrant inventory and vagrant user."""
+    print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(playbook, inventory, user))
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
         cmd += ' -s'
     if verbose:
         cmd += ' -vvvv'
     if extra:
-        cmd += ' -e {0}'.format(extra)
+        cmd += ' -e {0!r}'.format(extra)
+    print('[invoke] {0!r}'.format(cmd))
     run(cmd, pty=True)
 
 
 @task
 def vssh(user='vagrant'):
     run('ssh -p 2222 {0}@localhost'.format(user), pty=True)
+
+
+@task
+def rkhunter_propupd(group='vagrantbox', inventory='vagranthosts', user='vagrant'):
+    """Update rkhunter's baseline file configuration database."""
+    cmd = ('ansible {group} -i {inventory} -a '
+        '"rkhunter --propupd" --sudo --ask-sudo-pass').format(
+        group=group, inventory=inventory
+        )
+    print('[invoke] {0!r}'.format(cmd))
+    run(cmd)

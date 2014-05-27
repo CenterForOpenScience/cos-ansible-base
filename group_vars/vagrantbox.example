@@ -43,3 +43,12 @@ csf_allowed_ips:
   - CHANGEME
 csf_ui_user: CHANGEME
 csf_ui_password: CHANGEME
+
+
+# --- rkhunter
+
+# Email address to receive rkhunter warnings, "" for no emails
+rkhunter_mail_on_warnings: ""
+
+# Once rkhunter has been installed and updated the first time, set this to "no"
+rkhunter_propupd: yes

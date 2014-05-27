@@ -1,0 +1,41 @@
+# Source: https://www.digitalocean.com/community/articles/how-to-use-rkhunter-to-guard-against-rootkits-on-an-ubuntu-vps
+
+# It is important to have the latest version of rkhunter installed because critical
+# security patches are added regularly. Ununtu repositories tend to get outdated,
+# so install from source
+- name: Install rkhunter from source
+  get_url:
+    url=http://downloads.sourceforge.net/project/rkhunter/rkhunter/{{rkhunter_version}}/rkhunter-{{rkhunter_version}}.tar.gz
+    dest=/tmp/rkhunter.tar.gz
+
+- name: Extract rkhunter
+  command: tar -xzf rkhunter.tar.gz chdir=/tmp/ creates=/tmp/rkhunter-{{rkhunter_version}}
+  sudo: yes
+
+- name: Run installer
+  sudo: yes
+  command: ./installer.sh --layout /usr --install
+    chdir=/tmp/rkhunter-{{rkhunter_version}}
+  changed_when: false
+
+# Install utilities needed for full functionality
+
+- name: Run apt-get upgrade
+  apt: upgrade=full
+  sudo: yes
+  when: rkhunter_update_apt|bool
+
+- name: Install utilities needed for full rkhunter functionality
+  apt: pkg={{item}} state=present
+  with_items:
+    - binutils
+    - libreadline5
+    - ruby
+    - ssl-cert
+    - unhide.rb
+    - mailutils
+
+- name: Update rkhunter data files
+  command: rkhunter --update
+  sudo: yes
+  when: rkhunter_update|bool

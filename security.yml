@@ -4,4 +4,5 @@
   roles:
     - role: csf
     - role: chkrootkit
+    - role: rkhunter
     - role: security_checks

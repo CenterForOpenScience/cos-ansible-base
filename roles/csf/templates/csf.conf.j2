@@ -724,8 +724,8 @@ LF_SELECT = "0"
 LF_EMAIL_ALERT = "1"
 
 # [*]Enable login failure detection of sshd connections
-LF_SSHD = "5"
-LF_SSHD_PERM = "1"
+LF_SSHD = "{{csf_lf_sshd}}"
+LF_SSHD_PERM = "{{csf_lf_sshd_perm}}"
 
 # [*]Enable login failure detection of ftp connections
 LF_FTPD = "10"
@@ -800,11 +800,11 @@ LF_WEBMIN = "0"
 LF_WEBMIN_PERM = "1"
 
 # Send an email alert if anyone logs in successfully using SSH
-LF_SSH_EMAIL_ALERT = "1"
+LF_SSH_EMAIL_ALERT = "{{ csf_ssh_email_alert }}"
 
 # Send an email alert if anyone uses su to access another account. This will
 # send an email alert whether the attempt to use su was successful or not
-LF_SU_EMAIL_ALERT = "1"
+LF_SU_EMAIL_ALERT = "{{ csf_lf_su_email_alert }}"
 
 # Send an email alert if anyone accesses webmin
 LF_WEBMIN_EMAIL_ALERT = "0"

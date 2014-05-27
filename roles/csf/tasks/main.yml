@@ -44,10 +44,12 @@
 - name: csf enable
   shell: csf -e
   sudo: yes
+  changed_when: false
 
 - name: csf restart
   shell: csf -r
   sudo: yes
+  changed_when: false
 
 - name: lfd restart
   service: name=lfd state=restarted
