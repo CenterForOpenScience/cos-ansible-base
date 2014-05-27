@@ -294,7 +294,7 @@ SMTP_ALLOWGROUP = "mail,mailman"
 # flood attack as it will slow down all new connections from any IP address to
 # the server if triggered
 SYNFLOOD = "{{csf_synflood}}"
-SYNFLOOD_RATE = {{csf_synflood_rate}}
+SYNFLOOD_RATE = "{{csf_synflood_rate}}"
 SYNFLOOD_BURST = "{{csf_synflood_burst}}"
 
 # Connection Limit Protection. This option configures iptables to offer more
@@ -313,7 +313,7 @@ SYNFLOOD_BURST = "{{csf_synflood_burst}}"
 #
 # Note: Run /etc/csf/csftest.pl to check whether this option will function on
 # this server
-CONNLIMIT = {{csf_connlimit}}
+CONNLIMIT = "{{csf_connlimit}}"
 
 # Port Flood Protection. This option configures iptables to offer protection
 # from DOS attacks against specific ports. This option limits the number of
@@ -329,7 +329,11 @@ CONNLIMIT = {{csf_connlimit}}
 #
 # Note: Run /etc/csf/csftest.pl to check whether this option will function on
 # this server
-PORTFLOOD = {{csf_portflood}}
+{% if csf_portflood %}
+PORTFLOOD = "{{csf_portflood}}"
+{% else %}
+# PORTFLOOD = "22;tcp;5;250"
+{% endif %}
 
 # Outgoing UDP Flood Protection. This option limits outbound UDP packet floods.
 # These typically originate from exploit scripts uploaded through vulnerable
