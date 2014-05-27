@@ -1,4 +1,11 @@
 
 check_mailers: yes
 check_csf: yes
+
+check_portscan: yes
+# csf should hang connections if a portscan is detected; the port scan denial
+# test will wait this number of seconds before declaring a port scan denied
 check_portscan_timeout: 3
+# Remote hosts to attempt to portscan
+check_portscan_hosts:
+    - 192.168.111.111
