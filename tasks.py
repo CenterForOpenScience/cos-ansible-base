@@ -40,3 +40,14 @@ def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=
 @task
 def vssh(user='vagrant'):
     run('ssh -p 2222 {0}@localhost'.format(user), pty=True)
+
+
+@task
+def rkhunter_propupd(group='vagrantbox', inventory='vagranthosts', user='vagrant'):
+    """Update rkhunter's baseline file configuration database."""
+    cmd = ('ansible {group} -i {inventory} -a '
+        '"rkhunter --propupd" --sudo --ask-sudo-pass').format(
+        group=group, inventory=inventory
+        )
+    print('[invoke] {0!r}'.format(cmd))
+    run(cmd)
