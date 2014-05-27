@@ -1,5 +1,6 @@
----
+
 # http://www.unixmen.com/9-best-practices-to-secure-your-linux-desktop-and-server/
+
 - name: Security Check | Find Form Mail
   shell: find / -name "[Ff]orm[mM]ai*"
   when: check_mailers
@@ -19,6 +20,12 @@
   register: result
   failed_when: result.stdout
   ignore_errors: yes
+
+# http://joshrendek.com/2013/01/securing-ubuntu/#shared_memory
+- name: Ensure shared memory is read-only
+  lineinfile:
+    dest: /etc/fstab
+    line: "tmpfs     /dev/shm     tmpfs     defaults,ro     0     0"
 
 - include: csf.yml
   when: check_csf
