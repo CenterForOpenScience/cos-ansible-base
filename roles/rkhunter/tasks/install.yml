@@ -16,6 +16,7 @@
   sudo: yes
   command: ./installer.sh --layout /usr --install
     chdir=/tmp/rkhunter-{{rkhunter_version}}
+  changed_when: false
 
 # Install utilities needed for full functionality
 
