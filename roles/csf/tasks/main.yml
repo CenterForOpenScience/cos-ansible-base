@@ -41,6 +41,19 @@
   template: src=ui.allow.j2 dest=/etc/csf/ui/ui.allow
   sudo: yes
 
+
+- name: csf enable
+  shell: csf -e
+  sudo: yes
+
+- name: csf restart
+  shell: csf -r
+  sudo: yes
+
+- name: lfd restart
+  service: name=lfd state=restarted
+  sudo: yes
+
 # Check csf configuration
 # For some reason, csf logs configuration errors to stdout, so fail when the
 # word "error" is found in stdout
@@ -48,18 +61,4 @@
   command: csf -c
   register: csf_conf_check
   failed_when: "'error' in csf_conf_check.stdout.lower()"
-
-- name: csf enable
-  shell: csf -e
-  sudo: yes
-  changed_when: false
-
-- name: csf restart
-  shell: csf -r
-  sudo: yes
-  changed_when: false
-
-- name: lfd restart
-  service: name=lfd state=restarted
-  sudo: yes
 
