@@ -6,10 +6,12 @@
   tags:
     - csf
     - testing
+  changed_when: false
 
 - name: test csf | csf restart
   shell: csf -r
   sudo: yes
+  changed_when: false
 
 
 # FIXME: This task does not yet work correctly. The doalarm command works correctly, but the
@@ -29,9 +31,9 @@
 
 - name: test csf | Disable testing mode
   lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="0"' state=present
-  tags:
-    - csf
+  changed_when: false
 
 - name: test csf | csf restart
   shell: csf -r
   sudo: yes
+  changed_when: false
