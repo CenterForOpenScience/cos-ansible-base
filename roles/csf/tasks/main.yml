@@ -41,6 +41,14 @@
   template: src=ui.allow.j2 dest=/etc/csf/ui/ui.allow
   sudo: yes
 
+# Check csf configuration
+# For some reason, csf logs configuration errors to stdout, so fail when the
+# word "error" is found in stdout
+- name: check csf configuration
+  command: csf -c
+  register: csf_conf_check
+  failed_when: "'error' in csf_conf_check.stdout.lower()"
+
 - name: csf enable
   shell: csf -e
   sudo: yes
