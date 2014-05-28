@@ -20,6 +20,12 @@ csf_ui_allow: 1
 csf_ui_user: username
 csf_ui_password: password
 
+# Restrict ability to modify csf config from the csf UI
+# 0 = Unrestricted UI
+# 1 = Restricted UI
+# 2 = Disabled UI
+csf_restrict_ui: 2
+
 # Allow ping requests
 csf_icmp_in: 1
 
