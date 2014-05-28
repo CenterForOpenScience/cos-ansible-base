@@ -9,7 +9,7 @@
 - name: Set baseline file properties
   command: rkhunter --propupd
   sudo: yes
-  when: rkhunter_propupd
+  when: rkhunter_propupd|bool
 
 - name: Run checks
   command: rkhunter -c --skip-keypress
