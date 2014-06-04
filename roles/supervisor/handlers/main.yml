@@ -1,2 +1,5 @@
 - name: reload supervisor
   command: supervisorctl reload
+
+- name: reload supervisor config
+  command: supervisorctl reread

@@ -4,6 +4,13 @@ sentry_db_pass: sentry
 sentry_db_host: localhost
 sentry_db_port: 5432
 
+sentry_superuser_username: sentry
+sentry_superuser_password: sentry
+sentry_superuser_email: admin@cos.io
+
+sentry_github_app_id: '8bb1d955c630fbded6fa'
+sentry_github_app_secret: 'b94fdf02f85a519c896b1468d18158d380a24ef0'
+
 sentry_url_prefix: http://localhost
 
 sentry_host: 0.0.0.0

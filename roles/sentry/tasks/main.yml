@@ -55,11 +55,34 @@
   when: not sentry_secret_key.stat.exists
   shell: uuidgen > /etc/sentry/key
 
+- name: Check to see if Sentry is added to Supervisor
+  supervisorctl: name=sentry state=present
+  register: sentry_is_managed
+  ignore_errors: true
+
 - name: Add Sentry to supervisor
   template: src=sentry.conf.j2
             dest=/etc/supervisor/conf.d/sentry.conf
             owner=root
             group=root
             mode=0644
-  notify:
-    - reload supervisor
+  when: 'sentry_is_managed|failed'
+
+- name: Reload supervisor
+  supervisorctl: name=sentry state=present
+
+- name: Restart sentry
+  supervisorctl: name=sentry state=restarted
+
+- name: Transfer script to add superuser
+  copy: src=create_superuser.py
+        dest=/etc/sentry/create_superuser.py
+        owner=root
+        group=root
+        mode=0700
+
+- name: Create sentry superuser
+  command: "{{ virtualenv_path }}sentry/bin/python /etc/sentry/create_superuser.py {{ sentry_superuser_username }} {{ sentry_superuser_password }} {{ sentry_superuser_email }}"
+  register: sentry_superuser
+  ignore_errors: true
+  changed_when: "sentry_superuser.rc == 0"
