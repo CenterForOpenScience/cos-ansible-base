@@ -1,3 +1,7 @@
+{% if csf_allowed_ips %}
+
 {% for ip in csf_allowed_ips %}
 {{ ip }}
 {% endfor %}
+
+{% endif %}

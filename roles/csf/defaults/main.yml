@@ -13,12 +13,16 @@ csf_udp_in: ""
 csf_udp_out: ""
 csf_udp6_in: ""
 csf_udp6_out: ""
+
+# Email where to send lfd alerts
 csf_lf_alert_to: ""
+# From: field setting for lfd email alerts
 csf_lf_alert_from: ""
+
 csf_ui: 1
 csf_ui_allow: 1
-csf_ui_user: username
-csf_ui_password: password
+csf_ui_user: ""
+csf_ui_password: ""
 
 # Restrict ability to modify csf config from the csf UI
 # 0 = Unrestricted UI
@@ -54,8 +58,8 @@ csf_connlimit: ""
 # TCP within 250 seconds
 csf_portflood: ""
 
-# LFD
-# ###
+# Login failure detection (LFD)
+# #############################
 
 # Number of sshd login failures before banning the IP
 csf_lf_sshd: 5
