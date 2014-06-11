@@ -18,7 +18,7 @@
   when: check_path.stat.exists == false
 
 - name: csf | install
-  command: cd /tmp/csf/; sh install.sh
+  command: sh install.sh chdir=/tmp/csf/
   sudo: yes
   when: check_path.stat.exists == false
 
