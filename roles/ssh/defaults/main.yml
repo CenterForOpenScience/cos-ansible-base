@@ -34,5 +34,5 @@ ssh_settings:
 # run tests
 ssh_test: yes
 # User for testing
-ssh_testuser: vagrant
-ssh_testport: 2222
+ssh_test_user: vagrant
+ssh_test_port: 2222
