@@ -1,5 +1,7 @@
 # cos-ansible-base
 
+- Issue/Task tracking: https://huboard.com/CenterForOpenScience/cos-ansible-base
+
 ## Requirements 
 
 - ansible >= 1.6
