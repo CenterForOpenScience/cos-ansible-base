@@ -3,3 +3,6 @@
 
 [nginx:children]
 vagrantbox
+
+[elasticsearch:children]
+vagrantbox
