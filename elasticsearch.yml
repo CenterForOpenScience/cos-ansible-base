@@ -7,8 +7,8 @@
   sudo: yes
 
   roles:
-    - gpstathis.elasticsearch
+    - elasticsearch
 
   vars_files:
-    - group_vars/elastic
+    - group_vars/elasticsearch
     - group_vars/vagrantbox

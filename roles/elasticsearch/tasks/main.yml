@@ -6,7 +6,7 @@
   shell: echo {{ elasticsearch_timezone }} > /etc/timezone; dpkg-reconfigure --frontend noninteractive tzdata
 
 # Install Java
-- name: Install dependencies
+- name: Install OpenJDK 7
   apt: pkg=openjdk-7-jdk state=present
   when: elasticsearch_install_java
 
