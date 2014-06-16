@@ -14,3 +14,9 @@
   hosts: webservers
   roles:
     - role: uwsgi
+
+
+- name: Set up sentry
+  hosts: sentry
+  roles:
+    - role: sentry

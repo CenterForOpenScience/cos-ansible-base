@@ -1,5 +1,7 @@
 # Variables used for all hosts that are part of the "textbox" (vagrant) group
 
+virtualenv_path: /opt/virtualenvs/
+
 # --- users and groups
 
 genericusers_groups:

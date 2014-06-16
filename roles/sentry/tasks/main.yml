@@ -1,0 +1,88 @@
+# file: roles/sentry/tasks/main.yml
+
+- name: Ensure virtualenv is installed
+  pip: name=virtualenv state=present
+
+- name: Create virtualenv
+  command: creates={{ virtualenv_path }}sentry/bin/python
+           virtualenv {{ virtualenv_path }}sentry
+
+- name: Install required packages into virtualenv
+  pip: name={{ item }} state=present
+  with_items:
+    - psycopg2
+
+- name: Install sentry
+  pip: virtualenv={{ virtualenv_path }}sentry
+       name={{ item }}
+       state=present
+  with_items:
+    - sentry
+    - "sentry[postgres]"
+
+- name: Provision database user
+  postgresql_user: name={{ sentry_db_user }}
+                   password={{ sentry_db_pass }}
+                   port={{ postgresql_port }}
+                   state=present
+  sudo_user: postgres
+  sudo: yes
+
+- name: Provision db schema
+  postgresql_db: name={{ sentry_db_name }}
+                 port={{ postgresql_port }}
+                 owner={{ sentry_db_user }}
+                 state=present
+  sudo_user: postgres
+  sudo: yes
+
+- name: Ensure config directory exists
+  file: path=/etc/sentry
+        state=directory
+
+- name: Apply Sentry config
+  template: src=conf.py.j2
+            dest=/etc/sentry/conf.py
+            owner=root
+            group=root
+            mode=0644
+
+- name: Check for existing secret key
+  stat: path=/etc/sentry/key
+  register: sentry_secret_key
+
+- name: Generate a new secret key
+  when: not sentry_secret_key.stat.exists
+  shell: uuidgen > /etc/sentry/key
+
+- name: Check to see if Sentry is added to Supervisor
+  supervisorctl: name=sentry state=present
+  register: sentry_is_managed
+  ignore_errors: true
+
+- name: Add Sentry to supervisor
+  template: src=sentry.conf.j2
+            dest=/etc/supervisor/conf.d/sentry.conf
+            owner=root
+            group=root
+            mode=0644
+  when: 'sentry_is_managed|failed'
+
+- name: Reload supervisor
+  supervisorctl: name=sentry state=present
+
+- name: Restart sentry
+  supervisorctl: name=sentry state=restarted
+
+- name: Transfer script to add superuser
+  copy: src=create_superuser.py
+        dest=/etc/sentry/create_superuser.py
+        owner=root
+        group=root
+        mode=0700
+
+- name: Create sentry superuser
+  command: "{{ virtualenv_path }}sentry/bin/python /etc/sentry/create_superuser.py {{ sentry_superuser_username }} {{ sentry_superuser_password }} {{ sentry_superuser_email }}"
+  register: sentry_superuser
+  ignore_errors: true
+  changed_when: "sentry_superuser.rc == 0"

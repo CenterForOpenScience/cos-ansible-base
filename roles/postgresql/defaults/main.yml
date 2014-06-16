@@ -1,0 +1,4 @@
+# These variables are not yet set during configuration, but are here to make
+# it possible to plan ahead when writing other roles.
+
+postgresql_port: 5432
