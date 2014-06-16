@@ -1,9 +1,3 @@
 
-- name: Add nginx repository ppa
-  apt_repository: repo=ppa:nginx/{{ nginx_repo }}
+- include: install.yml
 
-- name: Install nginx
-  apt: pkg=nginx state=present
-
-- name: Make sure nginx is installed
-  apt: pkg=nginx state=present

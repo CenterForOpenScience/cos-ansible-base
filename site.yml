@@ -6,8 +6,8 @@
   hosts: all
   gather_facts: yes
 
-- include: common.yml
-- include: security.yml
+# - include: common.yml
+# - include: security.yml
 
 # Set up webservers
 - name: Provision webservers
