@@ -1,0 +1,3 @@
+
+# Either "stable" or "development"
+nginx_repo: "stable"

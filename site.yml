@@ -14,6 +14,7 @@
   hosts: webservers
   roles:
     - role: uwsgi
+    - role: nginx
 
 
 - name: Set up sentry
