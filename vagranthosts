@@ -3,3 +3,6 @@
 
 [nginx:children]
 vagrantbox
+
+[webservers:children]
+vagrantbox
