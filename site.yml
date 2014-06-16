@@ -8,3 +8,7 @@
 
 - include: common.yml
 - include: security.yml
+
+- hosts: sentry
+  roles:
+    - role: sentry
