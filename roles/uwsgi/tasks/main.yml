@@ -1,0 +1,12 @@
+
+
+- name: Install uwsgi apt dependencies
+  apt: pkg="{{ item }}"
+  with_items:
+    - build-essential
+    - python-dev
+    - python-pip
+    - libxml2-dev
+
+- name: Install uwsgi with pip
+  pip: name="uwsgi" version="{{ uwsgi_version }}"
