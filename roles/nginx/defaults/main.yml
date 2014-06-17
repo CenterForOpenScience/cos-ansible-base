@@ -53,7 +53,7 @@ nginx_rate_limit: "1r/s"
 nginx_source_modules_included:
   # http_stub_status_module: "--with-http_stub_status_module"
   http_ssl_module: "--with-http_ssl_module"
-  # http_gzip_static_module: "--with-http_gzip_static_module"
+  http_gzip_static_module: "--with-http_gzip_static_module"
   # upload_progress_module: "--add-module=/tmp/nginx_upload_progress"
   # headers_more_module: "--add-module=/tmp/nginx_headers_more"
   # http_auth_request_module: "--add-module=/tmp/nginx_auth_request"
@@ -63,7 +63,7 @@ nginx_source_modules_included:
   # http_real_ip_module: "--with-http_realip_module"
   # http_spdy_module: "--with-http_spdy_module"
   # http_perl_module: "--with-http_perl_module"
-  # naxsi_module: "--add-module=/tmp/nginx_naxsi"
+  naxsi_module: "--add-module=/tmp/nginx_naxsi"
 
 nginx_source_modules_excluded:
   - mail_pop3_module
