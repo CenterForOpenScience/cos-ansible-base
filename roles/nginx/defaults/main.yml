@@ -32,7 +32,7 @@ nginx_access_log_options: null
 nginx_server_tokens: null
 nginx_sendfile: 'on'
 nginx_keepalive: "on"
-nginx_keepalive_timeout: "30"
+nginx_keepalive_timeout: "65"
 nginx_client_body_timeout: "10"
 nginx_client_header_timeout: "10"
 nginx_send_timeout: "10"
@@ -71,3 +71,35 @@ nginx_source_modules_excluded:
   - mail_smtp_module
 
 nginx_source_configure_flags: "{{nginx_source_default_configure_flags}}{% for key, value in nginx_source_modules_included.items() %} {{value}}{% endfor %}{% for item in nginx_source_modules_excluded %} --without-{{item}}{% endfor %}"
+
+
+# gzip_module options in nginx.conf
+nginx_gzip: 'on'
+nginx_gzip_http_version: 1.1
+nginx_gzip_comp_level: 2
+nginx_gzip_proxied: expired no-cache no-store private auth
+nginx_gzip_vary: 'on'
+nginx_gzip_buffers: null
+nginx_gzip_min_length: 10240
+nginx_gzip_types:
+  - text/plain
+  - text/css
+  - text/xml
+  - text/csv
+  - text/javascript
+  - application/x-javascript
+  - application/xml
+  - application/xml+rss
+  - application/javascript
+  - application/ecmascript
+  - application/json
+nginx_gzip_disable: "MSIE [1-6]\\."
+
+
+# /etc/nginx/conf.d/http_gzip_static.conf variables
+nginx_gzip_static: "off"
+
+# naxsi_module configuration
+nginx_naxsi_version: "0.52"
+nginx_naxsi_url: "https://github.com/nbs-system/naxsi/archive/{{nginx_naxsi_version}}.tar.gz"
+

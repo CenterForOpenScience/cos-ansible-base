@@ -1,6 +1,0 @@
-
-- name: Make sure mime.types file is up to date
-  copy: src=mime.types dest="/etc/nginx/mime.types" owner=root group=root mode=0644
-
-
-
