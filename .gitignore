@@ -45,6 +45,5 @@ hosts
 hosts_vagrant
 .vagrant
 
-group_vars/vagrantbox
-group_vars_examples/*
+group_vars/*
 !.gitkeep

@@ -1,0 +1,13 @@
+---
+users:
+    - name: FILLIN
+      password: FILLIN
+      shell: /bin/bash
+      groups:
+          - sudo
+      key: FILLIN
+
+csf_allowed_ips:
+  - FILLIN
+csf_ui_user: FILLIN
+csf_ui_password: FILLIN
