@@ -1,4 +1,0 @@
-# file: nginx/tasks/modules/http_ssl_module.yml
-# configure flag: --with-http_ssl_module
-
-# no contents
