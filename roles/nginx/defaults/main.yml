@@ -10,6 +10,9 @@ nginx_www_dir: "/srv/www"
 nginx_log_dir: "/var/log/nginx"
 nginx_pid: "/var/run/nginx.pid"
 
+# default site
+nginx_default_root: "{{nginx_www_dir}}/default"
+
 # installing from source
 nginx_source_version: "1.6.0"
 nginx_source_url: "http://nginx.org/download/nginx-{{nginx_source_version}}.tar.gz"
