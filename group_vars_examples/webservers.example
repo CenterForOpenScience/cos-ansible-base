@@ -1,0 +1,6 @@
+
+
+csf_tcp_in: "22,80,53,443"
+csf_tcp6_in: "22,80,53,443"
+csf_tcp_out: "80,443"
+csf_tcp6_out: "80,443"
