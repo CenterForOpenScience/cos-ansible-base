@@ -2,6 +2,7 @@
 - name: Common Ubuntu setup
   hosts: all
   roles:
+    - role: hostname
     - role: Ansibles.generic-users
     - role: Ansibles.timezone
     - role: ssh

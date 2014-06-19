@@ -1,0 +1,11 @@
+- name: Update the hostname
+  copy:
+    content: "{{hostname_name}}"
+    dest: /etc/hostname
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Run hostname cmd
+  hostname:
+    name: "{{hostname_name}}"
