@@ -1,4 +1,0 @@
----
-# Elasticsearch Ansible Variables
-
-elasticsearch_version: 1.2.1
