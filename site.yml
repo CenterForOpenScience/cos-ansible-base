@@ -8,6 +8,7 @@
 
 - include: common.yml
 - include: security.yml
+- include: elasticsearch.yml
 
 # Set up webservers
 - name: Provision webservers

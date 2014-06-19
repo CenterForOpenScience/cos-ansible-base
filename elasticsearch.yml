@@ -1,0 +1,14 @@
+#########################
+# Elasticsearch install #
+#########################
+
+- hosts: all 
+  user: vagrant
+  sudo: yes
+
+  roles:
+    - elasticsearch
+
+  vars_files:
+    - group_vars/elasticsearch
+    - group_vars/vagrantbox

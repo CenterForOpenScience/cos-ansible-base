@@ -4,5 +4,8 @@
 [nginx:children]
 vagrantbox
 
+[elasticsearch:children]
+vagrantbox
+
 [webservers:children]
 vagrantbox

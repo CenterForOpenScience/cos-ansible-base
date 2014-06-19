@@ -1,0 +1,25 @@
+---
+# Elasticsearch Ansible Tasks
+
+# Install Java
+- name: Install OpenJDK 7
+  apt: pkg=openjdk-7-jdk state=present
+  when: elasticsearch_install_java
+
+# Download deb if needed
+- name: Download Elasticsearch deb
+  get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+
+# Uninstall previous version if applicable
+- name: Uninstalling previous version if applicable
+  shell: dpkg --remove elasticsearch
+- file: path=/usr/share/elasticsearch state=absent
+
+# Install the deb
+- name: Install Elasticsearch deb
+  shell: dpkg -i /tmp/elasticsearch-{{ elasticsearch_version }}.deb
+#  shell: dpkg -i -E --force-confnew /tmp/elasticsearch-{{ elasticsearch_version }}.deb
+
+# Restart Elasticsearch
+- name: Restarting Elasticsearch
+  service: name=elasticsearch state=restarted
