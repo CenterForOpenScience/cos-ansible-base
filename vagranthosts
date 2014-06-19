@@ -6,3 +6,6 @@ vagrantbox
 
 [elasticsearch:children]
 vagrantbox
+
+[webservers:children]
+vagrantbox

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from invoke import run, task
+import subprocess
+
 
 @task
 def install_roles(force=False, ignore_errors=False):
@@ -33,13 +35,13 @@ def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=
         cmd += ' -vvvv'
     if extra:
         cmd += ' -e {0!r}'.format(extra)
-    print('[invoke] {0!r}'.format(cmd))
-    run(cmd, pty=True)
+    run(cmd, echo=True, pty=True)
 
 
 @task
 def vssh(user='vagrant'):
-    run('ssh -p 2222 {0}@localhost'.format(user), pty=True)
+    # Use subprocess to ssh so that terminal will display correctly
+    subprocess.call('ssh -p 2222 {0}@localhost'.format(user), shell=True)
 
 
 @task
@@ -49,5 +51,4 @@ def rkhunter_propupd(group='vagrantbox', inventory='vagranthosts', user='vagrant
         '"rkhunter --propupd" --sudo --ask-sudo-pass').format(
         group=group, inventory=inventory
         )
-    print('[invoke] {0!r}'.format(cmd))
-    run(cmd)
+    run(cmd, echo=True)

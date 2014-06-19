@@ -1,5 +1,7 @@
 # cos-ansible-base
 
+- Issue/Task tracking: https://huboard.com/CenterForOpenScience/cos-ansible-base
+
 ## Requirements 
 
 - ansible >= 1.6
@@ -34,10 +36,10 @@ $ ssh-keygen
 ...
 ```
 
-- Copy `group_vars/vagrantbox.example` to `group_vars/vagrantbox`
+- Copy `group_vars_examples/vagrantbox.example` to `group_vars/vagrantbox`
 
 ```bash
-$ cp group_vars/vagrantbox.example group_vars/vagrantbox
+$ cp group_vars_examples/vagrantbox.example group_vars/vagrantbox
 ```
 
 - Modify `group_vars/vagrantbox` with your user and key info where you see "CHANGEME". You can either paste in your key as a string, or use a file, like so:

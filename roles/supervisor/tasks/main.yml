@@ -1,0 +1,5 @@
+# file: roles/supervisor/tasks/main.yml
+
+- name: Install supervisord
+  apt: pkg=supervisor
+  sudo: yes

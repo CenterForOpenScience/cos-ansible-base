@@ -1,6 +1,5 @@
 Ansibles.hostname,v1.0.1
 Ansibles.build-essential,v1.0.0
 Ansibles.monit,v1.0.0
-Ansibles.nginx,v1.0.1
 Ansibles.timezone,v1.0.0
 Ansibles.generic-users
