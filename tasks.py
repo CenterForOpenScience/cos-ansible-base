@@ -30,7 +30,7 @@ def play(playbook, inventory='vagranthosts', user='vagrant', sudo=True, verbose=
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(playbook, inventory, user))
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
-        cmd += ' -s'
+        cmd += ' -s --ask-sudo-pass'
     if verbose:
         cmd += ' -vvvv'
     if extra:
