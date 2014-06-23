@@ -6,6 +6,8 @@ import subprocess
 
 from invoke import run, task
 
+VAGRANT_INVENTORY = 'vagranthosts'
+SITE_INVENTORY = 'hosts'
 
 @task
 def install_roles(force=False, ignore_errors=False):
@@ -17,8 +19,7 @@ def install_roles(force=False, ignore_errors=False):
     run(command, pty=True)
 
 @task
-def provision(inventory='vagranthosts', user='vagrant',
-        sudo=True, verbose=False, extra=''):
+def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True, verbose=False, extra=''):
     """Run the site.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
@@ -26,22 +27,39 @@ def provision(inventory='vagranthosts', user='vagrant',
         inventory=inventory,
         user=user,
         sudo=sudo,
+        ask_sudo_pass=ask_sudo_pass,
         verbose=verbose, extra=extra)
 
 @task
-def play(playbook, inventory='vagranthosts', user='vagrant',
-        sudo=True, verbose=False, extra=''):
+def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
+        verbose=False, extra=''):
+    provision(user=user, inventory=VAGRANT_INVENTORY, sudo=sudo,
+                ask_sudo_pass=ask_sudo_pass, verbose=verbose, extra=extra)
+
+@task
+def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=False,
+         verbose=False, extra=''):
     """Run a playbook. Defaults to using the vagrant inventory and vagrant user."""
-    print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(playbook, inventory, user))
+    print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
+        playbook, inventory, user)
+    )
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
-        cmd += ' -s --ask-sudo-pass'
+        cmd += ' -s'
+    if ask_sudo_pass:
+        cmd += ' --ask-sudo-pass'
     if verbose:
         cmd += ' -vvvv'
     if extra:
         cmd += ' -e {0!r}'.format(extra)
     run(cmd, echo=True, pty=True)
 
+@task
+def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
+        verbose=False, extra=''):
+    """Run a playbook against the vagrant hosts."""
+    play(playbook, inventory='vagranthosts', user=user,
+        sudo=sudo, verbose=False, extra=extra, ask_sudo_pass=ask_sudo_pass)
 
 @task
 def vssh(user='vagrant'):
