@@ -33,13 +33,14 @@ def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True, ver
 @task
 def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
         verbose=False, extra=''):
+    """Provision the vagrant box using the site.yml playbook."""
     provision(user=user, inventory=VAGRANT_INVENTORY, sudo=sudo,
                 ask_sudo_pass=ask_sudo_pass, verbose=verbose, extra=extra)
 
 @task
-def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=False,
+def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
          verbose=False, extra=''):
-    """Run a playbook. Defaults to using the vagrant inventory and vagrant user."""
+    """Run a playbook. Defaults to using the "hosts" inventory"""
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
         playbook, inventory, user)
     )

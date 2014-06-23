@@ -49,6 +49,7 @@ $ cp group_vars/vagrantbox.example group_vars/vagrantbox
 
 ```bash
 $ vagrant up
+$ vagrant provision
 ```
 
 ### SSH
