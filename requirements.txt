@@ -1,2 +1,4 @@
-ansible==1.5.5
-invoke==0.7.0
+ansible==1.6.3
+invoke==0.8.2
+passlib==1.6.2
+
