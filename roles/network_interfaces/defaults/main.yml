@@ -1,0 +1,5 @@
+
+network_interfaces:
+  - name: eth1
+  # address: IP ADDRESS
+  # netmask: SUBNET MASK
