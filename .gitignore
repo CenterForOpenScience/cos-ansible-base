@@ -45,7 +45,6 @@ hosts
 hosts_vagrant
 .vagrant
 
-group_vars/*
 !.gitkeep
 
 tempfiles

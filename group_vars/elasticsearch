@@ -1,0 +1,67 @@
+
+hostname_name: mercury
+
+# Elasticsearch Ansible Variables
+genericusers_groups:
+    - name: "admin"
+    - name: "elasticsearch"
+
+genericusers_users:
+  - name: elasticsearch
+    pass: saZA/zBOkXK1k
+    comment: 'bohemian'
+    uid: 1000
+    shell: /bin/bash
+    groups:
+      - admin
+      - elasticsearch
+      - sudo
+    append: yes
+    ssh_keys:
+      - "{{ lookup('file', 'group_vars/pubkeys/sloria.pub') }}"
+      - "{{ lookup('file',  'group_vars/pubkeys/fabian.pub') }}"
+  - name: sloria
+    pass: saZA/zBOkXK1k
+    comment: 'bohemian'
+    uid: 2000
+    shell: /bin/bash
+    groups:
+      - admin
+      - elasticsearch
+      - sudo
+    append: yes
+    ssh_keys:
+      - "{{ lookup('file', 'group_vars/sloria.pub') }}"
+  - name: fabian
+    pass: saZA/zBOkXK1k
+    comment: 'bohemian'
+    uid: 3000
+    shell: /bin/bash
+    groups:
+      - admin
+      - elasticsearch
+      - sudo
+    append: yes
+    ssh_keys:
+      - "{{ lookup('file',  'group_vars/fabian.pub') }}"
+
+
+# --- csf
+csf_allowed_ips:
+  - 192.168.174.28/17
+  - 66.228.46.171
+csf_lf_alert_to: "contact@cos.io"
+csf_lf_alert_from: "elasticsearch-linode@noreply.com"
+
+csf_lf_sshd_perm: 30
+
+# --- rkhunter
+
+# Email address to receive rkhunter warnings, "" for no emails
+rkhunter_mail_on_warnings: "contact@cos.io"
+
+# Once rkhunter has been installed and updated the first time, set this to "no"
+rkhunter_propupd: no
+rkhunter_update: no
+rkhunter_update_apt: no
+rkhunter_run_checks: no
