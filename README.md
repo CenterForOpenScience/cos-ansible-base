@@ -59,6 +59,16 @@ To ssh into your Vagrant box, you can run (must have invoke installed):
 $ invoke vssh -u yourusername
 ```
 
+## Generating passwords
+
+To generate a password, run 
+
+```bash
+$ invoke genpass
+```
+
+This crypted password can be used by the genericusers role.
+
 ## Running playbooks
 
 Playbooks can be run with the `ansible-playbook` command. You need to specify which inventory file with the `-i` option as well as a user with the `-u` option. Run in sudo mode with `-s`
