@@ -1,0 +1,4 @@
+
+- name: Update /etc/network/interfaces
+  template: src=interfaces.j2 dest=/etc/network/interfaces mode=0644
+
