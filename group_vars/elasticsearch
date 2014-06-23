@@ -8,7 +8,7 @@ genericusers_groups:
 
 genericusers_users:
   - name: elasticsearch
-    pass: saZA/zBOkXK1k
+    pass: $5$rounds=110000$HEtSgnaq3aACvrBI$nwu6oNea3jQoPdWBQlTdAiFT4ySr.kfeWMIZnMF2cU5
     comment: 'bohemian'
     uid: 1000
     shell: /bin/bash
@@ -21,7 +21,7 @@ genericusers_users:
       - "{{ lookup('file', 'group_vars/pubkeys/sloria.pub') }}"
       - "{{ lookup('file',  'group_vars/pubkeys/fabian.pub') }}"
   - name: sloria
-    pass: saZA/zBOkXK1k
+    pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
     comment: 'bohemian'
     uid: 2000
     shell: /bin/bash
@@ -33,7 +33,7 @@ genericusers_users:
     ssh_keys:
       - "{{ lookup('file', 'group_vars/sloria.pub') }}"
   - name: fabian
-    pass: saZA/zBOkXK1k
+    pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
     comment: 'bohemian'
     uid: 3000
     shell: /bin/bash
