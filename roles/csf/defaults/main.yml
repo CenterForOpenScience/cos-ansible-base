@@ -72,3 +72,7 @@ csf_ssh_email_alert: 1
 # Send an email alert if anyone uses su to access another account. This will
 # send an email alert whether the attempt to use su was successful or not
 csf_lf_su_email_alert: 1
+
+
+csf_ui_allowed_ips:
+
