@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import getpass
+import sys
 import subprocess
 
 from invoke import run, task
@@ -57,6 +59,12 @@ def rkhunter_propupd(group='vagrantbox', inventory='vagranthosts', user='vagrant
     run(cmd, echo=True)
 
 @task
-def genpass(password):
+def genpass():
     from passlib.hash import sha256_crypt
-    print(sha256_crypt.encrypt(password))
+    pw = getpass.getpass('Enter a password: ')
+    pw2 = getpass.getpass('Enter password again: ')
+    if pw != pw2:
+        print("Passwords don't match.")
+        sys.exit(1)
+    print('')
+    print(sha256_crypt.encrypt(pw))
