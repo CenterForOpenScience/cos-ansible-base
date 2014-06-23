@@ -40,7 +40,7 @@ junk
 # Local config
 ##############
 
-group_vars/all
+group_vars/vagrantbox
 hosts
 hosts_vagrant
 .vagrant

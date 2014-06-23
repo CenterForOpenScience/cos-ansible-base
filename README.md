@@ -9,7 +9,7 @@
 - vagrant >= 1.5
 - invoke (Python task execution library)
 
-### For Mac OSX users using homebrew
+### Installing Ansible and Vagrant on Mac OSX with homebrew
 
 Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew installed, run the following in the project directory
 
@@ -17,12 +17,13 @@ Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew
 $ brew bundle
 ```
 
-### Installing invoke
+### Installing python requirements
 
 Invoke can be installed with pip
 
 ```sh
 $ pip install invoke
+$ pip install -r requirements.txt
 ```
 
 ## Vagrant setup
@@ -33,59 +34,11 @@ Once you have Vagrant and ansible installed, follow these steps:
 
 ```bash
 $ ssh-keygen
-...
 ```
 
-- Copy `group_vars_examples/vagrantbox.example` to `group_vars/vagrantbox`
+- Modify `group_vars/vagrantbox` as needed.
 
-```bash
-$ cp group_vars_examples/vagrantbox.example group_vars/vagrantbox
-```
 
-- Modify `group_vars/vagrantbox` with your user and key info where you see "CHANGEME". You can either paste in your key as a string, or use a file, like so:
-
-Example: 
-
-```yaml
-# in group_vars/vagrantbox
-# ...
-
-# --- users and groups
-
-genericusers_groups:
-    - name: "admin"
-    - name: "vagrant"
-
-genericusers_users:
-  - name: "vagrant"
-    pass: "satrF5fwANvrQ"
-    comment: 'vagrant'
-    uid: 1000
-    shell: /bin/bash
-    groups: ["vagrant", "admin"]
-    append: no
-    ssh_keys:
-      - "{{ lookup('file', '/Users/sloria1/.ssh/id_rsa.pub') }}"
-  - name: "sloria1"
-    pass: "satrF5fwANvrQ"
-    comment: "vagrant"
-    uid: 2000
-    shell: /bin/bash
-    groups: ["vagrant", "admin"]
-    append: yes
-    # Set your key here
-    # You can use a file like so:
-    # "{{ lookup('file', '/Users/you/.ssh/id_rsa.pub') }}"
-    ssh_keys:
-      - "{{ lookup('file', '/Users/sloria1/.ssh/id_rsa.pub') }}"
-
-# --- csf
-csf_allowed_ips:
-    - CHANGEME
-csf_ui_user: FILLIN
-csf_ui_password: FILLIN
-
-```
 
 - Run `$ vagrant up`. This will start the VM provision it with the `vagrant.yml` playbook.
 
@@ -101,33 +54,18 @@ To ssh into your Vagrant box, you can run (must have invoke installed):
 $ invoke vssh -u yourusername
 ```
 
-
-### Installing roles
-
-Ansible-galaxy roles should be enumerated in roles.txt and installed to the roles directory. To reinstall all roles, run
-
-```bash
-$ ansible-galaxy install -r roles.txt -p ./roles -f
-```
-
-Or, for short:
-
-```bash
-$ invoke install_roles -f
-```
-
 ## Running playbooks
 
 Playbooks can be run with the `ansible-playbook` command. You need to specify which inventory file with the `-i` option as well as a user with the `-u` option. Run in sudo mode with `-s`
 
 ```bash
-$ ansible-playbook security.yml -i vagrant -u sloria1 -s
+$ ansible-playbook security.yml -i vagrant -u sloria -s
 ```
 
 Or, using invoke for shorthand:
 
 ```bash
-$ invoke play security.yml -i vagrant -u sloria1
+$ invoke play security.yml -i vagrant -u sloria
 ```
 
 ## Provisioning 
@@ -137,7 +75,7 @@ The `site.yml` playbook is responsible for provisioning all servers in an invent
 Run it like so:
 
 ```bash
-$ ansible-playbook site.yml -i vagrant -u sloria1 -s
+$ ansible-playbook site.yml -i vagrant -u sloria -s
 ```
 
 The above command runs the `site.yml` playbook using the `vagrant` inventory file with user `sloria1` in sudo mode.
@@ -145,7 +83,7 @@ The above command runs the `site.yml` playbook using the `vagrant` inventory fil
 Or, if you prefer to use invoke:
 
 ```bash
-$ invoke provision -i vagrant -u sloria1
+$ invoke provision -i vagrant -u sloria
 ```
 
 NOTE: You can also provision the vagrant box by running `invoke provision` with no arguments.
@@ -153,13 +91,13 @@ NOTE: You can also provision the vagrant box by running `invoke provision` with 
 Many of the roles have variables use variables defined in their `defaults/main.yml` file. You can override these on the command line with the `-e` option:
 
 ```bash
-$ ansible-playbook site.yml -i vagrant -u sloria1 -e "ssh_test=false"
+$ ansible-playbook site.yml -i vagrant -u sloria -e "ssh_test=false"
 ```
 
 or, equivalently:
 
 ```bash
-$ invoke provision -u sloria1 -e "ssh_test=false"
+$ invoke provision -u sloria -e "ssh_test=false"
 ```
 
 The above would temporarily disable SSH configuration testing.
