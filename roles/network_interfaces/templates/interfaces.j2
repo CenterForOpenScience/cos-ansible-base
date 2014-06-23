@@ -5,7 +5,7 @@
 auto lo
 iface lo inet loopback
 
-auto {% for interface in network_interfaces %}{{interface.name}}{% endfor %}
+auto {% for interface in network_interfaces %}{{interface.name}} {% endfor %}
 
 {% if network_config %}
 source {{network_config}}
