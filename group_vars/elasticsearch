@@ -61,8 +61,8 @@ network_interfaces:
 csf_allowed_ips:
   - 192.168.174.28/17
   - 66.228.46.171
-csf_lf_alert_to: "contact@cos.io"
-csf_lf_alert_from: "elasticsearch-linode@noreply.com"
+csf_lf_alert_to: ""
+csf_lf_alert_from: ""
 
 csf_lf_sshd_perm: 30
 
