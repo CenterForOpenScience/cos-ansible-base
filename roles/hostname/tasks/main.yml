@@ -5,7 +5,9 @@
     owner: root
     group: root
     mode: 0644
+  when: hostname_name|bool
 
 - name: Run hostname cmd
   hostname:
     name: "{{hostname_name}}"
+  when: hostname_name|bool
