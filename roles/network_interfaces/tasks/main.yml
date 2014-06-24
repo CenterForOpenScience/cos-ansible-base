@@ -2,3 +2,8 @@
 - name: Update /etc/network/interfaces
   template: src=interfaces.j2 dest=/etc/network/interfaces mode=0644
 
+- name: Restart networking
+  command: /etc/init.d/networking restart
+  # for some reason, this command seems to return a 1 exit code even if restarting occurred successfully.
+  # look into this in the future.
+  ignore_errors: yes
