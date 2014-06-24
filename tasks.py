@@ -19,28 +19,8 @@ def install_roles(force=False, ignore_errors=False):
     run(command, pty=True)
 
 @task
-def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
-        verbose=False, extra=''):
-    """Run the site.yml playbook given an inventory file and a user. Defaults
-    to provisioning the vagrant box.
-    """
-    play(playbook='site.yml',
-        inventory=inventory,
-        user=user,
-        sudo=sudo,
-        ask_sudo_pass=ask_sudo_pass,
-        verbose=verbose, extra=extra)
-
-@task
-def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
-        verbose=False, extra=''):
-    """Provision the vagrant box using the site.yml playbook."""
-    provision(user=user, inventory=VAGRANT_INVENTORY, sudo=sudo,
-                ask_sudo_pass=ask_sudo_pass, verbose=verbose, extra=extra)
-
-@task
 def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
-         verbose=False, extra=''):
+         verbose=False, extra='', key=None, limit=None):
     """Run a playbook. Defaults to using the "hosts" inventory"""
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
         playbook, inventory, user)
@@ -52,21 +32,64 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True
         cmd += ' --ask-sudo-pass'
     if verbose:
         cmd += ' -vvvv'
+    if limit:
+        cmd += ' --limit={0}'.format(limit)
+    if key:
+        cmd += ' --private-key={0}'.format(key)
     if extra:
         cmd += ' -e {0!r}'.format(extra)
     run(cmd, echo=True, pty=True)
 
-@task
-def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
-        verbose=False, extra=''):
-    """Run a playbook against the vagrant hosts."""
-    play(playbook, inventory='vagranthosts', user=user,
-        sudo=sudo, verbose=verbose, extra=extra, ask_sudo_pass=ask_sudo_pass)
 
 @task
-def vssh(user='vagrant'):
+def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
+        verbose=False, extra='', key=None, limit=None):
+    """Run the site.yml playbook given an inventory file and a user. Defaults
+    to provisioning the vagrant box.
+    """
+    play(playbook='site.yml',
+        inventory=inventory,
+        user=user,
+        sudo=sudo,
+        ask_sudo_pass=ask_sudo_pass,
+        verbose=verbose, extra=extra,
+        key=key,
+        limit=limit)
+
+
+@task
+def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
+        verbose=False, extra='', key='~/.vagrant.d/insecure_private_key', limit=None):
+    """Run a playbook against the vagrant hosts."""
+    play(playbook,
+        inventory='vagranthosts',
+        user=user,
+        sudo=sudo,
+        verbose=verbose,
+        extra=extra,
+        ask_sudo_pass=ask_sudo_pass,
+        key=key,
+        limit=limit)
+
+@task
+def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
+        verbose=False, extra='', key='~/.vagrant.d/insecure_private_key', limit=None):
+    """Provision the vagrant box using the site.yml playbook."""
+    provision(user=user,
+        inventory=VAGRANT_INVENTORY,
+        sudo=sudo,
+        ask_sudo_pass=ask_sudo_pass,
+        verbose=verbose,
+        extra=extra,
+        key=key,
+        limit=limit)
+
+
+
+@task
+def vssh(user='vagrant', host='192.168.111.222'):
     # Use subprocess to ssh so that terminal will display correctly
-    subprocess.call('ssh -p 2222 {0}@localhost'.format(user), shell=True)
+    subprocess.call('ssh {0}@{1}'.format(user, host), shell=True)
 
 
 @task
