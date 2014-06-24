@@ -19,7 +19,8 @@ def install_roles(force=False, ignore_errors=False):
     run(command, pty=True)
 
 @task
-def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True, verbose=False, extra=''):
+def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
+        verbose=False, extra=''):
     """Run the site.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
@@ -60,7 +61,7 @@ def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
         verbose=False, extra=''):
     """Run a playbook against the vagrant hosts."""
     play(playbook, inventory='vagranthosts', user=user,
-        sudo=sudo, verbose=False, extra=extra, ask_sudo_pass=ask_sudo_pass)
+        sudo=sudo, verbose=verbose, extra=extra, ask_sudo_pass=ask_sudo_pass)
 
 @task
 def vssh(user='vagrant'):
