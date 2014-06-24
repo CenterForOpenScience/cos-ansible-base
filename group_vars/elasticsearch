@@ -10,7 +10,7 @@ genericusers_users:
   - name: elasticsearch
     pass: $5$rounds=110000$HEtSgnaq3aACvrBI$nwu6oNea3jQoPdWBQlTdAiFT4ySr.kfeWMIZnMF2cU5
     comment: 'bohemian'
-    uid: 1000
+    uid: 2000
     shell: /bin/bash
     groups:
       - admin
@@ -23,7 +23,7 @@ genericusers_users:
   - name: sloria
     pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
     comment: 'bohemian'
-    uid: 2000
+    uid: 3000
     shell: /bin/bash
     groups:
       - admin
@@ -36,7 +36,7 @@ genericusers_users:
   - name: fabian
     pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
     comment: 'bohemian'
-    uid: 3000
+    uid: 4000
     shell: /bin/bash
     groups:
       - admin

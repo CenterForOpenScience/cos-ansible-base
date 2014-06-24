@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "webserver" do |webserver|
     ip_end = "222"
     ssh_port = '2222'
-
+    webserver.vm.hostname = "vagrant-webserver"
     webserver.vm.box = BOX_IMAGE
     webserver.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
@@ -36,6 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ssh_port = '2223'
 
     elastic.vm.box = BOX_IMAGE
+    elastic.vm.hostname = "vagrant-elasticsearch"
+    elastic.vm.network :forwarded_port, guest: 22, host: ssh_port
     elastic.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
 

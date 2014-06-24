@@ -6,9 +6,4 @@
 192.168.111.222
 
 [elasticsearch]
-192.168.111.333
-
-[vagrantbox:children]
-elasticsearch
-webservers
-nginx
+127.0.0.1:2200
