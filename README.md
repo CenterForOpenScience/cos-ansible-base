@@ -36,20 +36,11 @@ Once you have Vagrant and ansible installed, follow these steps:
 $ ssh-keygen
 ```
 
-- Copy vagrantbox.example.
-
-```bash
-$ cp group_vars/vagrantbox.example group_vars/vagrantbox
-```
-
-- Modify `group_vars/vagrantbox` as needed.
-
-
-- Run `$ vagrant up`. This will start the VM provision it with the `vagrant.yml` playbook.
+- Run `$ vagrant up`. This will start the VM provision with `invoke vprovision`.
 
 ```bash
 $ vagrant up
-$ vagrant provision
+$ invoke vprovision
 ```
 
 ### SSH

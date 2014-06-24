@@ -1,10 +1,60 @@
+# Variables used for all hosts that are part of the "textbox" (vagrant) group
 
+hostname_name: vagrantbox-master
 
-# 22 is required for inbound SSH
-csf_tcp_in: "22,80,53,443"
-csf_tcp6_in: "22,80,53,443"
+# --- users and groups
 
-# 80 is required for outbound HTTP (e.g., apt)
-# 443 is required for outbound SSL (e.g., pip)
-csf_tcp_out: "80,443"
-csf_tcp6_out: "80,443"
+genericusers_groups:
+    - name: "admin"
+    - name: "vagrant"
+
+# Used by Ansibles.generics-users
+
+genericusers_users:
+  - name: vagrant
+    pass: satrF5fwANvrQ
+    comment: 'vagrant'
+    uid: 1000
+    shell: /bin/bash
+    groups:
+    - admin
+    append: yes
+    ssh_keys:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: sloria
+    pass: $5$rounds=110000$9H7QADTvlb32CW2N$KHFTQswteyy6tduWI4EAeWhoFGWu28S8IgqUIboYqZA
+    comment: 'vagrant'
+    uid: 2000
+    shell: /bin/bash
+    groups:
+    - admin
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+
+# --- network interfaces
+
+network_config: /etc/network/interfaces.d/*.cfg
+
+network_interfaces:
+    - name: eth1
+      address: 192.168.111.222
+      netmask: 255.255.255.0
+
+# --- csf
+csf_allowed_ips:
+csf_lf_alert_to: ""
+csf_lf_alert_from: ""
+
+csf_lf_sshd_perm: 30
+
+# --- rkhunter
+
+# Email address to receive rkhunter warnings, "" for no emails
+rkhunter_mail_on_warnings: ""
+
+# Once rkhunter has been installed and updated the first time, set this to "no"
+rkhunter_propupd: no
+rkhunter_update: no
+rkhunter_update_apt: no
+rkhunter_run_checks: no

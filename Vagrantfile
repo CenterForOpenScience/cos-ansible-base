@@ -4,44 +4,52 @@
 # Vagrant configuration file, simplified from:
 # https://github.com/pjan/the-ansibles/blob/master/contrib/vagrant/Vagrantfile
 
-# --- Configuration
-
-PROJECT_NAME  = ENV['PROJECT_NAME']  || "ANSIBLES"
-
 BOX_IMAGE     = ENV['BOX_IMAGE']     || "ubuntu/trusty64"
-BOX_NAME      = ENV['BOX_NAME']      || "vagrantbox"
-BOX_ADMIN     = ENV['BOX_ADMIN']     || "vagrant"
 BOX_IP_ZONE   = ENV['BOX_IP_ZONE']   || "192.168.111"
-BOX_IP_END    = ENV['BOX_IP_END']    || "111"
-BOX_MEMORY    = ENV['BOX_MEMORY']    || "1024"
-BOX_CPUS      = ENV['BOX_CPUS']      || "1"
-BOX_DOCKER    = ENV['BOX_DOCKER']    || false
-
+BOX_FORWARDED_PORT = ENV['BOX_FORWARDED_PORT'] || 22
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # CONFIGURATION
+  # Set up multiple servers for different services
 
-  config.vm.box = BOX_IMAGE
-  config.vm.network :private_network, ip: BOX_IP_ZONE + "." + BOX_IP_END
-  config.vm.network :forwarded_port, guest: 22, host: ("9" + BOX_IP_END).to_i
 
-  config.vm.provider :virtualbox do |vb|
-    # vb.gui = true
-    vb.customize ["modifyvm", :id, "--ioapic", "on"]
-    vb.customize ["modifyvm", :id, "--memory", BOX_MEMORY]
-    vb.customize ["modifyvm", :id, "--cpus", BOX_CPUS]
+  config.vm.define "webserver" do |webserver|
+    ip_end = "222"
+    ssh_port = '2222'
+    webserver.vm.hostname = "vagrant-webserver"
+    webserver.vm.box = BOX_IMAGE
+    webserver.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    # webserver.vm.provision :ansible do |ansible|
+    #   ansible.playbook = "site.yml"
+    #   ansible.inventory_path = "vagranthosts"
+    #   ansible.sudo = true
+    #   ansible.limit = "vagrantbox"
+    # end
   end
 
-  # config.vm.provision :shell, :inline => $docker_cmd
 
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = "site.yml"
-    ansible.inventory_path = "vagranthosts"
-    ansible.sudo = true
-    ansible.limit = BOX_NAME
+  config.vm.define "elasticsearch" do |elastic|
+    ip_end = "333"
+    ssh_port = '2223'
+
+    elastic.vm.box = BOX_IMAGE
+    elastic.vm.hostname = "vagrant-elasticsearch"
+    elastic.vm.network :forwarded_port, guest: 22, host: ssh_port
+    elastic.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+
+    # elastic.vm.provision :ansible do |ansible|
+    #   ansible.playbook = "site.yml"
+    #   ansible.verbose = "vvvv"
+    #   ansible.inventory_path = "vagranthosts"
+    #   ansible.sudo = true
+    #   ansible.limit = "elasticsearch"
+    # end
   end
+
+
 
 end
