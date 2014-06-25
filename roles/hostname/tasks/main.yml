@@ -7,7 +7,17 @@
     mode: 0644
   when: hostname_name != ""
 
+- name: Update /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^127.0.0.1"
+    line: "127.0.0.1{{'\t'}}{{hostname_name}}"
+    state: present
+  when: hostname_name != ""
+
 - name: Run hostname cmd
   hostname:
     name: "{{hostname_name}}"
   when: hostname_name != ""
+
+
