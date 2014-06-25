@@ -1,0 +1,4 @@
+
+
+editors_emacs_base: "emacs"  # Your favorite emacs distribution
+editors_vim_base: "vim-nox"  # Your favorite vim flavor
