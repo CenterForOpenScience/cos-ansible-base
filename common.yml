@@ -8,3 +8,4 @@
     - role: Ansibles.timezone
     - role: ssh
     - role: apt
+    - role: editors
