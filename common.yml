@@ -3,7 +3,7 @@
   hosts: all
   roles:
     - role: hostname
-    # - role: network_interfaces
+    - role: network_interfaces
     - role: Ansibles.generic-users
     - role: Ansibles.timezone
     - role: ssh
