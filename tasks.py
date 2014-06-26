@@ -44,10 +44,10 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True
 @task
 def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
         verbose=False, extra='', key=None, limit=None):
-    """Run the site.yml playbook given an inventory file and a user. Defaults
+    """Run the provision.yml playbook given an inventory file and a user. Defaults
     to provisioning the vagrant box.
     """
-    play(playbook='site.yml',
+    play(playbook='provision.yml',
         inventory=inventory,
         user=user,
         sudo=sudo,
@@ -74,7 +74,7 @@ def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
 @task
 def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
         verbose=False, extra='', key='~/.vagrant.d/insecure_private_key', limit=None):
-    """Provision the vagrant box using the site.yml playbook."""
+    """Provision the vagrant box using the provision.yml playbook."""
     provision(user=user,
         inventory=VAGRANT_INVENTORY,
         sudo=sudo,
@@ -83,7 +83,6 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
         extra=extra,
         key=key,
         limit=limit)
-
 
 
 @task

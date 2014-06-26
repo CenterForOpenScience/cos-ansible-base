@@ -1,0 +1,11 @@
+- include: site.yml
+
+- name: Set up rkhunter
+  hosts: all
+  roles:
+    - role: rkhunter
+  vars:
+    rkhunter_propupd: yes
+    rkhunter_update: yes
+    rkhunter_update_apt: yes
+    rkhunter_run_checks: yes

@@ -77,7 +77,4 @@ rkhunter_mail_on_warnings: "contact@cos.io"
 
 # On a fresh machine, set rkhunter_propupd to yes
 # Once rkhunter has been installed and updated the first time, set this to "no"
-rkhunter_propupd: no
-rkhunter_update: no
-rkhunter_update_apt: no
-rkhunter_run_checks: yes
+
