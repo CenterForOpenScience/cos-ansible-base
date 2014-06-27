@@ -24,7 +24,7 @@ genericusers_users:
     pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
     comment: 'bohemian'
     uid: 3000
-    shell: /bin/bash
+    shell: /usr/bin/zsh
     groups:
       - admin
       - elasticsearch
@@ -53,14 +53,15 @@ network_interfaces:
     address: 23.92.21.223
     netmask: 255.255.255.0
     gateway: 23.92.21.1
-  - name: eth0:1
+  - name: eth0:0
     address: 192.168.162.236
-    gateway: 255.255.128.0
+    netmask: 255.255.128.0
 
 # --- csf
 csf_allowed_ips:
-  - 192.168.174.28/17
   - 66.228.46.171
+  - 23.92.16.194
+  - 69.164.210.152
 csf_lf_alert_to: ""
 csf_lf_alert_from: ""
 
@@ -69,12 +70,3 @@ csf_lf_sshd_perm: 30
 # 22 is required for inbound SSH
 csf_tcp_in: "22"
 csf_tcp6_in: "22"
-
-# --- rkhunter
-
-# Email address to receive rkhunter warnings, "" for no emails
-rkhunter_mail_on_warnings: "contact@cos.io"
-
-# On a fresh machine, set rkhunter_propupd to yes
-# Once rkhunter has been installed and updated the first time, set this to "no"
-
