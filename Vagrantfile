@@ -13,41 +13,19 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Set up multiple servers for different services
-
+  # NOTE: Make sure all IPs are on the same subnet, e.g. begin with 22
 
   config.vm.define "webserver" do |webserver|
     ip_end = "222"
-    ssh_port = '2222'
-    webserver.vm.hostname = "vagrant-webserver"
     webserver.vm.box = BOX_IMAGE
     webserver.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
-
-    # webserver.vm.provision :ansible do |ansible|
-    #   ansible.playbook = "site.yml"
-    #   ansible.inventory_path = "vagranthosts"
-    #   ansible.sudo = true
-    #   ansible.limit = "vagrantbox"
-    # end
   end
 
 
   config.vm.define "elasticsearch" do |elastic|
-    ip_end = "333"
-    ssh_port = '2223'
-
+    ip_end = "223"
     elastic.vm.box = BOX_IMAGE
-    elastic.vm.hostname = "vagrant-elasticsearch"
-    elastic.vm.network :forwarded_port, guest: 22, host: ssh_port
     elastic.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
-
-
-    # elastic.vm.provision :ansible do |ansible|
-    #   ansible.playbook = "site.yml"
-    #   ansible.verbose = "vvvv"
-    #   ansible.inventory_path = "vagranthosts"
-    #   ansible.sudo = true
-    #   ansible.limit = "elasticsearch"
-    # end
   end
 
 
