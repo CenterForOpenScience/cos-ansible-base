@@ -86,9 +86,10 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
 
 
 @task
-def vssh(user='vagrant', host='192.168.111.222'):
+def vssh(user='vagrant', ip_end='222'):
     # Use subprocess to ssh so that terminal will display correctly
-    subprocess.call('ssh {0}@{1}'.format(user, host), shell=True)
+    ip = '192.168.111.{ip_end}'.format(ip_end=ip_end)
+    subprocess.call('ssh {0}@{1}'.format(user, ip), shell=True)
 
 
 @task

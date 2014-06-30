@@ -1,0 +1,58 @@
+
+hostname_name: underpressure
+
+# Gitlab Ansible Variables
+genericusers_groups:
+    - name: "admin"
+    - name: "gitlab"
+
+genericusers_users:
+  - name: gitlab
+    pass: $5$rounds=110000$HEtSgnaq3aACvrBI$nwu6oNea3jQoPdWBQlTdAiFT4ySr.kfeWMIZnMF2cU5
+    comment: 'bohemian'
+    uid: 2000
+    shell: /bin/bash
+    groups:
+      - admin
+      - gitlab
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+  - name: sloria
+    pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
+    comment: ''
+    uid: 3000
+    shell: /bin/bash
+    groups:
+      - admin
+      - gitlab
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+
+# --- network_interfaces
+
+network_interfaces:
+  - name: eth0
+    address: 23.92.21.223
+    netmask: 255.255.255.0
+    gateway: 23.92.21.1
+  - name: eth0:0
+    address: 192.168.162.236
+    netmask: 255.255.128.0
+
+# --- csf
+csf_allowed_ips:
+  - 66.228.46.171
+  - 23.92.16.194
+  - 69.164.210.152
+csf_lf_alert_to: ""
+csf_lf_alert_from: ""
+
+csf_lf_sshd_perm: 30
+
+# 22 is required for inbound SSH
+csf_tcp_in: "22"
+csf_tcp6_in: "22"
