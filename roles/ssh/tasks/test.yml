@@ -3,7 +3,7 @@
   connection: local
   # Force password login; login should fail
   shell: ssh {{ssh_test_user}}@localhost -p {{ssh_test_port}} -o PubkeyAuthentication=no
-  when: ssh_settings["PasswordAuthentication"] == "no"
+  when: ssh_passwordauthentication == "no"
   register: login_attempt
   failed_when: login_attempt|success
 
