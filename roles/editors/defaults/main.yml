@@ -1,4 +1,6 @@
 
+i_use_emacs: false
+i_use_vim: true
 
 editors_emacs_base: "emacs"  # Your favorite emacs distribution
 editors_vim_base: "vim-nox"  # Your favorite vim flavor
