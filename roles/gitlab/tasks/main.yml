@@ -31,11 +31,45 @@
     dest={{ gitlab_repo_dir }}
     version=7-0-stable
 
-
 - name: Update gitlab configuration
   template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/config/gitlab.yml" owner={{gitlab_user}}
+
+- name: Make sure the gitlab user has ownership of the log directory
+  file: path={{gitlab_repo_dir}}/log
+    owner={{gitlab_user}}
+    recurse=yes
+    state=directory
+    mode=0744
+
+- name: Make sure the gitlab user has ownership of the tmp directory
+  file:
+    path={{gitlab_repo_dir}}/tmp
+    owner={{gitlab_user}}
+    recurse=yes
+    state=directory
+    mode=0744
+
+- name: Make sure gitlab user can write to tmp/pids/
+  file: path={{gitlab_repo_dir}}/tmp/pids/
+    mode=0744
+
+- name: Make sure gitlab user can write to tmp/sockests
+  file: path={{gitlab_repo_dir}}/tmp/sockets/
+    mode=0744
+
+- name: Make sure satellites directory exists
+  file: path={{gitlab_satellites_dir}} state=directory
+    owner=git
+
+- name: Make sure gitlab user can write to public/uploads directory
+  file: path={{gitlab_repo_dir}}/public/uploads state=directory mode=0744
+
+# TODO: Actually make unicorn.rb.j2 a template that uses variables
+- name: Copy example unicorn config
+  template:
+    src=unicorn.rb.j2
+    dest={{gitlab_repo_dir}}/config/unicorn.rb
 
 
 - name: Make sure postfix is uninstalled
   apt: pkg=postfix state=absent
-
