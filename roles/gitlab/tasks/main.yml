@@ -25,3 +25,18 @@
 - include: database.yml
 
 
+- name: Clone GitLab repo
+  git:
+    repo={{ gitlab_repo_url }}
+    dest={{ gitlab_repo_dir }}
+    version=7-0-stable
+
+- name: Update gitlab configuration
+  template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/gitlab.yml" owner={{gitlab_user}}
+
+
+
+
+- name: Make sure postfix is uninstalled
+  apt: pkg=postfix state=absent
+
