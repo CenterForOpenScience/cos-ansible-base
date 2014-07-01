@@ -15,7 +15,8 @@ gitlab_repo_dir: /home/{{gitlab_user}}/gitlab
 
 # gitlab/config/gitlab.yml vars
 # #############################
-gitlab_host: localhost
+
+gitlab_host: localhost  # NOTE: Use UNqualified IP here (e.g. 50.123.43.123)
 gitlab_port: 80
 gitlab_https: no
 

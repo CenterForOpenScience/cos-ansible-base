@@ -31,10 +31,9 @@
     dest={{ gitlab_repo_dir }}
     version=7-0-stable
 
+
 - name: Update gitlab configuration
-  template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/gitlab.yml" owner={{gitlab_user}}
-
-
+  template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/config/gitlab.yml" owner={{gitlab_user}}
 
 
 - name: Make sure postfix is uninstalled

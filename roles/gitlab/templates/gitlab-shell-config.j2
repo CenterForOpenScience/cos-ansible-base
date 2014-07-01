@@ -1,12 +1,9 @@
 
 # GitLab user. git by default
-user: git
+user: {{gitlab_user}}
 
 # Url to gitlab instance. Used for api calls. Should end with a slash.
-#gitlab_url: "http://127.0.0.1:80"
-# TODO(sloria): CHANGE ME!!
-gitlab_url: "https://50.116.57.122:443/"
-#gitlab_url: "http://50.116.57.122:80/"
+gitlab_url: "{{'https' if gitlab_https else 'http'}}//{{gitlab_host}}:{{gitlab_port}}"
 
 http_settings:
 #  user: someone
@@ -16,7 +13,7 @@ http_settings:
 ca_file: {{gitlab_ca_file}}
 {% endif %}
 #  ca_path: /etc/pki/tls/certs
-self_signed_cert: {% if gitlab_self_signed_cert %}true{% else %}false{%endif%}
+self_signed_cert: {{'true' if gitlab_self_signed_cert else 'false'}}
 
 
 # Repositories path
