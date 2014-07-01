@@ -60,3 +60,12 @@ csf_tcp6_in: "22"
 # 21 needed for ftp
 csf_tcp_out: "21,80,443"
 csf_tcp6_out: "21,80,443"
+
+# --- gitlab
+# gitlab_port: 443
+# gitlab_https: true
+# gitlab_host: 50.116.57.122
+
+# CHANGEME(jmcarp/sloria)
+# gitlab_satellites_path: /home/git/gitlab-satellites/
+# gitlab_ca_file: /etc/nginx/ssl/gitlab.crt

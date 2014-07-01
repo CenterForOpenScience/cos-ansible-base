@@ -1,5 +1,35 @@
 # System user who will have all privileges on database
-gitlab_db_user: git
+gitlab_user: git
+
+# DB info
 gitlab_db_pass: gitlab
 gitlab_db_name: gitlabhq_production
 gitlab_db_port: 5432
+
+# Where to get the gitlab source
+gitlab_repo_url: https://gitlab.com/gitlab-org/gitlab-ce.git
+
+# Where the gitlab repo will live on the remote machine
+gitlab_repo_dir: /home/{{gitlab_user}}/gitlab
+
+
+# gitlab/config/gitlab.yml vars
+# #############################
+gitlab_host: localhost
+gitlab_port: 80
+gitlab_https: no
+
+gitlab_satellites_path: /home/git/gitlab-satellites/
+gitlab_repos_path: /home/git/repositories/
+gitlab_hooks_path: /home/git/gitlab-shell/hooks/
+
+# 5.megabytes
+gitlab_max_size: 5242880
+
+
+# gitlab-shell/config/config.yml
+################################
+
+gitlab_ca_file:
+
+gitlab_self_signed_cert: no
