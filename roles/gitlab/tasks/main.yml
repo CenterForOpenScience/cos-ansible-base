@@ -20,3 +20,8 @@
     - logrotate
     - python-docutils
     - git-core
+
+- include: ruby.yml
+- include: database.yml
+
+

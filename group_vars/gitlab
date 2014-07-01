@@ -7,10 +7,10 @@ genericusers_groups:
     - name: "gitlab"
 
 genericusers_users:
-  - name: gitlab
+  - name: git
     pass: $5$rounds=110000$HEtSgnaq3aACvrBI$nwu6oNea3jQoPdWBQlTdAiFT4ySr.kfeWMIZnMF2cU5
-    comment: 'bohemian'
-    uid: 2000
+    comment: 'GitLab'
+    uid: 2001
     shell: /bin/bash
     groups:
       - admin
@@ -56,3 +56,7 @@ csf_lf_sshd_perm: 30
 # 22 is required for inbound SSH
 csf_tcp_in: "22"
 csf_tcp6_in: "22"
+
+# 21 needed for ftp
+csf_tcp_out: "21,80,443"
+csf_tcp6_out: "21,80,443"

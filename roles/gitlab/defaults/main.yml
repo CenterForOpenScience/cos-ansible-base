@@ -1,0 +1,5 @@
+# System user who will have all privileges on database
+gitlab_db_user: git
+gitlab_db_pass: gitlab
+gitlab_db_name: gitlabhq_production
+gitlab_db_port: 5432

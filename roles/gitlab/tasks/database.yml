@@ -1,0 +1,19 @@
+
+- name: Create a user for gitlab
+  postgresql_user: name={{ gitlab_db_user }}
+                   password={{ gitlab_db_pass }}
+                   port={{gitlab_db_port}}
+                   state=present
+  sudo_user: postgres  # the superuser created after installing postgres
+  sudo: yes
+
+
+- name: Create the gitlab database
+  postgresql_db: name={{ gitlab_db_name }}
+                 port={{ gitlab_db_port }}
+                 owner={{ gitlab_db_user }}
+                 state=present
+  sudo_user: postgres
+  sudo: yes
+
+
