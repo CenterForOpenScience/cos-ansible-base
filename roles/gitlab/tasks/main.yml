@@ -59,17 +59,25 @@
 
 - name: Make sure satellites directory exists
   file: path={{gitlab_satellites_dir}} state=directory
-    owner=git
+    owner={{gitlab_user}}
 
 - name: Make sure gitlab user can write to public/uploads directory
   file: path={{gitlab_repo_dir}}/public/uploads state=directory mode=0744
 
-# TODO: Actually make unicorn.rb.j2 a template that uses variables
-- name: Copy example unicorn config
+- name: Update unicorn config
   template:
     src=unicorn.rb.j2
     dest={{gitlab_repo_dir}}/config/unicorn.rb
+    owner={{gitlab_user}}
 
+- name: Copy Rack attack config
+  copy:
+    src=rack_attack.rb
+    dest={{gitlab_repo_dir}}/config/initializers/rack_attack.rb
+    owner={{gitlab_user}}
+
+- name: Configure git
+  template: src=gitconfig.j2 dest=/home/{{gitlab_user}}/.gitconfig owner={{gitlab_user}}
 
 - name: Make sure postfix is uninstalled
   apt: pkg=postfix state=absent
