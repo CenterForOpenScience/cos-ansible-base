@@ -117,13 +117,16 @@
   command: sudo -u git -H psql -d gitlabhq_production -c "\dt"
   register: gitlab_database_check
 
-- debug: var=gitlab_database_check
+# - debug: var=gitlab_database_check
 
+# ONLY run this once! This will check if the database is already initialized (by checking the
+# existence of the web_hooks table)
 - name: Initialize database and activate advanced features
-  command: sudo -u {{gitlab_user}} -H bundle exec rake gitlab:setup RAILS_ENV=production force=yes
+  command: sudo -u {{gitlab_user}} -H bundle exec rake gitlab:setup RAILS_ENV=production force={{gitlab_force_db}}
   args:
     chdir: "{{gitlab_repo_dir}}"
   when: '"web_hooks" not in gitlab_database_check.stdout'
+
 
 - name: Make sure postfix is uninstalled
   apt: pkg=postfix state=absent
