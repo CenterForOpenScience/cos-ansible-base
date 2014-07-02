@@ -2,3 +2,4 @@ dependencies:
   - { role: apt }
   - { role: python }
   - { role: postgresql }
+  - { role: nginx }
