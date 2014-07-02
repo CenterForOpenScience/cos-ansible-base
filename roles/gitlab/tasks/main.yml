@@ -24,22 +24,21 @@
 - include: ruby.yml
 - include: database.yml
 
-- name: Check if the GitLab repo has already been cloned
-  stat: path={{gitlab_repo_dir}}
-  register: gitlab_repo_dir_check
-
 - name: Clone GitLab repo
   git:
     repo={{ gitlab_repo_url }}
     dest={{ gitlab_repo_dir }}
     version=7-0-stable
-  when: gitlab_repo_dir_check.stat.isdir is defined and gitlab_repo_dir_check.stat.isdir == false
+    update=no
 
 - name: Make sure gitlab user owns the repo directory
-  file: path={{gitlab_repo_dir}} owner=git recurse=yes
+  file: path={{gitlab_repo_dir}} owner=git recurse=yes state=directory
 
 - name: Update gitlab configuration
-  template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/config/gitlab.yml" owner={{gitlab_user}}
+  template:
+    src=gitlab-config.j2
+    dest="{{gitlab_repo_dir}}/config/gitlab.yml"
+    owner={{gitlab_user}}
 
 - name: Make sure the gitlab user has ownership of the log directory
   file: path={{gitlab_repo_dir}}/log
@@ -112,6 +111,8 @@
 
 - name: Update gitlab-shell configuration
   template: src=gitlab-shell-config.j2 dest={{gitlab_shell}} owner={{gitlab_user}}
+
+# - name: Initialize database and activate advanced features
 
 
 - name: Make sure postfix is uninstalled
