@@ -35,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     gitlab.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
     gitlab.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "768"]
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
   end
 
