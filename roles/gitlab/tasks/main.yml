@@ -31,6 +31,7 @@
     dest={{ gitlab_repo_dir }}
     version=7-0-stable
 
+
 - name: Update gitlab configuration
   template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/config/gitlab.yml" owner={{gitlab_user}}
 
@@ -78,6 +79,23 @@
 
 - name: Configure git
   template: src=gitconfig.j2 dest=/home/{{gitlab_user}}/.gitconfig owner={{gitlab_user}}
+
+- name: Configure database
+  template:
+    src=database.j2
+    dest={{gitlab_repo_dir}}/config/database.yml
+    owner=git
+    mode=0700
+
+- name: Install bundler
+  gem: name=bundler version=1.6.3 state=present
+
+# NOTE: The option says "without mysql"
+- name: Install gems
+  command: "sudo -u git -H bundle install --deployment --without development test mysql aws"
+  args:
+    chdir: /home/{{gitlab_user}}/gitlab
+
 
 - name: Make sure postfix is uninstalled
   apt: pkg=postfix state=absent
