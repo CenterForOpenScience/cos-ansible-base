@@ -11,8 +11,11 @@ gitlab_repo_url: https://gitlab.com/gitlab-org/gitlab-ce.git
 
 # Where the gitlab repo will live on the remote machine
 gitlab_repo_dir: /home/{{gitlab_user}}/gitlab
+gitlab_shell_dir: /home/{{gitlab_user}}/gitlab-shell
 
 gitlab_satellites_dir: /home/{{gitlab_user}}/gitlab-satellites
+
+gitlab_redis_url: redis://localhost:6379
 
 # gitlab/config/gitlab.yml vars
 # #############################

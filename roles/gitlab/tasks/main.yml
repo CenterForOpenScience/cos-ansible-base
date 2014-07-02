@@ -35,6 +35,8 @@
     version=7-0-stable
   when: gitlab_repo_dir_check.stat.isdir is defined and gitlab_repo_dir_check.stat.isdir == false
 
+- name: Make sure gitlab user owns the repo directory
+  file: path={{gitlab_repo_dir}} owner=git recurse=yes
 
 - name: Update gitlab configuration
   template: src=gitlab-config.j2 dest="{{gitlab_repo_dir}}/config/gitlab.yml" owner={{gitlab_user}}
@@ -91,6 +93,8 @@
     owner=git
     mode=0700
 
+# NOTE: For some reason, the gem module is not successfully installing bunder,
+# so just use the command module
 - name: Install bundler
   command: "gem install bundler"
 
@@ -99,6 +103,15 @@
   command: "sudo -u git -H bundle install --deployment --without development test mysql aws"
   args:
     chdir: /home/{{gitlab_user}}/gitlab
+
+- name: Install GitLab Shell
+  command: "sudo -u git -H bundle exec rake gitlab:shell:install[v1.9.6] REDIS_URL={{gitlab_redis_url}} RAILS_ENV=production"
+  args:
+    chdir={{gitlab_repo_dir}}
+
+
+- name: Update gitlab-shell configuration
+  template: src=gitlab-shell-config.j2 dest={{gitlab_shell}} owner={{gitlab_user}}
 
 
 - name: Make sure postfix is uninstalled
