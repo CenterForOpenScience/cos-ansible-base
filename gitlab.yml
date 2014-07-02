@@ -6,5 +6,5 @@
     - role: gitlab
   vars_prompt:
     - name: "gitlab_force_db"
-      prompt: "Should the database tables be created and seeded? WARNING: This will delete all data stored in the database."
+      prompt: "Should the GitLab database tables be created and seeded (WARNING: This will delete all data stored in the database)?"
       default: no

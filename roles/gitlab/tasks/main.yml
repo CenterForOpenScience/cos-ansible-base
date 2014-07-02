@@ -128,5 +128,19 @@
   when: '"web_hooks" not in gitlab_database_check.stdout'
 
 
+- name: Install init script
+  command: cp {{gitlab_repo_dir}}/lib/support/init.d/gitlab /etc/init.d/gitlab
+  args:
+    creates: /etc/init.d/gitlab
+
+- name: Update init defaults
+  template: src="init_defaults.j2" dest="/etc/default/gitlab"
+
+
+- name: Make gitlab start on boot
+  command: update-rc.d gitlab defaults 21
+  sudo: yes
+
+
 - name: Make sure postfix is uninstalled
   apt: pkg=postfix state=absent
