@@ -24,12 +24,16 @@
 - include: ruby.yml
 - include: database.yml
 
+- name: Check if the GitLab repo has already been cloned
+  stat: path={{gitlab_repo_dir}}
+  register: gitlab_repo_dir_check
 
 - name: Clone GitLab repo
   git:
     repo={{ gitlab_repo_url }}
     dest={{ gitlab_repo_dir }}
     version=7-0-stable
+  when: gitlab_repo_dir_check.stat.isdir is defined and gitlab_repo_dir_check.stat.isdir == false
 
 
 - name: Update gitlab configuration
@@ -88,7 +92,7 @@
     mode=0700
 
 - name: Install bundler
-  gem: name=bundler version=1.6.3 state=present
+  command: "gem install bundler"
 
 # NOTE: The option says "without mysql"
 - name: Install gems
