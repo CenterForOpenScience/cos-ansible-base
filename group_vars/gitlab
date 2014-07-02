@@ -69,3 +69,5 @@ csf_tcp6_out: "21,80,443"
 # CHANGEME(jmcarp/sloria)
 # gitlab_satellites_path: /home/git/gitlab-satellites/
 # gitlab_ca_file: /etc/nginx/ssl/gitlab.crt
+
+gitlab_unicorn_timeout: 90

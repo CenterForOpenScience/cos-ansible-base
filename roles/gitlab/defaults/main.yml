@@ -34,3 +34,13 @@ gitlab_max_size: 5242880
 gitlab_ca_file:
 
 gitlab_self_signed_cert: no
+
+
+# gitlab/config/unicorn.rb
+##########################
+
+gitlab_unicorn_workers: 2
+
+gitlab_unicorn_timeout: 30
+
+gitlab_unicorn_client_body_buffer:
