@@ -3,7 +3,7 @@
 user: {{gitlab_user}}
 
 # Url to gitlab instance. Used for api calls. Should end with a slash.
-gitlab_url: "{{'https' if gitlab_https else 'http'}}//{{gitlab_host}}:{{gitlab_port}}"
+gitlab_url: "{{'https:' if gitlab_https else 'http:'}}//{{gitlab_host}}/"
 
 http_settings:
 #  user: someone

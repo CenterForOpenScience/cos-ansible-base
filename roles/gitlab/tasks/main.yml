@@ -111,7 +111,7 @@
 
 
 - name: Update gitlab-shell configuration
-  template: src=gitlab-shell-config.j2 dest={{gitlab_shell_dir}} owner={{gitlab_user}}
+  template: src=gitlab-shell-config.j2 dest={{gitlab_shell_dir}}/config.yml owner={{gitlab_user}}
 
 - name: Check if database has already been initialized
   command: sudo -u git -H psql -d gitlabhq_production -c "\dt"
