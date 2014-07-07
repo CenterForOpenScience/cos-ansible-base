@@ -1,3 +1,6 @@
 - name: restart gitlab
   service: name=gitlab state=restarted
   sudo: yes
+
+- name: restart nginx
+  service: name=nginx state=restarted

@@ -153,11 +153,11 @@
     chdir: "{{gitlab_repo_dir}}"
   notify: restart gitlab
 
+- name: Install nginx
+  apt: pkg=nginx state=present
+
 - name: Copy gitlab nginx site config
-  command: cp {{gitlab_repo_dir}}/lib/support/nginx/gitlab /etc/nginx/sites-available/gitlab
-  args:
-    creates: /etc/nginx/sites-available/gitlab
-  sudo: yes
+  template: src=nginx-gitlab.j2 dest=/etc/nginx/sites-available/gitlab
 
 - name: Link gitlab site config
   file: src=/etc/nginx/sites-available/gitlab dest=/etc/nginx/sites-enabled/gitlab state=link
