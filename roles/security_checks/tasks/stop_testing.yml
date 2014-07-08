@@ -1,0 +1,5 @@
+- name: test csf | Disable testing mode
+  lineinfile: dest=/etc/csf/csf.conf regexp="^TESTING\s?=" line='TESTING="0"' state=present
+  changed_when: false
+
+- include: restart_csf.yml

@@ -1,0 +1,11 @@
+# CSF checks
+
+- include: ../start_testing.yml
+
+- name: test csf | Brute Force SSH is blocked
+  connection: local
+  sudo: no
+  shell: ssh {{ inventory_hostname }} -o PubkeyAuthentication=no
+  when: check_portscan
+
+- include: ../stop_testing.yml
