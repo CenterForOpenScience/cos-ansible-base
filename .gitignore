@@ -48,3 +48,4 @@ hosts_vagrant
 !.gitkeep
 
 tempfiles
+.konchrc
