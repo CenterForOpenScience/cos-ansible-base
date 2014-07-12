@@ -1,0 +1,9 @@
+---
+
+- hosts: osf-staging
+  remote_user: sloria
+  tasks:
+    - name: Make sure /opts/apps directory exists
+      file: path=/opt/apps state=directory
+    - name: Pull the latest changes from osf master
+      git: https://github.com/CenterForOpenScience/osf.git version=master
