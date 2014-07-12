@@ -7,3 +7,7 @@
 
 [elasticsearch]
 192.168.111.223
+
+[osf-staging]
+192.168.111.225
+
