@@ -9,3 +9,6 @@
     - role: ssh
     - role: apt
     - role: editors
+
+
+- include: dotfiles.yml

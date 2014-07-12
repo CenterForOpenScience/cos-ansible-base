@@ -1,0 +1,10 @@
+
+# dotfiles, etc
+
+
+- name: Steve's dotfiles
+  hosts:
+    - webservers
+    - elasticsearch
+  roles:
+    - role: dotfiles-sloria
