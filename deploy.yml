@@ -4,7 +4,7 @@
   gather_facts: yes
 
 # User management
-- name: Set up users and groups
+- name: Update users and groups
   hosts:
     - osf-staging
     - osf-production
@@ -56,6 +56,11 @@
       service: name=uwsgi state=restarted
   tags:
     - update
+  vars_prompt:
+    - name: deploy_branch
+      prompt: "Which branch from CenterForOpenScience/osf do you want to check out?"
+      default: "develop"
+      private: no
 
 - hosts: osf-production
   tasks:
