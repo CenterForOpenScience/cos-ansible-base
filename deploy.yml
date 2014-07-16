@@ -1,0 +1,79 @@
+---
+- name: Collecting facts
+  hosts: all
+  gather_facts: yes
+
+# User management
+- name: Update users and groups
+  hosts:
+    - osf-staging
+    - osf-production
+  roles:
+    - role: Ansibles.generic-users
+
+# Tasks run on both staging and production
+- hosts:
+    - osf-staging
+    - osf-production
+  roles:
+    - role: uwsgi
+  tasks:
+    - name: Make sure git is installed
+      apt: pkg=git-core state=present
+    - name: Make sure zsh is installed
+      apt: pkg=zsh state=present
+    - name: Get github.com RSA key
+      sudo: False
+      shell: ssh-keyscan -t rsa github.com
+      register: rsaresult
+      changed_when: False
+      failed_when: "rsaresult.rc != 0"
+    - name: Ensure github.com key in /etc/ssh/ssh_known_hosts
+      sudo: True
+      lineinfile:
+        line="{{ rsaresult.stdout }}"
+        dest="/etc/ssh/ssh_known_hosts"
+        insertafter=EOF
+        create=yes
+        state=present
+        mode=0644
+        owner=root
+
+- include: dotfiles.yml
+
+- hosts: osf-staging
+  tasks:
+    - name: Pull the latest changes from Github
+      git:
+        repo="git@github.com:CenterForOpenScience/osf.git"
+        dest="/opt/apps/osf"
+        version="{{ deploy_branch if deploy_branch is defined else 'develop' }}"
+        update="yes"
+      sudo: False
+    - name: Make sure the repo is owned by the osf group
+      file: path="/opt/apps/osf/" state=directory group=osf
+    - name: Restart uwsgi
+      service: name=uwsgi state=restarted
+  tags:
+    - update
+  vars_prompt:
+    - name: deploy_branch
+      prompt: "Which branch from CenterForOpenScience/osf do you want to check out?"
+      default: "develop"
+      private: no
+
+- hosts: osf-production
+  tasks:
+    - name: Pull the latest changes from Github
+      git:
+        repo="git@github.com:CenterForOpenScience/osf.git"
+        dest="/opt/apps/osf"
+        version="master"
+        update="yes"
+      sudo: False
+    - name: Make sure the repo is owned by the osf group
+      file: path="/opt/apps/osf/" state=directory group=osf
+    - name: Restart uwsgi
+      service: name=uwsgi state=restarted
+  tags:
+    - update
