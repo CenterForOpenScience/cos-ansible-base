@@ -1,4 +1,4 @@
-
+# vi: set ft=yaml :
 hostname_name: mercury
 
 # Elasticsearch Ansible Variables
