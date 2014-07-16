@@ -1,9 +1,82 @@
 ---
+- name: Collecting facts
+  hosts: all
+  gather_facts: yes
+
+# User management
+- name: Set up users and groups
+  hosts:
+    - osf-staging
+    - osf-production
+  roles:
+    - role: Ansibles.generic-users
+
+# Tasks run on both staging and production
+- hosts:
+    - osf-staging
+    - osf-production
+  roles:
+    - role: uwsgi
+  tasks:
+    - name: Make sure git is installed
+      apt: pkg=git-core state=present
+    - name: Make sure zsh is installed
+      apt: pkg=zsh state=present
+    #- name: check if known_hosts exists
+      #stat: path=~{{ ansible_user_id}}/.ssh/known_hosts
+      #register: known_hosts_file
+      #changed_when: false
+      #sudo: yes
+    #- name: ensure github.com in known host
+      #shell: ssh-keyscan -H github.com >> ~{{ ansible_user_id }}/.ssh/known_hosts
+      #sudo: yes
+    #- name: Make sure /opts/apps directory exists
+      #file: path=/opt/apps state=directory group=osf mode=0775 recurse=yes
+    # Get GitHub RSA key (hashed)
+    - name: Get github.com RSA key
+      sudo: False
+      shell: ssh-keyscan -t rsa github.com
+      register: rsaresult
+      changed_when: False
+      failed_when: "rsaresult.rc != 0"
+
+    - name: Ensure github.com key in /etc/ssh/ssh_known_hosts
+      sudo: True
+      lineinfile:
+        line="{{ rsaresult.stdout }}"
+        dest="/etc/ssh/ssh_known_hosts"
+        insertafter=EOF
+        create=yes
+        state=present
+        mode=0644
+        owner=root
+
+- include: dotfiles.yml
 
 - hosts: osf-staging
-  remote_user: sloria
   tasks:
-    - name: Make sure /opts/apps directory exists
-      file: path=/opt/apps state=directory
     - name: Pull the latest changes from osf master
-      git: https://github.com/CenterForOpenScience/osf.git version=master
+      git:
+        repo="https://{{github_user}}:{{github_password}}github.com/CenterForOpenScience/osf.git"
+        dest="/opt/apps/osf"
+        version="{{ deploy_branch if deploy_branch is defined else 'develop' }}"
+        update="yes"
+      sudo: False
+    - name: Restart uwsgi
+      service: name=uwsgi state=restarted
+  vars_prompt:
+    - name: github_user
+      prompt: "Enter Github username"
+      private: no
+    - name: github_password
+      prompt: "Enter Github password"
+      private: yes
+
+#- hosts: osf-production
+  #tasks:
+    #- name: Make sure /opts/apps directory exists
+      #file: path=/opt/apps state=directory group=osf
+    #- name: Pull the latest changes from osf master
+      #git: "repo=https://github.com/CenterForOpenScience/osf.git dest=/opt/apps/osf version=master accept_hostkey=True"
+    #- name: Restart uwsgi
+      #service: name=uwsgi state=restarted

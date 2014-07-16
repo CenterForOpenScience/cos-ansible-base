@@ -40,6 +40,18 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True
         cmd += ' -e {0!r}'.format(extra)
     run(cmd, echo=True, pty=True)
 
+@task
+def deploy(user, inventory=SITE_INVENTORY, verbose=False, extra='', limit=None,
+           key=None):
+    play(user=user,
+         playbook='deploy.yml',
+         inventory=inventory,
+         verbose=verbose,
+         limit=limit,
+         key=key,
+         extra=extra
+    )
+
 
 @task
 def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
@@ -82,8 +94,21 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
         verbose=verbose,
         extra=extra,
         key=key,
-        limit=limit)
+        limit=limit
+    )
 
+
+@task
+def vdeploy(user='vagrant', verbose=False, extra='', limit=None,
+            key='~/.vagrant.d/insecure_private_key'):
+    deploy(
+        user=user,
+        inventory=VAGRANT_INVENTORY,
+        verbose=verbose,
+        limit=limit,
+        key=key,
+        extra=extra
+    )
 
 @task
 def vssh(user='vagrant', host='192.168.111.222'):

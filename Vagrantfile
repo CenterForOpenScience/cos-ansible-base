@@ -28,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "osf-staging" do |staging|
+    staging.ssh.forward_agent = true
     ip_end = "225"
     staging.vm.box = BOX_IMAGE
     staging.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
