@@ -43,6 +43,23 @@
 
 - hosts: osf-staging
   tasks:
+    - name: Check if osf app folder already exists
+      stat: path="/opt/apps/osf"
+      register: app_dir_check
+
+    - name: Make sure the repo is owned by the osf group
+      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0775
+      when: app_dir_check.stat.isdir is defined and app_dir_check.stat.isdir == true
+
+    - name: Check if .git folder already exists
+      stat: path="/opt/apps/osf/.git"
+      register: git_dir_check
+
+    # This needs to occur before cloning, else cloning may fail
+    - name: Make sure the repo is owned by the osf group
+      file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
+      when: git_dir_check.stat.isdir is defined and git_dir_check.stat.isdir == true
+
     - name: Pull the latest changes from Github
       git:
         repo="git@github.com:CenterForOpenScience/osf.git"
@@ -50,8 +67,14 @@
         version="{{ deploy_branch if deploy_branch is defined else 'develop' }}"
         update="yes"
       sudo: False
+
+    # Update permissions again, in case it's the first time cloning the repo
     - name: Make sure the repo is owned by the osf group
-      file: path="/opt/apps/osf/" state=directory group=osf
+      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0755
+
+    - name: Make sure the repo is owned by the osf group
+      file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
+
     - name: Restart uwsgi
       service: name=uwsgi state=restarted
   tags:
