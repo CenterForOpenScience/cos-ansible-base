@@ -25,6 +25,7 @@
     - name: Get github.com RSA key
       sudo: False
       shell: ssh-keyscan -t rsa github.com
+      connection: local
       register: rsaresult
       changed_when: False
       failed_when: "rsaresult.rc != 0"
