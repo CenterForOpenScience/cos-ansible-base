@@ -19,6 +19,7 @@
     - osf-production
   roles:
     - role: uwsgi
+    - role: bower
   tasks:
     - name: Make sure git is installed
       apt: pkg=git-core state=present
@@ -48,6 +49,9 @@
       file: path="/opt/apps/" state=directory group=osf recurse=yes mode=0775
 
 - include: dotfiles.yml
+  hosts:
+    - osf-staging
+    - osf-production
 
 # Pull latest changes from Github
 - hosts: osf-staging
@@ -91,7 +95,10 @@
     - osf-staging
     - osf-production
   tasks:
-    # Update permissions again, in case it's the first time cloning the repo
+    - name: Update bower components
+      command: bower install
+      args:
+        chdir: /opt/apps/osf/
     - name: Make sure the repo is owned by the osf group
       file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0755
 
