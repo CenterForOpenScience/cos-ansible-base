@@ -19,6 +19,7 @@ genericusers_users:
     append: yes
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBKbtgvnsfuvm719xE9FcX3599VKi7slCKH8KV0sCRY2o7PladpDgej8u2J5meTkTOhbOkQiREaWoot9pibvUZzfzR3fxg8hMc51bGXUqWssawD4wgPV6Ms/25DAm4iOkh7pyIRPiNy4I+VcabHb6XUql2g5QAVvEKWMNw0kTWSEG56tBsBPmFeDAxMw15PV+4N5oQH3SfjS3Oxb5Y6jij3moxd+VEKUQbY0bYxm5Yn2bE43o4km/3of1gdzmgmDLH3mljQFNdA9BFbrZ5dRdJKfC5KG5l7L9n1yUF4kNjyatkTqP1nbu0AGERJKNNk/mxG61tSOTcnFY7zD2GJYzv josh@centerforopenscience.org
   - name: sloria
     pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
     comment: ''
@@ -31,6 +32,20 @@ genericusers_users:
     append: yes
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+  - name: jmcarp
+    pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
+    comment: ''
+    uid: 3001
+    shell: /bin/bash
+    groups:
+      - admin
+      - gitlab
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5rG7BuOwEHzVvXmlHbOIqpkCcD0IHw683sGcrVM2kCiGZyxhLklF4qTW5DBxEAflNZ7SRU8FfWb81Fb6ywK5aEWrPebYnwV52UyqNv9bElfsFI5osGWLX8KrBTryXb4M0VDHmIbGbE9eBl65H2lsPLYkqkM3A3Mrr4TzxdEa/dKR0cKF2sf7xOs1g0uw6LVLqoii60FB9Lk7/NuiiZ9Wr02zxBVJ0I+mF6jfWBJ8ZPdbzfIAHr7TiPkUdnLOoZHonw5tt/EFt/WdizDKE1Vv9+oEYFAyw3gXD+RAEn9JXX3MDWn/gJGz1htWNJbjAWSwNK6EGb4KdRf5HsR2ENMxZ jm.carp@gmail.com
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBKbtgvnsfuvm719xE9FcX3599VKi7slCKH8KV0sCRY2o7PladpDgej8u2J5meTkTOhbOkQiREaWoot9pibvUZzfzR3fxg8hMc51bGXUqWssawD4wgPV6Ms/25DAm4iOkh7pyIRPiNy4I+VcabHb6XUql2g5QAVvEKWMNw0kTWSEG56tBsBPmFeDAxMw15PV+4N5oQH3SfjS3Oxb5Y6jij3moxd+VEKUQbY0bYxm5Yn2bE43o4km/3of1gdzmgmDLH3mljQFNdA9BFbrZ5dRdJKfC5KG5l7L9n1yUF4kNjyatkTqP1nbu0AGERJKNNk/mxG61tSOTcnFY7zD2GJYzv josh@centerforopenscience.org
+
 
 # --- network_interfaces
 
@@ -54,8 +69,8 @@ csf_lf_alert_from: ""
 csf_lf_sshd_perm: 30
 
 # 22 is required for inbound SSH
-csf_tcp_in: "22"
-csf_tcp6_in: "22"
+csf_tcp_in: "22, 80"
+csf_tcp6_in: "22, 80"
 
 # 21 needed for ftp
 csf_tcp_out: "21,80,443"
@@ -64,11 +79,25 @@ csf_tcp6_out: "21,80,443"
 # --- gitlab
 # gitlab_port: 443
 # gitlab_https: true
-gitlab_host: 192.168.111.224
+gitlab_host: "{{ hostvars[groups['gitlab'][0]]['ansible_eth0']['ipv4']['address'] }}"
+# gitlab_host: 192.168.111.224
 
 
 # CHANGEME(jmcarp/sloria)
 # gitlab_satellites_path: /home/git/gitlab-satellites/
 # gitlab_ca_file: /etc/nginx/ssl/gitlab.crt
 
+# 32 MiB, adjusted for base64 encoding
+gitlab_max_size: 44739240
+
 gitlab_unicorn_timeout: 90
+
+gitlab_repo_url: https://github.com/jmcarp/gitlabhq
+gitlab_repo_version: osf-merge
+gitlab_shell_repo_tag: v1.9.6-osf-dev
+gitlab_shell_repo_url: https://github.com/jmcarp/gitlab-shell
+
+gitlab_admin_password: \$2a\$12\$nqJ5Ue0xD5v0z9vSAN5ru.QOF4G7Rm06AvEYeSPP86PKIwlqPmcou
+
+gitlab_repos_path: /opt/data/gitlab/repositories
+gitlab_satellites_dir: /opt/data/gitlab/gitlab-satellites

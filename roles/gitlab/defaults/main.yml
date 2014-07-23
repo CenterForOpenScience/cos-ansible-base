@@ -13,6 +13,9 @@ gitlab_db_port: 5432
 
 # Where to get the gitlab source
 gitlab_repo_url: https://gitlab.com/gitlab-org/gitlab-ce.git
+gitlab_repo_version: 7-0-stable
+gitlab_shell_repo_tag: v1.9.6
+#gitlab_shell_repo_url: https://github.com/gitlab-org/gitlab-shell.git
 
 # Where the gitlab repo will live on the remote machine
 gitlab_repo_dir: /home/{{gitlab_user}}/gitlab
@@ -62,3 +65,6 @@ gitlab_unicorn_client_body_buffer:
 
 gitlab_git_name: GitLab
 gitlab_git_email: example@example.com
+
+# Default GitLab password (5iveL!fe)
+gitlab_admin_password: \$2a\$12\$p2cZBxkX.fMExjETE19EMebkAl4YAD0naYB/Th0Hj4YbgiYRAf3J2

@@ -3,10 +3,8 @@
     url=ftp://ftp.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz
     dest=/tmp/ruby.tar.gz
 
-
 - name: Extract ruby source
   command: tar -xzf ruby.tar.gz chdir=/tmp/ creates=/tmp/ruby-2.1.2
-  sudo: yes
 
 - name: Install ruby from source (configure)
   command: ./configure

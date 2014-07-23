@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import getpass
+import re
 import sys
+import getpass
 import subprocess
 
 from invoke import run, task
@@ -101,13 +102,36 @@ def rkhunter_propupd(group='vagrantbox', inventory='vagranthosts', user='vagrant
         )
     run(cmd, echo=True)
 
-@task
-def genpass():
-    from passlib.hash import sha256_crypt
+
+def get_pass():
     pw = getpass.getpass('Enter a password: ')
     pw2 = getpass.getpass('Enter password again: ')
     if pw != pw2:
         print("Passwords don't match.")
         sys.exit(1)
     print('')
+    return pw
+
+
+@task
+def genpass():
+    from passlib.hash import sha256_crypt
+    pw = get_pass()
     print(sha256_crypt.encrypt(pw))
+
+
+def escape(value, chars):
+    return re.sub(r'([{0}])'.format(chars), '\\\\\\1', value)
+
+
+@task
+def gen_gitlab_pass(rounds=12):
+    import bcrypt
+    pw = get_pass()
+    encrypted = bcrypt.hashpw(
+        unicode(pw).encode('utf-8'),
+        bcrypt.gensalt(rounds)
+    )
+    print(escape(encrypted, '$'))
+
+

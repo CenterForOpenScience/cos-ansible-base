@@ -14,7 +14,7 @@
     - redis-server
     - checkinstall
     - libxml2-dev
-    - libxslt-dev
+    - libxslt1-dev
     - libcurl4-openssl-dev
     - libicu-dev
     - logrotate
@@ -29,7 +29,7 @@
   git:
     repo={{ gitlab_repo_url }}
     dest={{ gitlab_repo_dir }}
-    version=7-0-stable
+    version={{ gitlab_repo_version }}
     update=no
 
 - name: Make sure gitlab user owns the repo directory
@@ -42,7 +42,8 @@
     owner={{gitlab_user}}
 
 - name: Make sure the gitlab user has ownership of the log directory
-  file: path={{gitlab_repo_dir}}/log
+  file:
+    path={{gitlab_repo_dir}}/log
     owner={{gitlab_user}}
     recurse=yes
     state=directory
@@ -56,17 +57,19 @@
     state=directory
     mode=0744
 
-- name: Make sure gitlab user can write to tmp/pids/
-  file: path={{gitlab_repo_dir}}/tmp/pids/
-    mode=0744
-
-- name: Make sure gitlab user can write to tmp/sockests
-  file: path={{gitlab_repo_dir}}/tmp/sockets/
-    mode=0744
+- name: Make sure repos directory exists
+  file:
+    path={{gitlab_repos_path}}
+    state=directory
+    owner={{gitlab_user}}
+    group=git
 
 - name: Make sure satellites directory exists
-  file: path={{gitlab_satellites_dir}} state=directory
+  file:
+    path={{gitlab_satellites_dir}}
+    state=directory
     owner={{gitlab_user}}
+    group=git
 
 - name: Make sure gitlab user can write to public/uploads directory
   file: path={{gitlab_repo_dir}}/public/uploads state=directory mode=0744
@@ -76,6 +79,11 @@
     src=unicorn.rb.j2
     dest={{gitlab_repo_dir}}/config/unicorn.rb
     owner={{gitlab_user}}
+
+- name: Make sure gitlab user can write to tmp
+  file: path={{gitlab_repo_dir}}/tmp/
+    mode=0755
+    recurse=yes
 
 - name: Copy Rack attack config
   copy:
@@ -100,12 +108,14 @@
 
 # NOTE: The option says "without mysql"
 - name: Install gems
-  command: "sudo -u {{gitlab_user}} -H bundle install --deployment --without development test mysql aws"
+  command: >
+    sudo -u {{gitlab_user}} -H bundle install
+    --deployment --without development test mysql aws
   args:
     chdir: "{{gitlab_repo_dir}}"
 
 - name: Install GitLab Shell
-  command: "sudo -u {{gitlab_user}} -H bundle exec rake gitlab:shell:install[v1.9.6] REDIS_URL={{gitlab_redis_url}} RAILS_ENV=production"
+  command: "sudo -u {{gitlab_user}} -H bundle exec rake gitlab:shell:install[{{ gitlab_shell_repo_tag }}{% if gitlab_shell_repo_url is defined %}{{ ',' + gitlab_shell_repo_url }}{% endif %}] REDIS_URL={{gitlab_redis_url}} RAILS_ENV=production"
   args:
     chdir: "{{gitlab_repo_dir}}"
 
@@ -122,20 +132,23 @@
 # ONLY run this once! This will check if the database is already initialized (by checking the
 # existence of the web_hooks table)
 - name: Initialize database and activate advanced features
-  command: sudo -u {{gitlab_user}} -H bundle exec rake gitlab:setup RAILS_ENV=production force={{gitlab_force_db}}
+  command: >
+    sudo -u {{gitlab_user}} -H bundle exec rake
+    gitlab:setup RAILS_ENV=production force={{gitlab_force_db}}
   args:
     chdir: "{{gitlab_repo_dir}}"
   when: '"web_hooks" not in gitlab_database_check.stdout'
-
 
 - name: Install init script
   command: cp {{gitlab_repo_dir}}/lib/support/init.d/gitlab /etc/init.d/gitlab
   args:
     creates: /etc/init.d/gitlab
 
-- name: Update init defaults
-  template: src="init_defaults.j2" dest="/etc/default/gitlab"
-
+- name: Update init defaults and make readable
+  template:
+    src="init_defaults.j2"
+    dest="/etc/default/gitlab"
+    mode="644"
 
 - name: Make gitlab start on boot
   command: update-rc.d gitlab defaults 21
@@ -156,6 +169,12 @@
 - name: Install nginx
   apt: pkg=nginx state=present
 
+# Delete default nginx site, else will clobber Gitlab
+- name: Make sure that default nginx site is absent
+  file:
+    name=/etc/nginx/sites-available/default
+    state=absent
+
 - name: Copy gitlab nginx site config
   template: src=nginx-gitlab.j2 dest=/etc/nginx/sites-available/gitlab
 
@@ -163,5 +182,27 @@
   file: src=/etc/nginx/sites-available/gitlab dest=/etc/nginx/sites-enabled/gitlab state=link
   notify: restart nginx
 
+- name: Set gitlab admin password
+  command: >
+    sudo -u git -H psql -d gitlabhq_production
+    -c "UPDATE users SET encrypted_password = '{{ gitlab_admin_password }}' WHERE id = 1;"
+  when: gitlab_set_api_key|bool
+
+- name: Un-expire gitlab admin password
+  command: >
+    sudo -u git -H psql -d gitlabhq_production
+    -c "UPDATE users SET password_expires_at = null WHERE id = 1;"
+  when: gitlab_set_api_key|bool
+
+- name: Debug API key
+  command: >
+    sudo -u git -H psql -d gitlabhq_production
+    -c "SELECT authentication_token FROM users WHERE id = 1;"
+  register: api_key
+- debug:
+    var=api_key.stdout_lines[-2]
+
 - name: Make sure postfix is uninstalled
-  apt: pkg=postfix state=absent
+  apt:
+    pkg=postfix state=absent
+    pkg=sendmail state=absent
