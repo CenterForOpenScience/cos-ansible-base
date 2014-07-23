@@ -24,6 +24,9 @@
       apt: pkg=git-core state=present
     - name: Make sure zsh is installed
       apt: pkg=zsh state=present
+
+    # Add key to known hosts
+
     - name: Get github.com RSA key
       sudo: False
       shell: ssh-keyscan -t rsa github.com
@@ -41,13 +44,14 @@
         state=present
         mode=0777
 
-- include: dotfiles.yml
-
-- hosts: osf-staging
-  tasks:
-
     - name: Make sure the apps folder is owned by the osf group
       file: path="/opt/apps/" state=directory group=osf recurse=yes mode=0775
+
+- include: dotfiles.yml
+
+# Pull latest changes from Github
+- hosts: osf-staging
+  tasks:
 
     - name: Pull the latest changes from Github
       git:
@@ -57,15 +61,6 @@
         update="yes"
       sudo: False
 
-    # Update permissions again, in case it's the first time cloning the repo
-    - name: Make sure the repo is owned by the osf group
-      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0755
-
-    - name: Make sure the repo is owned by the osf group
-      file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
-
-    - name: Restart uwsgi
-      service: name=uwsgi state=restarted
   tags:
     - update
   vars_prompt:
@@ -89,3 +84,19 @@
       service: name=uwsgi state=restarted
   tags:
     - update
+
+
+# Update permissions and restart uwsgi
+- hosts:
+    - osf-staging
+    - osf-production
+  tasks:
+    # Update permissions again, in case it's the first time cloning the repo
+    - name: Make sure the repo is owned by the osf group
+      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0755
+
+    - name: Make sure the git is owned by the osf group
+      file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
+
+    - name: Restart uwsgi
+      service: name=uwsgi state=restarted
