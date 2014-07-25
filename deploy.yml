@@ -99,11 +99,15 @@
       command: bower install
       args:
         chdir: /opt/apps/osf/
+      sudo: no
+
     - name: Make sure the repo is owned by the osf group
-      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0755
+      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0775 owner=www-data
 
     - name: Make sure the git is owned by the osf group
       file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
 
     - name: Restart uwsgi
       service: name=uwsgi state=restarted
+  tags:
+    - update
