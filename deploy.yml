@@ -13,6 +13,11 @@
   roles:
     - role: Ansibles.generic-users
 
+- include: dotfiles.yml
+  hosts:
+    - osf-staging
+    - osf-production
+
 # Tasks run on both staging and production
 - hosts:
     - osf-staging
@@ -46,12 +51,8 @@
         mode=0777
 
     - name: Make sure the apps folder is owned by the osf group
-      file: path="/opt/apps/" state=directory group=osf recurse=yes mode=0775
+      file: path="/opt/apps/" state=directory group=osf recurse=yes mode=0775 owner=www-data
 
-- include: dotfiles.yml
-  hosts:
-    - osf-staging
-    - osf-production
 
 # Pull latest changes from Github
 - hosts: osf-staging
