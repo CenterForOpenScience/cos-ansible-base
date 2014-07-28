@@ -59,6 +59,7 @@ network_interfaces:
     netmask: 255.255.128.0
 
 # --- csf
+
 csf_allowed_ips:
   - 66.228.46.171
   - 23.92.16.194
@@ -69,7 +70,7 @@ csf_lf_alert_from: ""
 csf_lf_sshd_perm: 30
 
 # 22 is required for inbound SSH
-csf_tcp_in: "22, 80"
+csf_tcp_in: "22, {{ gitlab_https_port if gitlab_use_ssl else gitlab_http_port }}"
 csf_tcp6_in: "22, 80"
 
 # 21 needed for ftp
@@ -77,15 +78,12 @@ csf_tcp_out: "21,80,443"
 csf_tcp6_out: "21,80,443"
 
 # --- gitlab
-# gitlab_port: 443
-# gitlab_https: true
+
 gitlab_host: "{{ hostvars[groups['gitlab'][0]]['ansible_eth0']['ipv4']['address'] }}"
-# gitlab_host: 192.168.111.224
 
-
-# CHANGEME(jmcarp/sloria)
-# gitlab_satellites_path: /home/git/gitlab-satellites/
-# gitlab_ca_file: /etc/nginx/ssl/gitlab.crt
+gitlab_use_ssl: no
+gitlab_ca_file: /srv/git.osf.io.crt
+gitlab_key_file: /srv/git.osf.io.key
 
 # 32 MiB, adjusted for base64 encoding
 gitlab_max_size: 44739240

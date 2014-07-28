@@ -29,8 +29,8 @@ gitlab_redis_url: redis://localhost:6379
 # #############################
 
 gitlab_host: localhost  # NOTE: Use UNqualified IP here (e.g. 50.123.43.123)
-gitlab_port: 80
-gitlab_https: no
+gitlab_http_port: 80
+gitlab_https_port: 443
 
 gitlab_repos_path: /home/{{gitlab_user}}/repositories/
 gitlab_hooks_path: /home/{{gitlab_user}}/gitlab-shell/hooks/
@@ -43,6 +43,7 @@ gitlab_max_size: 5242880
 ################################
 
 gitlab_ca_file:
+gitlab_key_file:
 
 gitlab_self_signed_cert: no
 

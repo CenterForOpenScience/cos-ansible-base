@@ -16,9 +16,9 @@ production: &base
   ## GitLab settings
   gitlab:
     ## Web server settings (note: host is the FQDN, do not include http://)
-    host: {{gitlab_host}}
-    port: {{ gitlab_port }}
-    https: {% if gitlab_https %}true{% else %}false{% endif %}
+    host: {{ gitlab_host }}
+    port: {{ gitlab_https_port if gitlab_use_ssl else gitlab_http_port }}
+    https: {% if gitlab_use_ssl %}true{% else %}false{% endif %}
 
     # Uncommment this line below if your ssh host is different from HTTP/HTTPS one
     # (you'd obviously need to replace ssh.host_example.com with your own host).
@@ -226,7 +226,7 @@ production: &base
     # The next value is the maximum memory size grit can use
     # Given in number of bytes per git object (e.g. a commit)
     # This value can be increased if you have very large commits
-    max_size: {{gitlab_max_size}}
+    max_size: {{ gitlab_max_size }}
     # Git timeout to read a commit, in seconds
     timeout: 10
 
