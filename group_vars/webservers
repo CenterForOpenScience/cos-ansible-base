@@ -22,7 +22,7 @@ genericusers_users:
     ssh_keys:
       - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   - name: sloria
-    pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
+    pass: $5$rounds=110000$FiCdKsvsfWdkmOfY$DBEhLewSpl9yA.hI1.SAp8n6.w1HC/JAWVtybq0rF54
     comment: 'vagrant'
     uid: 2000
     shell: /bin/bash

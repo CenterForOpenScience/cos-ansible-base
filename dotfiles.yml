@@ -1,0 +1,16 @@
+
+# dotfiles, etc
+
+- name: Make sure editors are installed
+  hosts: all
+  roles:
+    - role: editors
+
+- name: "Steve's dotfiles"
+  hosts:
+    - webservers
+    - elasticsearch
+    - osf-staging
+    - osf-production
+  roles:
+    - role: dotfiles-sloria

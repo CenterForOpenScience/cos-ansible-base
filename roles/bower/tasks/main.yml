@@ -1,0 +1,12 @@
+- name: Make sure nodejs and npm are installed
+  apt: pkg={{item}} state=present
+  with_items:
+    - nodejs
+    - npm
+
+- name: Symlink "nodejs" -> "node"
+  file: src="/usr/bin/nodejs" dest="/usr/bin/node" state=link
+  sudo: yes
+
+- name: Install bower
+  npm: name=bower global=yes

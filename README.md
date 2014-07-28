@@ -111,3 +111,24 @@ The above would temporarily disable SSH configuration testing.
 
 
 
+## Deployment
+
+The `deploy.yml` script is used to deploy the OSF.
+
+To deploy on staging:
+
+```bash
+$ invoke deploy_staging -u sloria
+```
+
+You will be prompted for the branch to checkout on staging.
+
+
+To deploy to production:
+
+```bash
+$ invoke deploy_production -u sloria
+```
+
+This will deploy to the production server, checking out the master
+branch from Github.

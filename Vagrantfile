@@ -21,13 +21,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     webserver.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
   end
 
-
   config.vm.define "elasticsearch" do |elastic|
     ip_end = "223"
     elastic.vm.box = BOX_IMAGE
     elastic.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
   end
-
 
   config.vm.define "gitlab" do |gitlab|
     ip_end = "224"
@@ -39,5 +37,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "osf-staging" do |staging|
+    staging.ssh.forward_agent = true
+    ip_end = "225"
+    staging.vm.box = BOX_IMAGE
+    staging.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+  end
 
 end
+
