@@ -3,7 +3,7 @@
 - name: generic-users | Make sure all groups are present
   group:
     name: "{{item.name}}"
-    gid: "{{item.gid}}"
+    # gid: "{{item.gid}}"
     state: present
   with_items: genericusers_groups
 
