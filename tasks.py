@@ -126,14 +126,15 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
 
 @task
 def vdeploy(user='vagrant', verbose=False, extra='', limit=None,
-            key='~/.vagrant.d/insecure_private_key'):
+            key='~/.vagrant.d/insecure_private_key', update=False):
     deploy(
         user=user,
         inventory=VAGRANT_INVENTORY,
         verbose=verbose,
         limit=limit,
         key=key,
-        extra=extra
+        extra=extra,
+        update=update
     )
 
 
