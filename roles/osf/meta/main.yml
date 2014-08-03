@@ -4,5 +4,6 @@ dependencies:
   - {role: python}
   - {role: lxml}
   - {role: bower}
+  - {role: supervisor}
   - {role: generic-users}
   - {role: github}
