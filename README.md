@@ -48,12 +48,15 @@ Once you have Vagrant and ansible installed, follow these steps:
 $ ssh-keygen
 ```
 
-- Run `$ vagrant up`. Then will start the VM provision with `invoke vprovision`.
+- Run `vagrant up <machine_to_run>`. Then will start the VM provision with `invoke vprovision`. Use the `--limit` (or `-l`) option to limit to a specific group.
 
 ```bash
-$ vagrant up
-$ invoke vprovision
+# Start the osf-staging server
+$ vagrant up osf-staging
+# Provision the osf-staging server
+$ invoke vprovision --limit osf-staging
 ```
+
 
 ### SSH
 
@@ -71,7 +74,7 @@ To generate a password, run
 $ invoke genpass
 ```
 
-This crypted password can be used by the generic-users role.
+This crypted password can be used by the generic-users role in a group_vars file.
 
 ## Running playbooks
 
