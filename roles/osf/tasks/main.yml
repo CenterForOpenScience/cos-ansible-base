@@ -13,7 +13,7 @@
 - name: Create virtualenv
   command: virtualenv osf
   args:
-    chdir: {{osf_virtualenvs_dir}}
+    chdir: "{{osf_virtualenvs_dir}}"
   when: "not virtualenv_stat.stat.exists"
 
 - name: Make sure invoke is installed
