@@ -2,6 +2,7 @@
 
 ## TODO:
 
+- mongodb
 - nginx
 - supervisor
 - celery

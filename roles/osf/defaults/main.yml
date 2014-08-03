@@ -2,10 +2,12 @@ osf_apps_dir: "/opt/apps/"
 
 osf_repo_dir: "{{osf_apps_dir}}osf"
 
+# Where to put virtualenvs
 # Must have trailing slash
 osf_virtualenvs_dir: "/opt/envs/"
 
+# Location of the osf virtualenv
 osf_virtualenv: "{{osf_virtualenvs_dir}}osf/"
 
-
+# The branch to check out
 osf_repo_branch: master
