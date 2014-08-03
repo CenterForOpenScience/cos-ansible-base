@@ -71,3 +71,6 @@ csf_lf_sshd_perm: 30
 # 22 is required for inbound SSH
 csf_tcp_in: "22"
 csf_tcp6_in: "22"
+
+# -- lxml
+lxml_virtualenv: "/opt/envs/osf"

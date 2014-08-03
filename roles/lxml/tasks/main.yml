@@ -1,4 +1,4 @@
-- name: Install lxml requirements
+- name: Install lxml dependencies
   apt: "pkg={{ item }} state=present update_cache=yes"
   sudo: yes
   with_items:
@@ -10,6 +10,6 @@
   - zlib1g-dev
 
 - name: install lxml
-  pip: name=lxml virtualenv="/opt/envs/osf/"
+  pip: name=lxml virtualenv={{lxml_virtualenv}}
   environment:
     CFLAGS: "-O0"
