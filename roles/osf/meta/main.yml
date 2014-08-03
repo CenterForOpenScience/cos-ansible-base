@@ -1,0 +1,8 @@
+
+dependencies:
+  - {role: apt}
+  - {role: python}
+  - {role: lxml}
+  - {role: bower}
+  - {role: generic-users}
+  - {role: github}

@@ -1,0 +1,11 @@
+osf_apps_dir: "/opt/apps/"
+
+osf_repo_dir: "{{osf_apps_dir}}osf"
+
+# Must have trailing slash
+osf_virtualenvs_dir: "/opt/envs/"
+
+osf_virtualenv: "{{osf_virtualenvs_dir}}osf/"
+
+
+osf_repo_branch: master
