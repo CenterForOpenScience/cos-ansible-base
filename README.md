@@ -2,7 +2,7 @@
 
 - Issue/Task tracking: https://huboard.com/CenterForOpenScience/cos-ansible-base
 
-## Requirements 
+## Requirements
 
 - ansible >= 1.6
 - virtualbox
@@ -53,7 +53,7 @@ $ invoke vssh -u yourusername
 
 ## Generating passwords
 
-To generate a password, run 
+To generate a password, run
 
 ```bash
 $ invoke genpass
@@ -110,6 +110,22 @@ $ invoke provision -u sloria -e "ssh_test=false"
 The above would temporarily disable SSH configuration testing.
 
 
+## Setting up for OSF deployment
+
+You will need to set up agent forwarding in order to be able to properly authenticate with Github over SSH in ansible. To do so, add the following to your `~/.ssh/config/` file.
+
+
+```
+Host staging.osf.io
+    HostName 66.228.46.171
+    User sloria
+    ForwardAgent yes
+
+Host osf.io
+    HostName 69.164.210.152
+    User sloria
+    ForwardAgent yes
+```
 
 ## Deployment
 
