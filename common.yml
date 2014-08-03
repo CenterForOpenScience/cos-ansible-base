@@ -4,7 +4,7 @@
   roles:
     - role: hostname
     # - role: network_interfaces
-    - role: Ansibles.generic-users
+    - role: generic-users
     - role: Ansibles.timezone
     - role: ssh
     - role: apt

@@ -11,7 +11,7 @@
     - osf-staging
     - osf-production
   roles:
-    - role: Ansibles.generic-users
+    - role: generic-users
 
 - include: dotfiles.yml
   hosts:
