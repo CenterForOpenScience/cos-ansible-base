@@ -11,7 +11,7 @@
 
 ### Installing Ansible and Vagrant on Mac OSX with homebrew
 
-Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew installed, run the following in the project directory
+Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew installed, run the following from the project directory:
 
 ```sh
 $ brew bundle
@@ -45,10 +45,10 @@ $ invoke vprovision
 
 ### SSH
 
-To ssh into your Vagrant box, you can run (must have invoke installed):
+To ssh into your Vagrant box, run ``vagrant ssh <box-name>``:
 
 ```bash
-$ invoke vssh -u yourusername
+$ vagrant ssh osf-staging
 ```
 
 ## Generating passwords
@@ -59,7 +59,7 @@ To generate a password, run
 $ invoke genpass
 ```
 
-This crypted password can be used by the genericusers role.
+This crypted password can be used by the generic-users role.
 
 ## Running playbooks
 

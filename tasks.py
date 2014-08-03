@@ -139,12 +139,6 @@ def vdeploy(user='vagrant', verbose=False, extra='', limit=None,
 
 
 @task
-def vssh(user='vagrant', host='192.168.111.222'):
-    # Use subprocess to ssh so that terminal will display correctly
-    subprocess.call('ssh {0}@{1}'.format(user, host), shell=True)
-
-
-@task
 def rkhunter_propupd(group='vagrantbox', inventory='vagranthosts', user='vagrant'):
     """Update rkhunter's baseline file configuration database."""
     cmd = ('ansible {group} -i {inventory} -a '
