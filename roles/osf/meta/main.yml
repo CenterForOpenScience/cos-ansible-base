@@ -1,0 +1,10 @@
+
+dependencies:
+  - {role: apt}
+  - {role: python}
+  - {role: lxml}
+  - {role: bower}
+  - {role: uwsgi}
+  - {role: supervisor}
+  - {role: generic-users}
+  - {role: github}

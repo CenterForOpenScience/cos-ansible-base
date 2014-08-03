@@ -1,0 +1,69 @@
+---
+
+- name: "Make sure apps folder exists and is owned by the osf group"
+  file: path={{osf_apps_dir}} state=directory group=osf recurse=yes mode=0755 owner=www-data
+
+- name: Make sure envs directory exists
+  file: path={{osf_virtualenvs_dir}} state=directory group=osf owner=www-data mode=0755
+
+- name: Check if osf virtualenv exists
+  stat: path="{{osf_virtualenv}}bin/activate"
+  register: virtualenv_stat
+
+- name: Create virtualenv
+  command: virtualenv osf
+  args:
+    chdir: {{osf_virtualenvs_dir}}
+  when: "not virtualenv_stat.stat.exists"
+
+- name: Make sure invoke is installed
+  pip: name=invoke virtualenv="{{osf_virtualenv}}"
+
+- name: Make sure osf group and www-data own the virtualenv
+  file: path="{{osf_virtualenv}}" state=directory recurse=yes mode=0755 group=osf owner=www-data
+
+- name: Pull the latest changes from Github
+  git:
+    repo="git@github.com:CenterForOpenScience/osf.git"
+    dest="/opt/apps/osf"
+    version="{{ osf_repo_branch }}"
+    update="yes"
+  sudo: False
+  tags:
+    - update
+
+- name: Check if local.py exists
+  stat: path="/opt/apps/osf/website/settings/local.py"
+  register: localpy_stat
+
+- name: Copy local-dist.py -> local.py
+  command: cp /opt/apps/osf/website/settings/local-dist.py /opt/apps/osf/website/settings/local.py
+  when: not localpy_stat.stat.exists
+
+- name: Update permissions on local.py
+  file: path=/opt/apps/osf/website/settings/local.py state=file mode=0775 owner=www-data group=osf
+
+# update dependencies
+- name: Update bower components
+  command: bower install
+  args:
+    chdir: /opt/apps/osf/
+  sudo: no
+  tags:
+    - update
+
+- name: Make sure requirements are up to date
+  command: /opt/envs/osf/bin/invoke requirements --all
+  args:
+    chdir: "/opt/apps/osf"
+
+- name: Make sure the repo is owned by the osf group
+  file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0775 owner=www-data
+
+- name: Make sure the git directory is owned by the osf group
+  file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
+
+- name: Restart uwsgi
+  service: name=uwsgi state=restarted
+  tags:
+    - update

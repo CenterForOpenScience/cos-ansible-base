@@ -1,1 +1,2 @@
+# Either a path to a virtualenv, or "no"
 lxml_virtualenv: no

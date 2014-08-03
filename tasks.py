@@ -12,6 +12,9 @@ SITE_INVENTORY = 'hosts'
 
 @task
 def install_roles(force=False, ignore_errors=False):
+    """Install Ansible galaxy roles in roles.txt. Installs to the roles/
+    directory.
+    """
     command = 'ansible-galaxy install -r roles.txt -p roles'
     if force:
         command += ' --force'
@@ -127,6 +130,7 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
 @task
 def vdeploy(user='vagrant', verbose=False, extra='', limit=None,
             key='~/.vagrant.d/insecure_private_key', update=False):
+    """Run the deployment playbook on the vagrant servers."""
     deploy(
         user=user,
         inventory=VAGRANT_INVENTORY,
@@ -136,12 +140,6 @@ def vdeploy(user='vagrant', verbose=False, extra='', limit=None,
         extra=extra,
         update=update
     )
-
-
-@task
-def vssh(user='vagrant', host='192.168.111.222'):
-    # Use subprocess to ssh so that terminal will display correctly
-    subprocess.call('ssh {0}@{1}'.format(user, host), shell=True)
 
 
 @task

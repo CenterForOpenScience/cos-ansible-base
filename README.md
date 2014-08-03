@@ -2,16 +2,17 @@
 
 - Issue/Task tracking: https://huboard.com/CenterForOpenScience/cos-ansible-base
 
-## Requirements 
+## Requirements
 
 - ansible >= 1.6
 - virtualbox
-- vagrant >= 1.5
+- vagrant >= 1.6
 - invoke (Python task execution library)
+- python >= 2.7 or >= 3.4 with pip
 
 ### Installing Ansible and Vagrant on Mac OSX with homebrew
 
-Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew installed, run the following in the project directory
+Virtualbox and Vagrant can be installed with homebrew cask. If you have homebrew installed, run the following from the project directory:
 
 ```sh
 $ brew bundle
@@ -25,6 +26,17 @@ Invoke can be installed with pip
 $ pip install invoke
 $ pip install -r requirements.txt
 ```
+
+
+## Getting cos-ansible-base
+
+To clone cos-ansible-base locally, run:
+
+```sh
+$ git clone https://github.com/CenterForOpenScience/cos-ansible-base --recursive
+```
+
+The ``--recursive`` option ensures that all submodules will be cloned.
 
 ## Vagrant setup
 
@@ -45,21 +57,21 @@ $ invoke vprovision
 
 ### SSH
 
-To ssh into your Vagrant box, you can run (must have invoke installed):
+To ssh into your Vagrant box, run ``vagrant ssh <box-name>``:
 
 ```bash
-$ invoke vssh -u yourusername
+$ vagrant ssh osf-staging
 ```
 
 ## Generating passwords
 
-To generate a password, run 
+To generate a password, run
 
 ```bash
 $ invoke genpass
 ```
 
-This crypted password can be used by the genericusers role.
+This crypted password can be used by the generic-users role.
 
 ## Running playbooks
 
@@ -95,7 +107,7 @@ $ invoke provision -i vagranthosts -u sloria
 
 NOTE: You can also provision the vagrant box by running `invoke vprovision` with no arguments.
 
-Many of the roles have variables use variables defined in their `defaults/main.yml` file. You can override these on the command line with the `-e` option:
+Many of the roles use variables defined in their `defaults/main.yml` file. You can override these on the command line with the `-e` option:
 
 ```bash
 $ ansible-playbook site.yml -i vagranthosts -u sloria -e "ssh_test=false"
@@ -110,6 +122,22 @@ $ invoke provision -u sloria -e "ssh_test=false"
 The above would temporarily disable SSH configuration testing.
 
 
+## Setting up for OSF deployment
+
+You will need to set up agent forwarding in order to be able to properly authenticate with Github over SSH in ansible. To do so, add the following to your `~/.ssh/config/` file.
+
+
+```
+Host staging.osf.io
+    HostName 66.228.46.171
+    User sloria
+    ForwardAgent yes
+
+Host osf.io
+    HostName 69.164.210.152
+    User sloria
+    ForwardAgent yes
+```
 
 ## Deployment
 
