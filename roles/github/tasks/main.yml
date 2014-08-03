@@ -11,6 +11,7 @@
   changed_when: False
   failed_when: "rsaresult.rc != 0"
 
+# TODO: figure out correct permissions for this file
 - name: Ensure github.com key in /etc/ssh/ssh_known_hosts
   sudo: True
   lineinfile:

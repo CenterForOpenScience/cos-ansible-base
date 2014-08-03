@@ -5,150 +5,19 @@
     - osf-production
   gather_facts: yes
 
-# User management
-- name: Update users and groups
-  hosts:
-    - osf-staging
-    - osf-production
-  roles:
-    - role: generic-users
-
-- include: dotfiles.yml
-  hosts:
-    - osf-staging
-    - osf-production
-
-# Tasks run on both staging and production
 - hosts:
-    - osf-staging
-    - osf-production
+  - osf-staging
   roles:
-    - role: python
-    - role: lxml
-    - role: uwsgi
-    - role: bower
-  tasks:
-    - name: Make sure git is installed
-      apt: pkg=git-core state=present
-
-    - name: Make sure zsh is installed
-      apt: pkg=zsh state=present
-
-    - name: Get github.com RSA key
-      sudo: False
-      shell: ssh-keyscan -t rsa github.com
-      connection: local
-      register: rsaresult
-      changed_when: False
-      failed_when: "rsaresult.rc != 0"
-
-    - name: Ensure github.com key in /etc/ssh/ssh_known_hosts
-      sudo: True
-      lineinfile:
-        line="{{ rsaresult.stdout }}"
-        dest="/etc/ssh/ssh_known_hosts"
-        insertafter=EOF
-        create=yes
-        state=present
-        mode=0777
-
-    - name: Make sure the apps folder is owned by the osf group
-      file: path="/opt/apps/" state=directory group=osf recurse=yes mode=0775 owner=www-data
-
-    - name: Make sure envs directory exists
-      file: path="/opt/envs/" state=directory owner=www-data mode=0755 group=osf
-
-    - name: Check if osf virtualenv exists
-      stat: path="/opt/envs/osf/bin/activate"
-      register: virtualenv_stat
-
-    - name: Create virtualenv
-      command: virtualenv osf
-      args:
-        chdir: "/opt/envs/"
-
-    - name: Make sure invoke is installed
-      pip: name=invoke virtualenv="/opt/envs/osf/"
-
-
-    - name: Make sure osf group and www-data own the virtual env
-      file: path="/opt/envs/osf" state=directory recurse=yes mode=0775 group=osf owner=www-data
-
-
-
-# Pull latest changes from Github
-- hosts: osf-staging
-  tasks:
-
-    - name: Pull the latest changes from Github
-      git:
-        repo="git@github.com:CenterForOpenScience/osf.git"
-        dest="/opt/apps/osf"
-        version="{{ deploy_branch if deploy_branch is defined else 'develop' }}"
-        update="yes"
-      sudo: False
-
-  tags:
-    - update
+    - role: osf
   vars_prompt:
-    - name: deploy_branch
-      prompt: "Which branch from CenterForOpenScience/osf do you want to check out?"
-      default: "develop"
+    - name: osf_repo_branch
+      prompt: "Which branch from CenterForOpenScience/osf do you want to check out on staging?"
+      default: develop
       private: no
 
-- hosts: osf-production
-  tasks:
-    - name: Pull the latest changes from Github
-      git:
-        repo="git@github.com:CenterForOpenScience/osf.git"
-        dest="/opt/apps/osf"
-        version="master"
-        update="yes"
-      sudo: False
-    - name: Make sure the repo is owned by the osf group
-      file: path="/opt/apps/osf/" state=directory group=osf
-    - name: Restart uwsgi
-      service: name=uwsgi state=restarted
-  tags:
-    - update
-
-
 - hosts:
-    - osf-staging
-    - osf-production
-  tasks:
-    - name: Check if local.py exists
-      stat: path="/opt/apps/osf/website/settings/local.py"
-      register: localpy_stat
-
-    - name: Copy local-dist.py -> local.py
-      command: cp /opt/apps/osf/website/settings/local-dist.py /opt/apps/osf/website/settings/local.py
-      when: not localpy_stat.stat.exists
-
-    - name: Update permissions on local.py
-      file: path=/opt/apps/osf/website/settings/local.py state=file mode=0775 owner=www-data group=osf
-
-    # update dependencies
-    - name: Update bower components
-      command: bower install
-      args:
-        chdir: /opt/apps/osf/
-      sudo: no
-      tags:
-        - update
-
-    - name: Make sure requirements are up to date
-      command: /opt/envs/osf/bin/invoke requirements --all
-      args:
-        chdir: "/opt/apps/osf"
-
-    - name: Make sure the repo is owned by the osf group
-      file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0775 owner=www-data
-
-    - name: Make sure the git is owned by the osf group
-      file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
-
-    - name: Restart uwsgi
-      service: name=uwsgi state=restarted
-      tags:
-        - update
+  - osf-production
+  roles:
+    - role: osf
+  vars:
+    osf_repo_branch: master

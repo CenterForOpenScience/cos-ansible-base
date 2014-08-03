@@ -6,6 +6,11 @@
   roles:
     - role: editors
 
+- name: Make sure zsh is installed
+  hosts: all
+  tasks:
+    - apt: name=zsh state=present
+
 - name: "Steve's dotfiles"
   hosts:
     - webservers
