@@ -6,8 +6,9 @@
 
 - ansible >= 1.6
 - virtualbox
-- vagrant >= 1.5
+- vagrant >= 1.6
 - invoke (Python task execution library)
+- python >= 2.7 or >= 3.4 with pip
 
 ### Installing Ansible and Vagrant on Mac OSX with homebrew
 
@@ -25,6 +26,17 @@ Invoke can be installed with pip
 $ pip install invoke
 $ pip install -r requirements.txt
 ```
+
+
+## Getting cos-ansible-base
+
+To clone cos-ansible-base locally, run:
+
+```sh
+$ git clone https://github.com/CenterForOpenScience/cos-ansible-base --recursive
+```
+
+The ``--recursive`` option ensures that all submodules will be cloned.
 
 ## Vagrant setup
 
@@ -95,7 +107,7 @@ $ invoke provision -i vagranthosts -u sloria
 
 NOTE: You can also provision the vagrant box by running `invoke vprovision` with no arguments.
 
-Many of the roles have variables use variables defined in their `defaults/main.yml` file. You can override these on the command line with the `-e` option:
+Many of the roles use variables defined in their `defaults/main.yml` file. You can override these on the command line with the `-e` option:
 
 ```bash
 $ ansible-playbook site.yml -i vagranthosts -u sloria -e "ssh_test=false"
