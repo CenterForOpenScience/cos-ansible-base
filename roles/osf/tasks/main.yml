@@ -14,7 +14,7 @@
   command: virtualenv osf
   args:
     chdir: {{osf_virtualenvs_dir}}
-  when: "not virtualenv_stat.exists"
+  when: "not virtualenv_stat.stat.exists"
 
 - name: Make sure invoke is installed
   pip: name=invoke virtualenv="{{osf_virtualenv}}"
