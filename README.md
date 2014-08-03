@@ -9,6 +9,7 @@
 - vagrant >= 1.6
 - invoke (Python task execution library)
 - python >= 2.7 or >= 3.4 with pip
+- At least 2Gb of memory
 
 ### Installing Ansible and Vagrant on Mac OSX with homebrew
 

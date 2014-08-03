@@ -32,6 +32,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ip_end = "225"
     staging.vm.box = BOX_IMAGE
     staging.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    staging.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
   end
 
 end
