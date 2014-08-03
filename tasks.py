@@ -100,8 +100,14 @@ def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
 
 @task
 def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
-          verbose=False, extra='', key='~/.vagrant.d/insecure_private_key', limit=None):
+          verbose=False, extra='', key=None, limit=None):
     """Run a playbook against the vagrant hosts."""
+    # If private key not provided, take a good guess
+    if not key:
+        if user == 'vagrant':
+            key = '~/.vagrant.d/insecure_private_key'
+        else:
+            key = '~/.ssh/id_rsa'
     play(playbook,
          inventory='vagranthosts',
          user=user,
