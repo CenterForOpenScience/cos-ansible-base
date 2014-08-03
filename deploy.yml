@@ -24,6 +24,7 @@
     - osf-production
   roles:
     - role: python
+    - role: lxml
     - role: uwsgi
     - role: bower
   tasks:
