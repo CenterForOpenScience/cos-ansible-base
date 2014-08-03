@@ -30,6 +30,12 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
         playbook, inventory, user)
     )
+    # If private key not provided, take a good guess
+    if not key:
+        if user == 'vagrant':
+            key = '~/.vagrant.d/insecure_private_key'
+        else:
+            key = '~/.ssh/id_rsa'
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
         cmd += ' -s'
@@ -120,7 +126,7 @@ def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=False,
 
 @task
 def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
-        verbose=False, extra='', key='~/.vagrant.d/insecure_private_key', limit=None):
+        verbose=False, extra='', key=None, limit=None):
     """Provision the vagrant box using the provision.yml playbook."""
     provision(user=user,
         inventory=VAGRANT_INVENTORY,
@@ -135,7 +141,7 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
 
 @task
 def vdeploy(user='vagrant', verbose=False, extra='', limit=None,
-            key='~/.vagrant.d/insecure_private_key', update=False):
+            key=None, update=False):
     """Run the deployment playbook on the vagrant servers."""
     deploy(
         user=user,
