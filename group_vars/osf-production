@@ -1,0 +1,76 @@
+# vi: set ft=yaml :
+hostname_name: osf-staging
+
+genericusers_groups:
+    - name: "admin"
+    - name: "osf"
+    - name: "mongodb"
+
+genericusers_users_removed:
+  - name: "lyndsysimon"
+
+genericusers_users:
+  - name: sloria
+    pass: $5$rounds=110000$7urSbbWSvHpcvnjq$4RZ0qCwbl/1CYdcV/gBQTXPIXtcziXNC1PJmQjL5EaD
+    uid: 3000
+    shell: /usr/bin/zsh
+    groups:
+      - admin
+      - osf
+      - sudo
+      - mongodb
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+  - name: jmcarp
+    pass: $5$rounds=110000$PB1K0kI0ZbreZsTq$2HGwhAELlAKxU6ewhgVNtphhb0yLHX5Obd3t96xNFM8
+    uid: 4000
+    shell: /usr/bin/zsh
+    groups:
+      - admin
+      - osf
+      - sudo
+      - mongodb
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBKbtgvnsfuvm719xE9FcX3599VKi7slCKH8KV0sCRY2o7PladpDgej8u2J5meTkTOhbOkQiREaWoot9pibvUZzfzR3fxg8hMc51bGXUqWssawD4wgPV6Ms/25DAm4iOkh7pyIRPiNy4I+VcabHb6XUql2g5QAVvEKWMNw0kTWSEG56tBsBPmFeDAxMw15PV+4N5oQH3SfjS3Oxb5Y6jij3moxd+VEKUQbY0bYxm5Yn2bE43o4km/3of1gdzmgmDLH3mljQFNdA9BFbrZ5dRdJKfC5KG5l7L9n1yUF4kNjyatkTqP1nbu0AGERJKNNk/mxG61tSOTcnFY7zD2GJYzv josh@centerforopenscience.org
+  - name: jspies
+    pass: $5$rounds=110000$BmR6psUYYJlaN1rZ$.9FJ7FXgnanbBatYMbR/D.1z3SF9vYUaNkbAM9RJju1
+    uid: 5001
+    shell: /bin/bash
+    groups:
+      - admin
+      - osf
+      - sudo
+      - mongodb
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtZtjCIActQOVwioLMqV8tAul/9blajcG2ItBwlR7F7X8FixY7Zp3LuqqsMzj+lMAK8S9xwPECYvmlfjShCS/8+ws8wjHHoe2v3qu2b3Nzzi2Zw6OVdJ3utgpNDzVpPDGKLBYZHYPJwn+kYdOQYO0KvbgvTU7Gk3SJhryBb1JKtim3AifNqfk3DUZT2pe5nQfN8rGerKwOof3W2J6x4mzCjFDiCDFY5igVzw4HjUcNeAMvgI08excfqRMby3XJ3F2uy5SKzXK5nEI1b82E2yuV1OTA+2xx9ImONmjevK3N9wMMJWfBQ8Sbkno83ir+oVmavZ3umTrkH6pjSPpwLtXt jeff@centerforopenscience.org
+  - name: lsimon
+    pass: $5$rounds=110000$sQ2ZyreyI8o78TZT$etlq3.4zSya2lDDsbRAI6J3rPfbMT4quMx1CwFhtTu7
+    uid: 6001
+    shell: /usr/bin/zsh
+    groups:
+      - admin
+      - osf
+      - sudo
+      - mongodb
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDe31+sFDSuT6r18FYQP+zyfJssop451DVa8ciS/CedP+MD/zgJ+3yoGSfB9vZqnmfDMnmbE3qBf/+q++zPOUenJn9ai2gfNquIbEwkoe9E9VadBQRuLUHN9tSRsZ2FUMCmD2VPMB/9C56k4jSV3nuvJf3qR/cuPtJN2AXYdx6G6E9l52zvvIpmcWLJr32Tcd9y1n05ugg54Th0IrbuNjfYBHoq48Ym89l6uV/PChyGqrgpRe5/chx3QX0ftf1ecJ3DuoT87WqL1noaCaRsROH5aqNQMK3ShZWvFPxrvMVfk5s1BLJ1APrImN/x7thRe4D17ZjFW2uaMBK+UU/K3jyb lyndsy@centerforopenscience.org
+
+# TODO(sloria): Set up CSF on app servers
+
+# --- csf
+csf_allowed_ips:
+sf_lf_alert_to: ""
+csf_lf_alert_from: ""
+
+csf_lf_sshd_perm: 30
+
+# 22 is required for inbound SSH
+csf_tcp_in: "22"
+csf_tcp6_in: "22"
+
+# -- lxml
+lxml_virtualenv: "/opt/envs/osf"
