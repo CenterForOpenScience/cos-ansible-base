@@ -1,6 +1,12 @@
 
 # dotfiles, etc
 
+- name: Collecting facts
+  hosts:
+    - osf-staging
+    - osf-production
+  gather_facts: yes
+
 - name: Make sure editors are installed
   hosts: all
   roles:
