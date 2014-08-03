@@ -1,5 +1,5 @@
 - name: Install lxml dependencies
-  apt: "pkg={{ item }} state=present update_cache=yes"
+  apt: "pkg={{ item }} state=present"
   sudo: yes
   with_items:
   - libxml2
