@@ -1,7 +1,7 @@
 ---
 
 - name: "Make sure apps folder exists and is owned by the osf group"
-  file: path={{osf_apps_dir}} state=directory group=osf recurse=yes mode=0755 owner=www-data
+  file: path={{osf_apps_dir}} state=directory group=osf recurse=yes mode=0775 owner=www-data
 
 - name: Make sure envs directory exists
   file: path={{osf_virtualenvs_dir}} state=directory group=osf owner=www-data mode=0755
