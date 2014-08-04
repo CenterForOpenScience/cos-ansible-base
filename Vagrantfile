@@ -33,6 +33,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.network :private_network, ip: node_ip
       node_config.vm.hostname = 'cos-ansible-%s' % nodenumber
 
+      node_config.ssh.forward_agent = true
+
       node_config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--memory", BOX_MEMORY]
