@@ -20,12 +20,12 @@
   pip: name=invoke virtualenv="{{osf_virtualenv}}"
 
 - name: Make sure osf group and www-data own the virtualenv
-  file: path="{{osf_virtualenv}}" state=directory recurse=yes mode=0755 group=osf owner=www-data
+  file: path="{{osf_virtualenv}}" state=directory recurse=yes mode=0775 group=osf owner=www-data
 
 - name: Pull the latest changes from Github
   git:
     repo="git@github.com:CenterForOpenScience/osf.git"
-    dest="/opt/apps/osf"
+    dest="{{ osf_repo_dir }}"
     version="{{ osf_repo_branch }}"
     update="yes"
   sudo: False
@@ -53,9 +53,16 @@
     - update
 
 - name: Make sure requirements are up to date
-  command: /opt/envs/osf/bin/invoke requirements --all
+  pip: requirements=requirements.txt virtualenv="{{osf_virtualenv}}"
   args:
-    chdir: "/opt/apps/osf"
+    chdir: "{{ osf_repo_dir }}"
+
+- name: Make sure mfr requirements are up to date
+  pip: requirements=mfr/requirements.txt virtualenv="{{osf_virtualenv}}"
+  args:
+    chdir: "{{osf_repo_dir}}"
+
+# TODO: addon requirements
 
 - name: Make sure the repo is owned by the osf group
   file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0775 owner=www-data

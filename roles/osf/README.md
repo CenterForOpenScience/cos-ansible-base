@@ -2,6 +2,7 @@
 
 ## TODO:
 
+- Install R (for mfr)
 - mongodb
 - nginx
 - supervisor
