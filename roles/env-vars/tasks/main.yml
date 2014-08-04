@@ -1,0 +1,12 @@
+---
+
+- name: Ensure /etc/environment exists
+  file:
+    path: /etc/environment
+    state: touch
+
+- name: Set global environment variables
+  lineinfile:
+    line: "{{item.var}}={{item.val}}"
+    dest: /etc/environment
+  with_items: envvars
