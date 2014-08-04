@@ -6,15 +6,8 @@
 - name: Make sure envs directory exists
   file: path={{osf_virtualenvs_dir}} state=directory group=osf owner=www-data mode=0755
 
-- name: Check if osf virtualenv exists
-  stat: path="{{osf_virtualenv}}bin/activate"
-  register: virtualenv_stat
-
 - name: Create virtualenv
-  command: virtualenv osf
-  args:
-    chdir: "{{osf_virtualenvs_dir}}"
-  when: "not virtualenv_stat.stat.exists"
+  command: virtualenv {{osf_virtualenvs_dir}}osf creates="{{osf_virtualenvs_dir}}osf/bin/python"
 
 - name: Make sure invoke is installed
   pip: name=invoke virtualenv="{{osf_virtualenv}}"
