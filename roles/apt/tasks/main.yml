@@ -1,8 +1,8 @@
 
-- name: Apt | Update APT package cache
+- name: Update APT package cache
   apt: update_cache=yes
   sudo: yes
 
-- name: Apt | Run apt-get upgrade
+- name: Run apt-get upgrade
   apt: upgrade=full
   sudo: yes
