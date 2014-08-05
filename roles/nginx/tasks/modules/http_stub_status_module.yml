@@ -3,7 +3,7 @@
 
 - include: _authorized_ips.yml
 
-- name: Nginx | Modules | Make sure the nginx status configuration is updated
+- name: Modules | Make sure the nginx status configuration is updated
   template:
     src: ../../templates/modules/nginx_status.j2
     dest: "{{nginx_dir}}/sites-available/nginx_status"
@@ -11,7 +11,7 @@
     group: root
     mode: 0644
 
-- name: Nginx | Modules | Enable the status stub sites-available
+- name: Modules | Enable the status stub sites-available
   file:
     path: "{{nginx_dir}}/sites-enabled/nginx_status"
     src: "{{nginx_dir}}/sites-available/nginx_status"

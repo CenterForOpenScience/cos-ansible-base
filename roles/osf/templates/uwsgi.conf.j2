@@ -1,0 +1,9 @@
+[program:uwsgi]
+directory={{osf_repo_dir}}
+command=uwsgi uwsgi.ini
+user=www-data
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/uwsgi/uwsgi.log
+stderr_logfile=/var/log/uwsgi/uwsgi.log
+environment=PATH="{{ osf_virtualenv }}/bin"

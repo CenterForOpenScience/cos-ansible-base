@@ -1,32 +1,54 @@
 ---
 
 - name: "Make sure apps folder exists and is owned by the osf group"
-  file: path={{osf_apps_dir}} state=directory group=osf recurse=yes mode=0775 owner=www-data
+  file:
+    path: "{{osf_apps_dir}}"
+    state: directory
+    group: osf
+    recurse: yes
+    mode: 0775
+    owner: www-data
 
 - name: Make sure envs directory exists
-  file: path={{osf_virtualenvs_dir}} state=directory group=osf owner=www-data mode=0755
+  file:
+    path: "{{osf_virtualenvs_dir}}"
+    state: directory
+    group: osf
+    owner: www-data
+    mode: 0755
 
 - name: Create virtualenv
-  command: virtualenv {{osf_virtualenvs_dir}}osf creates="{{osf_virtualenvs_dir}}osf/bin/python"
+  command: "virtualenv {{osf_virtualenvs_dir}}osf"
+  args:
+    creates: "{{osf_virtualenvs_dir}}osf/bin/python"
 
 - name: Make sure invoke is installed
-  pip: name=invoke virtualenv="{{osf_virtualenv}}"
+  pip:
+    name: invoke
+    virtualenv: "{{osf_virtualenv}}"
 
 - name: Make sure osf group and www-data own the virtualenv
-  file: path="{{osf_virtualenv}}" state=directory recurse=yes mode=0775 group=osf owner=www-data
+  file:
+    path: "{{osf_virtualenv}}"
+    state: directory
+    recurse: yes
+    mode: 0775
+    group: osf
+    owner: www-data
 
 - name: Pull the latest changes from Github
   git:
-    repo="git@github.com:CenterForOpenScience/osf.git"
-    dest="{{ osf_repo_dir }}"
-    version="{{ osf_repo_branch }}"
-    update="yes"
+    repo: "git@github.com:CenterForOpenScience/osf.git"
+    dest: "{{ osf_repo_dir }}"
+    version: "{{ osf_repo_branch }}"
+    update: yes
   sudo: False
   tags:
     - update
 
 - name: Check if local.py exists
-  stat: path="/opt/apps/osf/website/settings/local.py"
+  stat:
+    path: "/opt/apps/osf/website/settings/local.py"
   register: localpy_stat
 
 - name: Copy local-dist.py -> local.py
@@ -34,7 +56,12 @@
   when: not localpy_stat.stat.exists
 
 - name: Update permissions on local.py
-  file: path=/opt/apps/osf/website/settings/local.py state=file mode=0775 owner=www-data group=osf
+  file:
+    path: /opt/apps/osf/website/settings/local.py
+    state: file
+    mode: 0775
+    owner: www-data
+    group: osf
 
 # update dependencies
 - name: Update bower components
@@ -46,24 +73,76 @@
     - update
 
 - name: Make sure requirements are up to date
-  pip: requirements=requirements.txt virtualenv="{{osf_virtualenv}}"
-  args:
-    chdir: "{{ osf_repo_dir }}"
+  pip:
+    requirements: "{{ osf_repo_dir }}/requirements.txt"
+    virtualenv: "{{osf_virtualenv}}"
+  tags:
+    - update
 
 - name: Make sure mfr requirements are up to date
-  pip: requirements=mfr/requirements.txt virtualenv="{{osf_virtualenv}}"
-  args:
-    chdir: "{{osf_repo_dir}}"
-
+  pip:
+    requirements: "{{osf_repo_dir}}/mfr/requirements.txt"
+    virtualenv: "{{osf_virtualenv}}"
+  tags:
+    - update
 # TODO: addon requirements
 
 - name: Make sure the repo is owned by the osf group
-  file: path="/opt/apps/osf/" state=directory group=osf recurse=yes mode=0775 owner=www-data
+  file:
+    path: "/opt/apps/osf/"
+    state: directory
+    group: osf
+    recurse: yes
+    mode: 0775
+    owner: www-data
 
 - name: Make sure the git directory is owned by the osf group
-  file: path="/opt/apps/osf/.git" state=directory group=osf recurse=yes mode=0775
+  file:
+    path: "/opt/apps/osf/.git"
+    state: directory
+    group: osf
+    recurse: yes
+    mode: 0775
+
+- name: Copy supervisor config for uwsgi
+  template:
+    src: uwsgi.conf.j2
+    dest: /etc/supervisor/conf.d/uwsgi.conf
+  tags:
+    - update
+
+- name: Copy nginx config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/osf.conf
+  tags:
+    - update
+
+- name: Enable osf in nginx
+  file:
+    src: /etc/nginx/sites-available/osf.conf
+    dest: /etc/nginx/sites-enabled/osf.conf
+    state: link
+  tags:
+    - update
+
+- name: Copy uwsgi config
+  template:
+    src: uwsgi.ini.j2
+    dest: "{{osf_repo_dir}}/uwsgi.ini"
+  tags:
+    - update
 
 - name: Restart uwsgi
-  service: name=uwsgi state=restarted
+  supervisorctl:
+    name: uwsgi
+    state: restarted
+  tags:
+    - update
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
   tags:
     - update

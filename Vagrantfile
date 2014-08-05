@@ -4,8 +4,8 @@
 # Vagrant configuration file, simplified from:
 # https://github.com/pjan/the-ansibles/blob/master/contrib/vagrant/Vagrantfile
 
-BOX_IMAGE     = ENV['BOX_IMAGE']     || "ubuntu/trusty64"
-BOX_IP_ZONE   = ENV['BOX_IP_ZONE']   || "192.168.111"
+BOX_IMAGE = ENV['BOX_IMAGE'] || "ubuntu/trusty64"
+BOX_IP_ZONE = ENV['BOX_IP_ZONE'] || "192.168.111"
 BOX_FORWARDED_PORT = ENV['BOX_FORWARDED_PORT'] || 22
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
@@ -49,4 +49,3 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
 end
-

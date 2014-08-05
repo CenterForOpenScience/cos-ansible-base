@@ -2,7 +2,7 @@
 
 - name: Install R
   apt:
-    pkg: {{item}}
+    pkg: "{{item}}"
     state: present
   with_items:
     - r-base

@@ -32,13 +32,20 @@
 - include: install.yml
 
 - name: Make sure mime.types file is up to date
-  copy: src=mime.types dest="{{nginx_dir}}/mime.types" owner=root group=root mode=0644
+  copy:
+    src: mime.types
+    dest: "{{nginx_dir}}/mime.types"
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Make sure the nginx configuration is up to date
-  template: src=nginx.conf.j2 dest="{{nginx_dir}}/nginx.conf"
+  template:
+    src: nginx.conf.j2
+    dest: "{{nginx_dir}}/nginx.conf"
 
 
-- name: Nginx | Make sure the default site root directory is present
+- name: Make sure the default site root directory is present
   file:
     path: "{{nginx_default_root}}"
     state: directory
@@ -46,7 +53,7 @@
     group: "{{nginx_user}}"
     mode: 0754
 
-- name: Nginx | Update the default site configuration
+- name: Update the default site configuration
   template:
     src: default.site.j2
     dest: "{{nginx_dir}}/sites-available/default"
@@ -54,7 +61,7 @@
     group: root
     mode: 0644
 
-- name: Nginx | Enable the default site
+- name: Enable the default site
   file:
     path: "{{nginx_dir}}/sites-enabled/default"
     src: "{{nginx_dir}}/sites-available/default"

@@ -1,0 +1,14 @@
+[uwsgi]
+chdir = /opt/apps/osf
+module = main:app
+socket = {{osf_socket}}
+virtualenv = /opt/envs/osf/
+env = OSF_PRODUCTION=1
+processes = 4
+threads = 2
+harakiri = 60
+cpu-affinity = 1
+buffer-size = 8192
+# no-site=true
+show-config
+# master

@@ -1,4 +1,4 @@
-- name: csf | Install sendmail
+- name: Install sendmail
   apt: pkg={{ item }}
   sudo: yes
   register: install_sendmail
@@ -6,7 +6,7 @@
     - sendmail-bin
     - sendmail
 
-- name: csf | Install libwww-perl
+- name: Install libwww-perl
   apt: pkg=libwww-perl
   sudo: yes
   register: install_libwww

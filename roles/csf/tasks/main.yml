@@ -2,12 +2,13 @@
 # Install dependencies
 - include: deps.yml
 
-- name: csf | Check if csf exists
+- name: Check if csf exists
   stat: path=/usr/local/csf/bin/csftest.pl
   sudo: yes
   register: check_path
 
-- get_url: url=http://www.configserver.com/free/csf.tgz dest=/tmp/
+- name: Download csf
+  get_url: url=http://www.configserver.com/free/csf.tgz dest=/tmp/
   when: check_path.stat.exists == false
 
 - command: tar -xzf /tmp/csf.tgz -C /tmp/
@@ -17,7 +18,7 @@
   sudo: yes
   when: check_path.stat.exists == false
 
-- name: csf | install
+- name: install
   command: sh install.sh chdir=/tmp/csf/
   sudo: yes
   when: check_path.stat.exists == false
