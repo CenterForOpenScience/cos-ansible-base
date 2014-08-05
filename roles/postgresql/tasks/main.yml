@@ -1,6 +1,11 @@
+
+
 - name: Install postgresql
   apt: pkg={{ item }}
   sudo: yes
   with_items:
     - postgresql-9.3
     - postgresql-server-dev-9.3
+    # NOTE: psycopg2 is required for the postgresql_db module
+    - libpq-dev
+    - python-psycopg2

@@ -13,7 +13,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Set up multiple servers for different services
-  # NOTE: Make sure all IPs are on the same subnet, e.g. begin with 22
+  # NOTE: Make sure all IPs are on the same subnet, e.g. ip_end should always begin with 22
 
   config.vm.define "webserver" do |webserver|
     ip_end = "222"
@@ -25,6 +25,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ip_end = "223"
     elastic.vm.box = BOX_IMAGE
     elastic.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+  end
+
+  config.vm.define "gitlab" do |gitlab|
+    ip_end = "224"
+    gitlab.vm.box = BOX_IMAGE
+    gitlab.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    gitlab.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
   end
 
   config.vm.define "osf-staging" do |staging|

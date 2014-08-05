@@ -1,0 +1,13 @@
+
+
+- name: Set up gitlab
+  hosts: gitlab
+  roles:
+    - role: gitlab
+  vars_prompt:
+    - name: "gitlab_force_db"
+      prompt: "Should the GitLab database tables be created and seeded (WARNING: This will delete all data stored in the database)?"
+      default: no
+    - name: "gitlab_set_api_key"
+      prompt: "Should the GitLab admin API key be reset?"
+      default: false

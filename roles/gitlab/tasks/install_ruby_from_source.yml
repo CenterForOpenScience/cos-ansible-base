@@ -1,0 +1,21 @@
+- name: Download Ruby 2.1
+  get_url:
+    url=ftp://ftp.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz
+    dest=/tmp/ruby.tar.gz
+
+- name: Extract ruby source
+  command: tar -xzf ruby.tar.gz chdir=/tmp/ creates=/tmp/ruby-2.1.2
+
+- name: Install ruby from source (configure)
+  command: ./configure
+    chdir=/tmp/ruby-2.1.2
+
+- name: Install ruby from source (make)
+  command: make
+    chdir=/tmp/ruby-2.1.2
+
+- name: Install ruby from source (make install)
+  command: make install
+    chdir=/tmp/ruby-2.1.2
+    creates=/usr/local/bin/ruby
+  sudo: yes

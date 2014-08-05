@@ -1,0 +1,71 @@
+# System user who will have all privileges on database
+gitlab_user: git
+
+# DB info
+
+
+# WARNING: This must be set to "yes" to do the initial database setup.
+# After the tables are created, this should be set to no
+gitlab_force_db: no
+gitlab_db_pass: gitlab
+gitlab_db_name: gitlabhq_production
+gitlab_db_port: 5432
+
+# Where to get the gitlab source
+gitlab_repo_url: https://gitlab.com/gitlab-org/gitlab-ce.git
+gitlab_repo_version: 7-0-stable
+gitlab_shell_repo_tag: v1.9.6
+#gitlab_shell_repo_url: https://github.com/gitlab-org/gitlab-shell.git
+
+# Where the gitlab repo will live on the remote machine
+gitlab_repo_dir: /home/{{gitlab_user}}/gitlab
+gitlab_shell_dir: /home/{{gitlab_user}}/gitlab-shell
+
+gitlab_satellites_dir: /home/{{gitlab_user}}/gitlab-satellites
+
+gitlab_redis_url: redis://localhost:6379
+
+# gitlab/config/gitlab.yml vars
+# #############################
+
+gitlab_host: localhost  # NOTE: Use UNqualified IP here (e.g. 50.123.43.123)
+gitlab_http_port: 80
+gitlab_https_port: 443
+
+gitlab_repos_path: /home/{{gitlab_user}}/repositories/
+gitlab_hooks_path: /home/{{gitlab_user}}/gitlab-shell/hooks/
+
+# 5.megabytes
+gitlab_max_size: 5242880
+
+
+# gitlab-shell/config/config.yml
+################################
+
+gitlab_ca_file:
+gitlab_key_file:
+
+gitlab_self_signed_cert: no
+
+
+# gitlab/config/unicorn.rb
+##########################
+
+# Enable cluster mode if you expect to have a high load instance
+# Ex. change amt of workers to 3 for 2GB RAM server
+
+gitlab_unicorn_workers: 2
+
+gitlab_unicorn_timeout: 30
+
+gitlab_unicorn_client_body_buffer:
+
+
+# gitconfig for gitlab user
+# #########################
+
+gitlab_git_name: GitLab
+gitlab_git_email: example@example.com
+
+# Default GitLab password (5iveL!fe)
+gitlab_admin_password: \$2a\$12\$p2cZBxkX.fMExjETE19EMebkAl4YAD0naYB/Th0Hj4YbgiYRAf3J2

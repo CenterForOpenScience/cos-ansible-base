@@ -1,0 +1,11 @@
+- name: Uninstall Ruby 1.8
+  apt: pkg="ruby1.8" state=absent
+
+- name: Check if ruby exists
+  command: "ruby --version"
+  register: ruby_version_check
+
+# - debug: var=ruby_version_check
+
+- include: install_ruby_from_source.yml
+  when: "ruby_version_check.stdout.find('2.1.2') == -1"
