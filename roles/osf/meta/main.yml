@@ -7,7 +7,6 @@ dependencies:
   - {role: nginx}
   - {role: uwsgi}
   - {role: supervisor}
-  - {role: generic-users}
   - {role: github}
   - {role: r-lang}
   - {role: env-vars, envvars: "{{osf_env_vars}}"}
