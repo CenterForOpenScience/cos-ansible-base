@@ -46,14 +46,10 @@
   tags:
     - update
 
-- name: Check if local.py exists
-  stat:
-    path: "/opt/apps/osf/website/settings/local.py"
-  register: localpy_stat
-
 - name: Copy local-dist.py -> local.py
-  command: cp /opt/apps/osf/website/settings/local-dist.py /opt/apps/osf/website/settings/local.py
-  when: not localpy_stat.stat.exists
+  command: "cp {{osf_repo_dir}}website/settings/local-dist.py {{osf_repo_dir}}website/settings/local.py"
+  args:
+    creates: "{{osf_repo_dir}}website/settings/local.py"
 
 - name: Update permissions on local.py
   file:
