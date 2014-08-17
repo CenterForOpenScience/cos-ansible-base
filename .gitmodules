@@ -1,3 +1,0 @@
-[submodule "roles/dotfiles-sloria"]
-	path = roles/dotfiles-sloria
-	url = https://github.com/sloria/dotfiles-ansible.git

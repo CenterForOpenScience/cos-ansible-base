@@ -16,12 +16,3 @@
   hosts: all
   tasks:
     - apt: name=zsh state=present
-
-- name: "Steve's dotfiles"
-  hosts:
-    - webservers
-    - elasticsearch
-    - osf-staging
-    - osf-production
-  roles:
-    - role: dotfiles-sloria
