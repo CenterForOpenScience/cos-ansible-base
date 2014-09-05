@@ -1,0 +1,6 @@
+
+- name: Set up tokumx
+  hosts:
+    - osf-staging
+  roles:
+    - role: tokumx

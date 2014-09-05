@@ -1,0 +1,2 @@
+- name: restart tokumx
+  service: name=tokumx state=restarted

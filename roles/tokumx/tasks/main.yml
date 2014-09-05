@@ -1,0 +1,25 @@
+
+# Source: https://github.com/Tokutek/mongo/wiki/Installing-on-Debian-and-Ubuntu
+
+##### Installation #####
+
+- name: Add Tokutek package signing key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 505A7412
+    state: present
+  sudo: yes
+
+- name: Add deb entry for TokuMX
+  copy:
+    src: tokumx.list
+    dest: /etc/apt/sources.list.d/tokumx.list
+  sudo: yes
+
+- name: Install TokuMX with apt
+  apt: name=tokumx state=present
+
+- name: Make sure the tokumx service is running
+  service: name=tokumx state=started
+
+# TODO: Migration
