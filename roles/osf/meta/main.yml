@@ -1,6 +1,7 @@
 
 dependencies:
   - {role: apt}
+  - {role: mongo}
   - {role: python}
   - {role: lxml}
   - {role: bower}
