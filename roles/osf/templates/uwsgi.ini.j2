@@ -1,14 +1,12 @@
 [uwsgi]
 chdir = /opt/apps/osf
 module = main:app
-socket = {{osf_socket}}
-virtualenv = /opt/envs/osf/
+socket = {{osf_uwsgi_socket}}
+virtualenv = {{osf_virtualenv}}
 env = OSF_PRODUCTION=1
-processes = 4
-threads = 2
-harakiri = 60
+processes = {{osf_uwsgi_processes}}
+threads = {{osf_uwsgi_threads}}
+harakiri = {{osf_uwsgi_harakiri}}
 cpu-affinity = 1
-buffer-size = 8192
-# no-site=true
+buffer-size = {{osf_uwsgi_buffersize}}
 show-config
-# master

@@ -12,9 +12,15 @@ osf_virtualenv: "{{osf_virtualenvs_dir}}osf/"
 # The branch to check out
 osf_repo_branch: master
 
-# The place for uwsgi to create the sock file
-osf_socket: /var/run/uwsgi.sock
-
 osf_env_vars:
     - {var: "OSF_PRODUCTION", val: "0"}
     - {var: "OSF_STAGING", val: "1"}
+
+
+# UWSGI ini vars
+# The place for uwsgi to create the sock file
+osf_uwsgi_socket: /tmp/osf.sock
+osf_uwsgi_processes: 4
+osf_uwsgi_threads: 2
+osf_uwsgi_harakiri: 60
+osf_uwsgi_buffersize: 8192

@@ -6,6 +6,6 @@ server {
 
     location / {
         include uwsgi_params;
-        uwsgi_pass unix://{{ osf_socket }};
+        uwsgi_pass unix://{{ osf_uwsgi_socket }};
     }
 }
