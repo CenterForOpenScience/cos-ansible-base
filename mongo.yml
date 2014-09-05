@@ -1,0 +1,6 @@
+
+- name: Set up mongodb
+  hosts:
+    - osf-staging
+  roles:
+    - role: mongo
