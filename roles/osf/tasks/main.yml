@@ -70,14 +70,14 @@
 
 - name: Make sure requirements are up to date
   pip:
-    requirements: "{{ osf_repo_dir }}/requirements.txt"
+    requirements: "{{ osf_repo_dir }}requirements.txt"
     virtualenv: "{{osf_virtualenv}}"
   tags:
     - update
 
 - name: Make sure mfr requirements are up to date
   pip:
-    requirements: "{{osf_repo_dir}}/mfr/requirements.txt"
+    requirements: "{{osf_repo_dir}}mfr/requirements.txt"
     virtualenv: "{{osf_virtualenv}}"
   tags:
     - update
@@ -125,7 +125,7 @@
 - name: Copy uwsgi config
   template:
     src: uwsgi.ini.j2
-    dest: "{{osf_repo_dir}}/uwsgi.ini"
+    dest: "{{osf_repo_dir}}uwsgi.ini"
   tags:
     - update
 
