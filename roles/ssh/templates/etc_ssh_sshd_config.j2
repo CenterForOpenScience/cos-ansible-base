@@ -36,6 +36,7 @@ StrictModes {{ssh_strictmodes}}
 RSAAuthentication yes
 PubkeyAuthentication yes
 #AuthorizedKeysFile     %h/.ssh/authorized_keys
+AllowAgentForwarding yes
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts {{ssh_ignorerhosts}}

@@ -5,6 +5,13 @@
     - osf-production
   gather_facts: yes
 
+- name: Set up users and groups
+  hosts:
+    - osf-staging
+    - osf-production
+  roles:
+    - role: generic-users
+
 - hosts:
   - osf-staging
   roles:
