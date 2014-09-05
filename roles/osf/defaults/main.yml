@@ -1,6 +1,6 @@
 osf_apps_dir: "/opt/apps/"
 
-osf_repo_dir: "{{osf_apps_dir}}osf"
+osf_repo_dir: "{{osf_apps_dir}}osf/"
 
 # Where to put virtualenvs
 # Must have trailing slash
