@@ -1,1 +1,5 @@
+
+# How to install uwsgi, either 'apt' or 'pip'
+uwsgi_install_mode: 'apt'
 uwsgi_version: 2.0.5.1
+

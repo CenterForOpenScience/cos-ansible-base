@@ -10,7 +10,11 @@
 
 - name: Install uwsgi with pip
   pip: name="uwsgi" version="{{ uwsgi_version }}"
+  when: uwsgi_install_mode == 'pip'
 
+- name: Install uwsgi with apt
+  apt: name="uwsgi" state=present
+  when: uwsgi_install_mode == 'apt'
 
 - name: Update uwsgi.conf script
   copy: src="uwsgi.conf" dest="/etc/init/uwsgi.conf"
