@@ -16,5 +16,11 @@
   apt: name="uwsgi" state=present
   when: uwsgi_install_mode == 'apt'
 
+- name: Ensure /etc/uwsgi/apps-available exists
+  file: path=/etc/uwsgi/apps-available state=directory mode=0751 group=www-data owner=www-data
+
+- name: Ensure /etc/uwsgi/apps-enabled exists
+  file: path=/etc/uwsgi/apps-enabled state=directory mode=0751 group=www-data owner=www-data
+
 - name: Update uwsgi.conf script
   copy: src="uwsgi.conf" dest="/etc/init/uwsgi.conf"

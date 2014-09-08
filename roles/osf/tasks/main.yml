@@ -122,12 +122,23 @@
   tags:
     - update
 
-- name: Copy uwsgi config
+- name: Copy uwsgi config to /etc/uwsgi/apps-available
   template:
     src: uwsgi.ini.j2
-    dest: "{{osf_repo_dir}}uwsgi.ini"
+    dest: "/etc/uwsgi/apps-available/osf.ini"
+    owner: www-data
+    group: www-data
+    mode: 0644
   tags:
     - update
+
+- name: Link uwsgi config to apps-enabled
+  file:
+    src: /etc/uwsgi/apps-available/osf.ini
+    dest: /etc/uwsgi/apps-enabled/osf.ini
+    state: link
+  tags:
+    update
 
 - name: Restart uwsgi
   supervisorctl:
