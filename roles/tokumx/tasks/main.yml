@@ -17,14 +17,12 @@
   sudo: yes
 
 - name: Add tokumx apt repository
-  apt_repository:
-    repo: 'deb [arch=amd64] http://s3.amazonaws.com/tokumx-debs $(lsb_release -cs) main'
-    update_cache: yes
+  shell: echo "deb [arch=amd64] http://s3.amazonaws.com/tokumx-debs $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/tokumx.list
+  args:
+    creates: /etc/apt/sources.list.d/tokumx.list
 
 - name: Install TokuMX with apt
   apt: name=tokumx state=present
 
 - name: Make sure the tokumx service is running
   service: name=tokumx state=started
-
-# TODO: Migration

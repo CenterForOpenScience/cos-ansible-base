@@ -83,9 +83,14 @@
     - update
 # TODO: addon requirements
 
+- name: Install addon requirements
+  command: "{{osf_virtualenv}}bin/invoke addon_requirements"
+  args:
+    chdir: "{{osf_repo_dir}}"
+
 - name: Make sure the repo is owned by the osf group
   file:
-    path: "/opt/apps/osf/"
+    path: "{{osf_repo_dir}}"
     state: directory
     group: osf
     recurse: yes
