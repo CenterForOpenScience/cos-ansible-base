@@ -1,9 +1,4 @@
 ---
-- name: Collecting facts
-  hosts:
-    - osf-staging
-    - osf-production
-  gather_facts: yes
 
 - name: Set up users and groups
   hosts:
