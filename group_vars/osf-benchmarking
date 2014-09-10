@@ -1,0 +1,24 @@
+# vi: set ft=yaml :
+
+
+hostname_name: osf-benchmarking
+
+genericusers_users:
+  - name: sloria
+    pass: $5$rounds=110000$7urSbbWSvHpcvnjq$4RZ0qCwbl/1CYdcV/gBQTXPIXtcziXNC1PJmQjL5EaD
+    uid: 3000
+    shell: /usr/bin/zsh
+    groups:
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+  - name: jmcarp
+    pass: $5$rounds=110000$PB1K0kI0ZbreZsTq$2HGwhAELlAKxU6ewhgVNtphhb0yLHX5Obd3t96xNFM8
+    uid: 4000
+    shell: /usr/bin/zsh
+    groups:
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBKbtgvnsfuvm719xE9FcX3599VKi7slCKH8KV0sCRY2o7PladpDgej8u2J5meTkTOhbOkQiREaWoot9pibvUZzfzR3fxg8hMc51bGXUqWssawD4wgPV6Ms/25DAm4iOkh7pyIRPiNy4I+VcabHb6XUql2g5QAVvEKWMNw0kTWSEG56tBsBPmFeDAxMw15PV+4N5oQH3SfjS3Oxb5Y6jij3moxd+VEKUQbY0bYxm5Yn2bE43o4km/3of1gdzmgmDLH3mljQFNdA9BFbrZ5dRdJKfC5KG5l7L9n1yUF4kNjyatkTqP1nbu0AGERJKNNk/mxG61tSOTcnFY7zD2GJYzv josh@centerforopenscience.org

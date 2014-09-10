@@ -1,0 +1,9 @@
+
+- name: Set up benchmarking server
+  hosts: osf-benchmarking
+  roles:
+    - hostname
+    - generic-users
+    - apt
+    - python
+
