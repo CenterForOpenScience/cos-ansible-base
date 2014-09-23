@@ -21,6 +21,10 @@
   args:
     creates: /etc/apt/sources.list.d/tokumx.list
 
+- name: Update APT package cache
+  apt: update_cache=yes
+  sudo: yes
+
 - name: Install TokuMX with apt
   apt: name=tokumx state=present
 

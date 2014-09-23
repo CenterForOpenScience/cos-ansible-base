@@ -2,5 +2,6 @@
 - name: Set up tokumx
   hosts:
     - osf-staging
+    - osf-production
   roles:
     - role: tokumx
