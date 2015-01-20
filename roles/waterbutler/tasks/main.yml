@@ -1,0 +1,130 @@
+- name: Ensure waterbutler directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ waterbutler_config_dir }}"
+    - "{{ waterbutler_redis_dir }}"
+    - "{{ waterbutler_rabbitmq_dir }}"
+    - "{{ waterbutler_osfstorage_pending_dir }}"
+    - "{{ waterbutler_osfstorage_complete_dir }}"
+  tags:
+    - update
+    - settings
+
+
+- name: Copy newrelic settings
+  template:
+    mode: 0660
+    src: newrelic.ini.j2
+    dest: "{{ waterbutler_config_dir }}/newrelic.ini"
+  tags:
+    - update
+    - settings
+
+
+- name: Copy waterbutler settings
+  copy:
+    dest: "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json"
+    src: "~/.cos/waterbutler-{{ waterbutler_env }}.json"
+    mode: 0660
+  tags:
+    - update
+    - settings
+
+
+
+- name: Delete docker containers
+  sudo: yes
+  shell: "docker rm -f $(docker ps -aq)"
+  ignore_errors: yes
+  tags:
+    - clean
+    - clean_containers
+
+
+- name: Delete docker images
+  sudo: yes
+  shell: "docker rmi -f $(docker images -q)"
+  ignore_errors: yes
+  tags:
+    - clean
+    - clean_images
+
+
+- name: Run Redis image
+  docker:
+    name: waterbutler_redis_1
+    state: running
+    image: "redis:latest"
+    restart_policy: always
+    hostname: "{{ hostname_name }}-redis1"
+    volumes:
+      - "{{ waterbutler_redis_dir }}:/data"
+  tags:
+    - update
+
+
+- name: Run RabbitMQ image
+  docker:
+    name: waterbutler_rabbitmq_1
+    state: running
+    hostname: "{{ hostname_name }}-rabbit1"
+    restart_policy: always
+    image: "centerforopenscience/rabbitmq:latest"
+    volumes:
+      - "{{ waterbutler_rabbitmq_dir }}:/var/lib/rabbitmq"
+  tags:
+    - update
+
+
+- name: Run WaterButler Server image
+  docker:
+    name: "waterbutler_server_{{ item }}"
+    state: running
+    hostname: "{{ hostname_name }}-server{{ item }}"
+    image: "centerforopenscience/waterbutler:latest"
+    command: "newrelic-admin run-program invoke server"
+    # expose:
+    #   - "{{ (waterbutler_start_port | int) + (item | int) }}"
+    ports:
+      - "{{ (waterbutler_start_port | int) + (item | int) - 1 }}:7777"
+    env:
+      ENV: "{{ waterbutler_env }}"
+      NEW_RELIC_CONFIG_FILE: /home/python/.cos/newrelic.ini
+    links:
+      - waterbutler_redis_1:redis
+      - waterbutler_rabbitmq_1:rabbitmq
+    restart_policy: always
+    volumes:
+      - "{{ waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
+      - "{{ waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
+      - "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ waterbutler_env }}.json"
+      - "{{ waterbutler_config_dir }}/newrelic.ini:/home/python/.cos/newrelic.ini"
+  tags:
+    - update
+  with_sequence: "{{ waterbutler_instances }}"
+
+
+- name: Run WaterButler Celery image
+  docker:
+    name: waterbutler_celery_1
+    state: running
+    hostname: "{{ hostname_name }}-celery1"
+    image: "centerforopenscience/waterbutler:latest"
+    command: "newrelic-admin run-program invoke celery"
+    restart_policy: always
+    env:
+      ENV: "{{ waterbutler_env }}"
+      NEW_RELIC_CONFIG_FILE: /home/python/.cos/newrelic.ini
+    links:
+      - waterbutler_redis_1:redis
+      - waterbutler_rabbitmq_1:rabbitmq
+    volumes:
+      - "{{ waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
+      - "{{ waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
+      - "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ waterbutler_env }}.json"
+      - "{{ waterbutler_config_dir }}/newrelic.ini:/home/python/.cos/newrelic.ini"
+  tags:
+    - update

@@ -1,0 +1,61 @@
+global
+    log 127.0.0.1 local0
+    log 127.0.0.1 local1 notice
+    user haproxy
+    group haproxy
+
+
+defaults
+    mode http
+    log global
+
+    option httplog
+    option httpclose
+    option dontlognull
+    option http-server-close
+
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+    balance roundrobin
+
+    # Do not enforce session affinity (i.e., an HTTP session can be served by
+    # any Mongrel, not just the one that started the session
+    option redispatch
+
+    stats enable
+    stats refresh 5s
+    stats uri /haproxy?stats
+    stats realm Haproxy\ Statistics
+    stats auth {{ haproxy_stats_user }}:{{ haproxy_stats_password }}
+
+
+{% if not haproxy_enable_https %}
+frontend www-http
+    bind 0.0.0.0:80
+    reqadd X-Forwarded-Proto:\ http
+    {% for backend in haproxy_backends %}
+    use_backend {{ backend['name'] }}-backend if { hdr(host) -i {{ backend['domain'] }} }
+    {% endfor %}
+{% else %}
+frontend www-http
+    bind 0.0.0.0:80
+    redirect scheme https code 301 if !{ ssl_fc }
+
+
+frontend www-https
+    bind 0.0.0.0:443 ssl crt /etc/ssl/private/default.pem crt /etc/ssl/private/certs.d ciphers ECDHE-RSA-AES256-SHA:RC4-SHA:RC4:HIGH:!MD5:!aNULL:!EDH:!AESGCM
+    reqadd X-Forwarded-Proto:\ https
+    {% for backend in haproxy_backends %}
+    use_backend {{ backend['name'] }}-backend if { hdr(host) -i {{ backend['domain'] }} }
+    {% endfor %}
+{% endif %}
+
+
+{% for backend in haproxy_backends %}
+backend {{ backend['name'] }}-backend
+{% for server in backend['servers'] %}
+    server {{ server['ip'] }}-{{ server['port'] }} {{ server['ip'] }}:{{ server['port'] }} check
+{% endfor %}
+{% endfor %}

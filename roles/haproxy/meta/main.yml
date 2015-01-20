@@ -1,0 +1,4 @@
+dependencies:
+  - { role: docker, tags: [''] }
+  - { role: docker-csf, tags: [''] }
+  - { role: newrelic, tags: [''] }

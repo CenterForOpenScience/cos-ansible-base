@@ -14,3 +14,9 @@
 [osf-staging]
 192.168.111.225
 
+[waterbutler-staging]
+192.168.111.111 hostname_name=waterbutler-worker-vagrant-01
+192.168.111.112 hostname_name=waterbutler-worker-vagrant-02
+
+[waterbalancer-staging]
+192.168.111.113 hostname_name=waterbutler-haproxy-vagrant-01
