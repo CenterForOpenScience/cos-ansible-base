@@ -7,6 +7,7 @@ haproxy_stats_user: User1
 haproxy_stats_password: password
 
 haproxy_config_dir: /opt/haproxy
+haproxy_log_dir: /var/log/haproxy
 
 # haproxy_backends:
 #   - name: my_domain

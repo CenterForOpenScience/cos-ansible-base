@@ -1,3 +1,11 @@
+- name: Ensure system dependencies
+  apt:
+    state: present
+    pkg: "{{ item }}"
+  with_items:
+    - "logrotate"
+
+
 - name: Ensure waterbutler directories exist
   sudo: yes
   file:
@@ -5,21 +13,11 @@
     path: "{{ item }}"
   with_items:
     - "{{ waterbutler_config_dir }}"
+    - "{{ waterbutler_log_dir }}"
     - "{{ waterbutler_redis_dir }}"
     - "{{ waterbutler_rabbitmq_dir }}"
     - "{{ waterbutler_osfstorage_pending_dir }}"
     - "{{ waterbutler_osfstorage_complete_dir }}"
-    - "{{ waterbutler_log_dir }}"
-  tags:
-    - update
-    - settings
-
-
-- name: Copy newrelic settings
-  template:
-    mode: 0660
-    src: newrelic.ini.j2
-    dest: "{{ waterbutler_config_dir }}/newrelic.ini"
   tags:
     - update
     - settings
@@ -34,6 +32,16 @@
     - update
     - settings
 
+
+- name: Ensure logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/uploader
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - update
 
 
 - name: Delete docker containers
@@ -86,14 +94,13 @@
     state: running
     hostname: "{{ hostname_name }}-server{{ item }}"
     image: "centerforopenscience/waterbutler:latest"
-    command: "newrelic-admin run-program invoke server"
+    command: "invoke server |& tee -a /log/waterbutler_server_{{ item }}.log"
     # expose:
     #   - "{{ (waterbutler_start_port | int) + (item | int) }}"
     ports:
       - "{{ (waterbutler_start_port | int) + (item | int) - 1 }}:7777"
     env:
       ENV: "{{ waterbutler_env }}"
-      NEW_RELIC_CONFIG_FILE: /home/python/.cos/newrelic.ini
     links:
       - waterbutler_redis_1:redis
       - waterbutler_rabbitmq_1:rabbitmq
@@ -102,8 +109,7 @@
       - "{{ waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
       - "{{ waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
       - "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ waterbutler_env }}.json"
-      - "{{ waterbutler_config_dir }}/newrelic.ini:/home/python/.cos/newrelic.ini"
-      - "/var/log/waterbutler/waterbutler_server_{{ item }}.log:/log/server.log"
+      - "{{ waterbutler_log_dir }}:/log"
   tags:
     - update
   with_sequence: "{{ waterbutler_instances }}"
@@ -115,11 +121,10 @@
     state: running
     hostname: "{{ hostname_name }}-celery1"
     image: "centerforopenscience/waterbutler:latest"
-    command: "newrelic-admin run-program invoke celery"
+    command: "invoke celery |& tee -a /log/waterbutler_celery_1.log"
     restart_policy: always
     env:
       ENV: "{{ waterbutler_env }}"
-      NEW_RELIC_CONFIG_FILE: /home/python/.cos/newrelic.ini
     links:
       - waterbutler_redis_1:redis
       - waterbutler_rabbitmq_1:rabbitmq
@@ -127,7 +132,6 @@
       - "{{ waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
       - "{{ waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
       - "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ waterbutler_env }}.json"
-      - "{{ waterbutler_config_dir }}/newrelic.ini:/home/python/.cos/newrelic.ini"
-      - "/var/log/waterbutler/waterbutler_celery_1.log:/log/server.log"
+      - "{{ waterbutler_log_dir }}:/log"
   tags:
     - update

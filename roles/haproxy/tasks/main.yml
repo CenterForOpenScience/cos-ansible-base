@@ -1,3 +1,11 @@
+- name: Ensure system dependencies
+  apt:
+    state: present
+    pkg: "{{ item }}"
+  with_items:
+    - "logrotate"
+
+
 - name: Ensure directories exist
   file:
     state: directory
@@ -6,6 +14,7 @@
     - "{{ haproxy_config_dir }}"
     - "{{ haproxy_config_dir }}/ssl"
     - "{{ haproxy_config_dir }}/ssl/certs.d"
+    - "{{ haproxy_log_dir }}"
   tags:
     - update
     - settings
@@ -16,6 +25,17 @@
     mode: 0755
     src: "haproxy.conf.j2"
     dest: "{{ haproxy_config_dir }}/haproxy.cfg"
+  tags:
+    - update
+
+
+- name: Ensure logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/uploader
+    owner: root
+    group: root
+    mode: 0644
   tags:
     - update
 
@@ -71,6 +91,7 @@
 - name: Run HAProxy
   docker:
     name: haproxy_1
+    command: "haproxy -f /usr/local/etc/haproxy/haproxy.cfg |& tee -a /log/haproxy_1.log"
     image: "centerforopenscience/haproxy:latest"
     expose:
       - 80
@@ -82,5 +103,6 @@
     volumes:
       - "{{ haproxy_config_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
       - "{{ haproxy_config_dir }}/ssl:/etc/ssl/private"
+      - "{{ haproxy_log_dir }}:/log"
   tags:
     - update
