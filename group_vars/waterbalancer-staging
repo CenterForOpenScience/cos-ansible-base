@@ -34,29 +34,41 @@ genericusers_users:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr6BXe1LEo4+Gc0rNg0w5IABZTmCGanN25ElvRTOnmRYYQWac2v5dl59RI3uRLBBzo/KYXCGSb2lXNbka8S9C+KCSBA9V5U4Wlau7DuArL0fwl6xMFkKZor+fC2NGLFIpXX39xe2deMrUkIYnO14DJpHdcopCn2yFodOilpsUqqHFuelryYMIXP66uRd6Mquj4ILiBvRWSgmX2HNiS7nrBXgfomlQq5RLQnoOkB6EgG8A1g1/sSg7prwZKQpoJfo/eyXeMbG7trefGDz0vLEuUwXfgByYxkmgOYA6ttyC+GIymXaPV05uRd1HQ6A/5U7M+HikFSnKmfCwINUt1q9h5 michael@Citidel.local
 
 
-# --- water butler
+# --- ha proxy
 
-waterbutler_instances: 2
-waterbutler_start_port: 7770
-
-
-# --- haproxy
-
-# haproxy_source_ip: "192.168.1.2/32"
+# Set sensitive variables in ansible extra vars.
+# haproxy_stats_user: "..."
+# haproxy_stats_password: "..."
+# haproxy_enable_https: yes
+# haproxy_default_cert_src: "{{ '~/.secure/ssl/osf.io.pem' | expanduser }}"
+# haproxy_certsd_dir_src: "{{ '~/.secure/ssl/certs.d' | expanduser }}"
+# haproxy_backends:
+#   - name: waterbutler
+#     domain: files-api-staging.osf.io
+#     servers:
+#       - ip: "192.168.1.2"
+#         port: 7770
+#       - ip: "192.168.1.2"
+#         port: 7771
+#       - ip: "192.168.1.3"
+#         port: 7770
+#       - ip: "192.168.1.3"
+#         port: 7771
 
 
 # --- csf
 
-csf_allowed_ips:
-  - "tcp|in|s={{ waterbutler_start_port }}_{{ waterbutler_start_port + waterbutler_instances - 1 }}|s={{ haproxy_source_ip }}"
+# csf_allowed_ips:
+#   - "tcp|out|d=7770_7771|d=192.168.1.2/32"
+#   - "tcp|out|d=7770_7771|d=192.168.1.3/32"
 csf_lf_alert_to: ""
 csf_lf_alert_from: ""
 
 csf_lf_sshd_perm: 30
 
-# 22 ssh
-csf_tcp_in: "22"
-csf_tcp6_in: "22"
+# 22 ssh, 80/443 haproxy
+csf_tcp_in: "22,80,443"
+csf_tcp6_in: "22,80,443"
 
 # 22 ssh, 80/443 web
 csf_tcp_out: "22,80,443"
@@ -64,3 +76,4 @@ csf_tcp6_out: "22,80,443"
 
 csf_udp_out: ""
 csf_udp6_out: ""
+

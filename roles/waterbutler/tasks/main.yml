@@ -9,6 +9,7 @@
     - "{{ waterbutler_rabbitmq_dir }}"
     - "{{ waterbutler_osfstorage_pending_dir }}"
     - "{{ waterbutler_osfstorage_complete_dir }}"
+    - "{{ waterbutler_log_dir }}"
   tags:
     - update
     - settings
@@ -102,6 +103,7 @@
       - "{{ waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
       - "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ waterbutler_env }}.json"
       - "{{ waterbutler_config_dir }}/newrelic.ini:/home/python/.cos/newrelic.ini"
+      - "/var/log/waterbutler/waterbutler_server_{{ item }}.log:/log/server.log"
   tags:
     - update
   with_sequence: "{{ waterbutler_instances }}"
@@ -126,5 +128,6 @@
       - "{{ waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
       - "{{ waterbutler_config_dir }}/waterbutler-{{ waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ waterbutler_env }}.json"
       - "{{ waterbutler_config_dir }}/newrelic.ini:/home/python/.cos/newrelic.ini"
+      - "/var/log/waterbutler/waterbutler_celery_1.log:/log/server.log"
   tags:
     - update
