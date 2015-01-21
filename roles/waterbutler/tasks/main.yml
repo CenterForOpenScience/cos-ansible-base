@@ -36,7 +36,7 @@
 - name: Ensure logrotate config
   template:
     src: logrotate.j2
-    dest: /etc/logrotate.d/uploader
+    dest: /etc/logrotate.d/waterbutler
     owner: root
     group: root
     mode: 0644
