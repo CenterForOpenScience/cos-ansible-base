@@ -91,7 +91,7 @@
 - name: Run HAProxy
   docker:
     name: haproxy_1
-    command: "haproxy -f /usr/local/etc/haproxy/haproxy.cfg |& tee -a /log/haproxy_1.log"
+    command: '/bin/bash -c "haproxy -f /usr/local/etc/haproxy/haproxy.cfg 2>&1 | tee -a /log/haproxy_1.log"'
     image: "centerforopenscience/haproxy:latest"
     expose:
       - 80

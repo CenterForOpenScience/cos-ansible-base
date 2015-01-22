@@ -94,7 +94,7 @@
     state: running
     hostname: "{{ hostname_name }}-server{{ item }}"
     image: "centerforopenscience/waterbutler:latest"
-    command: "invoke server |& tee -a /log/waterbutler_server_{{ item }}.log"
+    command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/waterbutler_server_{{ item }}.log"'
     # expose:
     #   - "{{ (waterbutler_start_port | int) + (item | int) }}"
     ports:
@@ -121,7 +121,7 @@
     state: running
     hostname: "{{ hostname_name }}-celery1"
     image: "centerforopenscience/waterbutler:latest"
-    command: "invoke celery |& tee -a /log/waterbutler_celery_1.log"
+    command: '/bin/bash -c "invoke celery 2>&1 | tee -a /log/waterbutler_celery_1.log"'
     restart_policy: always
     env:
       ENV: "{{ waterbutler_env }}"
