@@ -1,6 +1,6 @@
 - name: ansible_hostname
   debug:
-    msg: "{{ ansible_hostname }}"
+    msg: "{{ ansible_fqdn }}"
 
 
 - name: hostname_name
@@ -21,7 +21,7 @@
 - name: Update /etc/hosts
   replace:
     dest: /etc/hosts
-    regexp: '{{ ansible_hostname }}'
+    regexp: '{{ ansible_fqdn }}'
     replace: '{{ hostname_name }}'
     backup: yes
   when: hostname_name != ""
