@@ -37,6 +37,8 @@ genericusers_users:
 # --- water butler
 
 waterbutler_env: production
+waterbutler_source_branch: master
+
 waterbutler_instances: 2
 waterbutler_start_port: 7770
 

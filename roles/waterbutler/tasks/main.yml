@@ -101,6 +101,8 @@
       - "{{ (waterbutler_start_port | int) + (item | int) - 1 }}:7777"
     env:
       ENV: "{{ waterbutler_env }}"
+      SOURCE_BRANCH: "{{ waterbutler_source_branch }}"
+      SOURCE_REPO: "{{ waterbutler_source_repo }}"
     links:
       - waterbutler_redis_1:redis
       - waterbutler_rabbitmq_1:rabbitmq
@@ -125,6 +127,8 @@
     restart_policy: always
     env:
       ENV: "{{ waterbutler_env }}"
+      SOURCE_BRANCH: "{{ waterbutler_source_branch }}"
+      SOURCE_REPO: "{{ waterbutler_source_repo }}"
     links:
       - waterbutler_redis_1:redis
       - waterbutler_rabbitmq_1:rabbitmq

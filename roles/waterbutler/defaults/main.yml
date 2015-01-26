@@ -1,4 +1,7 @@
 waterbutler_env: test
+waterbutler_source_branch: develop
+waterbutler_source_repo: "https://github.com/CenterForOpenScience/waterbutler.git"
+
 waterbutler_config_dir: "/opt/waterbutler"
 waterbutler_log_dir: "/var/log/waterbutler"
 
