@@ -15,8 +15,8 @@
 192.168.111.225
 
 [waterbutler-staging]
-192.168.111.111 hostname_name=waterbutler-worker-01
-192.168.111.112 hostname_name=waterbutler-worker-02
+192.168.111.111 hostname_name=waterbutler-web-01
+192.168.111.112 hostname_name=waterbutler-web-02
 
 [waterbalancer-staging]
-192.168.111.113 hostname_name=waterbutler-haproxy-01
+192.168.111.113 hostname_name=waterbutler-lb-01
