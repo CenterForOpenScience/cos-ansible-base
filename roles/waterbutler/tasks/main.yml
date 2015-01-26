@@ -81,7 +81,7 @@
     state: running
     hostname: "{{ hostname_name }}-rabbit1"
     restart_policy: always
-    image: "centerforopenscience/rabbitmq:latest"
+    image: "rabbitmq:latest"
     volumes:
       - "{{ waterbutler_rabbitmq_dir }}:/var/lib/rabbitmq"
   tags:
