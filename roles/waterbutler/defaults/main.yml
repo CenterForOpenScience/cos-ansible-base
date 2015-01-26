@@ -1,4 +1,4 @@
-waterbutler_env: staging
+waterbutler_env: test
 waterbutler_config_dir: "/opt/waterbutler"
 waterbutler_log_dir: "/var/log/waterbutler"
 

@@ -22,7 +22,7 @@
 
 - name: Copy settings
   template:
-    mode: 0755
+    mode: 0640
     src: "haproxy.conf.j2"
     dest: "{{ haproxy_config_dir }}/haproxy.cfg"
   tags:
@@ -35,7 +35,7 @@
     dest: /etc/logrotate.d/haproxy
     owner: root
     group: root
-    mode: 0644
+    mode: 0640
   tags:
     - update
 

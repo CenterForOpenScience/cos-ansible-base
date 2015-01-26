@@ -2,13 +2,13 @@
 - name: Common Ubuntu setup
   hosts: all
   roles:
+    - role: apt
     - role: hostname
     - role: skel
     # - role: network_interfaces
     - role: generic-users
     - role: Ansibles.timezone
     - role: ssh
-    - role: apt
     - role: ntp
     - role: editors
 
