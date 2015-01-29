@@ -97,7 +97,7 @@
     - clean_images
 
 
-- name: Run Rsyslog image
+- name: Run Rsyslog
   docker:
     name: rsyslog_1
     state: running
@@ -114,8 +114,7 @@
 - name: Run HAProxy
   docker:
     name: haproxy_1
-    # command: '/bin/bash -c "haproxy -f /usr/local/etc/haproxy/haproxy.cfg 2>&1 | tee -a /log/haproxy_1.log"'
-    command: 'haproxy -f /usr/local/etc/haproxy/haproxy.cfg'
+    command: "haproxy -f /usr/local/etc/haproxy/haproxy.cfg"
     image: "centerforopenscience/haproxy:latest"
     expose:
       - 80
