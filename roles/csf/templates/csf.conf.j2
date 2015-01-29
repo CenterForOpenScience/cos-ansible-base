@@ -32,7 +32,7 @@ RESTRICT_UI = "{{csf_restrict_ui}}"
 # available and restarts csf and lfd
 #
 # You should check for new version announcements at http://blog.configserver.com
-AUTO_UPDATES = "1"
+AUTO_UPDATES = "{{csf_auto_update}}"
 
 ###############################################################################
 # SECTION:IPv4 Port Settings
@@ -229,7 +229,7 @@ LF_CSF = "1"
 # [*]Not supported on all OS platforms
 #
 # Set to "0" to disable this functionality
-FASTSTART = "1"
+FASTSTART = "{{csf_faststart}}"
 
 # If you enable this option then whenever a CLI request to restart csf is used
 # lfd will restart csf instead within LF_PARSE seconds

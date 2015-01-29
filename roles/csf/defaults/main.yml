@@ -1,3 +1,6 @@
+csf_auto_update: 0
+csf_faststart: 1
+
 csf_testing: 0
 csf_testing_interval: 5
 # 22 is required for inbound SSH

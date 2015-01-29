@@ -58,6 +58,9 @@ genericusers_users:
 
 # --- csf
 
+csf_autostart: 0
+csf_faststart: 0
+
 # csf_allowed_ips:
 #   - "tcp|out|d=7770_7771|d=192.168.1.2/32"
 #   - "tcp|out|d=7770_7771|d=192.168.1.3/32"

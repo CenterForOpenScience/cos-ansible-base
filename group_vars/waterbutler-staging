@@ -48,6 +48,9 @@ waterbutler_start_port: 7770
 
 # --- csf
 
+csf_autostart: 0
+csf_faststart: 0
+
 csf_allowed_ips:
   - "tcp|in|s={{ waterbutler_start_port }}_{{ waterbutler_start_port + waterbutler_instances - 1 }}|s={{ haproxy_source_ip }}"
 csf_lf_alert_to: ""

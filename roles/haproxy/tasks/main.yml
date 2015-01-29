@@ -20,7 +20,7 @@
     - settings
 
 
-- name: Copy settings
+- name: Copy haproxy server settings
   template:
     mode: 0640
     src: "haproxy.conf.j2"
@@ -29,7 +29,16 @@
     - update
 
 
-- name: Ensure logrotate config
+- name: Copy haproxy syslog settings
+  template:
+    mode: 0640
+    src: "49-haproxy.conf.j2"
+    dest: "{{ haproxy_config_dir }}/49-haproxy.conf"
+  tags:
+    - update
+
+
+- name: Copy logrotate config settings
   template:
     src: logrotate.j2
     dest: /etc/logrotate.d/haproxy
@@ -88,14 +97,31 @@
     - clean_images
 
 
+- name: Run Rsyslog image
+  docker:
+    name: rsyslog_1
+    state: running
+    hostname: "{{ hostname_name }}-rsyslog1"
+    image: "centerforopenscience/rsyslog:latest"
+    restart_policy: always
+    volumes:
+      - "{{ haproxy_config_dir }}/49-haproxy.conf:/etc/rsyslog.d/49-haproxy.conf:ro"
+      - "{{ haproxy_log_dir }}:/log"
+  tags:
+    - update
+
+
 - name: Run HAProxy
   docker:
     name: haproxy_1
-    command: '/bin/bash -c "haproxy -f /usr/local/etc/haproxy/haproxy.cfg 2>&1 | tee -a /log/haproxy_1.log"'
+    # command: '/bin/bash -c "haproxy -f /usr/local/etc/haproxy/haproxy.cfg 2>&1 | tee -a /log/haproxy_1.log"'
+    command: 'haproxy -f /usr/local/etc/haproxy/haproxy.cfg'
     image: "centerforopenscience/haproxy:latest"
     expose:
       - 80
       - 443
+    links:
+      - rsyslog_1:rsyslog
     restart_policy: always
     ports:
       - "80:80"
@@ -103,6 +129,5 @@
     volumes:
       - "{{ haproxy_config_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
       - "{{ haproxy_config_dir }}/ssl:/etc/ssl/private"
-      - "{{ haproxy_log_dir }}:/log"
   tags:
     - update

@@ -1,9 +1,7 @@
 global
-    log 127.0.0.1 local0
-    log 127.0.0.1 local1 notice
+    log ${RSYSLOG_PORT_514_UDP_ADDR}:${RSYSLOG_PORT_514_UDP_PORT} local0
     user haproxy
     group haproxy
-
 
 defaults
     mode http
