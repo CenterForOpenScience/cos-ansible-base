@@ -1,0 +1,5 @@
+- name: Set up rackspace services
+  hosts: all
+  roles:
+    - { role: rackspace-cloudbackup, tags: ['backup'] }
+    - { role: rackspace-cloudmonitor, tags: ['monitor'] }

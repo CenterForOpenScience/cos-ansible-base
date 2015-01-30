@@ -1,0 +1,34 @@
+- name: Ensure rackspace apt repository
+  sudo: yes
+  apt_repository:
+    repo: "deb http://stable.packages.cloudmonitoring.rackspace.com/ubuntu-14.04-x86_64 cloudmonitoring main"
+    state: present
+
+
+- name: Ensure rackspace apt key
+  sudo: yes
+  apt_key:
+    url: https://monitoring.api.rackspacecloud.com/pki/agent/linux.asc
+    state: present
+
+
+- name: Update apt package cache (this can sometimes fail)
+  sudo: yes
+  apt: update_cache=yes
+
+
+- name: Install new rackspace cloud monitoring agent
+  sudo: yes
+  apt:
+    state: present
+    pkg: rackspace-monitoring-agent
+
+
+- name: Reminder | Setup the Rackspace Monitoring Agent
+  debug:
+    msg: sudo rackspace-monitoring-agent --setup
+
+
+- name: Reminder | Start the Rackspace Monitoring Agent
+  debug:
+    msg: sudo service rackspace-monitoring-agent start
