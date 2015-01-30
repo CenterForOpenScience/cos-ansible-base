@@ -1,4 +1,5 @@
-local0.* -/log/haproxy_1.log
-& ~
-# & ~ means not to put what matched in the above line anywhere else for the rest of the rules
-# http://serverfault.com/questions/214312/how-to-keep-haproxy-log-messages-out-of-var-log-syslog
+$template haproxy,"%msg%\n"
+
+local0.=info -/log/haproxy_1-access.log;haproxy
+local0.notice -/log/haproxy_1-status.log;haproxy
+local0.* ~
