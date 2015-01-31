@@ -44,7 +44,7 @@
     dest: /etc/logrotate.d/haproxy
     owner: root
     group: root
-    mode: 0640
+    mode: 0644
   tags:
     - update
 

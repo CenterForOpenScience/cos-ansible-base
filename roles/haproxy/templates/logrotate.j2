@@ -1,6 +1,6 @@
 "{{ haproxy_log_dir }}/*.log" {
     daily
-    rotate 0
+    rotate 60
     compress
     delaycompress
     copytruncate
