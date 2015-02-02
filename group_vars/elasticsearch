@@ -6,6 +6,9 @@ genericusers_groups:
     - name: "admin"
     - name: "elasticsearch"
 
+genericusers_users_removed:
+    - name: "fabian"
+
 genericusers_users:
   - name: elasticsearch
     pass: $5$rounds=110000$HEtSgnaq3aACvrBI$nwu6oNea3jQoPdWBQlTdAiFT4ySr.kfeWMIZnMF2cU5
@@ -32,19 +35,6 @@ genericusers_users:
     append: yes
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
-
-  - name: fabian
-    pass: $5$rounds=110000$KFYzk9knExlOZeIT$hcbflXBoFa3k1bL6WGlzbnk2Uo1e2fOYbJk2/pcbWg1
-    comment: 'bohemian'
-    uid: 4000
-    shell: /bin/bash
-    groups:
-      - admin
-      - elasticsearch
-      - sudo
-    append: yes
-    ssh_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC252BsSRc29V4SfHF9gzVh5+z5mQwbp7kKrnTROMju95V+LrbwwiB2kWgSPFhydCETHXATr3w5bPZ4jU81p/XSD3kwPGk03rnHpJV/FSmJJNHkROWwhFyxaFpw22uMy5YGulpkIs09Qu+0hst6WgRWEBMsjBg24kuqOQqUxqeBwtJoKlZVpN3cJQ53A+gPeUSri3GEqJT7itUFqo9me35HsaJe2KGcCeOToptOJ6exYJDK8cZ+mwPhc/NrzUjSMT0MFQvmvzRfKrVw4H4e9tmo2onEgYcDlY3O2lLh8Vu2rUCYAvvsFdUBnciOuiQav+C1NZPVEc9o3POSvVUqiKXT fabian@fabian-ThinkPad-W510
 
 # --- network_interfaces
 
