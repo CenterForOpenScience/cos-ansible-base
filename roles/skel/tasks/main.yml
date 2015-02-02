@@ -1,0 +1,9 @@
+# .bashrc changes
+# - modified \h to \H to display FQDN
+
+- name: Set /etc/skel/.bashrc
+  sudo: yes
+  copy:
+    src: .bashrc
+    dest: /etc/skel/.bashrc
+    mode: 0644

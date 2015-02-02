@@ -1,0 +1,36 @@
+- name: Download the Cloud Backup Agent package
+  get_url:
+    url: http://agentrepo.drivesrvr.com/debian/cloudbackup-updater-latest.deb
+    dest: /tmp/cloudbackup-updater-latest.deb
+
+
+- name: Install the Cloud Backup Agent package
+  sudo: yes
+  apt:
+    deb: /tmp/cloudbackup-updater-latest.deb
+    state: present
+
+
+- name: Update apt package cache (this can sometimes fail)
+  sudo: yes
+  apt: update_cache=yes
+
+
+- name: Run an apt install force
+  sudo: yes
+  command: apt-get install -f
+
+
+- name: Check the installation
+  sudo: yes
+  command: cloudbackup-updater -v
+
+
+- name: Reminder | Setup the Rackspace Backup Agent
+  debug:
+    msg: sudo /usr/local/bin/driveclient --configure
+
+
+- name: Reminder | Start the Rackspace Backup Agent
+  debug:
+    msg: sudo service driveclient start
