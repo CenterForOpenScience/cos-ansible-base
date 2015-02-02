@@ -58,6 +58,19 @@ genericusers_users:
     append: yes
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDe31+sFDSuT6r18FYQP+zyfJssop451DVa8ciS/CedP+MD/zgJ+3yoGSfB9vZqnmfDMnmbE3qBf/+q++zPOUenJn9ai2gfNquIbEwkoe9E9VadBQRuLUHN9tSRsZ2FUMCmD2VPMB/9C56k4jSV3nuvJf3qR/cuPtJN2AXYdx6G6E9l52zvvIpmcWLJr32Tcd9y1n05ugg54Th0IrbuNjfYBHoq48Ym89l6uV/PChyGqrgpRe5/chx3QX0ftf1ecJ3DuoT87WqL1noaCaRsROH5aqNQMK3ShZWvFPxrvMVfk5s1BLJ1APrImN/x7thRe4D17ZjFW2uaMBK+UU/K3jyb lyndsy@centerforopenscience.org
+  - name: icereval
+    pass: $5$rounds=110000$eOfP.zr4uq752c.J$DARAtBgPxI.iDVZzL8l.HbvaFJm50bh1eRYnNn66poB
+    comment: ''
+    uid: 3001
+    shell: /bin/bash
+    groups:
+      - admin
+      - osf
+      - sudo
+      - mongodb
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr6BXe1LEo4+Gc0rNg0w5IABZTmCGanN25ElvRTOnmRYYQWac2v5dl59RI3uRLBBzo/KYXCGSb2lXNbka8S9C+KCSBA9V5U4Wlau7DuArL0fwl6xMFkKZor+fC2NGLFIpXX39xe2deMrUkIYnO14DJpHdcopCn2yFodOilpsUqqHFuelryYMIXP66uRd6Mquj4ILiBvRWSgmX2HNiS7nrBXgfomlQq5RLQnoOkB6EgG8A1g1/sSg7prwZKQpoJfo/eyXeMbG7trefGDz0vLEuUwXfgByYxkmgOYA6ttyC+GIymXaPV05uRd1HQ6A/5U7M+HikFSnKmfCwINUt1q9h5 michael@Citidel.local
 
 # TODO(sloria): Set up CSF on app servers
 
