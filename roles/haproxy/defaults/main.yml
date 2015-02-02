@@ -1,0 +1,23 @@
+haproxy_enable_https: false
+haproxy_default_cert_src: ""
+# haproxy_default_cert_src: "{{ '~/.cos/ssl/default.pem' | expanduser }}"
+haproxy_certsd_dir_src: ""
+
+haproxy_stats_user: User1
+haproxy_stats_password: password
+
+haproxy_config_dir: /opt/haproxy
+haproxy_log_dir: /var/log/haproxy
+
+# haproxy_backends:
+#   - name: my_domain
+#     domain: my.domain.com
+#     servers:
+#       - ip: "192.168.1.2"
+#         port: 1111
+#       - ip: "192.168.1.2"
+#         port: 1112
+#       - ip: "192.168.1.6"
+#         port: 1111
+#       - ip: "192.168.1.6"
+#         port: 1112

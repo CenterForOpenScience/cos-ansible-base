@@ -1,0 +1,2 @@
+description "CSF Started Hook"
+start on (csf-started and starting docker)

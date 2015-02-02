@@ -48,4 +48,37 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "waterbutler-worker-vagrant-01" do |waterbutler|
+    waterbutler.ssh.forward_agent = true
+    ip_end = "111"
+    waterbutler.vm.box = BOX_IMAGE
+    waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    waterbutler.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "waterbutler-worker-vagrant-02" do |waterbutler|
+    waterbutler.ssh.forward_agent = true
+    ip_end = "112"
+    waterbutler.vm.box = BOX_IMAGE
+    waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    waterbutler.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "waterbutler-haproxy-vagrant-01" do |waterbutler|
+    waterbutler.ssh.forward_agent = true
+    ip_end = "113"
+    waterbutler.vm.box = BOX_IMAGE
+    waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    waterbutler.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
 end

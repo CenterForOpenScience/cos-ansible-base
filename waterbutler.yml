@@ -1,0 +1,4 @@
+- name: Set up waterbutler workers
+  hosts: all
+  roles:
+    - role: waterbutler

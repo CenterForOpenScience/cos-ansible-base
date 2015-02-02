@@ -32,7 +32,7 @@ RESTRICT_UI = "{{csf_restrict_ui}}"
 # available and restarts csf and lfd
 #
 # You should check for new version announcements at http://blog.configserver.com
-AUTO_UPDATES = "1"
+AUTO_UPDATES = "{{csf_auto_update}}"
 
 ###############################################################################
 # SECTION:IPv4 Port Settings
@@ -51,7 +51,8 @@ UDP_IN = "{{csf_udp_in}}"
 
 # Allow outgoing UDP ports
 # To allow outgoing traceroute add 33434:33523 to this list
-UDP_OUT = "{{csf_udp_out}}"
+# 123 - ntp is open by default
+UDP_OUT = "123,{{csf_udp_out}}"
 
 # Allow incoming PING
 ICMP_IN = "{{csf_icmp_in}}"
@@ -134,7 +135,8 @@ UDP6_IN = "{{ csf_udp6_in }}"
 
 # Allow outgoing UDP ports
 # To allow outgoing traceroute add 33434:33523 to this list
-UDP6_OUT = "{{ csf_udp6_out }}"
+# 123 - ntp is open by default
+UDP6_OUT = "123,{{ csf_udp6_out }}"
 
 ###############################################################################
 # SECTION:General Settings
@@ -227,7 +229,7 @@ LF_CSF = "1"
 # [*]Not supported on all OS platforms
 #
 # Set to "0" to disable this functionality
-FASTSTART = "1"
+FASTSTART = "{{csf_faststart}}"
 
 # If you enable this option then whenever a CLI request to restart csf is used
 # lfd will restart csf instead within LF_PARSE seconds

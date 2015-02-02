@@ -1,23 +1,33 @@
+- name: ansible_hostname
+  debug:
+    msg: "{{ ansible_fqdn }}"
+
+
+- name: hostname_name
+  debug:
+    msg: "{{ hostname_name }}"
+
+
 - name: Update the hostname
   copy:
-    content: "{{hostname_name}}"
+    content: "{{ hostname_name }}"
     dest: /etc/hostname
     owner: root
     group: root
     mode: 0644
   when: hostname_name != ""
 
+
 - name: Update /etc/hosts
-  lineinfile:
+  replace:
     dest: /etc/hosts
-    regexp: "^127.0.0.1"
-    line: "127.0.0.1{{'\t'}}{{hostname_name}}"
-    state: present
+    regexp: '{{ ansible_fqdn }}'
+    replace: '{{ hostname_name }}'
+    backup: yes
   when: hostname_name != ""
+
 
 - name: Run hostname cmd
   hostname:
-    name: "{{hostname_name}}"
+    name: "{{ hostname_name }}"
   when: hostname_name != ""
-
-

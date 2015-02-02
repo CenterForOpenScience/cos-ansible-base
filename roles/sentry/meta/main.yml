@@ -1,7 +1,6 @@
 # file: roles/sentry/meta/main.yml
 
 dependencies:
-  - { role: apt }
   - { role: python }
   - { role: postgresql }
   - { role: supervisor }

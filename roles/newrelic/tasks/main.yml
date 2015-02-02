@@ -1,0 +1,44 @@
+# Source: https://docs.newrelic.com/docs/servers/new-relic-servers-linux/installation-configuration/servers-installation-ubuntu-debian
+
+##### Install #####
+
+- name: Ensure newrelic apt repository
+  sudo: yes
+  apt_repository:
+    repo: "deb http://apt.newrelic.com/debian/ newrelic non-free"
+    state: present
+
+
+- name: Ensure newrelic apt key
+  sudo: yes
+  apt_key:
+    url: https://download.newrelic.com/548C16BF.gpg
+    state: present
+
+
+- name: Update APT package cache
+  apt: update_cache=yes
+  sudo: yes
+
+
+- name: Install new relic system monitoring daemon
+  sudo: yes
+  apt:
+    state: present
+    pkg: newrelic-sysmond
+
+
+- name: Copy the newrelic system monitoring daemon configuration/license file
+  sudo: yes
+  template:
+    group: newrelic
+    mode: 0640
+    src: nrsysmond.cfg.j2
+    dest: "{{ newrelic_config_dir }}/nrsysmond.cfg"
+
+
+- name: Start service newrelic system monitoring daemon
+  sudo: yes
+  service:
+    name: newrelic-sysmond
+    state: started
