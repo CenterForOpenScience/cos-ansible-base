@@ -1,4 +1,6 @@
-- name: Set up waterbalancer HAProxy
+- name: Set up waterbutler haproxy
   hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
   roles:
-    - role: haproxy
+    - role: docker-haproxy

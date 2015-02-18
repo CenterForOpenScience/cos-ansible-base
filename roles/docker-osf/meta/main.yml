@@ -1,0 +1,12 @@
+dependencies:
+  - role: docker-elasticsearch
+    docker_elasticsearch_name: "{{ docker_osf_elasticsearch_name }}"
+    docker_elasticsearch_config_dir: "{{ docker_osf_elasticsearch_config_dir }}"
+    docker_elasticsearch_data_dir: "{{ docker_osf_elasticsearch_data_dir }}"
+    docker_elasticsearch_log_dir: "{{ docker_osf_elasticsearch_log_dir }}"
+
+  - role: docker-tokumx
+    docker_tokumx_name: "{{ docker_osf_tokumx_name }}"
+    docker_tokumx_config_file: "{{ docker_osf_tokumx_config_file }}"
+    docker_tokumx_data_dir: "{{ docker_osf_tokumx_data_dir }}"
+    docker_tokumx_log_dir: "{{ docker_osf_tokumx_log_dir }}"

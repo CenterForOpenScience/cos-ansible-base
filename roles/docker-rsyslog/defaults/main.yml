@@ -1,0 +1,3 @@
+docker_rsyslog_name: rsyslog_1
+docker_rsyslog_config_dir: /opt/rsyslog
+docker_rsyslog_logs_dir: /var/log/rsyslog

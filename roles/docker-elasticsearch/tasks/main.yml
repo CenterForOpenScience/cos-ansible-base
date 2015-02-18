@@ -1,0 +1,33 @@
+- name: Restart docker elasticsearch container
+  sudo: yes
+  shell: "docker restart {{ docker_elasticsearch_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker elasticsearch directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_elasticsearch_config_dir }}"
+    - "{{ docker_elasticsearch_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker elasticsearch container
+  docker:
+    name: "{{ docker_elasticsearch_name }}"
+    state: running
+    hostname: "{{ hostname_name }}-elasticsearch"
+    restart_policy: always
+    image: "elasticsearch:latest"
+    volumes:
+      - "{{ docker_elasticsearch_config_dir }}:/usr/share/elasticsearch/config"
+      - "{{ docker_elasticsearch_data_dir }}:/usr/share/elasticsearch/data"
+  tags:
+    - install
+    - upgrade

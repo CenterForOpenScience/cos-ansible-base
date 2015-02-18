@@ -1,0 +1,32 @@
+- name: Restart docker rsyslog container
+  sudo: yes
+  shell: "docker restart {{ docker_rsyslog_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker rsyslog directories exist
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_rsyslog_config_dir }}"
+    - "{{ docker_rsyslog_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker rsyslog container
+  docker:
+    name: "{{ docker_rsyslog_name }}"
+    state: running
+    image: "centerforopenscience/rsyslog:latest"
+    restart_policy: always
+    hostname: "{{ hostname_name }}-rsyslog"
+    volumes:
+      - "{{ docker_rsyslog_config_dir }}/:/etc/rsyslog.d/"
+      - "{{ docker_rsyslog_log_log_dir }}:/log"
+  tags:
+    - install
+    - upgrade

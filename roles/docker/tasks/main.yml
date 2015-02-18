@@ -1,11 +1,13 @@
-- name: Ensure system dependencies
+- name: Install docker system dependencies
   sudo: yes
   apt:
     state: present
     pkg: python-pip
+  tags:
+    - install
 
 
-- name: Ensure pip dependencies
+- name: Install docker pip dependencies
   sudo: yes
   pip:
     state: present
@@ -13,26 +15,33 @@
   with_items:
     - "docker-py"
     - "python-apt"
+  tags:
+    - install
 
 
-- name: Ensure docker apt keys
+- name: Install docker apt keys
   sudo: yes
   apt_key:
     id: 36A1D7869245C8950F966E92D8576A8BA88D21E9
     keyserver: "hkp://keyserver.ubuntu.com:80"
     state: present
+  tags:
+    - install
 
 
-- name: Ensure docker apt repository
+- name: Install docker apt repository
   sudo: yes
   apt_repository:
     repo: "deb https://get.docker.com/ubuntu docker main"
     state: present
+  tags:
+    - install
 
 
-- name: Ensure docker
+- name: Install docker
   sudo: yes
   apt:
     state: present
     pkg: "lxc-docker"
-
+  tags:
+    - install

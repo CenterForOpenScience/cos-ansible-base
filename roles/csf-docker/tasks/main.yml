@@ -1,0 +1,54 @@
+- name: Install csf-started in upstart
+  sudo: yes
+  copy:
+    src: csf-started
+    dest: /etc/init/csf-started.conf
+    mode: 0644
+  tags:
+    - install
+
+
+- name: Install csf-started in systemv
+  sudo: yes
+  copy:
+    src: csf-started.d
+    dest: /etc/init.d/csf-started
+    mode: 0755
+  tags:
+    - install
+
+
+- name: Register csf-started in upstart
+  sudo: yes
+  command: update-rc.d csf-started defaults
+  tags:
+    - install
+
+
+- name: Upgrade CSF
+  sudo: yes
+  command: csf -u
+  tags:
+    - upgrade
+
+
+- name: Restart machine
+  command: shutdown -r now "Restart Docker and csf"
+  async: 0
+  poll: 0
+  ignore_errors: true
+  tags:
+    - install
+    - upgrade
+
+
+- name: Waiting for server to come back
+  local_action:
+    wait_for
+    host={{ inventory_hostname }}
+    state=started
+    port=22
+  sudo: false
+  tags:
+    - install
+    - upgrade

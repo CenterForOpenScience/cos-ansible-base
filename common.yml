@@ -10,6 +10,7 @@
     - role: Ansibles.timezone
     - role: ssh
     - role: ntp
+    - role: logrotate
     - role: editors
 
 

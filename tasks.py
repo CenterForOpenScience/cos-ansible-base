@@ -26,7 +26,7 @@ def install_roles(force=False, ignore_errors=False):
 
 @task
 def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
-         verbose=False, extra='', key=None, limit=None, tags=None):
+         verbose=False, extra='', key=None, limit=None, tags=None, list_tasks=False):
     """Run a playbook. Defaults to using the "hosts" inventory"""
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
         playbook, inventory, user)
@@ -52,6 +52,8 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True
         cmd += ' -e {0!r}'.format(extra)
     if tags:
         cmd += ' --tags={0!r}'.format(tags)
+    if list_tasks:
+        cmd += ' --list-tasks'
     run(cmd, echo=True, pty=True)
 
 
@@ -107,7 +109,7 @@ def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
 
 @task
 def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=True,
-          verbose=False, extra='', key=None, limit=None, tags=None):
+          verbose=False, extra='', key=None, limit=None, tags=None, list_tasks=False):
     """Run a playbook against the vagrant hosts."""
     # If private key not provided, take a good guess
     if not key:
@@ -126,6 +128,7 @@ def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=True,
         key=key,
         limit=limit,
         tags=tags,
+        list_tasks=list_tasks,
     )
 
 @task
@@ -139,7 +142,7 @@ def vprovision(user='vagrant', sudo=True, ask_sudo_pass=False,
         verbose=verbose,
         extra=extra,
         key=key,
-        limit=limit
+        limit=limit,
     )
 
 

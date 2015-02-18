@@ -15,6 +15,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Set up multiple servers for different services
   # NOTE: Make sure all IPs are on the same subnet, e.g. ip_end should always begin with 22
 
+  # Insecure private key not working after vagrant upgrade
+  # https://github.com/mitchellh/vagrant/issues/4967
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+
   config.vm.define "webserver" do |webserver|
     ip_end = "222"
     webserver.vm.box = BOX_IMAGE
@@ -38,7 +43,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "osf-staging" do |staging|
-    staging.ssh.forward_agent = true
     ip_end = "225"
     staging.vm.box = BOX_IMAGE
     staging.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
@@ -48,8 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "waterbutler-worker-vagrant-01" do |waterbutler|
-    waterbutler.ssh.forward_agent = true
+  config.vm.define "waterbutler-web-01" do |waterbutler|
     ip_end = "111"
     waterbutler.vm.box = BOX_IMAGE
     waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
@@ -59,8 +62,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "waterbutler-worker-vagrant-02" do |waterbutler|
-    waterbutler.ssh.forward_agent = true
+  config.vm.define "waterbutler-web-02" do |waterbutler|
     ip_end = "112"
     waterbutler.vm.box = BOX_IMAGE
     waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
@@ -70,8 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "waterbutler-haproxy-vagrant-01" do |waterbutler|
-    waterbutler.ssh.forward_agent = true
+  config.vm.define "waterbutler-lb-01" do |waterbutler|
     ip_end = "113"
     waterbutler.vm.box = BOX_IMAGE
     waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
@@ -80,5 +81,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
   end
-
 end

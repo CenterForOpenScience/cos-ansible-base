@@ -1,0 +1,33 @@
+- name: Restart docker cassandra container
+  sudo: yes
+  shell: "docker restart {{ docker_cassandra_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker cassandra directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_cassandra_data_dir }}"
+    - "{{ docker_cassandra_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker cassandra container
+  docker:
+    name: "{{ docker_cassandra_name }}"
+    state: running
+    hostname: "{{ hostname_name }}-cassandra"
+    restart_policy: always
+    image: "centerforopenscience/cassandra:latest"
+    volumes:
+      - "{{ docker_cassandra_config_dir }}:/etc/cassandra"
+      - "{{ docker_cassandra_data_dir }}:/data/db"
+  tags:
+    - install
+    - upgrade

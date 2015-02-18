@@ -1,0 +1,32 @@
+- name: Restart docker tokumx container
+  sudo: yes
+  shell: "docker restart {{ docker_tokumx_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker tokumx directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_tokumx_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker tokumx container
+  docker:
+    name: "{{ docker_tokumx_name }}"
+    state: running
+    hostname: "{{ hostname_name }}-tokumx"
+    restart_policy: always
+    image: "centerforopenscience/tokumx:latest"
+    volumes:
+      - "{{ docker_tokumx_config_file }}:/etc/tokumx.conf"
+      - "{{ docker_tokumx_data_dir }}:/data/db"
+  tags:
+    - install
+    - upgrade

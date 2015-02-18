@@ -1,0 +1,17 @@
+docker_osf_name: osf_1
+docker_osf_config_dir: /opt/osf
+docker_osf_data_dir: /opt/osf/data
+docker_osf_mfr_dir: /opt/osf/mfr
+docker_osf_log_dir: /var/log/osf
+
+docker_osf_sharejs_name: osf_sharejs_1
+
+docker_osf_elasticsearch_name: osf_elasticsearch_1
+docker_osf_elasticsearch_config_dir: "{{ docker_osf_config_dir }}/elasticsearch"
+docker_osf_elasticsearch_data_dir: "{{ docker_osf_data_dir }}/elasticsearch"
+docker_osf_elasticsearch_log_dir: "{{ docker_osf_log_dir }}/elasticsearch"
+
+docker_osf_tokumx_name: osf_tokumx_1
+docker_osf_tokumx_config_file: "{{ docker_osf_config_dir }}/tokumx.conf"
+docker_osf_tokumx_data_dir: "{{ docker_osf_data_dir }}/tokumx"
+docker_osf_tokumx_log_dir: "{{ docker_osf_log_dir }}/tokumx"
