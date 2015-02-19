@@ -72,7 +72,7 @@
     links:
       - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
     volumes:
-      - "{{ docker_scrapi_conf_file }}:/code/scrapi/settings/local.py:ro"
+      - "{{ docker_scrapi_conf_file }}:/home/python/.cos/local.py"
       - "{{ docker_scrapi_log_dir }}:/log"
   tags:
     - install
