@@ -10,6 +10,10 @@ docker_scrapi_beat_name: scrapi_beat_1
 
 docker_scrapi_server_name: scrapi_server
 docker_scrapi_server_instances: 1
+docker_scrapi_server_expose:
+  - 
+docker_scrapi_server_ports:
+  - 
 
 docker_scrapi_worker_name: scrapi_worker
 docker_scrapi_worker_instances: 1

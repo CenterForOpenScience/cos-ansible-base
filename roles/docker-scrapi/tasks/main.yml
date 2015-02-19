@@ -69,7 +69,10 @@
     env:
       SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
       SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
+      ELASTICSEARCH_PORT_9200_TCP_ADDR: "{{ docker_scrapi_elasticsearch_addr }}"
+      ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
     links:
+      - "{{ docker_scrapi_cassandra_name }}:cassandra"
       - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
     volumes:
       - "{{ docker_scrapi_conf_file }}:/home/python/.cos/local.py"
@@ -79,56 +82,56 @@
     - upgrade
 
 
-# - name: Run docker scrapi worker container
-#   docker:
-#     name: "{{ docker_scrapi_worker_name }}_{{ item }}"
-#     state: running
-#     hostname: "{{ hostname_name }}-worker{{ item }}"
-#     image: "centerforopenscience/scrapi:latest"
-#     command: '/bin/bash -c "invoke worker 2>&1 | tee -a /log/{{ docker_scrapi_worker_name }}_{{ item }}.log"'
-#     restart_policy: always
-#     env:
-#       SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
-#       SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-#       ELASTICSEARCH_PORT_9200_TCP_ADDR: "{{ docker_scrapi_elasticsearch_addr }}"
-#       ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
-#     links:
-#       - "{{ docker_scrapi_cassandra_name }}:cassandra"
-#       - "{{ docker_scrapi_fluentd_name }}:fluentd"
-#       - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
-#     volumes:
-#       # - "{{ docker_scrapi_conf_dir }}/scrapi-{{ docker_scrapi_env }}.json:/home/python/.cos/scrapi-{{ docker_scrapi_env }}.json"
-#       - "{{ docker_scrapi_worker_log_dir }}:/log"
-#   with_sequence: docker_scrapi_worker_instances
-#   when: docker_scrapi_worker_instances > 0
-#   tags:
-#     - install
-#     - upgrade
+- name: Run docker scrapi worker container
+  docker:
+    name: "{{ docker_scrapi_worker_name }}_{{ item }}"
+    state: running
+    image: "centerforopenscience/scrapi:latest"
+    command: '/bin/bash -c "invoke worker 2>&1 | tee -a /log/{{ docker_scrapi_worker_name }}_{{ item }}.log"'
+    restart_policy: always
+    hostname: "{{ hostname_name }}-worker{{ item }}"
+    env:
+      SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
+      SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
+      ELASTICSEARCH_PORT_9200_TCP_ADDR: "{{ docker_scrapi_elasticsearch_addr }}"
+      ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
+    links:
+      - "{{ docker_scrapi_cassandra_name }}:cassandra"
+      # - "{{ docker_scrapi_fluentd_name }}:fluentd"
+      - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
+    volumes:
+      - "{{ docker_scrapi_conf_file }}:/home/python/.cos/local.py"
+      - "{{ docker_scrapi_log_dir }}:/log"
+  with_sequence: docker_scrapi_worker_instances
+  when: docker_scrapi_worker_instances > 0
+  tags:
+    - install
+    - upgrade
 
 
-# - name: Run docker scrapi server container
-#   docker:
-#     name: "{{ docker_scrapi_server_name }}_{{ item }}"
-#     state: running
-#     hostname: "{{ hostname_name }}-server{{ item }}"
-#     image: "centerforopenscience/scrapi:latest"
-#     command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_scrapi_server_name }}_{{ item }}.log"'
-#     # expose:
-#     #   - "{{ (docker_scrapi_server_start_port | int) + (item | int) }}"
-#     ports:
-#       - "80"
-#       - "443"
-#     env:
-#       SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
-#       SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-#     links:
-#       - "{{ docker_scrapi_cassandra_name }}:cassandra"
-#     restart_policy: always
-#     volumes:
-#       # - "{{ docker_scrapi_conf_dir }}/scrapi-{{ docker_scrapi_env }}.json:/home/python/.cos/scrapi-{{ docker_scrapi_env }}.json"
-#       - "{{ docker_scrapi_server_log_dir }}:/log"
-#   with_sequence: docker_scrapi_server_instances
-#   when: docker_scrapi_server_instances > 0
-#   tags:
-#     - install
-#     - upgrade
+- name: Run docker scrapi server container
+  docker:
+    name: "{{ docker_scrapi_server_name }}_{{ item }}"
+    state: running
+    image: "centerforopenscience/scrapi:latest"
+    command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_scrapi_server_name }}_{{ item }}.log"'
+    restart_policy: always
+    hostname: "{{ hostname_name }}-server{{ item }}"
+    expose: "{{ docker_scrapi_server_expose }}"
+    ports: "{{ docker_scrapi_server_ports }}"
+    env:
+      SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
+      SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
+      ELASTICSEARCH_PORT_9200_TCP_ADDR: "{{ docker_scrapi_elasticsearch_addr }}"
+      ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
+    links:
+      - "{{ docker_scrapi_cassandra_name }}:cassandra"
+      - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
+    volumes:
+      - "{{ docker_scrapi_conf_file }}:/home/python/.cos/local.py"
+      - "{{ docker_scrapi_log_dir }}:/log"
+  with_sequence: docker_scrapi_server_instances
+  when: docker_scrapi_server_instances > 0
+  tags:
+    - install
+    - upgrade
