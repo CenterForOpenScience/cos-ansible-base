@@ -2,13 +2,13 @@ docker_waterbutler_env: test
 docker_waterbutler_source_branch: develop
 docker_waterbutler_source_repo: "https://github.com/CenterForOpenScience/waterbutler.git"
 
-docker_waterbutler_config_dir: "/opt/waterbutler"
+docker_waterbutler_conf_dir: "/opt/waterbutler/conf"
 docker_waterbutler_log_dir: "/var/log/waterbutler"
 
 docker_waterbutler_redis_name: waterbutler_redis_1
-docker_waterbutler_redis_dir: /opt/redis
+docker_waterbutler_redis_data_dir: /opt/redis/data
 docker_waterbutler_rabbitmq_name: waterbutler_rabbitmq_1
-docker_waterbutler_rabbitmq_dir: /opt/rabbitmq
+docker_waterbutler_rabbitmq_data_dir: /opt/rabbitmq/data
 
 docker_waterbutler_osfstorage_pending_dir: "/opt/osfstorage/pending"
 docker_waterbutler_osfstorage_complete_dir: "/opt/osfstorage/complete"

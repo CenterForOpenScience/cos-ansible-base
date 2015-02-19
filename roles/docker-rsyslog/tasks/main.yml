@@ -10,7 +10,7 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - "{{ docker_rsyslog_config_dir }}"
+    - "{{ docker_rsyslog_conf_dir }}"
     - "{{ docker_rsyslog_log_dir }}"
   tags:
     - install
@@ -25,7 +25,7 @@
     restart_policy: always
     hostname: "{{ hostname_name }}-rsyslog"
     volumes:
-      - "{{ docker_rsyslog_config_dir }}/:/etc/rsyslog.d/"
+      - "{{ docker_rsyslog_conf_dir }}/:/etc/rsyslog.d/"
       - "{{ docker_rsyslog_log_log_dir }}:/log"
   tags:
     - install

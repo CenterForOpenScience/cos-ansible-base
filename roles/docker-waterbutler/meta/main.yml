@@ -5,8 +5,8 @@ dependencies:
 
   - role: docker-redis
     docker_redis_name: "{{ docker_waterbutler_redis_name }}"
-    docker_redis_data_dir: "{{ docker_waterbutler_redis_dir }}"
+    docker_redis_data_dir: "{{ docker_waterbutler_redis_data_dir }}"
 
   - role: docker-rabbitmq
     docker_rabbitmq_name: "{{ docker_waterbutler_rabbitmq_name }}"
-    docker_rabbitmq_data_dir: "{{ docker_waterbutler_rabbitmq_dir }}"
+    docker_rabbitmq_data_dir: "{{ docker_waterbutler_rabbitmq_data_dir }}"

@@ -1,3 +1,10 @@
+- name: Limit host memory swapping
+  sudo: yes
+  command: "sed -i -e \"s/^vm.swappiness.*/vm.swappiness = 1/\" /etc/sysctl.conf"
+  tags:
+    - install
+
+
 - name: Ensure docker osf logrotate config
   template:
     src: logrotate.j2
@@ -23,7 +30,7 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - "{{ docker_elasticsearch_config_dir }}"
+    - "{{ docker_elasticsearch_conf_dir }}"
     - "{{ docker_elasticsearch_data_dir }}"
     - "{{ docker_elasticsearch_log_dir }}"
   tags:
@@ -33,8 +40,8 @@
 
 - name: Copy docker elasticsearch configuration settings
   copy:
-    src: "config/"
-    dest: "{{ docker_elasticsearch_config_dir }}/"
+    src: "conf/"
+    dest: "{{ docker_elasticsearch_conf_dir }}/"
     mode: 0660
   tags:
     - install
@@ -51,9 +58,12 @@
     image: "elasticsearch:latest"
     expose: "{{ docker_elasticsearch_expose }}"
     ports: "{{ docker_elasticsearch_ports }}"
+    env:
+      ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
     volumes:
-      - "{{ docker_elasticsearch_config_dir }}:/usr/share/elasticsearch/config"
+      - "{{ docker_elasticsearch_conf_dir }}:/usr/share/elasticsearch/config"
       - "{{ docker_elasticsearch_data_dir }}:/usr/share/elasticsearch/data"
+      - "{{ docker_elasticsearch_log_dir }}:/var/log/elasticsearch"
   tags:
     - install
     - upgrade

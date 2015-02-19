@@ -17,22 +17,20 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_scrapi_log_dir }}"
-    - "{{ docker_scrapi_server_log_dir }}"
-    - "{{ docker_scrapi_worker_log_dir }}"
   tags:
     - install
     - upgrade
 
 
-# - name: Copy docker scrapi configuration settings
-#   copy:
-#     dest: "{{ docker_scrapi_config_dir }}/scrapi-{{ docker_scrapi_env }}.json"
-#     src: "~/.cos/scrapi-{{ docker_scrapi_env }}.json"
-#     mode: 0660
-#   tags:
-#     - install
-#     - settings
-#     - upgrade
+- name: Copy docker scrapi configuration settings
+  copy:
+    src: "~/.cos/scrapi/staging/local.py"
+    dest: "{{ docker_scrapi_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade
 
 
 - name: Restart docker scrapi beat container
@@ -65,14 +63,17 @@
     name: "{{ docker_scrapi_beat_name }}"
     state: running
     image: "centerforopenscience/scrapi:latest"
-    command: '/bin/bash -c "invoke beat 2>&1 | tee -a /log/{{ docker_scrapi_beat_name }}.log"'
+    command: "/bin/bash -c 'invoke beat 2>&1 | tee -a /log/{{ docker_scrapi_beat_name }}.log'"
     restart_policy: always
     hostname: "{{ hostname_name }}-beat"
+    env:
+      SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
+      SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
     links:
       - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
     volumes:
-      - "{{ docker_scrapi_beat_config_file }}:/code/scrapi/settings/local.py:ro"
-      - "{{ docker_scrapi_beat_log_dir }}:/log"
+      - "{{ docker_scrapi_conf_file }}:/code/scrapi/settings/local.py:ro"
+      - "{{ docker_scrapi_log_dir }}:/log"
   tags:
     - install
     - upgrade
@@ -89,14 +90,14 @@
 #     env:
 #       SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
 #       SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-#       ELASTICSEARCH_HOST: 0.0.0.0
-#       ELASTICSEARCH_PORT: 9200
+#       ELASTICSEARCH_PORT_9200_TCP_ADDR: "{{ docker_scrapi_elasticsearch_addr }}"
+#       ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
 #     links:
 #       - "{{ docker_scrapi_cassandra_name }}:cassandra"
 #       - "{{ docker_scrapi_fluentd_name }}:fluentd"
 #       - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
 #     volumes:
-#       # - "{{ docker_scrapi_config_dir }}/scrapi-{{ docker_scrapi_env }}.json:/home/python/.cos/scrapi-{{ docker_scrapi_env }}.json"
+#       # - "{{ docker_scrapi_conf_dir }}/scrapi-{{ docker_scrapi_env }}.json:/home/python/.cos/scrapi-{{ docker_scrapi_env }}.json"
 #       - "{{ docker_scrapi_worker_log_dir }}:/log"
 #   with_sequence: docker_scrapi_worker_instances
 #   when: docker_scrapi_worker_instances > 0
@@ -124,7 +125,7 @@
 #       - "{{ docker_scrapi_cassandra_name }}:cassandra"
 #     restart_policy: always
 #     volumes:
-#       # - "{{ docker_scrapi_config_dir }}/scrapi-{{ docker_scrapi_env }}.json:/home/python/.cos/scrapi-{{ docker_scrapi_env }}.json"
+#       # - "{{ docker_scrapi_conf_dir }}/scrapi-{{ docker_scrapi_env }}.json:/home/python/.cos/scrapi-{{ docker_scrapi_env }}.json"
 #       - "{{ docker_scrapi_server_log_dir }}:/log"
 #   with_sequence: docker_scrapi_server_instances
 #   when: docker_scrapi_server_instances > 0

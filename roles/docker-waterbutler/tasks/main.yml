@@ -16,7 +16,7 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - "{{ docker_waterbutler_config_dir }}"
+    - "{{ docker_waterbutler_conf_dir }}"
     - "{{ docker_waterbutler_log_dir }}"
     - "{{ docker_waterbutler_osfstorage_pending_dir }}"
     - "{{ docker_waterbutler_osfstorage_complete_dir }}"
@@ -27,7 +27,7 @@
 
 - name: Copy docker waterbutler configuration settings
   copy:
-    dest: "{{ docker_waterbutler_config_dir }}/waterbutler-{{ docker_waterbutler_env }}.json"
+    dest: "{{ docker_waterbutler_conf_dir }}/waterbutler-{{ docker_waterbutler_env }}.json"
     src: "~/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
     mode: 0660
   tags:
@@ -72,7 +72,7 @@
     volumes:
       - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
       - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
-      - "{{ docker_waterbutler_config_dir }}/waterbutler-{{ docker_waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
+      - "{{ docker_waterbutler_conf_dir }}/waterbutler-{{ docker_waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
       - "{{ docker_waterbutler_log_dir }}:/log"
   with_sequence: docker_waterbutler_celery_instances
   when: docker_waterbutler_celery_instances > 0
@@ -103,7 +103,7 @@
     volumes:
       - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
       - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
-      - "{{ docker_waterbutler_config_dir }}/waterbutler-{{ docker_waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
+      - "{{ docker_waterbutler_conf_dir }}/waterbutler-{{ docker_waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
       - "{{ docker_waterbutler_log_dir }}:/log"
   with_sequence: docker_waterbutler_server_instances
   when: docker_waterbutler_server_instances > 0

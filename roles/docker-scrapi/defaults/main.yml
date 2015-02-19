@@ -1,32 +1,38 @@
 docker_scrapi_source_branch: develop
 docker_scrapi_source_repo: https://github.com/fabianvf/scrapi.git
+# docker_scrapi_conf_file: ~/.cos/scrapi/
 
-docker_scrapi_config_dir: /opt/scrapi/config
+docker_scrapi_conf_dir: /opt/scrapi/conf
+docker_scrapi_conf_file: "{{ docker_scrapi_conf_dir }}/local.py"
 docker_scrapi_log_dir: /var/log/scrapi
 
 docker_scrapi_beat_name: scrapi_beat_1
-docker_scrapi_beat_config_file: "{{ docker_scrapi_config_dir }}/beat.local.py"
-docker_scrapi_beat_log_dir: "{{ docker_scrapi_log_dir }}"
 
 docker_scrapi_server_name: scrapi_server
 docker_scrapi_server_instances: 1
-docker_scrapi_server_log_dir: "{{ docker_scrapi_log_dir }}"
 
 docker_scrapi_worker_name: scrapi_worker
 docker_scrapi_worker_instances: 1
-docker_scrapi_worker_log_dir: "{{ docker_scrapi_log_dir }}"
+
+docker_scrapi_elasticsearch_addr: '0.0.0.0'
+docker_scrapi_elasticsearch_port: '9200'
 
 docker_scrapi_cassandra_name: scrapi_cassandra_1
-docker_scrapi_cassandra_config_dir: /opt/cassandra/config
-docker_scrapi_cassandra_data_dir: /opt/cassandra/data
+docker_scrapi_cassandra_data_commitlog_dir: /opt/cassandra/data/commitlog
+docker_scrapi_cassandra_data_data_dir: /opt/cassandra/data/data
+docker_scrapi_cassandra_data_saved_caches_dir: /opt/cassandra/data/saved_caches
 docker_scrapi_cassandra_log_dir: /var/log/cassandra
+docker_scrapi_cassandra_expose:
+  - 
+docker_scrapi_cassandra_ports:
+  - 
 
 docker_scrapi_fluentd_name: scrapi_fluentd_1
-docker_scrapi_fluentd_config_dir: /opt/fluentd/config
+docker_scrapi_fluentd_conf_dir: /opt/fluentd/conf
 docker_scrapi_fluentd_data_dir: /opt/fluentd/data
 
 docker_scrapi_nginx_name: scrapi_nginx_1
-docker_scrapi_nginx_config_dir: /opt/nginx/config
+docker_scrapi_nginx_conf_dir: /opt/nginx/conf
 docker_scrapi_nginx_log_dir: /var/log/nginx
 
 docker_scrapi_rabbitmq_name: scrapi_rabbitmq_1

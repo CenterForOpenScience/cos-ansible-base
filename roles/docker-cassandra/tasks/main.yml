@@ -1,3 +1,15 @@
+- name: Ensure docker cassandra logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/cassandra
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
 - name: Restart docker cassandra container
   sudo: yes
   shell: "docker restart {{ docker_cassandra_name }}"
@@ -11,9 +23,10 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - "{{ docker_cassandra_config_dir }}"
-    - "{{ docker_cassandra_data_dir }}"
-    - "{{ docker_cassandra_log_dir }}"
+    - "{{ docker_cassandra_data_commitlog_dir }}"
+    - "{{ docker_cassandra_data_data_dir }}"
+    - "{{ docker_cassandra_data_saved_caches_dir }}"
+    - "{{ docker_cassandra_logs_dir }}"
   tags:
     - install
     - upgrade
@@ -26,9 +39,13 @@
     hostname: "{{ hostname_name }}-cassandra"
     restart_policy: always
     image: "centerforopenscience/cassandra:latest"
+    expose: "{{ docker_cassandra_expose }}"
+    ports: "{{ docker_cassandra_ports }}"
     volumes:
-      - "{{ docker_cassandra_config_dir }}:/etc/cassandra"
-      - "{{ docker_cassandra_data_dir }}:/data/db"
+      - "{{ docker_cassandra_data_commitlog_dir }}:/opt/cassandra/data/commitlog"
+      - "{{ docker_cassandra_data_data_dir }}:/opt/cassandra/data/data"
+      - "{{ docker_cassandra_data_saved_caches_dir }}:/opt/cassandra/data/saved_caches"
+      - "{{ docker_cassandra_logs_dir }}:/opt/cassandra/logs"
   tags:
     - install
     - upgrade

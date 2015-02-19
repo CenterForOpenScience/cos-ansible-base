@@ -34,7 +34,7 @@
     group: newrelic
     mode: 0640
     src: nrsysmond.cfg.j2
-    dest: "{{ newrelic_config_dir }}/nrsysmond.cfg"
+    dest: "{{ newrelic_conf_dir }}/nrsysmond.cfg"
 
 
 - name: Start service newrelic system monitoring daemon

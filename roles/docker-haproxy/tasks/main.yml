@@ -15,10 +15,10 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - "{{ docker_haproxy_config_dir }}"
-    - "{{ docker_haproxy_config_dir }}/ssl"
-    - "{{ docker_haproxy_config_dir }}/ssl/certs.d"
-    - "{{ docker_haproxy_rsyslog_config_dir }}"
+    - "{{ docker_haproxy_conf_dir }}"
+    - "{{ docker_haproxy_conf_dir }}/ssl"
+    - "{{ docker_haproxy_conf_dir }}/ssl/certs.d"
+    - "{{ docker_haproxy_rsyslog_conf_dir }}"
   tags:
     - install
     - upgrade
@@ -28,7 +28,7 @@
   template:
     mode: 0640
     src: "haproxy.conf.j2"
-    dest: "{{ docker_haproxy_config_dir }}/haproxy.cfg"
+    dest: "{{ docker_haproxy_conf_dir }}/haproxy.cfg"
   tags:
     - install
     - settings
@@ -39,7 +39,7 @@
   template:
     mode: 0640
     src: "49-haproxy.conf.j2"
-    dest: "{{ docker_haproxy_rsyslog_config_dir }}/49-haproxy.conf"
+    dest: "{{ docker_haproxy_rsyslog_conf_dir }}/49-haproxy.conf"
   tags:
     - install
     - settings
@@ -53,7 +53,7 @@
 
 # - name: docker_haproxy_default_cert_src
 #   debug:
-#     msg: "{{ docker_haproxy_config_dir }}/ssl/default.pem"
+#     msg: "{{ docker_haproxy_conf_dir }}/ssl/default.pem"
 
 
 - name: Restart docker haproxy container
@@ -67,7 +67,7 @@
   copy:
     mode: 0640
     src: "{{ docker_haproxy_default_cert_src }}"
-    dest: "{{ docker_haproxy_config_dir }}/ssl/default.pem"
+    dest: "{{ docker_haproxy_conf_dir }}/ssl/default.pem"
   when: docker_haproxy_default_cert_src | default("") != ""
   tags:
     - install
@@ -78,7 +78,7 @@
   copy:
     mode: 0640
     src: "{{ docker_haproxy_certsd_dir_src }}"
-    dest: "{{ docker_haproxy_config_dir }}/ssl/certs.d"
+    dest: "{{ docker_haproxy_conf_dir }}/ssl/certs.d"
   when: docker_haproxy_certsd_dir_src | default("") != ""
   tags:
     - install
@@ -100,8 +100,8 @@
       - "80:80"
       - "443:443"
     volumes:
-      - "{{ docker_haproxy_config_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
-      - "{{ docker_haproxy_config_dir }}/ssl:/etc/ssl/private"
+      - "{{ docker_haproxy_conf_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+      - "{{ docker_haproxy_conf_dir }}/ssl:/etc/ssl/private"
   tags:
     - install
     - upgrade

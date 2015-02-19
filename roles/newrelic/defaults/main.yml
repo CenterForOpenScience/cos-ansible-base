@@ -1,2 +1,2 @@
 newrelic_license_key: '...'
-newrelic_config_dir: '/etc/newrelic'
+newrelic_conf_dir: '/etc/newrelic'

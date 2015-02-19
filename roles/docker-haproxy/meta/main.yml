@@ -1,5 +1,5 @@
 dependencies:
   - role: docker-rsyslog
     docker_rsyslog_name: "{{ docker_haproxy_rsyslog_name }}"
-    docker_rsyslog_config_dir: "{{ docker_haproxy_rsyslog_config_dir }}"
+    docker_rsyslog_conf_dir: "{{ docker_haproxy_rsyslog_conf_dir }}"
     docker_rsyslog_log_dir: "{{ docker_haproxy_rsyslog_log_dir }}"

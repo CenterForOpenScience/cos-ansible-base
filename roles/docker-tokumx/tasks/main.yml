@@ -26,7 +26,7 @@
     restart_policy: always
     image: "centerforopenscience/tokumx:latest"
     volumes:
-      - "{{ docker_tokumx_config_file }}:/etc/tokumx.conf"
+      - "{{ docker_tokumx_conf_file }}:/etc/tokumx.conf"
       - "{{ docker_tokumx_data_dir }}:/data/db"
   tags:
     - install
