@@ -11,6 +11,7 @@
     state: directory
     path: "{{ item }}"
   with_items:
+    - "{{ docker_cassandra_config_dir }}"
     - "{{ docker_cassandra_data_dir }}"
     - "{{ docker_cassandra_log_dir }}"
   tags:

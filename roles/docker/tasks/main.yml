@@ -14,6 +14,7 @@
     name: "{{ item }}"
   with_items:
     - "docker-py"
+    # - "docker-py==0.7.2" # docker 1.4.1 compatible
     - "python-apt"
   tags:
     - install
@@ -43,5 +44,6 @@
   apt:
     state: present
     pkg: "lxc-docker"
+    # pkg: "lxc-docker-1.4.1"
   tags:
     - install

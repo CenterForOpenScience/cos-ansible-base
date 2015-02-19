@@ -1,2 +1,7 @@
 docker_elasticsearch_name: elasticsearch_1
+docker_elasticsearch_config_dir: /opt/elasticsearch/config
 docker_elasticsearch_data_dir: /opt/elasticsearch/data
+docker_elasticsearch_expose:
+  - 
+docker_elasticsearch_ports:
+  - 

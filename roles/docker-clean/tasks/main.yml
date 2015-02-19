@@ -1,8 +1,9 @@
 - name: Delete all docker containers
   sudo: yes
-  shell: "docker rm -f $(docker ps -q)"
+  shell: "docker rm -f $(docker ps -aq)"
   ignore_errors: yes
   tags:
+    - clean
     - upgrade
 
 
@@ -11,4 +12,4 @@
   shell: "docker rmi -f $(docker images -q)"
   ignore_errors: yes
   tags:
-    - upgrade
+    - clean

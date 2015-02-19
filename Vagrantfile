@@ -42,12 +42,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "osf-staging" do |staging|
+  config.vm.define "osf-vagrant" do |osf|
     ip_end = "225"
-    staging.vm.box = BOX_IMAGE
-    staging.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+    osf.vm.box = BOX_IMAGE
+    osf.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
-    staging.vm.provider :virtualbox do |vb|
+    osf.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
   end
@@ -78,6 +78,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     waterbutler.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
     waterbutler.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "scrapi-web-01" do |scrapi|
+    ip_end = "130"
+    scrapi.vm.box = BOX_IMAGE
+    scrapi.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    scrapi.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "scrapi-search-01" do |scrapi|
+    ip_end = "131"
+    scrapi.vm.box = BOX_IMAGE
+    scrapi.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    scrapi.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
   end

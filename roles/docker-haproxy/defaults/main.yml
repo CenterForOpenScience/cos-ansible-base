@@ -1,5 +1,5 @@
 docker_haproxy_name: haproxy_1
-docker_haproxy_config_dir: /opt/haproxy
+docker_haproxy_config_dir: /opt/haproxy/config
 
 docker_haproxy_rsyslog_name: rsyslog_1
 docker_haproxy_rsyslog_config_dir: /opt/haproxy/rsyslog

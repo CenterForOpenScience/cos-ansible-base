@@ -1,3 +1,15 @@
+- name: Ensure docker osf logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/elasticsearch
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
 - name: Restart docker elasticsearch container
   sudo: yes
   shell: "docker restart {{ docker_elasticsearch_name }}"
@@ -13,8 +25,20 @@
   with_items:
     - "{{ docker_elasticsearch_config_dir }}"
     - "{{ docker_elasticsearch_data_dir }}"
+    - "{{ docker_elasticsearch_log_dir }}"
   tags:
     - install
+    - upgrade
+
+
+- name: Copy docker elasticsearch configuration settings
+  copy:
+    src: "config/"
+    dest: "{{ docker_elasticsearch_config_dir }}/"
+    mode: 0660
+  tags:
+    - install
+    - settings
     - upgrade
 
 
@@ -25,6 +49,8 @@
     hostname: "{{ hostname_name }}-elasticsearch"
     restart_policy: always
     image: "elasticsearch:latest"
+    expose: "{{ docker_elasticsearch_expose }}"
+    ports: "{{ docker_elasticsearch_ports }}"
     volumes:
       - "{{ docker_elasticsearch_config_dir }}:/usr/share/elasticsearch/config"
       - "{{ docker_elasticsearch_data_dir }}:/usr/share/elasticsearch/data"

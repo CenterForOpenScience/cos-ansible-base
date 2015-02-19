@@ -46,18 +46,6 @@ genericusers_users:
     append: yes
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtZtjCIActQOVwioLMqV8tAul/9blajcG2ItBwlR7F7X8FixY7Zp3LuqqsMzj+lMAK8S9xwPECYvmlfjShCS/8+ws8wjHHoe2v3qu2b3Nzzi2Zw6OVdJ3utgpNDzVpPDGKLBYZHYPJwn+kYdOQYO0KvbgvTU7Gk3SJhryBb1JKtim3AifNqfk3DUZT2pe5nQfN8rGerKwOof3W2J6x4mzCjFDiCDFY5igVzw4HjUcNeAMvgI08excfqRMby3XJ3F2uy5SKzXK5nEI1b82E2yuV1OTA+2xx9ImONmjevK3N9wMMJWfBQ8Sbkno83ir+oVmavZ3umTrkH6pjSPpwLtXt jeff@centerforopenscience.org
-  - name: lsimon
-    pass: $5$rounds=110000$sQ2ZyreyI8o78TZT$etlq3.4zSya2lDDsbRAI6J3rPfbMT4quMx1CwFhtTu7
-    uid: 6001
-    shell: /usr/bin/zsh
-    groups:
-      - admin
-      - osf
-      - sudo
-      - mongodb
-    append: yes
-    ssh_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDe31+sFDSuT6r18FYQP+zyfJssop451DVa8ciS/CedP+MD/zgJ+3yoGSfB9vZqnmfDMnmbE3qBf/+q++zPOUenJn9ai2gfNquIbEwkoe9E9VadBQRuLUHN9tSRsZ2FUMCmD2VPMB/9C56k4jSV3nuvJf3qR/cuPtJN2AXYdx6G6E9l52zvvIpmcWLJr32Tcd9y1n05ugg54Th0IrbuNjfYBHoq48Ym89l6uV/PChyGqrgpRe5/chx3QX0ftf1ecJ3DuoT87WqL1noaCaRsROH5aqNQMK3ShZWvFPxrvMVfk5s1BLJ1APrImN/x7thRe4D17ZjFW2uaMBK+UU/K3jyb lyndsy@centerforopenscience.org
   - name: icereval
     pass: $5$rounds=110000$eOfP.zr4uq752c.J$DARAtBgPxI.iDVZzL8l.HbvaFJm50bh1eRYnNn66poB
     comment: ''

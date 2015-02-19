@@ -1,2 +1,2 @@
 docker_redis_name: redis_1
-docker_redis_data_dir: /opt/redis
+docker_redis_data_dir: /opt/redis/data

@@ -1,0 +1,25 @@
+dependencies:
+  - role: docker
+
+  - role: docker-clean
+
+  # - role: docker-cassandra
+  #   docker_cassandra_name: "{{ docker_scrapi_cassandra_name }}"
+  #   docker_cassandra_config_file: "{{ docker_scrapi_cassandra_config_file }}"
+  #   docker_cassandra_data_dir: "{{ docker_scrapi_cassandra_data_dir }}"
+  #   docker_cassandra_log_dir: "{{ docker_scrapi_cassandra_log_dir }}"
+
+  # - role: docker-fluentd
+  #   docker_fluentd_name: "{{ docker_scrapi_fluentd_name }}"
+  #   docker_fluentd_config_file: "{{ docker_scrapi_fluentd_config_file }}"
+  #   docker_fluentd_data_dir: "{{ docker_scrapi_fluentd_data_dir }}"
+  #   docker_fluentd_log_dir: "{{ docker_scrapi_fluentd_log_dir }}"
+
+  # - role: docker-nginx
+  #   docker_nginx_name: "{{ docker_scrapi_nginx_name }}"
+  #   docker_nginx_config_dir: "{{ docker_scrapi_nginx_config_dir }}"
+  #   docker_nginx_log_dir: "{{ docker_scrapi_nginx_log_dir }}"
+
+  - role: docker-rabbitmq
+    docker_rabbitmq_name: "{{ docker_scrapi_rabbitmq_name }}"
+    docker_rabbitmq_data_dir: "{{ docker_scrapi_rabbitmq_data_dir }}"

@@ -1,7 +1,13 @@
-docker_osf_name: osf_1
+docker_osf_celery_name: osf_celery
+docker_osf_celery_instances: 1
+
+docker_osf_server_name: osf_server
+docker_osf_server_instances: 1
+
 docker_osf_config_dir: /opt/osf
 docker_osf_data_dir: /opt/osf/data
-docker_osf_mfr_dir: /opt/osf/mfr
+docker_osf_mfrcache_dir: /opt/osf/mfrcache
+docker_osf_mfrctemp_dir: /opt/osf/mfrtemp
 docker_osf_log_dir: /var/log/osf
 
 docker_osf_sharejs_name: osf_sharejs_1
@@ -10,6 +16,9 @@ docker_osf_elasticsearch_name: osf_elasticsearch_1
 docker_osf_elasticsearch_config_dir: "{{ docker_osf_config_dir }}/elasticsearch"
 docker_osf_elasticsearch_data_dir: "{{ docker_osf_data_dir }}/elasticsearch"
 docker_osf_elasticsearch_log_dir: "{{ docker_osf_log_dir }}/elasticsearch"
+
+docker_osf_rabbitmq_name: osf_rabbitmq_1
+docker_osf_rabbitmq_dir: "{{ docker_osf_data_dir }}/rabbitmq"
 
 docker_osf_tokumx_name: osf_tokumx_1
 docker_osf_tokumx_config_file: "{{ docker_osf_config_dir }}/tokumx.conf"
