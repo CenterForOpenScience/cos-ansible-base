@@ -22,9 +22,7 @@ docker_scrapi_elasticsearch_addr: '0.0.0.0'
 docker_scrapi_elasticsearch_port: '9200'
 
 docker_scrapi_cassandra_name: scrapi_cassandra_1
-docker_scrapi_cassandra_data_commitlog_dir: /opt/cassandra/data/commitlog
-docker_scrapi_cassandra_data_data_dir: /opt/cassandra/data/data
-docker_scrapi_cassandra_data_saved_caches_dir: /opt/cassandra/data/saved_caches
+docker_scrapi_cassandra_data_dir: /opt/cassandra/data
 docker_scrapi_cassandra_log_dir: /var/log/cassandra
 docker_scrapi_cassandra_expose:
   - 
@@ -33,7 +31,11 @@ docker_scrapi_cassandra_ports:
 
 docker_scrapi_fluentd_name: scrapi_fluentd_1
 docker_scrapi_fluentd_conf_dir: /opt/fluentd/conf
-docker_scrapi_fluentd_data_dir: /opt/fluentd/data
+docker_scrapi_fluentd_conf_file: "{{ docker_scrapi_fluentd_conf_dir }}/fluent.conf"
+docker_scrapi_fluentd_expose:
+  - 
+docker_scrapi_fluentd_ports:
+  - 
 
 docker_scrapi_nginx_name: scrapi_nginx_1
 docker_scrapi_nginx_conf_dir: /opt/nginx/conf

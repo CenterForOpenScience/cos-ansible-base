@@ -11,6 +11,7 @@
     - role: ssh
     - role: htop
     - role: ntp
+    - role: tmux
     - role: logrotate
     - role: editors
 

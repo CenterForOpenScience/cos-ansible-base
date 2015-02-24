@@ -1,7 +1,5 @@
 docker_cassandra_name: cassandra_1
-docker_cassandra_data_commitlog_dir: /opt/cassandra/data/commitlog"
-docker_cassandra_data_data_dir: /opt/cassandra/data/data"
-docker_cassandra_data_saved_caches_dir: /opt/cassandra/data/saved_caches"
+docker_cassandra_data_dir: /opt/cassandra/data
 docker_cassandra_logs_dir: /var/log/cassandra
 docker_cassandra_expose:
   - 

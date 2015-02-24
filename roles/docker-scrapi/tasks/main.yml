@@ -97,7 +97,7 @@
       ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
     links:
       - "{{ docker_scrapi_cassandra_name }}:cassandra"
-      # - "{{ docker_scrapi_fluentd_name }}:fluentd"
+      - "{{ docker_scrapi_fluentd_name }}:fluentd"
       - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
     volumes:
       - "{{ docker_scrapi_conf_file }}:/home/python/.cos/local.py"

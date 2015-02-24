@@ -5,18 +5,17 @@ dependencies:
 
   - role: docker-cassandra
     docker_cassandra_name: "{{ docker_scrapi_cassandra_name }}"
-    docker_cassandra_data_commitlog_dir: "{{ docker_scrapi_cassandra_data_commitlog_dir }}"
-    docker_cassandra_data_data_dir: "{{ docker_scrapi_cassandra_data_data_dir }}"
-    docker_cassandra_data_saved_caches_dir: "{{ docker_scrapi_cassandra_data_saved_caches_dir }}"
+    docker_cassandra_data_dir: "{{ docker_scrapi_cassandra_data_dir }}"
     docker_cassandra_logs_dir: "{{ docker_scrapi_cassandra_log_dir }}"
     docker_cassandra_expose: "{{ docker_scrapi_cassandra_expose }}"
     docker_cassandra_ports: "{{ docker_scrapi_cassandra_ports }}"
 
-  # - role: docker-fluentd
-  #   docker_fluentd_name: "{{ docker_scrapi_fluentd_name }}"
-  #   docker_fluentd_conf_file: "{{ docker_scrapi_fluentd_conf_file }}"
-  #   docker_fluentd_data_dir: "{{ docker_scrapi_fluentd_data_dir }}"
-  #   docker_fluentd_log_dir: "{{ docker_scrapi_fluentd_log_dir }}"
+  - role: docker-fluentd
+    docker_fluentd_name: "{{ docker_scrapi_fluentd_name }}"
+    docker_fluentd_conf_dir: "{{ docker_scrapi_fluentd_conf_dir }}"
+    docker_fluentd_conf_file: "{{ docker_scrapi_fluentd_conf_file }}"
+    docker_fluentd_expose: "{{ docker_scrapi_fluentd_expose }}"
+    docker_fluentd_ports: "{{ docker_scrapi_fluentd_ports }}"
 
   # - role: docker-nginx
   #   docker_nginx_name: "{{ docker_scrapi_nginx_name }}"
