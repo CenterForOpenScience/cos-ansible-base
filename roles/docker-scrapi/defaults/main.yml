@@ -14,7 +14,7 @@ docker_scrapi_server_expose: []
 docker_scrapi_server_ports: []
 
 docker_scrapi_worker_name: scrapi_worker
-docker_scrapi_worker_instances: 1
+docker_scrapi_worker_instances: 2
 
 docker_scrapi_elasticsearch_addr: '0.0.0.0'
 docker_scrapi_elasticsearch_port: '9200'
