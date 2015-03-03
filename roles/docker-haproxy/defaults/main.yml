@@ -1,4 +1,5 @@
 docker_haproxy_name: haproxy_1
+docker_haproxy_env: {}
 docker_haproxy_conf_dir: /opt/haproxy/conf
 
 docker_haproxy_rsyslog_name: rsyslog_1

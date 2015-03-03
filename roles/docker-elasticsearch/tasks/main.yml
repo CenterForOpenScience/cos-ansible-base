@@ -58,6 +58,7 @@
     image: "elasticsearch:latest"
     expose: "{{ docker_elasticsearch_expose }}"
     ports: "{{ docker_elasticsearch_ports }}"
+    env: "{{ docker_elasticsearch_env }}"
     env:
       ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
     volumes:

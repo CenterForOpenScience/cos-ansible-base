@@ -25,6 +25,7 @@
     hostname: "{{ hostname_name }}-tokumx"
     restart_policy: always
     image: "centerforopenscience/tokumx:latest"
+    env: "{{ docker_tokumx_env }}"
     volumes:
       - "{{ docker_tokumx_conf_file }}:/etc/tokumx.conf"
       - "{{ docker_tokumx_data_dir }}:/data/db"

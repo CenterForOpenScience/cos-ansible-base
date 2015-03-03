@@ -22,6 +22,7 @@
     image: "redis:latest"
     restart_policy: always
     hostname: "{{ hostname_name }}-redis"
+    env: "{{ docker_redis_env }}"
     volumes:
       - "{{ docker_redis_data_dir }}:/data"
   tags:

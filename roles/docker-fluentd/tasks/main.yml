@@ -1,0 +1,51 @@
+- name: Restart docker fluentd container
+  sudo: yes
+  shell: "docker restart {{ docker_fluentd_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker fluentd directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ docker_fluentd_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: docker_fluentd_source_conf_file
+  debug:
+    msg: "{{ docker_fluentd_source_conf_file }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker fluentd configuration settings
+  copy:
+    src: "{{ docker_fluentd_source_conf_file }}"
+    dest: "{{ docker_fluentd_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Run docker fluentd container
+  docker:
+    name: "{{ docker_fluentd_name }}"
+    state: running
+    image: "centerforopenscience/fluentd:latest"
+    restart_policy: always
+    hostname: "{{ hostname_name }}-fluentd"
+    expose: "{{ docker_fluentd_expose }}"
+    ports: "{{ docker_fluentd_ports }}"
+    env: "{{ docker_fluentd_env }}"
+    volumes:
+      - "{{ docker_fluentd_conf_file }}:/etc/fluent/fluent.conf:ro"
+  tags:
+    - install
+    - upgrade

@@ -29,7 +29,7 @@
   sudo: yes
   command: csf -u
   tags:
-    - upgrade
+    - csf_upgrade
 
 
 - name: Restart machine
@@ -39,7 +39,7 @@
   ignore_errors: true
   tags:
     - install
-    - upgrade
+    - csf_upgrade
 
 
 - name: Waiting for server to come back
@@ -51,4 +51,4 @@
   sudo: false
   tags:
     - install
-    - upgrade
+    - csf_upgrade

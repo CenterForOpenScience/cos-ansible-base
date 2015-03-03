@@ -1,4 +1,4 @@
-- name: Set up waterbutler haproxy
+- name: Set up haproxy
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"

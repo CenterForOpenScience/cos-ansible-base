@@ -1,3 +1,4 @@
 docker_tokumx_name: tokumx_1
+docker_tokumx_env: {}
 docker_tokumx_data_dir: /opt/tokumx/data
 docker_tokumx_log_dir: /var/log/tokumx

@@ -96,6 +96,7 @@
     links:
       - "{{ docker_haproxy_rsyslog_name }}:rsyslog"
     restart_policy: always
+    env: "{{ docker_haproxy_env }}"
     ports:
       - "80:80"
       - "443:443"

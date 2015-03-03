@@ -23,6 +23,7 @@
     state: running
     hostname: "{{ hostname_name }}-rabbitmq"
     restart_policy: always
+    env: "{{ docker_rabbitmq_env }}"
     image: "rabbitmq:latest"
     volumes:
       - "{{ docker_rabbitmq_data_dir }}:/var/lib/rabbitmq"

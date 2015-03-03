@@ -12,8 +12,13 @@ dependencies:
 
   - role: docker-fluentd
     docker_fluentd_name: "{{ docker_scrapi_fluentd_name }}"
+    docker_fluentd_source_conf_file: "{{ docker_scrapi_fluentd_source_conf_file }}"
     docker_fluentd_conf_dir: "{{ docker_scrapi_fluentd_conf_dir }}"
     docker_fluentd_conf_file: "{{ docker_scrapi_fluentd_conf_file }}"
+    docker_fluentd_env:
+      ELASTICSEARCH_PORT_9200_TCP_ADDR: "{{ docker_scrapi_elasticsearch_addr }}"
+      ELASTICSEARCH_PORT_9200_TCP_PORT: "{{ docker_scrapi_elasticsearch_port }}"
+      FLUENTD_GEMS: "fluent-plugin-elasticsearch"
     docker_fluentd_expose: "{{ docker_scrapi_fluentd_expose }}"
     docker_fluentd_ports: "{{ docker_scrapi_fluentd_ports }}"
 

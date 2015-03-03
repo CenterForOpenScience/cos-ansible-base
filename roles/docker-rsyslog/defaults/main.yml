@@ -1,3 +1,4 @@
 docker_rsyslog_name: rsyslog_1
+docker_rsyslog_env: {}
 docker_rsyslog_conf_dir: /opt/rsyslog/conf
 docker_rsyslog_logs_dir: /var/log/rsyslog
