@@ -1,3 +1,10 @@
+- name: Limit host memory swapping
+  sudo: yes
+  command: "sed -i -e \"s/^vm.swappiness.*/vm.swappiness = 1/\" /etc/sysctl.conf"
+  tags:
+    - install
+
+
 - name: Ensure docker scrapi logrotate config
   template:
     src: logrotate.j2
