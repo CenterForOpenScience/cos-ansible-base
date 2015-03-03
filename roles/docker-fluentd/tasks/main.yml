@@ -15,14 +15,6 @@
     - upgrade
 
 
-- name: docker_fluentd_source_conf_file
-  debug:
-    msg: "{{ docker_fluentd_source_conf_file }}"
-  tags:
-    - install
-    - upgrade
-
-
 - name: Copy docker fluentd configuration settings
   copy:
     src: "{{ docker_fluentd_source_conf_file }}"
