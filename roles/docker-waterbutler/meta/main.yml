@@ -1,8 +1,4 @@
 dependencies:
-  - role: docker
-
-  - role: docker-clean
-
   - role: docker-redis
     docker_redis_name: "{{ docker_waterbutler_redis_name }}"
     docker_redis_data_dir: "{{ docker_waterbutler_redis_data_dir }}"

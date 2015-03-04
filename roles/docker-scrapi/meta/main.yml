@@ -1,8 +1,4 @@
 dependencies:
-  - role: swap
-  - role: docker
-  - role: docker-clean
-
   - role: docker-cassandra
     docker_cassandra_name: "{{ docker_scrapi_cassandra_name }}"
     docker_cassandra_data_dir: "{{ docker_scrapi_cassandra_data_dir }}"

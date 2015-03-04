@@ -1,4 +1,0 @@
-dependencies:
-  - role: swap
-  - role: docker
-  - role: docker-clean
