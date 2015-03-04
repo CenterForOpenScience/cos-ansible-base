@@ -1,0 +1,46 @@
+- name: Create the file to be used for swap
+  sudo: yes
+  shell: fallocate -l {{ swap_swapfile_size }} /swapfile
+  tags:
+    - install
+
+
+- name: Format the swapfile
+  sudo: yes
+  shell: mkswap /swapfile
+  tags:
+    - install
+
+
+- name: Secure swap file permissions
+  sudo: yes
+  shell: chmod 600 /swapfile
+  tags:
+    - install
+
+
+- name: Add the file to the system as a swap file
+  sudo: yes
+  shell: swapon /swapfile
+  tags:
+    - install
+
+
+- name: Add the the swap file to /etc/fstab
+  mount:
+    src: /swapfile
+    name: none
+    fstype: swap
+    opts: sw
+    state: present
+  tags:
+    - install
+
+
+- name: Set vm.swappiness in /etc/sysctl.conf
+  sysctl:
+    name: vm.swappiness
+    value: "{{ swap_vm_swappiness }}"
+    state: present
+  tags:
+    - install

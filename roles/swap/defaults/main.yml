@@ -1,0 +1,2 @@
+swap_vm_swappiness: 1
+swap_swapfile_size: "{{ (ansible_memtotal_mb * 1.5) | int }}m"
