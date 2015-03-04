@@ -57,7 +57,7 @@
     volumes:
       - "{{ docker_elasticsearch_conf_dir }}:/usr/share/elasticsearch/config"
       - "{{ docker_elasticsearch_data_dir }}:/usr/share/elasticsearch/data"
-      - "{{ docker_elasticsearch_log_dir }}:/var/log/elasticsearch"
+      - "{{ docker_elasticsearch_log_dir }}:/usr/share/elasticsearch/logs"
   tags:
     - install
     - upgrade
