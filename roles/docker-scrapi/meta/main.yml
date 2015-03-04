@@ -6,7 +6,7 @@ dependencies:
   - role: docker-cassandra
     docker_cassandra_name: "{{ docker_scrapi_cassandra_name }}"
     docker_cassandra_data_dir: "{{ docker_scrapi_cassandra_data_dir }}"
-    docker_cassandra_logs_dir: "{{ docker_scrapi_cassandra_log_dir }}"
+    docker_cassandra_log_dir: "{{ docker_scrapi_cassandra_log_dir }}"
     docker_cassandra_expose: "{{ docker_scrapi_cassandra_expose }}"
     docker_cassandra_ports: "{{ docker_scrapi_cassandra_ports }}"
 

@@ -24,7 +24,7 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_cassandra_data_dir }}"
-    - "{{ docker_cassandra_logs_dir }}"
+    - "{{ docker_cassandra_log_dir }}"
   tags:
     - install
     - upgrade
@@ -41,7 +41,7 @@
     ports: "{{ docker_cassandra_ports }}"
     volumes:
       - "{{ docker_cassandra_data_dir }}:/opt/cassandra/data"
-      - "{{ docker_cassandra_logs_dir }}:/opt/cassandra/logs"
+      - "{{ docker_cassandra_log_dir }}:/opt/cassandra/logs"
   tags:
     - install
     - upgrade

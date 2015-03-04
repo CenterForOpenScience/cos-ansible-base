@@ -1,5 +1,5 @@
 docker_cassandra_name: cassandra_1
 docker_cassandra_data_dir: /opt/cassandra/data
-docker_cassandra_logs_dir: /var/log/cassandra
+docker_cassandra_log_dir: /var/log/cassandra
 docker_cassandra_expose: []
 docker_cassandra_ports: []
