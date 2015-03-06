@@ -1,7 +1,7 @@
 - name: Install csf-started.conf in upstart
   sudo: yes
   copy:
-    src: csf-docker-wait.conf
+    src: upstart.conf
     dest: /etc/init/csf-docker-wait.conf
     mode: 0644
   tags:
