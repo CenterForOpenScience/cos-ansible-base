@@ -1,29 +1,11 @@
-- name: Install csf-started in upstart
+- name: Install csf-started.conf in upstart
   sudo: yes
   copy:
-    src: csf-started
-    dest: /etc/init/csf-started.conf
+    src: csf-docker-wait.conf
+    dest: /etc/init/csf-docker-wait.conf
     mode: 0644
   tags:
     - install
-
-
-- name: Install csf-started in systemv
-  sudo: yes
-  copy:
-    src: csf-started.d
-    dest: /etc/init.d/csf-started
-    mode: 0755
-  tags:
-    - install
-
-
-- name: Register csf-started in upstart
-  sudo: yes
-  command: update-rc.d csf-started defaults
-  tags:
-    - install
-
 
 - name: Upgrade CSF
   sudo: yes
@@ -33,7 +15,7 @@
 
 
 - name: Restart machine
-  command: shutdown -r now "Restart Docker and csf"
+  command: shutdown -r now "Restart CSF and Docker"
   async: 0
   poll: 0
   ignore_errors: true
