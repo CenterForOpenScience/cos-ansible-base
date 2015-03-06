@@ -1,4 +1,4 @@
-- name: Install csf-started.conf in upstart
+- name: Install script csf-docker-wait.conf in upstart
   sudo: yes
   copy:
     src: upstart.conf
@@ -6,6 +6,7 @@
     mode: 0644
   tags:
     - install
+    - temp
 
 
 - name: Upgrade CSF
