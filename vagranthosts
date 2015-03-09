@@ -24,8 +24,5 @@
 192.168.111.113 hostname_name=waterbutler-lb-01
 
 
-[scrapi-web-vagrant]
-192.168.111.130 hostname_name=scrapi-web-01
-
-[scrapi-search-vagrant]
-192.168.111.131 hostname_name=scrapi-search-01
+[scrapi-vagrant]
+192.168.111.130 hostname_name=scrapi-01

@@ -27,14 +27,14 @@ defaults
     stats refresh 5s
     stats uri /haproxy?stats
     stats realm Haproxy\ Statistics
-    stats auth {{ haproxy_stats_user }}:{{ haproxy_stats_password }}
+    stats auth {{ docker_haproxy_stats_user }}:{{ docker_haproxy_stats_password }}
 
 
-{% if not haproxy_enable_https %}
+{% if not docker_haproxy_enable_https %}
 frontend www-http
     bind 0.0.0.0:80
     reqadd X-Forwarded-Proto:\ http
-    {% for backend in haproxy_backends %}
+    {% for backend in docker_haproxy_backends %}
     use_backend {{ backend['name'] }}-backend if { hdr(host) -i {{ backend['domain'] }} }
     {% endfor %}
 {% else %}
@@ -46,13 +46,13 @@ frontend www-http
 frontend www-https
     bind 0.0.0.0:443 ssl crt /etc/ssl/private/default.pem crt /etc/ssl/private/certs.d ciphers ECDHE-RSA-AES256-SHA:RC4-SHA:RC4:HIGH:!MD5:!aNULL:!EDH:!AESGCM
     reqadd X-Forwarded-Proto:\ https
-    {% for backend in haproxy_backends %}
+    {% for backend in docker_haproxy_backends %}
     use_backend {{ backend['name'] }}-backend if { hdr(host) -i {{ backend['domain'] }} }
     {% endfor %}
 {% endif %}
 
 
-{% for backend in haproxy_backends %}
+{% for backend in docker_haproxy_backends %}
 backend {{ backend['name'] }}-backend
 {% for server in backend['servers'] %}
     server {{ server['ip'] }}-{{ server['port'] }} {{ server['ip'] }}:{{ server['port'] }} check

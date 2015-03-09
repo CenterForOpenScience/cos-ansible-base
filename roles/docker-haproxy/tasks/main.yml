@@ -18,7 +18,6 @@
     - "{{ docker_haproxy_conf_dir }}"
     - "{{ docker_haproxy_conf_dir }}/ssl"
     - "{{ docker_haproxy_conf_dir }}/ssl/certs.d"
-    - "{{ docker_haproxy_rsyslog_conf_dir }}"
   tags:
     - install
     - upgrade
@@ -39,7 +38,7 @@
   template:
     mode: 0640
     src: "49-haproxy.conf.j2"
-    dest: "{{ docker_haproxy_rsyslog_conf_dir }}/49-haproxy.conf"
+    dest: "{{ docker_rsyslog_conf_dir }}/49-haproxy.conf"
   tags:
     - install
     - settings
@@ -87,19 +86,15 @@
 
 - name: Run docker haproxy container
   docker:
-    name: "{{ docker_haproxy_name }}"
     command: "haproxy -f /usr/local/etc/haproxy/haproxy.cfg"
-    image: "centerforopenscience/haproxy:latest"
-    expose:
-      - 80
-      - 443
-    links:
-      - "{{ docker_haproxy_rsyslog_name }}:rsyslog"
-    restart_policy: always
     env: "{{ docker_haproxy_env }}"
-    ports:
-      - "80:80"
-      - "443:443"
+    expose: "{{ docker_haproxy_expose }}"
+    hostname: "{{ docker_haproxy_hostname }}"
+    image: "centerforopenscience/haproxy:latest"
+    links: "{{ docker_haproxy_links }}"
+    name: "{{ docker_haproxy_name }}"
+    ports: "{{ docker_haproxy_ports }}"
+    restart_policy: always
     volumes:
       - "{{ docker_haproxy_conf_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
       - "{{ docker_haproxy_conf_dir }}/ssl:/etc/ssl/private"

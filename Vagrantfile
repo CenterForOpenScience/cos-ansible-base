@@ -82,23 +82,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "scrapi-web-01" do |scrapi|
+  config.vm.define "scrapi-01" do |scrapi|
     ip_end = "130"
     scrapi.vm.box = BOX_IMAGE
     scrapi.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
     scrapi.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
-    end
-  end
-
-  config.vm.define "scrapi-search-01" do |scrapi|
-    ip_end = "131"
-    scrapi.vm.box = BOX_IMAGE
-    scrapi.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
-
-    scrapi.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
     end
   end
 end

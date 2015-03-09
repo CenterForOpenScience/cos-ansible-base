@@ -6,7 +6,6 @@
     mode: 0644
   tags:
     - install
-    - temp
 
 
 - name: Upgrade CSF
@@ -33,6 +32,14 @@
     state=started
     port=22
   sudo: false
+  tags:
+    - install
+    - csf_upgrade
+
+
+- name: Give CSF and Docker time to start
+  pause:
+    seconds: 15
   tags:
     - install
     - csf_upgrade

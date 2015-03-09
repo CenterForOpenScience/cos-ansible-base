@@ -32,13 +32,12 @@
 
 - name: Run docker cassandra container
   docker:
-    name: "{{ docker_cassandra_name }}"
-    state: running
-    hostname: "{{ hostname_name }}-cassandra"
-    restart_policy: always
-    image: "centerforopenscience/cassandra:latest"
     expose: "{{ docker_cassandra_expose }}"
+    hostname: "{{ hostname_name }}-cassandra"
+    image: "centerforopenscience/cassandra:latest"
+    name: "{{ docker_cassandra_name }}"
     ports: "{{ docker_cassandra_ports }}"
+    restart_policy: always
     volumes:
       - "{{ docker_cassandra_data_dir }}:/opt/cassandra/data"
       - "{{ docker_cassandra_log_dir }}:/opt/cassandra/logs"
