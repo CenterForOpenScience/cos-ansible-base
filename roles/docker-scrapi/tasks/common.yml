@@ -1,0 +1,34 @@
+- name: Ensure docker scrapi logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/scrapi
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
+- name: Ensure docker scrapi directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_conf_dir }}"
+    - "{{ docker_scrapi_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker scrapi configuration settings
+  copy:
+    src: "{{ docker_scrapi_source_conf_file }}"
+    dest: "{{ docker_scrapi_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade

@@ -1,0 +1,27 @@
+- name: Restart docker scrapi server container
+  sudo: yes
+  shell: "docker restart {{ docker_scrapi_server_name }}_{{ item }}"
+  with_sequence: docker_scrapi_server_instances
+  when: docker_scrapi_server_instances > 0
+  tags:
+    - restart
+
+
+- name: Run docker scrapi server container
+  docker:
+    command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_scrapi_server_name }}_{{ item }}.log"'
+    env: "{{ docker_scrapi_server_env }}"
+    expose: "{{ docker_scrapi_server_expose }}"
+    hostname: "{{ hostname_name }}-server{{ item }}"
+    image: "centerforopenscience/scrapi:latest"
+    links: "{{ docker_scrapi_server_links }}"
+    name: "{{ docker_scrapi_server_name }}_{{ item }}"
+    ports: "{{ docker_scrapi_server_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_scrapi_server_volumes }}"
+  with_sequence: docker_scrapi_server_instances
+  when: docker_scrapi_server_instances > 0
+  tags:
+    - install
+    - upgrade

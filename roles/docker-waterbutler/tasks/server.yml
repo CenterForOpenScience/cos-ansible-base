@@ -1,0 +1,38 @@
+- name: Restart docker waterbutler server container
+  sudo: yes
+  shell: "docker restart {{ docker_waterbutler_server_name }}_{{ item }}"
+  with_sequence: docker_waterbutler_server_instances
+  when: docker_waterbutler_server_instances > 0
+  tags:
+    - restart
+
+
+- name: Run docker waterbutler server container
+  docker:
+    name: "{{ docker_waterbutler_server_name }}_{{ item }}"
+    state: running
+    hostname: "{{ hostname_name }}-server{{ item }}"
+    image: "centerforopenscience/waterbutler:latest"
+    command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_waterbutler_server_name }}_{{ item }}.log"'
+    # expose:
+    #   - "{{ (docker_waterbutler_server_start_port | int) + (item | int) }}"
+    ports:
+      - "{{ (docker_waterbutler_server_start_port | int) + (item | int) - 1 }}:7777"
+    env:
+      ENV: "{{ docker_waterbutler_env }}"
+      SOURCE_BRANCH: "{{ docker_waterbutler_source_branch }}"
+      SOURCE_REPO: "{{ docker_waterbutler_source_repo }}"
+    links:
+      - "{{ docker_waterbutler_redis_name }}:redis"
+      - "{{ docker_waterbutler_rabbitmq_name }}:rabbitmq"
+    restart_policy: always
+    volumes:
+      - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
+      - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
+      - "{{ docker_waterbutler_conf_file }}:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
+      - "{{ docker_waterbutler_log_dir }}:/log"
+  with_sequence: docker_waterbutler_server_instances
+  when: docker_waterbutler_server_instances > 0
+  tags:
+    - install
+    - upgrade

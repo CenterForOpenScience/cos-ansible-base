@@ -1,0 +1,4 @@
+- name: Common setup with file swap
+  hosts: all
+  roles:
+    - role: swap
