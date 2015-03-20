@@ -32,7 +32,7 @@ docker_rsyslog_log_dir: /var/log/haproxy
 
 # servers
 
-docker_haproxy_hostname: ""
+docker_haproxy_hostname: "haproxy_1"
 docker_haproxy_links:
   - "{{ docker_rsyslog_name }}:rsyslog"
 docker_haproxy_links: []

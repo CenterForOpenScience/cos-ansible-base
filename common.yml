@@ -14,6 +14,3 @@
     - role: tmux
     - role: logrotate
     - role: editors
-
-
-- include: dotfiles.yml

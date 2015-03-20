@@ -8,6 +8,17 @@
     - install
 
 
+- name: Install script csfpost.sh
+  sudo: yes
+  copy:
+    src: csfpost.sh
+    dest: /etc/csf/csfpost.sh
+    mode: 0755
+  tags:
+    - install
+    - csf_upgrade
+
+
 - name: Upgrade CSF
   sudo: yes
   command: csf -u

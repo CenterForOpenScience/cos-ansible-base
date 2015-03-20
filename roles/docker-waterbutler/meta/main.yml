@@ -1,3 +1,5 @@
 dependencies:
-  - { role: docker-haproxy, when: docker_haproxy }
-  - { role: docker-rabbitmq, when: docker_rabbitmq }
+  - role: docker-rabbitmq
+    docker_rabbitmq_name: "{{ docker_waterbutler_rabbitmq_name }}"
+    docker_rabbitmq_data_dir: "{{ docker_waterbutler_rabbitmq_data_dir }}"
+    when: docker_waterbutler_rabbitmq

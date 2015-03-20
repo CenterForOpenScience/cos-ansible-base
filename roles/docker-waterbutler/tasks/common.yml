@@ -17,6 +17,7 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_waterbutler_conf_dir }}"
+    - "{{ docker_waterbutler_conf_dir }}/ssl"
     - "{{ docker_waterbutler_log_dir }}"
     - "{{ docker_waterbutler_osfstorage_pending_dir }}"
     - "{{ docker_waterbutler_osfstorage_complete_dir }}"
@@ -30,6 +31,30 @@
     src: "{{ docker_waterbutler_source_conf_file }}"
     dest: "{{ docker_waterbutler_conf_file }}"
     mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker waterbutler ssl certificate file
+  copy:
+    mode: 0640
+    src: "{{ docker_waterbutler_server_ssl_cert_file }}"
+    dest: "{{ docker_waterbutler_conf_dir }}/ssl/default.crt"
+  when: docker_waterbutler_server_ssl_cert_file | default("") != ""
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker waterbutler ssl key file
+  copy:
+    mode: 0640
+    src: "{{ docker_waterbutler_server_ssl_key_file }}"
+    dest: "{{ docker_waterbutler_conf_dir }}/ssl/default.key"
+  when: docker_waterbutler_server_ssl_key_file | default("") != ""
   tags:
     - install
     - settings

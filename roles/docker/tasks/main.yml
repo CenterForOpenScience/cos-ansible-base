@@ -7,6 +7,13 @@
     - install
 
 
+- name: Force pip upgrade
+  sudo: yes
+  shell: easy_install -U pip
+  tags:
+    - install
+
+
 - name: Install docker pip dependencies
   sudo: yes
   pip:

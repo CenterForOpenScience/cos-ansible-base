@@ -1,24 +1,4 @@
-# Support Servers
-
-docker_haproxy: no
-docker_haproxy_name: waterbutler_haproxy_1
-docker_haproxy_backends:
-  - name: waterbutler
-    domain: localhost
-    servers:
-      - ip: "127.0.0.1"
-        port: 7770
-docker_haproxy_expose:
-  - 80
-docker_haproxy_ports:
-  - "80:80"
-
-docker_rabbitmq: no
-docker_rabbitmq_name: waterbutler_rabbitmq_1
-docker_rabbitmq_data_dir: /opt/rabbitmq/data
-
-
-# Servers
+# variables
 
 docker_waterbutler_env: test
 docker_waterbutler_source_branch: develop
@@ -30,16 +10,53 @@ docker_waterbutler_log_dir: "/var/log/waterbutler"
 docker_waterbutler_osfstorage_pending_dir: "/opt/osfstorage/pending"
 docker_waterbutler_osfstorage_complete_dir: "/opt/osfstorage/complete"
 
+
+# support servers
+
+docker_waterbutler_rabbitmq: no
+docker_waterbutler_rabbitmq_name: waterbutler_rabbitmq_1
+docker_waterbutler_rabbitmq_data_dir: /opt/rabbitmq/data
+
+
+# servers
+
 docker_waterbutler_celery: no
 docker_waterbutler_celery_name: waterbutler_celery
 docker_waterbutler_celery_instances: 1
+docker_waterbutler_celery_env:
+  ENV: "{{ docker_waterbutler_env }}"
+  SOURCE_BRANCH: "{{ docker_waterbutler_source_branch }}"
+  SOURCE_REPO: "{{ docker_waterbutler_source_repo }}"
+docker_waterbutler_celery_expose: []
+docker_waterbutler_celery_ports: []
+docker_waterbutler_celery_links:
+  - "{{ docker_waterbutler_rabbitmq_name }}:rabbitmq"
+docker_waterbutler_celery_volumes:
+  - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
+  - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
+  - "{{ docker_waterbutler_conf_file }}:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
+  - "{{ docker_waterbutler_log_dir }}:/log"
 
 docker_waterbutler_server: no
 docker_waterbutler_server_name: waterbutler_server
+docker_waterbutler_server_ssl_cert_file: ""
+docker_waterbutler_server_ssl_key_file: ""
+docker_waterbutler_server_cert_src: ""
 docker_waterbutler_server_instances: 2
 docker_waterbutler_server_start_port: 7770
+docker_waterbutler_server_env:
+  ENV: "{{ docker_waterbutler_env }}"
+  SOURCE_BRANCH: "{{ docker_waterbutler_source_branch }}"
+  SOURCE_REPO: "{{ docker_waterbutler_source_repo }}"
+docker_waterbutler_server_volumes:
+  - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
+  - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
+  - "{{ docker_waterbutler_conf_file }}:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
+  - "{{ docker_waterbutler_conf_dir }}/ssl:/home/python/.cos/ssl"
+  - "{{ docker_waterbutler_log_dir }}:/log"
 docker_waterbutler_server_links:
-  - "{{ docker_haproxy_name }}:haproxy"
-  - "{{ docker_haproxy_name }}:haproxy"
-docker_waterbutler_server_expose: []
-docker_waterbutler_server_ports: []
+  - "{{ docker_waterbutler_rabbitmq_name }}:rabbitmq"
+docker_waterbutler_server_expose:
+  - 7777
+docker_waterbutler_server_ports:
+  - "{{ (docker_waterbutler_server_start_port | int) + (item | int) - 1 }}:7777"
