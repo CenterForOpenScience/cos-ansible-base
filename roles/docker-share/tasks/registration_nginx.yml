@@ -1,0 +1,47 @@
+- name: Ensure docker share registration nginx directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_share_registration_nginx_conf_dir }}"
+    - "{{ docker_share_registration_nginx_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker share registration nginx configuration settings
+  copy:
+    src: "{{ docker_share_registration_nginx_source_conf_file }}"
+    dest: "{{ docker_share_registration_nginx_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker share registration nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_share_registration_nginx_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker share registration nginx container
+  docker:
+    command: "nginx -g \"daemon off;\""
+    env: "{{ docker_share_registration_nginx_env }}"
+    expose: "{{ docker_share_registration_nginx_expose }}"
+    hostname: "{{ hostname_name }}-registration-nginx1"
+    image: "centerforopenscience/nginx:latest"
+    links: "{{ docker_share_registration_nginx_links }}"
+    name: "{{ docker_share_registration_nginx_name }}"
+    ports: "{{ docker_share_registration_nginx_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_share_registration_nginx_volumes }}"
+  tags:
+    - install
+    - upgrade

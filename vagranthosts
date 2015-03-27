@@ -22,3 +22,6 @@
 
 [scrapi-vagrant]
 192.168.111.130 hostname_name=scrapi-01
+
+[share-vagrant]
+192.168.111.140 hostname_name=share-01
