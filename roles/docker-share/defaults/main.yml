@@ -46,6 +46,8 @@ docker_share_registration_uwsgi_volumes:
 docker_share_registration_nginx: no
 docker_share_registration_nginx_name: share_registration_nginx_1
 docker_share_registration_nginx_source_conf_file: registration.nginx.conf
+docker_share_registration_nginx_source_ssl_crt_file: ""
+docker_share_registration_nginx_source_ssl_key_file: ""
 docker_share_registration_nginx_conf_dir: "{{ docker_share_opt_dir }}/registration/conf"
 docker_share_registration_nginx_conf_file: "{{ docker_share_registration_nginx_conf_dir }}/nginx.conf"
 docker_share_registration_nginx_log_dir: "{{ docker_share_log_dir }}/registration"
@@ -59,3 +61,5 @@ docker_share_registration_nginx_links:
 docker_share_registration_nginx_volumes:
   - "{{ docker_share_registration_nginx_conf_file }}:/etc/nginx/sites-templates/default.conf.tmpl"
   - "{{ docker_share_registration_nginx_log_dir }}:/var/log/nginx"
+docker_share_registration_nginx_volumes_from:
+  - "{{ docker_share_registration_uwsgi_name }}"
