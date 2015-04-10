@@ -1,0 +1,44 @@
+- name: Restart docker nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_nginx_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker nginx directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_nginx_conf_dir }}"
+    - "{{ docker_nginx_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker nginx configuration settings
+  copy:
+    src: "{{ docker_nginx_source_conf_file }}"
+    dest: "{{ docker_nginx_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Run docker nginx container
+  docker:
+    name: "{{ docker_nginx_name }}"
+    state: running
+    hostname: "{{ hostname_name }}-nginx"
+    restart_policy: always
+    env: "{{ docker_nginx_env }}"
+    image: "nginx:1.7"
+    links: "{{ docker_nginx_links }}"
+    volumes: "{{ docker_nginx_volumes }}"
+  tags:
+    - install
+    - upgrade

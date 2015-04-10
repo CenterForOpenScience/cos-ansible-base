@@ -1,0 +1,46 @@
+- name: Restart docker postgres repmgr container
+  sudo: yes
+  shell: "docker restart {{ docker_postgres_repmgr_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker postgres repmgr directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_postgres_repmgr_conf_dir }}"
+    - "{{ docker_postgres_repmgr_data_dir }}"
+    - "{{ docker_postgres_repmgr_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Ensure repmgr configuration file exists
+  file:
+    path: "{{ docker_postgres_repmgr_conf_file }}"
+    state: touch
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker postgres repmgr container
+  docker:
+    name: "{{ docker_postgres_repmgr_name }}"
+    image: centerforopenscience/postgres:9.4-repmgr
+    state: running
+    hostname: "{{ docker_postgres_repmgr_hostname }}"
+    restart_policy: always
+    net: "{{ docker_postgres_repmgr_net }}"
+    env: "{{ docker_postgres_repmgr_env }}"
+    links: "{{ docker_postgres_repmgr_links }}"
+    expose: "{{ docker_postgres_repmgr_expose }}"
+    ports: "{{ docker_postgres_repmgr_ports }}"
+    volumes: "{{ docker_postgres_repmgr_volumes }}"
+  tags:
+    - install
+    - upgrade

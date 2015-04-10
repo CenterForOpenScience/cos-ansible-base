@@ -1,0 +1,34 @@
+# variables
+
+# docker_cas_source_branch: develop
+# docker_cas_source_repo: https://github.com/fabianvf/scrapi.git
+# docker_cas_source_conf_file: local.py
+# docker_cas_conf_dir: /opt/scrapi/conf
+# docker_cas_conf_file: "{{ docker_cas_conf_dir }}/local.py"
+# docker_cas_log_dir: /var/log/scrapi
+
+
+
+# support servers
+
+docker_cas_postgres: no
+docker_cas_postgres_conf_dir: "/opt/postgres/conf"
+docker_cas_postgres_conf_file: "{{ docker_cas_postgres_conf_dir }}/repmgr.conf"
+docker_cas_postgres_data_dir: "/opt/postgres/data"
+docker_cas_postgres_log_dir: /var/log/postgres
+docker_cas_postgres_name: postgres_1
+docker_cas_postgres_hostname:
+docker_cas_postgres_net: host
+docker_cas_postgres_env: {}
+docker_cas_postgres_expose: []
+docker_cas_postgres_ports: []
+docker_cas_postgres_links: []
+docker_cas_postgres_volumes:
+  - "{{ docker_cas_postgres_conf_file }}:/etc/repmgr/repmgr.conf"
+  - "{{ docker_cas_postgres_data_dir }}:/var/lib/postgresql/data"
+  - "{{ docker_cas_postgres_log_dir }}:/var/log/postgresql"
+
+
+# servers
+
+docker_cas_web: no

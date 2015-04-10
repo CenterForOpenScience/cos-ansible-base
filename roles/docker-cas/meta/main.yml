@@ -1,0 +1,15 @@
+dependencies:
+  - role: docker-postgres-repmgr
+    docker_postgres_repmgr_conf_dir: "{{ docker_cas_postgres_conf_dir }}"
+    docker_postgres_repmgr_conf_file: "{{ docker_cas_postgres_conf_file }}"
+    docker_postgres_repmgr_data_dir: "{{ docker_cas_postgres_data_dir }}"
+    docker_postgres_repmgr_log_dir: "{{ docker_cas_postgres_log_dir }}"
+    docker_postgres_repmgr_name: "{{ docker_cas_postgres_name }}"
+    docker_postgres_repmgr_hostname: "{{ docker_cas_postgres_hostname }}"
+    docker_postgres_repmgr_net: "{{ docker_cas_postgres_net }}"
+    docker_postgres_repmgr_env: "{{ docker_cas_postgres_env }}"
+    docker_postgres_repmgr_expose: "{{ docker_cas_postgres_expose }}"
+    docker_postgres_repmgr_ports: "{{ docker_cas_postgres_ports }}"
+    docker_postgres_repmgr_links: "{{ docker_cas_postgres_links }}"
+    docker_postgres_repmgr_volumes: "{{ docker_cas_postgres_volumes }}"
+    when: docker_cas_postgres
