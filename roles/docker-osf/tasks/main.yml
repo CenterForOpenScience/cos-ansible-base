@@ -41,7 +41,7 @@
 - name: Restart docker osf celery container
   sudo: yes
   shell: "docker restart {{ docker_osf_celery_name }}_{{ item }}"
-  with_sequence: docker_osf_celery_instances
+  with_sequence: count={{ docker_osf_celery_instances }}
   when: docker_osf_celery_instances > 0
   tags:
     - restart
@@ -50,7 +50,7 @@
 - name: Restart docker osf server container
   sudo: yes
   shell: "docker restart {{ docker_osf_server_name }}_{{ item }}"
-  with_sequence: docker_osf_server_instances
+  with_sequence: count={{ docker_osf_server_instances }}
   when: docker_osf_server_instances > 0
   tags:
     - restart
@@ -75,7 +75,7 @@
 #       - "{{ docker_osf_mfrtemp_dir }}:/data/mfrtemp"
 #       # - "{{ docker_osf_conf_dir }}/waterbutler-{{ docker_waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
 #       - "{{ docker_osf_server_log_dir }}:/log"
-#   with_sequence: docker_osf_celery_instances
+#   with_sequence: count={{ docker_osf_celery_instances }}
 #   when: docker_osf_celery_instances > 0
 #   tags:
 #     - install
@@ -106,7 +106,7 @@
 #       # - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
 #       # - "{{ docker_waterbutler_conf_dir }}/waterbutler-{{ docker_waterbutler_env }}.json:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
 #       # - "{{ docker_waterbutler_log_dir }}:/log"
-#   with_sequence: docker_osf_server_instances
+#   with_sequence: count={{ docker_osf_server_instances }}
 #   when: docker_osf_server_instances > 0
 #   tags:
 #     - install

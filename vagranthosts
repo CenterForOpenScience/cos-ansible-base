@@ -25,3 +25,7 @@
 
 [share-vagrant]
 192.168.111.140 hostname_name=share-01
+
+
+[cas-vagrant]
+192.168.111.150 hostname_name=cas-01

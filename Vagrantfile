@@ -88,4 +88,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--memory", "2048"]
     end
   end
+
+  config.vm.define "cas-01" do |share|
+    ip_end = "150"
+    share.vm.box = BOX_IMAGE
+    share.vm.box_version = BOX_VERSION
+    share.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
+
+    share.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
+  end
 end

@@ -1,7 +1,7 @@
 - name: Restart docker waterbutler celery container
   sudo: yes
   shell: "docker restart {{ docker_waterbutler_celery_name }}_{{ item }}"
-  with_sequence: docker_waterbutler_celery_instances
+  with_sequence: count={{ docker_waterbutler_celery_instances }}
   when: docker_waterbutler_celery_instances > 0
   tags:
     - restart
@@ -20,7 +20,7 @@
     restart_policy: always
     state: running
     volumes: "{{ docker_waterbutler_celery_volumes }}"
-  with_sequence: docker_waterbutler_celery_instances
+  with_sequence: count={{ docker_waterbutler_celery_instances }}
   when: docker_waterbutler_celery_instances > 0
   tags:
     - install

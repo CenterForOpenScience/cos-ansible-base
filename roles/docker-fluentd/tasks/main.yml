@@ -38,7 +38,7 @@
     restart_policy: always
     state: running
     volumes:
-      - "{{ docker_fluentd_conf_file }}:/etc/fluent/fluent.conf:ro"
+      - "{{ docker_fluentd_conf_file }}:/etc/fluent/fluent.conf"
   tags:
     - install
     - upgrade

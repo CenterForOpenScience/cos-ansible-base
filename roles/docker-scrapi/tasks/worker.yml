@@ -1,7 +1,7 @@
 - name: Restart docker scrapi worker container
   sudo: yes
   shell: "docker restart {{ docker_scrapi_worker_name }}_{{ item }}"
-  with_sequence: docker_scrapi_server_instances
+  with_sequence: count={{ docker_scrapi_server_instances }}
   when: docker_scrapi_worker_instances > 0
   tags:
     - restart
@@ -20,7 +20,7 @@
     restart_policy: always
     state: running
     volumes: "{{ docker_scrapi_worker_volumes }}"
-  with_sequence: docker_scrapi_worker_instances
+  with_sequence: count={{ docker_scrapi_worker_instances }}
   when: docker_scrapi_worker_instances > 0
   tags:
     - install
