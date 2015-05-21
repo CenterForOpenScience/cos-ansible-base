@@ -7,6 +7,7 @@ docker_cas_source_repo: https://github.com/CenterForOpenScience/cas-overlay.git
 # support servers
 
 docker_cas_postgres: no
+docker_cas_psotgres_source_conf_file: repmgr.conf
 docker_cas_postgres_conf_dir: "/opt/cas-postgres/conf"
 docker_cas_postgres_conf_file: "{{ docker_cas_postgres_conf_dir }}/repmgr.conf"
 docker_cas_postgres_data_dir: "/opt/cas-postgres/data"
@@ -31,16 +32,25 @@ docker_cas_postgres_volumes:
 # servers
 
 docker_cas_web: no
+docker_cas_web_definitions: "-Dproject.parent.basedir=/etc/cas"
+docker_cas_web_source_conf_dir: etc
 docker_cas_web_conf_dir: /opt/cas-web/conf
 docker_cas_web_log_dir: /var/log/cas-web
+docker_cas_web_hostname: "{{ hostname_name }}-web"
 docker_cas_web_name: cas_web_1
+docker_cas_web_net: bridge
 docker_cas_web_env:
   SOURCE_BRANCH: "{{ docker_cas_source_branch }}"
   SOURCE_REPO: "{{ docker_cas_source_repo }}"
+  CAS_DB_USERNAME: postgres
+  CAS_DB_PASSWORD:
+  OSF_DB_PORT_27017_TCP_ADDR: 127.0.0.1
+  OSF_DB_PORT_27017_TCP_PORT: 27017
+  OSF_DB_NAME: osf20130903
 docker_cas_web_expose: []
 docker_cas_web_ports: []
 docker_cas_web_links:
-  - "{{ docker_cas_postgres_name }}:postgres"
+  - "{{ docker_cas_postgres_name }}:cas_db"
 docker_cas_web_volumes:
   - "{{ docker_cas_web_conf_dir }}:/etc/cas"
-  - "{{ docker_cas_web_log_dir }}:/var/log/cas-web"
+  - "{{ docker_cas_web_log_dir }}:/log"

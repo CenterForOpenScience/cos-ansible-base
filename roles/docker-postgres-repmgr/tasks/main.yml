@@ -19,13 +19,13 @@
     - upgrade
 
 
-- name: Ensure repmgr configuration file exists
-  file:
-    path: "{{ docker_postgres_repmgr_conf_file }}"
-    state: touch
+- name: Copy repmgr configuration settings
+  copy:
+    src: "{{ docker_postgres_repmgr_source_conf_file }}"
+    dest: "{{ docker_postgres_repmgr_conf_file }}"
+    mode: 0644
   tags:
     - install
-    - upgrade
 
 
 - name: Run docker postgres repmgr container

@@ -4,6 +4,7 @@
   ignore_errors: yes
   tags:
     - clean
+    - clean_containers
     - upgrade
 
 
@@ -13,3 +14,4 @@
   ignore_errors: yes
   tags:
     - clean
+    - clean_images
