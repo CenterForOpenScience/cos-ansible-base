@@ -1,0 +1,11 @@
+- include: common.yml
+  when: docker_scrapi_beat or docker_scrapi_worker or docker_scrapi_server
+
+- include: beat.yml
+  when: docker_scrapi_beat
+
+- include: server.yml
+  when: docker_scrapi_server
+
+- include: worker.yml
+  when: docker_scrapi_worker

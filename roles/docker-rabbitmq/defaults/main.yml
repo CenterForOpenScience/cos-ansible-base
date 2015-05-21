@@ -1,0 +1,3 @@
+docker_rabbitmq_name: rabbitmq_1
+docker_rabbitmq_env: {}
+docker_rabbitmq_data_dir: /opt/rabbitmq/data

@@ -1,0 +1,36 @@
+- name: Restart docker postgres container
+  sudo: yes
+  shell: "docker restart {{ docker_postgres_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker postgres directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_postgres_data_dir }}"
+    - "{{ docker_postgres_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker postgres container
+  docker:
+    name: "{{ docker_postgres_name }}"
+    image: "{{ docker_postgres_image }}"
+    state: running
+    hostname: "{{ docker_postgres_hostname }}"
+    restart_policy: always
+    net: "{{ docker_postgres_net }}"
+    env: "{{ docker_postgres_env }}"
+    links: "{{ docker_postgres_links }}"
+    expose: "{{ docker_postgres_expose }}"
+    ports: "{{ docker_postgres_ports }}"
+    volumes: "{{ docker_postgres_volumes }}"
+  tags:
+    - install
+    - upgrade

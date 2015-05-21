@@ -1,0 +1,12 @@
+"{{ docker_scrapi_log_dir }}/*.log" {
+    daily
+    rotate 60
+    compress
+    delaycompress
+    copytruncate
+    notifempty
+    missingok
+    size 1k
+    create 660 root
+    su root
+}

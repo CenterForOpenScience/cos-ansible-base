@@ -11,12 +11,21 @@
 [gitlab]
 192.168.111.224
 
-[osf-staging]
-192.168.111.225
 
-[waterbutler-staging]
-192.168.111.111 hostname_name=waterbutler-web-01
-192.168.111.112 hostname_name=waterbutler-web-02
+[osf-vagrant]
+192.168.111.225 hostname_name=osf-web-01
 
-[waterbalancer-staging]
-192.168.111.113 hostname_name=waterbutler-lb-01
+
+[waterbutler-vagrant]
+192.168.111.111 hostname_name=waterbutler-01
+
+
+[scrapi-vagrant]
+192.168.111.130 hostname_name=scrapi-01
+
+[share-vagrant]
+192.168.111.140 hostname_name=share-01
+
+
+[cas-vagrant]
+192.168.111.150 hostname_name=cas-01

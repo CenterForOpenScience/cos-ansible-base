@@ -1,0 +1,4 @@
+- name: Common Users setup
+  hosts: all
+  roles:
+    - role: generic-users

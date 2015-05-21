@@ -1,0 +1,47 @@
+- name: Restart docker cas web container
+  sudo: yes
+  shell: "docker restart {{ docker_cas_web_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker cas web directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_cas_web_conf_dir }}"
+    - "{{ docker_cas_web_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker cas web configuration settings
+  copy:
+    src: "{{ docker_cas_web_source_conf_dir }}"
+    dest: "{{ docker_cas_web_conf_dir }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
+- name: Run docker cas web container
+  docker:
+    command: '/bin/bash -c "/usr/bin/mvn -pl cas-server-webapp/ jetty:run {{ docker_cas_web_definitions }} 2>&1 | tee -a /log/{{ docker_cas_web_name }}.log"'
+    env: "{{ docker_cas_web_env }}"
+    expose: "{{ docker_cas_web_expose }}"
+    hostname: "{{ docker_cas_web_hostname }}"
+    image: "centerforopenscience/cas:4.1"
+    links: "{{ docker_cas_web_links }}"
+    name: "{{ docker_cas_web_name }}"
+    net: "{{ docker_cas_web_net }}"
+    ports: "{{ docker_cas_web_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_cas_web_volumes }}"
+  tags:
+    - install
+    - upgrade

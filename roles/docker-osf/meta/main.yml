@@ -1,0 +1,20 @@
+dependencies:
+  - role: docker
+
+  - role: docker-clean
+
+  - role: docker-elasticsearch
+    docker_elasticsearch_name: "{{ docker_osf_elasticsearch_name }}"
+    docker_elasticsearch_conf_dir: "{{ docker_osf_elasticsearch_conf_dir }}"
+    docker_elasticsearch_data_dir: "{{ docker_osf_elasticsearch_data_dir }}"
+    docker_elasticsearch_log_dir: "{{ docker_osf_elasticsearch_log_dir }}"
+
+  - role: docker-rabbitmq
+    docker_rabbitmq_name: "{{ docker_osf_rabbitmq_name }}"
+    docker_rabbitmq_data_dir: "{{ docker_osf_rabbitmq_dir }}"
+
+  - role: docker-tokumx
+    docker_tokumx_name: "{{ docker_osf_tokumx_name }}"
+    docker_tokumx_conf_file: "{{ docker_osf_tokumx_conf_file }}"
+    docker_tokumx_data_dir: "{{ docker_osf_tokumx_data_dir }}"
+    docker_tokumx_log_dir: "{{ docker_osf_tokumx_log_dir }}"

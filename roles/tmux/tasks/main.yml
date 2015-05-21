@@ -1,0 +1,5 @@
+- name: Ensure tmux system dependency
+  sudo: yes
+  apt:
+    state: present
+    pkg: tmux

@@ -1,4 +1,0 @@
-- name: Set up waterbalancer HAProxy
-  hosts: all
-  roles:
-    - role: haproxy

@@ -1,0 +1,5 @@
+- name: Ensure logrotate system dependency
+  sudo: yes
+  apt:
+    state: present
+    pkg: logrotate

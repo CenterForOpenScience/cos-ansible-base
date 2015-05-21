@@ -1,0 +1,56 @@
+- name: Install script csf-docker-wait.conf in upstart
+  sudo: yes
+  copy:
+    src: upstart.conf
+    dest: /etc/init/csf-docker-wait.conf
+    mode: 0644
+  tags:
+    - install
+
+
+- name: Install script csfpost.sh
+  sudo: yes
+  copy:
+    src: csfpost.sh
+    dest: /etc/csf/csfpost.sh
+    mode: 0755
+  tags:
+    - install
+    - csf_upgrade
+
+
+- name: Upgrade CSF
+  sudo: yes
+  command: csf -u
+  tags:
+    - csf_upgrade
+
+
+- name: Restart machine
+  command: shutdown -r now "Restart CSF and Docker"
+  async: 0
+  poll: 0
+  ignore_errors: true
+  tags:
+    - install
+    - csf_upgrade
+
+
+- name: Waiting for server to come back
+  local_action:
+    wait_for
+    host={{ inventory_hostname }}
+    state=started
+    port=22
+  sudo: false
+  tags:
+    - install
+    - csf_upgrade
+
+
+- name: Give CSF and Docker time to start
+  pause:
+    seconds: 15
+  tags:
+    - install
+    - csf_upgrade

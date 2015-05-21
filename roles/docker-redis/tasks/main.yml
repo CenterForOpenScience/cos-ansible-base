@@ -1,0 +1,30 @@
+- name: Restart docker redis container
+  sudo: yes
+  shell: "docker restart {{ docker_redis_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker redis directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ docker_redis_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker redis container
+  docker:
+    name: "{{ docker_redis_name }}"
+    state: running
+    image: "redis:latest"
+    restart_policy: always
+    hostname: "{{ hostname_name }}-redis"
+    env: "{{ docker_redis_env }}"
+    volumes:
+      - "{{ docker_redis_data_dir }}:/data"
+  tags:
+    - install
+    - upgrade

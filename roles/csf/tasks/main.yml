@@ -2,12 +2,12 @@
 # Install dependencies
 - include: deps.yml
 
-- name: Check if csf exists
+- name: check if csf exists
   stat: path=/usr/local/csf/bin/csftest.pl
   sudo: yes
   register: check_path
 
-- name: Download csf
+- name: download csf
   get_url: url=http://www.configserver.com/free/csf.tgz dest=/tmp/
   when: check_path.stat.exists == false
 
@@ -33,7 +33,6 @@
   template: src=csf.conf.j2 dest=/etc/csf/csf.conf
   sudo: yes
 
-
 - name: copy csf.allow
   template: src=csf.allow.j2 dest=/etc/csf/csf.allow
   sudo: yes
@@ -42,6 +41,9 @@
   template: src=ui.allow.j2 dest=/etc/csf/ui/ui.allow
   sudo: yes
 
+- name: csf update
+  command: csf -u
+  sudo: yes
 
 - name: csf enable
   command: csf -e
@@ -62,4 +64,3 @@
   command: csf -c
   register: csf_conf_check
   failed_when: "'error' in csf_conf_check.stdout.lower()"
-

@@ -1,0 +1,58 @@
+- name: Ensure docker share registration uwsgi directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_share_registration_uwsgi_conf_dir }}"
+    - "{{ docker_share_registration_uwsgi_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker share registration uwsgi configuration settings
+  copy:
+    src: "{{ docker_share_registration_uwsgi_source_conf_file }}"
+    dest: "{{ docker_share_registration_uwsgi_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker share registration uwsgi application settings
+  copy:
+    src: "{{ docker_share_registration_uwsgi_source_app_file }}"
+    dest: "{{ docker_share_registration_uwsgi_app_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker share registration uwsgi container
+  sudo: yes
+  shell: "docker restart {{ docker_share_registration_uwsgi_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker share registration uwsgi container
+  docker:
+    command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+    env: "{{ docker_share_registration_uwsgi_env }}"
+    expose: "{{ docker_share_registration_uwsgi_expose }}"
+    hostname: "{{ hostname_name }}-registration-uwsgi1"
+    image: "centerforopenscience/share:registration"
+    links: "{{ docker_share_registration_uwsgi_links }}"
+    name: "{{ docker_share_registration_uwsgi_name }}"
+    ports: "{{ docker_share_registration_uwsgi_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_share_registration_uwsgi_volumes }}"
+  tags:
+    - install
+    - upgrade

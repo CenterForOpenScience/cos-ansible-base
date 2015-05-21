@@ -1,0 +1,2 @@
+- include: web.yml
+  when: docker_cas_web

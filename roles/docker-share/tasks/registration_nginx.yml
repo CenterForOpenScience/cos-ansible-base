@@ -1,0 +1,71 @@
+- name: Ensure docker share registration nginx directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_share_registration_nginx_conf_dir }}"
+    - "{{ docker_share_registration_nginx_conf_dir }}/ssl"
+    - "{{ docker_share_registration_nginx_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker share registration nginx configuration settings
+  copy:
+    src: "{{ docker_share_registration_nginx_source_conf_file }}"
+    dest: "{{ docker_share_registration_nginx_conf_file }}"
+    mode: 0600
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker share registration nginx ssl default crt
+  copy:
+    mode: 0600
+    src: "{{ docker_share_registration_nginx_source_ssl_crt_file }}"
+    dest: "{{ docker_share_registration_nginx_conf_dir }}/ssl/default.crt"
+  when: docker_share_registration_nginx_source_ssl_crt_file | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker share registration nginx ssl default key
+  copy:
+    mode: 0600
+    src: "{{ docker_share_registration_nginx_source_ssl_key_file }}"
+    dest: "{{ docker_share_registration_nginx_conf_dir }}/ssl/default.key"
+  when: docker_share_registration_nginx_source_ssl_key_file | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker share registration nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_share_registration_nginx_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker share registration nginx container
+  docker:
+    command: "nginx -g \"daemon off;\""
+    env: "{{ docker_share_registration_nginx_env }}"
+    expose: "{{ docker_share_registration_nginx_expose }}"
+    hostname: "{{ hostname_name }}-registration-nginx1"
+    image: "centerforopenscience/nginx:latest"
+    links: "{{ docker_share_registration_nginx_links }}"
+    name: "{{ docker_share_registration_nginx_name }}"
+    ports: "{{ docker_share_registration_nginx_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_share_registration_nginx_volumes }}"
+    volumes_from: "{{ docker_share_registration_nginx_volumes_from }}"
+  tags:
+    - install
+    - upgrade

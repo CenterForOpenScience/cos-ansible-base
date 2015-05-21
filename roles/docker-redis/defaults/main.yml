@@ -1,0 +1,3 @@
+docker_redis_name: redis_1
+docker_redis_env: {}
+docker_redis_data_dir: /opt/redis/data

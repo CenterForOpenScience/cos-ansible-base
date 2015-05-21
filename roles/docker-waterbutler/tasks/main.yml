@@ -1,0 +1,8 @@
+- include: common.yml
+  when: docker_waterbutler_celery or docker_waterbutler_server
+
+- include: celery.yml
+  when: docker_waterbutler_celery
+
+- include: server.yml
+  when: docker_waterbutler_server

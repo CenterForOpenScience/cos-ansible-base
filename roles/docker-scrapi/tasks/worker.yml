@@ -1,0 +1,27 @@
+- name: Restart docker scrapi worker container
+  sudo: yes
+  shell: "docker restart {{ docker_scrapi_worker_name }}_{{ item }}"
+  with_sequence: count={{ docker_scrapi_server_instances }}
+  when: docker_scrapi_worker_instances > 0
+  tags:
+    - restart
+
+
+- name: Run docker scrapi worker container
+  docker:
+    command: '/bin/bash -c "invoke worker 2>&1 | tee -a /log/{{ docker_scrapi_worker_name }}_{{ item }}.log"'
+    env: "{{ docker_scrapi_worker_env }}"
+    expose: "{{ docker_scrapi_worker_expose }}"
+    hostname: "{{ hostname_name }}-worker{{ item }}"
+    image: "centerforopenscience/scrapi:latest"
+    links: "{{ docker_scrapi_worker_links }}"
+    name: "{{ docker_scrapi_worker_name }}_{{ item }}"
+    ports: "{{ docker_scrapi_worker_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_scrapi_worker_volumes }}"
+  with_sequence: count={{ docker_scrapi_worker_instances }}
+  when: docker_scrapi_worker_instances > 0
+  tags:
+    - install
+    - upgrade

@@ -1,0 +1,18 @@
+docker_postgres_repmgr_source_conf_file: repmgr.conf
+docker_postgres_repmgr_conf_dir: /opt/postgres/conf
+docker_postgres_repmgr_conf_file: "{{ docker_postgres_repmgr_conf_dir }}/repmgr.conf"
+docker_postgres_repmgr_data_dir: "/opt/postgres/data"
+docker_postgres_repmgr_log_dir: /var/log/postgres
+
+docker_postgres_repmgr_name: postgres_1
+docker_postgres_repmgr_image: centerforopenscience/postgres:9.4-repmgr
+docker_postgres_repmgr_hostname: "{{ hostname_name }}-postgres"
+docker_postgres_repmgr_net: bridge
+docker_postgres_repmgr_expose: []
+docker_postgres_repmgr_ports: []
+docker_postgres_repmgr_env: {}
+docker_postgres_repmgr_links: []
+docker_postgres_repmgr_volumes:
+  - "{{ docker_postgres_repmgr_conf_file }}:/etc/repmgr/repmgr.conf"
+  - "{{ docker_postgres_repmgr_data_dir }}:/var/lib/postgresql/data"
+  - "{{ docker_postgres_repmgr_log_dir }}:/var/log/postgresql"

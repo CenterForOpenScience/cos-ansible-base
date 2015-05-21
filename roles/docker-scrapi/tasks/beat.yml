@@ -1,0 +1,23 @@
+- name: Restart docker scrapi beat container
+  sudo: yes
+  shell: "docker restart {{ docker_scrapi_beat_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker scrapi beat container
+  docker:
+    command: "/bin/bash -c 'invoke beat 2>&1 | tee -a /log/{{ docker_scrapi_beat_name }}.log'"
+    env: "{{ docker_scrapi_beat_env }}"
+    expose: "{{ docker_scrapi_beat_expose }}"
+    hostname: "{{ hostname_name }}-beat"
+    image: "centerforopenscience/scrapi:latest"
+    links: "{{ docker_scrapi_beat_links }}"
+    name: "{{ docker_scrapi_beat_name }}"
+    ports: "{{ docker_scrapi_beat_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_scrapi_beat_volumes }}"
+  tags:
+    - install
+    - upgrade
