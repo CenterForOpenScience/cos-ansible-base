@@ -1,0 +1,3 @@
+logentries_account_key:
+logentries_files_to_monitor: []
+logentries_source_le_filters_dir: le_filters/

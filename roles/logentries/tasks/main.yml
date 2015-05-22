@@ -1,0 +1,68 @@
+- name: Ensure logentires apt repository
+  sudo: yes
+  apt_repository:
+    repo: "deb http://rep.logentries.com/ trusty main"
+    state: present
+
+
+- name: Import public key used by apt
+  sudo: yes
+  apt_key:
+    keyserver: hkp://pgp.mit.edu:80
+    id: C43C79AD
+    state: present
+
+
+- name: Update APT package cache
+  sudo: yes
+  apt: update_cache=yes
+
+
+- name: Install log entries command line application
+  sudo: yes
+  apt:
+    state: present
+    pkg: logentries
+
+
+- name: Register the host with logentires
+  sudo: yes
+  shell: "le register --account-key={{ logentries_account_key }}"
+  when: logentries_account_key
+
+
+- name: Configure log entries to monitor files
+  sudo: yes
+  shell: "le follow {{ item }}"
+  with_items: logentries_files_to_monitor
+  when: logentries_files_to_monitor
+
+
+- name: Copy repmgr configuration settings
+  copy:
+    src: "{{ logentries_source_le_filters_dir }}"
+    dest: /etc/le/le_filters/
+    mode: 0644
+
+
+- name: Add filters to logentries configuration file
+  sudo: true
+  ini_file:
+    dest: /etc/le/config
+    section: Main
+    option: filters
+    value: /etc/le/le_filters/
+
+
+- name: Install log entries daemon
+  sudo: yes
+  apt:
+    state: present
+    pkg: logentries-daemon
+
+
+- name: Start the log entries daemon
+  sudo: yes
+  service:
+    name: logentries
+    state: restarted

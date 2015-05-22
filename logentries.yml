@@ -1,0 +1,5 @@
+
+- name: Log Entries
+  hosts: all
+  roles:
+    - role: logentries
