@@ -1,3 +1,7 @@
 logentries_account_key:
+logentries_source_filters_file: filters.py
+logentries_metrics_token:
 logentries_files_to_monitor: []
-logentries_source_le_filters_dir: le_filters/
+  # - filename: "/path/to/file.txt"
+  #   name: "log name"
+  #   type: "log type, e.g. python"

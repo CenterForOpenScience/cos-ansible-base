@@ -30,7 +30,7 @@
 
 - name: Run docker cas web container
   docker:
-    command: '/bin/bash -c "/usr/bin/mvn -pl cas-server-webapp/ jetty:run {{ docker_cas_web_definitions }} 2>&1 | tee -a /log/{{ docker_cas_web_name }}.log"'
+    command: '/usr/bin/mvn -pl cas-server-webapp/ jetty:run {{ docker_cas_web_definitions }}'
     env: "{{ docker_cas_web_env }}"
     expose: "{{ docker_cas_web_expose }}"
     hostname: "{{ docker_cas_web_hostname }}"

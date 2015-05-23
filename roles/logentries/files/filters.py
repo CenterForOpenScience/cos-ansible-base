@@ -1,4 +1,4 @@
-# Example
+# Example Filters
 #
 # # filter celery events
 # def filter_celery_events(events):
@@ -19,7 +19,7 @@
 #
 #
 # filters = {
-#     'waterbutler_celery_1.log': filter_celery_events,
-#     'waterbutler_server_1.log': filter_server_events,
-#     'waterbutler_server_2.log': filter_server_events,
+#     'celery_1.log': filter_celery_events,
+#     'server_1.log': filter_server_events,
+#     'server_2.log': filter_server_events,
 # }
