@@ -15,4 +15,4 @@ docker_postgres_repmgr_links: []
 docker_postgres_repmgr_volumes:
   - "{{ docker_postgres_repmgr_conf_file }}:/etc/repmgr/repmgr.conf"
   - "{{ docker_postgres_repmgr_data_dir }}:/var/lib/postgresql/data"
-  - "{{ docker_postgres_repmgr_log_dir }}:/var/log/postgresql"
+  - "{{ docker_postgres_repmgr_log_dir }}:/log"

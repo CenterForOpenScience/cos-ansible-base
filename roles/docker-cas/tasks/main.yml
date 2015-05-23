@@ -1,2 +1,5 @@
+- include: common.yml
+  when: docker_cas_web
+
 - include: web.yml
   when: docker_cas_web

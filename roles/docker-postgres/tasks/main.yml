@@ -1,3 +1,15 @@
+- name: Ensure docker postgres logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/postgres
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
 - name: Restart docker postgres container
   sudo: yes
   shell: "docker restart {{ docker_postgres_name }}"
@@ -21,7 +33,7 @@
 - name: Run docker postgres container
   docker:
     name: "{{ docker_postgres_name }}"
-    image: "{{ docker_postgres_image }}"
+    image: centerforopenscience/postgres:9.4
     state: running
     hostname: "{{ docker_postgres_hostname }}"
     restart_policy: always

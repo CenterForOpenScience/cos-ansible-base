@@ -27,31 +27,54 @@
 
 - name: Register the host with logentires
   sudo: yes
-  shell: "le register --account-key={{ logentries_account_key }}"
+  command: "le register --account-key={{ logentries_account_key }}"
   when: logentries_account_key
 
 
-- name: Configure log entries to monitor files
+- name: Ensure logentries filters directory exists
   sudo: yes
-  shell: "le follow {{ item }}"
-  with_items: logentries_files_to_monitor
-  when: logentries_files_to_monitor
+  file:
+    state: directory
+    path: /etc/le/le_filters
 
 
-- name: Copy repmgr configuration settings
+- name: Ensure /etc/le/le_filters/__init__.py
+  file:
+    path: /etc/le/le_filters/__init__.py
+    state: touch
+
+
+- name: Copy logentires filters python script
   copy:
-    src: "{{ logentries_source_le_filters_dir }}"
-    dest: /etc/le/le_filters/
+    src: "{{ logentries_source_filters_file }}"
+    dest: /etc/le/le_filters/filters.py
     mode: 0644
 
 
-- name: Add filters to logentries configuration file
+- name: Set configuration file filters path
   sudo: true
   ini_file:
     dest: /etc/le/config
     section: Main
     option: filters
     value: /etc/le/le_filters/
+
+
+- name: Set configuration file metrics token
+  sudo: true
+  ini_file:
+    dest: /etc/le/config
+    section: Main
+    option: metrics-token
+    value: "{{ logentries_metrics_token }}"
+  when: logentries_metrics_token
+
+
+- name: Configure log entries to monitor files
+  sudo: yes
+  command: "le follow {{ item['filename'] }} {{ '--name=' + item['name'] if 'name' in item else '' }} {{ '--type=' + item['type'] if 'type' in item else '' }}"
+  with_items: logentries_files_to_monitor
+  when: logentries_files_to_monitor
 
 
 - name: Install log entries daemon
