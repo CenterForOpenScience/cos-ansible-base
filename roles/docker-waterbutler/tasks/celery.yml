@@ -20,6 +20,7 @@
     restart_policy: always
     state: running
     volumes: "{{ docker_waterbutler_celery_volumes }}"
+    volumes_from: "{{ docker_waterbutler_celery_volumes_from }}"
   with_sequence: count={{ docker_waterbutler_celery_instances }}
   when: docker_waterbutler_celery_instances > 0
   tags:

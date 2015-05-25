@@ -1,6 +1,9 @@
 - include: common.yml
   when: docker_waterbutler_celery or docker_waterbutler_server
 
+- include: storage.yml
+  when: docker_waterbutler_storage_temp
+
 - include: celery.yml
   when: docker_waterbutler_celery
 

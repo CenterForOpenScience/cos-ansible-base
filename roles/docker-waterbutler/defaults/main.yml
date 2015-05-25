@@ -18,6 +18,14 @@ docker_waterbutler_rabbitmq_name: waterbutler_rabbitmq_1
 docker_waterbutler_rabbitmq_data_dir: /opt/rabbitmq/data
 
 
+# shared storage
+
+docker_waterbutler_storage_temp: no
+docker_waterbutler_storage_temp_name: waterbutler_storage_temp_1
+docker_waterbutler_storage_temp_volumes:
+  - /tmp
+
+
 # servers
 
 docker_waterbutler_celery: no
@@ -31,11 +39,14 @@ docker_waterbutler_celery_expose: []
 docker_waterbutler_celery_ports: []
 docker_waterbutler_celery_links:
   - "{{ docker_waterbutler_rabbitmq_name }}:rabbitmq"
+docker_waterbutler_celery_volumes_from:
+  - "{{ docker_waterbutler_storage_temp_name }}"
 docker_waterbutler_celery_volumes:
   - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
   - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
   - "{{ docker_waterbutler_conf_file }}:/home/python/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
   - "{{ docker_waterbutler_log_dir }}:/log"
+
 
 docker_waterbutler_server: no
 docker_waterbutler_server_name: waterbutler_server
@@ -48,6 +59,8 @@ docker_waterbutler_server_env:
   ENV: "{{ docker_waterbutler_env }}"
   SOURCE_BRANCH: "{{ docker_waterbutler_source_branch }}"
   SOURCE_REPO: "{{ docker_waterbutler_source_repo }}"
+docker_waterbutler_server_volumes_from:
+  - "{{ docker_waterbutler_storage_temp_name }}"
 docker_waterbutler_server_volumes:
   - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
   - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
