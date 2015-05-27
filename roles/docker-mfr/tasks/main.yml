@@ -1,0 +1,5 @@
+- include: common.yml
+  when: docker_mfr_server
+
+- include: server.yml
+  when: docker_mfr_server
