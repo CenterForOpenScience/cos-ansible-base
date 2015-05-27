@@ -24,7 +24,7 @@ docker_mfr_server_env:
   ENV: "{{ docker_mfr_env }}"
   SOURCE_BRANCH: "{{ docker_mfr_source_branch }}"
   SOURCE_REPO: "{{ docker_mfr_source_repo }}"
-docker_mfr_server_volumes_from:
+docker_mfr_server_volumes_from: []
 docker_mfr_server_volumes:
   - "{{ docker_mfr_localcache_dir }}:/data/mfrlocalcache"
   - "{{ docker_mfr_conf_file }}:/home/python/.cos/mfr-{{ docker_mfr_env }}.json"
