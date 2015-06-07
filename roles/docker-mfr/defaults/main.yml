@@ -2,7 +2,7 @@
 
 docker_mfr_env: test
 docker_mfr_source_branch: develop
-docker_mfr_source_repo: "https://github.com/CenterForOpenScience/modular-file-renderer.git"
+docker_mfr_source_repo: https://github.com/CenterForOpenScience/modular-file-renderer.git
 docker_mfr_source_conf_file: "{{ docker_mfr_env }}.json"
 docker_mfr_conf_dir: "/opt/mfr/conf"
 docker_mfr_conf_file: "{{ docker_mfr_conf_dir }}/mfr-{{ docker_mfr_env }}.json"
