@@ -72,7 +72,11 @@
 
 - name: Configure log entries to monitor files
   sudo: yes
-  command: "le follow {{ item['filename'] }} {{ '--name=' + item['name'] if 'name' in item else '' }} {{ '--type=' + item['type'] if 'type' in item else '' }}"
+  logentries:
+    logtype: "{{ item.get('type') }}"
+    name: "{{ item.get('name') }}"
+    path: "{{ item.get('filename') }}"
+    state: present
   with_items: logentries_files_to_monitor
   when: logentries_files_to_monitor
 
