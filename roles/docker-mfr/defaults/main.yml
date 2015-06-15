@@ -7,7 +7,6 @@ docker_mfr_source_conf_file: "{{ docker_mfr_env }}.json"
 docker_mfr_conf_dir: "/opt/mfr/conf"
 docker_mfr_conf_file: "{{ docker_mfr_conf_dir }}/mfr-{{ docker_mfr_env }}.json"
 docker_mfr_log_dir: "/var/log/mfr"
-docker_mfr_localcache_dir: "/opt/mfr/localcache"
 
 
 # servers
@@ -26,7 +25,6 @@ docker_mfr_server_env:
   SOURCE_REPO: "{{ docker_mfr_source_repo }}"
 docker_mfr_server_volumes_from: []
 docker_mfr_server_volumes:
-  - "{{ docker_mfr_localcache_dir }}:/data/mfrlocalcache"
   - "{{ docker_mfr_conf_file }}:/home/python/.cos/mfr-{{ docker_mfr_env }}.json"
   - "{{ docker_mfr_conf_dir }}/ssl:/home/python/.cos/ssl"
   - "{{ docker_mfr_log_dir }}:/log"

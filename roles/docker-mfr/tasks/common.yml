@@ -19,7 +19,6 @@
     - "{{ docker_mfr_conf_dir }}"
     - "{{ docker_mfr_conf_dir }}/ssl"
     - "{{ docker_mfr_log_dir }}"
-    - "{{ docker_mfr_localcache_dir }}"
   tags:
     - install
     - upgrade
