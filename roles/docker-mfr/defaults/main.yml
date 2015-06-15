@@ -9,6 +9,22 @@ docker_mfr_conf_file: "{{ docker_mfr_conf_dir }}/mfr-{{ docker_mfr_env }}.json"
 docker_mfr_log_dir: "/var/log/mfr"
 
 
+# shared storage
+
+docker_mfr_storage_temp: no
+docker_mfr_storage_temp_name: mfr_storage_temp_1
+docker_mfr_storage_temp_volumes:
+  - /unoconv
+
+
+# support servers
+
+docker_mfr_unoconv: no
+docker_mfr_unoconv_name: mfr_unoconv_1
+docker_mfr_unoconv_log_dir: "{{ docker_mfr_log_dir }}"
+docker_mfr_unoconv_volumes_from: "{{ docker_mfr_storage_temp_name }}"
+
+
 # servers
 
 docker_mfr_server: no
@@ -23,7 +39,7 @@ docker_mfr_server_env:
   ENV: "{{ docker_mfr_env }}"
   SOURCE_BRANCH: "{{ docker_mfr_source_branch }}"
   SOURCE_REPO: "{{ docker_mfr_source_repo }}"
-docker_mfr_server_volumes_from: []
+docker_mfr_server_volumes_from: "{{ docker_mfr_storage_temp_name }}"
 docker_mfr_server_volumes:
   - "{{ docker_mfr_conf_file }}:/home/python/.cos/mfr-{{ docker_mfr_env }}.json"
   - "{{ docker_mfr_conf_dir }}/ssl:/home/python/.cos/ssl"

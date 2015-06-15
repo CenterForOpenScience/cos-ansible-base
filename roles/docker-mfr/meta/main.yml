@@ -1,0 +1,10 @@
+dependencies:
+  - role: docker-storage
+    docker_storage_name: "{{ docker_mfr_storage_temp_name }}"
+    docker_storage_volumes: "{{ docker_mfr_storage_temp_volumes }}"
+    docker_storage: "{{ docker_mfr_storage_temp }}"
+
+  - role: docker-unoconv
+    docker_unoconv_name: "{{ docker_mfr_unoconv_name }}"
+    docker_unoconv_log_dir: "{{ docker_mfr_unoconv_log_dir }}"
+    docker_unoconv: "{{ docker_mfr_unoconv }}"

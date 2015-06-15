@@ -1,0 +1,35 @@
+- name: Restart docker unoconv container
+  sudo: yes
+  shell: "docker restart {{ docker_unoconv_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker unoconv directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_unoconv_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker unoconv container
+  docker:
+    name: "{{ docker_unoconv_name }}"
+    command: "{{ docker_unoconv_command }}"
+    state: running
+    hostname: "{{ hostname_name }}-unoconv"
+    restart_policy: always
+    image: "{{ docker_unoconv_image }}"
+    expose: "{{ docker_unoconv_expose }}"
+    ports: "{{ docker_unoconv_ports }}"
+    env: "{{ docker_unoconv_env }}"
+    volumes: "{{ docker_unoconv_volumes }}"
+    volumes_from: "{{ docker_unoconv_volumes_from }}"
+  tags:
+    - install
+    - upgrade

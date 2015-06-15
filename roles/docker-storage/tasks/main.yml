@@ -1,0 +1,9 @@
+- name: Run docker storage container
+  docker:
+    image: busybox:latest
+    name: "{{ docker_storage_name }}"
+    volumes: "{{ docker_storage_volumes }}"
+  when: docker_storage
+  tags:
+    - install
+    - upgrade
