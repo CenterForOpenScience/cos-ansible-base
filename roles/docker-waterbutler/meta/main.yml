@@ -1,4 +1,9 @@
 dependencies:
+  - role: docker-storage
+    docker_storage_name: "{{ docker_waterbutler_storage_temp_name }}"
+    docker_storage_volumes: "{{ docker_waterbutler_storage_temp_volumes }}"
+    docker_storage: "{{ docker_waterbutler_storage_temp }}"
+
   - role: docker-rabbitmq
     docker_rabbitmq_name: "{{ docker_waterbutler_rabbitmq_name }}"
     docker_rabbitmq_data_dir: "{{ docker_waterbutler_rabbitmq_data_dir }}"
