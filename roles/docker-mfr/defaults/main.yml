@@ -46,7 +46,8 @@ docker_mfr_server_volumes:
   - "{{ docker_mfr_conf_file }}:/home/python/.cos/mfr-{{ docker_mfr_env }}.json"
   - "{{ docker_mfr_conf_dir }}/ssl:/home/python/.cos/ssl"
   - "{{ docker_mfr_log_dir }}:/log"
-docker_mfr_server_links: []
+docker_mfr_server_links:
+  - "{{ docker_mfr_unoconv_name }}:unoconv"
 docker_mfr_server_expose:
   - 7778
 docker_mfr_server_ports:
