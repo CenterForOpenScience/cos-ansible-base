@@ -4,7 +4,7 @@ docker_unoconv: no
 docker_unoconv_name: unoconv_1
 docker_unoconv_image: centerforopenscience/unoconv:latest
 docker_unoconv_log_dir: /var/log/unoconv
-docker_unoconv_command: '/bin/bash -c "/usr/bin/unoconv --listener --server=0.0.0.0 --port=2002 -vvv 2>&1 | tee -a /log/{{ docker_unoconv_name }}.log"'
+docker_unoconv_command: '/bin/bash -c "/opt/libreoffice4.4/program/python -u /usr/bin/unoconv --listener --server=0.0.0.0 --port=2002 -vvv 2>&1 | tee -a /log/{{ docker_unoconv_name }}.log"'
 docker_unoconv_env: {}
 docker_unoconv_volumes_from: []
 docker_unoconv_volumes:
