@@ -1,4 +1,4 @@
-- name: Ensure docker osf logrotate config
+- name: Ensure docker elasticsearch logrotate config
   template:
     src: logrotate.j2
     dest: /etc/logrotate.d/elasticsearch
