@@ -1,0 +1,71 @@
+- name: Ensure docker dor nginx directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_dor_nginx_conf_dir }}"
+    - "{{ docker_dor_nginx_conf_dir }}/ssl"
+    - "{{ docker_dor_nginx_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker dor nginx configuration settings
+  copy:
+    src: "{{ docker_dor_nginx_source_conf_file }}"
+    dest: "{{ docker_dor_nginx_conf_file }}"
+    mode: 0600
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker dor nginx ssl default crt
+  copy:
+    mode: 0600
+    src: "{{ docker_dor_nginx_source_ssl_crt_file }}"
+    dest: "{{ docker_dor_nginx_conf_dir }}/ssl/default.crt"
+  when: docker_dor_nginx_source_ssl_crt_file | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker dor nginx ssl default key
+  copy:
+    mode: 0600
+    src: "{{ docker_dor_nginx_source_ssl_key_file }}"
+    dest: "{{ docker_dor_nginx_conf_dir }}/ssl/default.key"
+  when: docker_dor_nginx_source_ssl_key_file | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker dor nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_dor_nginx_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker dor nginx container
+  docker:
+    command: "nginx -g \"daemon off;\""
+    env: "{{ docker_dor_nginx_env }}"
+    expose: "{{ docker_dor_nginx_expose }}"
+    hostname: "{{ hostname_name }}-nginx1"
+    image: "centerforopenscience/nginx:latest"
+    links: "{{ docker_dor_nginx_links }}"
+    name: "{{ docker_dor_nginx_name }}"
+    ports: "{{ docker_dor_nginx_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_dor_nginx_volumes }}"
+    volumes_from: "{{ docker_dor_nginx_volumes_from }}"
+  tags:
+    - install
+    - upgrade

@@ -1,0 +1,58 @@
+- name: Ensure docker dor uwsgi directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_dor_uwsgi_conf_dir }}"
+    - "{{ docker_dor_uwsgi_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker dor uwsgi configuration settings
+  copy:
+    src: "{{ docker_dor_uwsgi_source_conf_file }}"
+    dest: "{{ docker_dor_uwsgi_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker dor uwsgi application settings
+  copy:
+    src: "{{ docker_dor_uwsgi_source_app_file }}"
+    dest: "{{ docker_dor_uwsgi_app_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker dor uwsgi container
+  sudo: yes
+  shell: "docker restart {{ docker_dor_uwsgi_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker dor uwsgi container
+  docker:
+    command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+    env: "{{ docker_dor_uwsgi_env }}"
+    expose: "{{ docker_dor_uwsgi_expose }}"
+    hostname: "{{ hostname_name }}-uwsgi1"
+    image: "centerforopenscience/dor:latest"
+    links: "{{ docker_dor_uwsgi_links }}"
+    name: "{{ docker_dor_uwsgi_name }}"
+    ports: "{{ docker_dor_uwsgi_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_dor_uwsgi_volumes }}"
+  tags:
+    - install
+    - upgrade

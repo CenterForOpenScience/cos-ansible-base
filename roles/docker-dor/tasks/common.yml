@@ -1,0 +1,10 @@
+- name: Ensure docker dor logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/dor
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
