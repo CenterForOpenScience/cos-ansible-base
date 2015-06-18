@@ -46,7 +46,7 @@
     env: "{{ docker_share_registration_uwsgi_env }}"
     expose: "{{ docker_share_registration_uwsgi_expose }}"
     hostname: "{{ hostname_name }}-registration-uwsgi1"
-    image: "centerforopenscience/share:registration"
+    image: "{{ docker_share_registration_uwsgi_image }}"
     links: "{{ docker_share_registration_uwsgi_links }}"
     name: "{{ docker_share_registration_uwsgi_name }}"
     ports: "{{ docker_share_registration_uwsgi_ports }}"

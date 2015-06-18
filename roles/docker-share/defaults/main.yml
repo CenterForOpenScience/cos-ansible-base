@@ -21,6 +21,7 @@ docker_share_postgres_ports: []
 
 docker_share_registration_uwsgi: no
 docker_share_registration_uwsgi_name: share_registration_uwsgi_1
+docker_share_registration_uwsgi_image: centerforopenscience/share:registration
 docker_share_registration_uwsgi_source_branch: develop
 docker_share_registration_uwsgi_source_repo: https://github.com/erinspace/shareregistration.git
 docker_share_registration_uwsgi_source_conf_file: registration.uwsgi.ini
@@ -45,6 +46,7 @@ docker_share_registration_uwsgi_volumes:
 
 docker_share_registration_nginx: no
 docker_share_registration_nginx_name: share_registration_nginx_1
+docker_share_registration_nginx_image: centerforopenscience/nginx:latest
 docker_share_registration_nginx_source_conf_file: registration.nginx.conf
 docker_share_registration_nginx_source_ssl_crt_file: ""
 docker_share_registration_nginx_source_ssl_key_file: ""

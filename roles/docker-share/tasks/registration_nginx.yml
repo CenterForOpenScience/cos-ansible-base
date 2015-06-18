@@ -58,7 +58,7 @@
     env: "{{ docker_share_registration_nginx_env }}"
     expose: "{{ docker_share_registration_nginx_expose }}"
     hostname: "{{ hostname_name }}-registration-nginx1"
-    image: "centerforopenscience/nginx:latest"
+    image: "{{ docker_share_registration_nginx_image }}"
     links: "{{ docker_share_registration_nginx_links }}"
     name: "{{ docker_share_registration_nginx_name }}"
     ports: "{{ docker_share_registration_nginx_ports }}"
