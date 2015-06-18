@@ -4,6 +4,14 @@ docker_share_opt_dir: /opt/share
 docker_share_log_dir: /var/log/share
 
 
+# shared storage
+
+docker_share_registration_storage_temp: no
+docker_share_registration_storage_temp_name: share_registration_storage_temp_1
+docker_share_registration_storage_temp_volumes:
+  - /tmp
+
+
 # support servers
 
 docker_share_postgres: no
@@ -33,15 +41,16 @@ docker_share_registration_uwsgi_log_dir: "{{ docker_share_log_dir }}/registratio
 docker_share_registration_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_share_registration_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_share_registration_uwsgi_source_repo }}"
-docker_share_registration_uwsgi_expose:
-  - 8080
+docker_share_registration_uwsgi_expose: []
 docker_share_registration_uwsgi_ports: []
 docker_share_registration_uwsgi_links:
   - "{{ docker_share_postgres_name }}:postgres"
 docker_share_registration_uwsgi_volumes:
   - "{{ docker_share_registration_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_share_registration_uwsgi_app_file }}:/home/python/.cos/local.py"
+  - "{{ docker_share_registration_uwsgi_app_file }}:/home/.cos/local.py"
   - "{{ docker_share_registration_uwsgi_log_dir }}:/log"
+docker_share_registration_uwsgi_volumes_from:
+  - "{{ docker_share_registration_storage_temp_name }}"
 
 
 docker_share_registration_nginx: no
@@ -58,10 +67,10 @@ docker_share_registration_nginx_expose:
   - 80
   - 443
 docker_share_registration_nginx_ports: []
-docker_share_registration_nginx_links:
-  - "{{ docker_share_registration_uwsgi_name }}:uwsgi"
+docker_share_registration_nginx_links: []
 docker_share_registration_nginx_volumes:
   - "{{ docker_share_registration_nginx_conf_file }}:/etc/nginx/sites-templates/default.conf.tmpl"
   - "{{ docker_share_registration_nginx_log_dir }}:/var/log/nginx"
 docker_share_registration_nginx_volumes_from:
   - "{{ docker_share_registration_uwsgi_name }}"
+  - "{{ docker_share_registration_storage_temp_name }}"

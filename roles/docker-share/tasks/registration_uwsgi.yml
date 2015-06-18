@@ -52,6 +52,7 @@
     ports: "{{ docker_share_registration_uwsgi_ports }}"
     restart_policy: always
     state: running
+    volumes_from: "{{ docker_share_registration_uwsgi_volumes_from }}"
     volumes: "{{ docker_share_registration_uwsgi_volumes }}"
   tags:
     - install
