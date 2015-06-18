@@ -1,10 +1,9 @@
 import os
 
-SECRET_KEY = 'Secret!Key'
+SECRET_KEY = 'Super#Secret!Key'
 
 DEBUG = True
-
-DOMAIN = 'http://localhost:8000'
+TEMPLATE_DEBUG = True
 
 DATABASES = {
     'default': {
@@ -16,5 +15,3 @@ DATABASES = {
         'PORT': os.environ.get('POSTGRES_PORT_5432_TCP_PORT', ''),
     }
 }
-
-STATIC_URL = '{}/static/'.format(DOMAIN)
