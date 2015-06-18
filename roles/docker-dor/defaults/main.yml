@@ -4,6 +4,14 @@ docker_dor_opt_dir: /opt/dor
 docker_dor_log_dir: /var/log/dor
 
 
+# shared storage
+
+docker_dor_storage_temp: no
+docker_dor_storage_temp_name: dor_storage_temp_1
+docker_dor_storage_temp_volumes:
+  - /tmp
+
+
 # support servers
 
 docker_dor_postgres: no
@@ -21,6 +29,7 @@ docker_dor_postgres_ports: []
 
 docker_dor_uwsgi: no
 docker_dor_uwsgi_name: dor_uwsgi_1
+docker_dor_uwsgi_image: centerforopenscience/dor:latest
 docker_dor_uwsgi_source_branch: develop
 docker_dor_uwsgi_source_repo: https://github.com/mfraezz/DirectoryOfRepositories.git
 docker_dor_uwsgi_source_conf_file: uwsgi.ini
@@ -39,12 +48,15 @@ docker_dor_uwsgi_links:
   - "{{ docker_dor_postgres_name }}:postgres"
 docker_dor_uwsgi_volumes:
   - "{{ docker_dor_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_dor_uwsgi_app_file }}:/home/python/.cos/local.py"
+  - "{{ docker_dor_uwsgi_app_file }}:/home/.cos/local.py"
   - "{{ docker_dor_uwsgi_log_dir }}:/log"
+docker_dor_uwsgi_volumes_from:
+  - "{{ docker_dor_storage_temp_name }}"
 
 
 docker_dor_nginx: no
 docker_dor_nginx_name: dor_nginx_1
+docker_dor_nginx_image: centerforopenscience/nginx:latest
 docker_dor_nginx_source_conf_file: nginx.conf
 docker_dor_nginx_source_ssl_crt_file: ""
 docker_dor_nginx_source_ssl_key_file: ""
@@ -63,3 +75,4 @@ docker_dor_nginx_volumes:
   - "{{ docker_dor_nginx_log_dir }}:/var/log/nginx"
 docker_dor_nginx_volumes_from:
   - "{{ docker_dor_uwsgi_name }}"
+  - "{{ docker_dor_storage_temp_name }}"

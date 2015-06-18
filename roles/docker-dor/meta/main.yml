@@ -1,4 +1,9 @@
 dependencies:
+  - role: docker-storage
+    docker_storage_name: "{{ docker_dor_storage_temp_name }}"
+    docker_storage_volumes: "{{ docker_dor_storage_temp_volumes }}"
+    docker_storage: "{{ docker_dor_storage_temp }}"
+
   - role: docker-postgres
     docker_postgres_name: "{{ docker_dor_postgres_name }}"
     docker_postgres_data_dir: "{{ docker_dor_postgres_data_dir }}"
