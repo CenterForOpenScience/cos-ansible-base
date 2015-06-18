@@ -41,8 +41,7 @@ docker_dor_uwsgi_log_dir: "{{ docker_dor_log_dir }}"
 docker_dor_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_dor_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_dor_uwsgi_source_repo }}"
-docker_dor_uwsgi_expose:
-  - 8080
+docker_dor_uwsgi_expose: []
 docker_dor_uwsgi_ports: []
 docker_dor_uwsgi_links:
   - "{{ docker_dor_postgres_name }}:postgres"
@@ -68,8 +67,7 @@ docker_dor_nginx_expose:
   - 80
   - 443
 docker_dor_nginx_ports: []
-docker_dor_nginx_links:
-  - "{{ docker_dor_uwsgi_name }}:uwsgi"
+docker_dor_nginx_links: []
 docker_dor_nginx_volumes:
   - "{{ docker_dor_nginx_conf_file }}:/etc/nginx/sites-templates/default.conf.tmpl"
   - "{{ docker_dor_nginx_log_dir }}:/var/log/nginx"
