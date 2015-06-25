@@ -43,8 +43,8 @@ docker_mfr_server_env:
   SOURCE_BRANCH: "{{ docker_mfr_source_branch }}"
   SOURCE_REPO: "{{ docker_mfr_source_repo }}"
 docker_mfr_server_volumes:
-  - "{{ docker_mfr_conf_file }}:/home/python/.cos/mfr-{{ docker_mfr_env }}.json"
-  - "{{ docker_mfr_conf_dir }}/ssl:/home/python/.cos/ssl"
+  - "{{ docker_mfr_conf_file }}:/home/.cos/mfr-{{ docker_mfr_env }}.json"
+  - "{{ docker_mfr_conf_dir }}/ssl:/home/.cos/ssl"
   - "{{ docker_mfr_log_dir }}:/log"
   - /tmp
 docker_mfr_server_volumes_from:
