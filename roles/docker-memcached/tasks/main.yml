@@ -1,7 +1,7 @@
 - name: Ensure docker memcached logrotate config
   template:
     src: logrotate.j2
-    dest: /etc/logrotate.d/docker-memcached
+    dest: /etc/logrotate.d/memcached
     owner: root
     group: root
     mode: 0644
