@@ -33,7 +33,7 @@
   docker:
     expose: "{{ docker_memcached_expose }}"
     hostname: "{{ hostname_name }}-memcached"
-    image: "memcached:latest"
+    image: "centerforopenscience/memcached:latest"
     name: "{{ docker_memcached_name }}"
     ports: "{{ docker_memcached_ports }}"
     restart_policy: always

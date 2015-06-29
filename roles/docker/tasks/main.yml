@@ -27,8 +27,9 @@
     state: latest
     name: "{{ item }}"
   with_items:
+    - "docker-py==1.2.3" # docker 1.7.0 compatible
     # - "docker-py==1.2.2" # docker 1.6.0 compatible
-    - "docker-py==1.1.0" # docker 1.5.0 compatible
+    # - "docker-py==1.1.0" # docker 1.5.0 compatible
     # - "docker-py==0.7.2" # docker 1.4.1 compatible
     - "python-apt"
   tags:
@@ -58,8 +59,9 @@
   sudo: yes
   apt:
     state: latest
-    #pkg: "lxc-docker-1.6.0"
-    pkg: "lxc-docker-1.5.0"
+    pkg: "lxc-docker-1.7.0"
+    # pkg: "lxc-docker-1.6.0"
+    # pkg: "lxc-docker-1.5.0"
     # pkg: "lxc-docker-1.4.1"
   tags:
     - install
