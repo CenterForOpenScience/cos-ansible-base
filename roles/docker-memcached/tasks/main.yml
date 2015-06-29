@@ -1,0 +1,44 @@
+- name: Ensure docker memcached logrotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/docker-memcached
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker memcached container
+  sudo: yes
+  shell: "docker restart {{ docker_memcached_name }}"
+  tags:
+    - restart
+
+
+- name: Ensure docker memcached directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_memcached_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker memcached container
+  docker:
+    expose: "{{ docker_memcached_expose }}"
+    hostname: "{{ hostname_name }}-memcached"
+    image: "memcached:latest"
+    name: "{{ docker_memcached_name }}"
+    ports: "{{ docker_memcached_ports }}"
+    restart_policy: always
+    volumes:
+      - "{{ docker_memcached_log_dir }}:/opt/memcached/logs"
+  tags:
+    - install
+    - upgrade

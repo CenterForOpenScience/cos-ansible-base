@@ -1,0 +1,71 @@
+- name: Ensure docker cos nginx directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_cos_nginx_conf_dir }}"
+    - "{{ docker_cos_nginx_conf_dir }}/ssl"
+    - "{{ docker_cos_nginx_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker cos nginx configuration settings
+  copy:
+    src: "{{ docker_cos_nginx_source_conf_file }}"
+    dest: "{{ docker_cos_nginx_conf_file }}"
+    mode: 0600
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker cos nginx ssl default crt
+  copy:
+    mode: 0600
+    src: "{{ docker_cos_nginx_source_ssl_crt_file }}"
+    dest: "{{ docker_cos_nginx_conf_dir }}/ssl/default.crt"
+  when: docker_cos_nginx_source_ssl_crt_file | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker cos nginx ssl default key
+  copy:
+    mode: 0600
+    src: "{{ docker_cos_nginx_source_ssl_key_file }}"
+    dest: "{{ docker_cos_nginx_conf_dir }}/ssl/default.key"
+  when: docker_cos_nginx_source_ssl_key_file | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker cos nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_cos_nginx_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker cos nginx container
+  docker:
+    command: "nginx -g \"daemon off;\""
+    env: "{{ docker_cos_nginx_env }}"
+    expose: "{{ docker_cos_nginx_expose }}"
+    hostname: "{{ hostname_name }}-nginx1"
+    image: "{{ docker_cos_nginx_image }}"
+    links: "{{ docker_cos_nginx_links }}"
+    name: "{{ docker_cos_nginx_name }}"
+    ports: "{{ docker_cos_nginx_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_cos_nginx_volumes }}"
+    volumes_from: "{{ docker_cos_nginx_volumes_from }}"
+  tags:
+    - install
+    - upgrade

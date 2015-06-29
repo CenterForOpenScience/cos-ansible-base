@@ -1,0 +1,8 @@
+- include: common.yml
+  when: docker_cos_uwsgi or docker_cos_nginx
+
+- include: uwsgi.yml
+  when: docker_cos_uwsgi
+
+- include: nginx.yml
+  when: docker_cos_nginx

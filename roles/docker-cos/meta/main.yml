@@ -1,0 +1,21 @@
+dependencies:
+  - role: docker-storage
+    docker_storage_name: "{{ docker_cos_storage_temp_name }}"
+    docker_storage_volumes: "{{ docker_cos_storage_temp_volumes }}"
+    docker_storage: "{{ docker_cos_storage_temp }}"
+
+  - role: docker-postgres
+    docker_postgres_name: "{{ docker_cos_postgres_name }}"
+    docker_postgres_data_dir: "{{ docker_cos_postgres_data_dir }}"
+    docker_postgres_log_dir: "{{ docker_cos_postgres_log_dir }}"
+    docker_postgres_env: "{{ docker_cos_postgres_env }}"
+    docker_postgres_expose: "{{ docker_cos_postgres_expose }}"
+    docker_postgres_ports: "{{ docker_cos_postgres_ports }}"
+    when: docker_cos_postgres
+
+  - role: docker-memcached
+    docker_memcached_name: "{{ docker_cos_memcached_name }}"
+    docker_memcached_log_dir: "{{ docker_cos_memcached_log_dir }}"
+    docker_memcached_expose: "{{ docker_cos_memcached_expose }}"
+    docker_memcached_ports: "{{ docker_cos_memcached_ports }}"
+    when: docker_cos_memcached
