@@ -1,6 +1,3 @@
-- include: common.yml
-  when: docker_dor_uwsgi or docker_dor_nginx
-
 - include: uwsgi.yml
   when: docker_dor_uwsgi
 
