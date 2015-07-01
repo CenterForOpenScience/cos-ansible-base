@@ -1,0 +1,89 @@
+- name: Ensure docker mfr web logrotate config
+  template:
+    src: logrotate.web.j2
+    dest: /etc/logrotate.d/mfr-web
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
+- name: Ensure docker mfr web directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_mfr_web_conf_dir }}"
+    - "{{ docker_mfr_web_conf_dir }}/ssl"
+    - "{{ docker_mfr_web_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker mfr web configuration settings
+  copy:
+    src: "{{ docker_mfr_web_source_conf_file }}"
+    dest: "{{ docker_mfr_web_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker mfr web ssl certificate file
+  copy:
+    mode: 0640
+    src: "{{ docker_mfr_web_ssl_cert_file }}"
+    dest: "{{ docker_mfr_web_conf_dir }}/ssl/default.crt"
+  when: docker_mfr_web_ssl_cert_file | default("") != ""
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker mfr web ssl key file
+  copy:
+    mode: 0640
+    src: "{{ docker_mfr_web_ssl_key_file }}"
+    dest: "{{ docker_mfr_web_conf_dir }}/ssl/default.key"
+  when: docker_mfr_web_ssl_key_file | default("") != ""
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker mfr web container
+  sudo: yes
+  shell: "docker restart {{ docker_mfr_web_name }}_{{ item }}"
+  with_sequence: count={{ docker_mfr_web_instances }}
+  when: docker_mfr_web_instances > 0
+  tags:
+    - restart
+
+
+- name: Run docker mfr web container
+  docker:
+    command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_mfr_web_name }}_{{ item }}.log"'
+    env: "{{ docker_mfr_web_env }}"
+    expose: "{{ docker_mfr_web_expose }}"
+    hostname: "{{ hostname_name }}-web{{ item }}"
+    image: "{{ docker_mfr_web_image }}"
+    links: "{{ docker_mfr_web_links }}"
+    name: "{{ docker_mfr_web_name }}_{{ item }}"
+    ports: "{{ docker_mfr_web_ports }}"
+    restart_policy: always
+    state: running
+    volumes: "{{ docker_mfr_web_volumes }}"
+    volumes_from: "{{ docker_mfr_web_volumes_from }}"
+  with_sequence: count={{ docker_mfr_web_instances }}
+  when: docker_mfr_web_instances > 0
+  tags:
+    - install
+    - upgrade
