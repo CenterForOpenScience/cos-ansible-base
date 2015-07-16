@@ -1,3 +1,15 @@
+- name: Ensure docker log rotate config
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/docker
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
 - name: Update APT package cache
   apt: update_cache=yes
   sudo: yes

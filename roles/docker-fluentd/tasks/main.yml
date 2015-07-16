@@ -1,15 +1,23 @@
-- name: Restart docker fluentd container
-  sudo: yes
-  shell: "docker restart {{ docker_fluentd_name }}"
+- name: Ensure docker fluentd logrotate config
+  template:
+    src: "{{ docker_fluentd_logrotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_fluentd_logrotate_file }}"
+    owner: root
+    group: root
+    mode: 0644
   tags:
-    - restart
+    - install
+    - settings
 
 
 - name: Ensure docker fluentd directories exist
   sudo: yes
   file:
     state: directory
-    path: "{{ docker_fluentd_conf_dir }}"
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_fluentd_conf_dir }}"
+    - "{{ docker_fluentd_log_dir }}"
   tags:
     - install
     - upgrade
@@ -17,8 +25,8 @@
 
 - name: Copy docker fluentd configuration settings
   copy:
-    src: "{{ docker_fluentd_source_conf_file }}"
-    dest: "{{ docker_fluentd_conf_file }}"
+    src: "{{ docker_fluentd_source_conf_dir }}"
+    dest: "{{ docker_fluentd_conf_dir }}"
     mode: 0644
   tags:
     - install
@@ -26,19 +34,27 @@
     - upgrade
 
 
+- name: Restart docker fluentd container
+  sudo: yes
+  shell: "docker restart {{ docker_fluentd_name }}"
+  tags:
+    - restart
+
+
 - name: Run docker fluentd container
   docker:
     env: "{{ docker_fluentd_env }}"
     expose: "{{ docker_fluentd_expose }}"
-    hostname: "{{ hostname_name }}-fluentd"
+    hostname: "{{ hostname_name }}"
     links: "{{ docker_fluentd_links }}"
-    image: "centerforopenscience/fluentd:latest"
+    image: "{{ docker_fluentd_image }}"
     name: "{{ docker_fluentd_name }}"
+    # net: host
     ports: "{{ docker_fluentd_ports }}"
+    pull: always
     restart_policy: always
-    state: running
-    volumes:
-      - "{{ docker_fluentd_conf_file }}:/etc/fluent/fluent.conf"
+    state: reloaded
+    volumes: "{{ docker_fluentd_volumes }}"
   tags:
     - install
     - upgrade

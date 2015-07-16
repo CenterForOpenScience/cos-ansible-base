@@ -1,3 +1,15 @@
+- name: Ensure docker rsyslog logrotate config
+  template:
+    src: "{{ docker_rsyslog_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_rsyslog_log_rotate_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
 - name: Restart docker rsyslog container
   sudo: yes
   shell: "docker restart {{ docker_rsyslog_name }}"

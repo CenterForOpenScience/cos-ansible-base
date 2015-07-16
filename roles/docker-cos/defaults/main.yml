@@ -12,6 +12,7 @@ docker_cos_postgres: no
 docker_cos_postgres_name: cos_postgres_1
 docker_cos_postgres_data_dir: /opt/cos-postgres/data
 docker_cos_postgres_log_dir: /var/log/cos-postgres
+docker_cos_postgres_log_rotate_file: cos-postgres
 docker_cos_postgres_env:
   POSTGRES_DB: cos_staging
 docker_cos_postgres_expose:
@@ -21,6 +22,7 @@ docker_cos_postgres_ports: []
 docker_cos_memcached: no
 docker_cos_memcached_name: cos_memcached_1
 docker_cos_memcached_log_dir: /var/log/cos-memcached
+docker_cos_memcached_log_rotate_file: cos-memcached
 docker_cos_memcached_expose:
   - 11211
 docker_cos_memcached_ports: []
@@ -39,6 +41,8 @@ docker_cos_uwsgi_conf_dir: "/opt/cos-uwsgi/conf"
 docker_cos_uwsgi_conf_file: "{{ docker_cos_uwsgi_conf_dir }}/uwsgi.ini"
 docker_cos_uwsgi_app_file: "{{ docker_cos_uwsgi_conf_dir }}/local.py"
 docker_cos_uwsgi_log_dir: "/var/log/cos-uwsgi"
+docker_cos_uwsgi_log_rotate_file: cos-uwsgi
+docker_cos_uwsgi_log_rotate_source_file: logrotate.uwsgi.j2
 docker_cos_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_cos_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_cos_uwsgi_source_repo }}"
@@ -64,6 +68,8 @@ docker_cos_nginx_source_ssl_key_file: ""
 docker_cos_nginx_conf_dir: "/opt/cos-nginx/conf"
 docker_cos_nginx_conf_file: "{{ docker_cos_nginx_conf_dir }}/nginx.conf"
 docker_cos_nginx_log_dir: "/var/log/cos-nginx"
+docker_cos_nginx_log_rotate_file: cos-nginx
+docker_cos_nginx_log_rotate_source_file: logrotate.nginx.j2
 docker_cos_nginx_env: {}
 docker_cos_nginx_expose:
   - 80

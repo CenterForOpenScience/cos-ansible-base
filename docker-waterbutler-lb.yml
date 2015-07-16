@@ -1,9 +1,0 @@
-- name: Set up waterbutler load balancer
-  hosts: all
-  pre_tasks:
-    - fail: msg="One or more tags must be specified to run this playbook"
-  roles:
-    - role: swap
-    - role: docker
-    - role: docker-clean
-    - role: docker-waterbutler

@@ -1,7 +1,7 @@
 - name: Ensure docker elasticsearch logrotate config
   template:
-    src: logrotate.j2
-    dest: /etc/logrotate.d/elasticsearch
+    src: "{{ docker_elasticsearch_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_elasticsearch_log_rotate_file }}"
     owner: root
     group: root
     mode: 0644

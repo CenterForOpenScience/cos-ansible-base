@@ -2,6 +2,8 @@ docker_elasticsearch_name: elasticsearch_1
 docker_elasticsearch_conf_dir: /opt/elasticsearch/conf
 docker_elasticsearch_data_dir: /opt/elasticsearch/data
 docker_elasticsearch_log_dir: /var/log/elasticsearch
+docker_elasticsearch_log_rotate_file: elasticsearch
+docker_elasticsearch_log_rotate_source_file: logrotate.j2
 docker_elasticsearch_env:
   ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
 docker_elasticsearch_expose: []

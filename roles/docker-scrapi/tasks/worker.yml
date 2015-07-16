@@ -1,7 +1,43 @@
+- name: Ensure docker scrapi worker logrotate config
+  template:
+    src: "{{ docker_scrapi_worker_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_scrapi_worker_log_rotate_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
+- name: Ensure docker scrapi worker directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_worker_conf_dir }}"
+    - "{{ docker_scrapi_worker_log_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker scrapi worker configuration settings
+  copy:
+    src: "{{ docker_scrapi_worker_source_conf_file }}"
+    dest: "{{ docker_scrapi_worker_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker scrapi worker container
   sudo: yes
   shell: "docker restart {{ docker_scrapi_worker_name }}_{{ item }}"
-  with_sequence: count={{ docker_scrapi_server_instances }}
+  with_sequence: count={{ docker_scrapi_worker_instances }}
   when: docker_scrapi_worker_instances > 0
   tags:
     - restart

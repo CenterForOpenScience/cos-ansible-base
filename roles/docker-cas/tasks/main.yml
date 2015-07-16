@@ -1,5 +1,47 @@
-- include: common.yml
-  when: docker_cas_web
+- name: Ensure docker cas server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_cas_server_conf_dir }}"
+  tags:
+    - install
+    - upgrade
 
-- include: web.yml
-  when: docker_cas_web
+
+- name: Copy docker cas server configuration settings
+  copy:
+    src: "{{ docker_cas_server_source_conf_dir }}"
+    dest: "{{ docker_cas_server_conf_dir }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker cas server container
+  sudo: yes
+  shell: "docker restart {{ docker_cas_server_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker cas server container
+  docker:
+    command: '/usr/bin/mvn -pl cas-server-webapp/ jetty:run {{ docker_cas_server_definitions }}'
+    env: "{{ docker_cas_server_env }}"
+    expose: "{{ docker_cas_server_expose }}"
+    hostname: "{{ docker_cas_server_hostname }}"
+    image: "{{ docker_cas_server_image }}"
+    links: "{{ docker_cas_server_links }}"
+    name: "{{ docker_cas_server_name }}"
+    net: "{{ docker_cas_server_net }}"
+    ports: "{{ docker_cas_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_cas_server_volumes }}"
+  tags:
+    - install
+    - upgrade

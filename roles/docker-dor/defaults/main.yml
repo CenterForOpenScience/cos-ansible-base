@@ -12,6 +12,7 @@ docker_dor_postgres: no
 docker_dor_postgres_name: dor_postgres_1
 docker_dor_postgres_data_dir: /opt/dor-postgres/data
 docker_dor_postgres_log_dir: /var/log/dor-postgres
+docker_cos_postgres_log_rotate_file: dor-postgres
 docker_dor_postgres_env:
   POSTGRES_DB: dor_staging
 docker_dor_postgres_expose:
@@ -32,6 +33,8 @@ docker_dor_uwsgi_conf_dir: "/opt/dor-uwsgi/conf"
 docker_dor_uwsgi_conf_file: "{{ docker_dor_uwsgi_conf_dir }}/uwsgi.ini"
 docker_dor_uwsgi_app_file: "{{ docker_dor_uwsgi_conf_dir }}/local.py"
 docker_dor_uwsgi_log_dir: "/var/log/dor-uwsgi"
+docker_dor_uwsgi_log_rotate_file: dor-uwsgi
+docker_dor_uwsgi_log_rotate_source_file: logrotate.uwsgi.j2
 docker_dor_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_dor_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_dor_uwsgi_source_repo }}"
@@ -56,6 +59,8 @@ docker_dor_nginx_source_ssl_key_file: ""
 docker_dor_nginx_conf_dir: "/opt/dor-nginx/conf"
 docker_dor_nginx_conf_file: "{{ docker_dor_nginx_conf_dir }}/nginx.conf"
 docker_dor_nginx_log_dir: "/var/log/dor-nginx"
+docker_dor_nginx_log_rotate_file: dor-nginx
+docker_dor_nginx_log_rotate_source_file: logrotate.nginx.j2
 docker_dor_nginx_env: {}
 docker_dor_nginx_expose:
   - 80

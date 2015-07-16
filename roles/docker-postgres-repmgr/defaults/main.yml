@@ -3,6 +3,8 @@ docker_postgres_repmgr_conf_dir: /opt/postgres/conf
 docker_postgres_repmgr_conf_file: "{{ docker_postgres_repmgr_conf_dir }}/repmgr.conf"
 docker_postgres_repmgr_data_dir: "/opt/postgres/data"
 docker_postgres_repmgr_log_dir: /var/log/postgres
+docker_postgres_repmgr_log_rotate_file: postgres-repmgr
+docker_postgres_repmgr_log_rotate_source_file: logrotate.j2
 
 docker_postgres_repmgr_name: postgres_1
 docker_postgres_repmgr_image: centerforopenscience/postgres:9.4-repmgr

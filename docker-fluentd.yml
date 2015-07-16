@@ -1,0 +1,4 @@
+- name: docker fluentd
+  hosts: all
+  roles:
+    - role: docker-fluentd

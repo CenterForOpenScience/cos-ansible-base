@@ -3,14 +3,17 @@ dependencies:
     docker_cassandra_name: "{{ docker_scrapi_cassandra_name }}"
     docker_cassandra_data_dir: "{{ docker_scrapi_cassandra_data_dir }}"
     docker_cassandra_log_dir: "{{ docker_scrapi_cassandra_log_dir }}"
+    docker_cassandra_log_rotate_file: "{{ docker_scrapi_cassandra_log_rotate_file }}"
     docker_cassandra_expose: "{{ docker_scrapi_cassandra_expose }}"
     docker_cassandra_ports: "{{ docker_scrapi_cassandra_ports }}"
     when: docker_scrapi_cassandra
 
   - role: docker-elasticsearch
     docker_elasticsearch_name: "{{ docker_scrapi_elasticsearch_name }}"
+    docker_elasticsearch_conf_dir: "{{ docker_scrapi_elasticsearch_conf_dir }}"
     docker_elasticsearch_data_dir: "{{ docker_scrapi_elasticsearch_data_dir }}"
     docker_elasticsearch_log_dir: "{{ docker_scrapi_elasticsearch_log_dir }}"
+    docker_elasticsearch_log_rotate_file: "{{ docker_scrapi_elasticsearch_log_rotate_file }}"
     docker_elasticsearch_expose: "{{ docker_scrapi_elasticsearch_expose }}"
     docker_elasticsearch_ports: "{{ docker_scrapi_elasticsearch_ports }}"
     when: docker_scrapi_elasticsearch

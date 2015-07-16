@@ -1,0 +1,77 @@
+- name: Ensure docker mfr server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_mfr_server_conf_dir }}"
+    - "{{ docker_mfr_server_conf_dir }}/ssl"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker mfr server configuration settings
+  copy:
+    src: "{{ docker_mfr_server_source_conf_file }}"
+    dest: "{{ docker_mfr_server_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker mfr server ssl certificate file
+  copy:
+    mode: 0640
+    src: "{{ docker_mfr_server_ssl_cert_file }}"
+    dest: "{{ docker_mfr_server_conf_dir }}/ssl/default.crt"
+  when: docker_mfr_server_ssl_cert_file | default("") != ""
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker mfr server ssl key file
+  copy:
+    mode: 0640
+    src: "{{ docker_mfr_server_ssl_key_file }}"
+    dest: "{{ docker_mfr_server_conf_dir }}/ssl/default.key"
+  when: docker_mfr_server_ssl_key_file | default("") != ""
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker mfr server container
+  sudo: yes
+  shell: "docker restart {{ docker_mfr_server_name }}_{{ item }}"
+  with_sequence: count={{ docker_mfr_server_instances }}
+  when: docker_mfr_server_instances > 0
+  tags:
+    - restart
+
+
+- name: Run docker mfr server container
+  docker:
+    command: invoke server
+    env: "{{ docker_mfr_server_env }}"
+    expose: "{{ docker_mfr_server_expose }}"
+    hostname: "{{ hostname_name }}"
+    image: "{{ docker_mfr_server_image }}"
+    links: "{{ docker_mfr_server_links }}"
+    name: "{{ docker_mfr_server_name }}_{{ item }}"
+    ports: "{{ docker_mfr_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_mfr_server_volumes }}"
+    volumes_from: "{{ docker_mfr_server_volumes_from }}"
+  with_sequence: count={{ docker_mfr_server_instances }}
+  when: docker_mfr_server_instances > 0
+  tags:
+    - install
+    - upgrade

@@ -1,5 +1,5 @@
 docker_logentries_name: logentries_1
-docker_logentires_logs_token: "8a3ccd88-d979-4167-939d-d49ae161bdc9"
-docker_logentires_stats_token: "a8a37ae7-4ad0-40af-8ec8-a0bf2fb1c516"
+docker_logentires_logs_token: "..."
+docker_logentires_stats_token: "..."
 docker_logentries_command: "-l {{ docker_logsentires_logs_token }} -k {{ docker_logentires_stats_token }}  -j -a host={{ hostname_name }}"
 docker_logentries_env: {}

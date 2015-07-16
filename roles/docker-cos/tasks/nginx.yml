@@ -1,7 +1,7 @@
 - name: Ensure docker cos nginx logrotate config
   template:
-    src: logrotate.nginx.j2
-    dest: /etc/logrotate.d/cos-nginx
+    src: "{{ docker_cos_nginx_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_cos_nginx_log_rotate_file }}"
     owner: root
     group: root
     mode: 0644

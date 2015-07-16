@@ -1,5 +1,3 @@
-
-
 - name: Restart docker logentries container
   sudo: yes
   shell: "docker restart {{ docker_rabbitmq_name }}"
@@ -21,7 +19,3 @@
   tags:
     - install
     - upgrade
-
-
-sudo docker run -v  -d --name=waterbutler_logentries_1 logentries/docker-logentries 
-

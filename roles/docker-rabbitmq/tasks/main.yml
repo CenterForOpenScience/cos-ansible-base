@@ -1,10 +1,3 @@
-- name: Restart docker rabbitmq container
-  sudo: yes
-  shell: "docker restart {{ docker_rabbitmq_name }}"
-  tags:
-    - restart
-
-
 - name: Ensure docker rabbitmq directories exist
   sudo: yes
   file:
@@ -17,14 +10,22 @@
     - upgrade
 
 
+- name: Restart docker rabbitmq container
+  sudo: yes
+  shell: "docker restart {{ docker_rabbitmq_name }}"
+  tags:
+    - restart
+
+
 - name: Run docker rabbitmq container
   docker:
-    name: "{{ docker_rabbitmq_name }}"
-    state: running
-    hostname: "{{ hostname_name }}-rabbitmq"
-    restart_policy: always
     env: "{{ docker_rabbitmq_env }}"
-    image: "rabbitmq:latest"
+    hostname: "{{ hostname_name }}"
+    image: rabbitmq:latest
+    name: "{{ docker_rabbitmq_name }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
     volumes:
       - "{{ docker_rabbitmq_data_dir }}:/var/lib/rabbitmq"
   tags:

@@ -1,8 +1,13 @@
-- name: Restart docker nginx container
-  sudo: yes
-  shell: "docker restart {{ docker_nginx_name }}"
+- name: Ensure docker nginx logrotate config
+  template:
+    src: "{{ docker_nginx_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_nginx_log_rotate_file }}"
+    owner: root
+    group: root
+    mode: 0644
   tags:
-    - restart
+    - install
+    - settings
 
 
 - name: Ensure docker nginx directories exist
@@ -27,6 +32,13 @@
     - install
     - settings
     - upgrade
+
+
+- name: Restart docker nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_nginx_name }}"
+  tags:
+    - restart
 
 
 - name: Run docker nginx container
