@@ -6,7 +6,7 @@ docker_mfr_env: test
 # shared storage
 
 docker_mfr_storage: no
-docker_mfr_storage_name: mfr_storage_1
+docker_mfr_storage_name: "{{ docker_mfr_env }}_mfr_storage_1"
 docker_mfr_storage_volumes:
   - /tmp
 
@@ -25,7 +25,7 @@ docker_mfr_unoconv_volumes_from:
 docker_mfr_server: no
 docker_mfr_server_name: "{{ docker_mfr_env }}_mfr_server"
 docker_mfr_server_image: centerforopenscience/mfr:latest
-docker_mfr_server_source_branch: develop
+docker_mfr_server_source_branch: master
 docker_mfr_server_source_repo: https://github.com/CenterForOpenScience/modular-file-renderer.git
 docker_mfr_server_source_conf_file: settings.json
 docker_mfr_server_conf_dir: "/opt/{{ docker_mfr_env }}_mfr_server/conf"
