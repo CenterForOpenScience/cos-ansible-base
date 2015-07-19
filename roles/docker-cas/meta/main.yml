@@ -1,6 +1,6 @@
 dependencies:
   - role: docker-postgres-repmgr
-    docker_postgres_repmgr_source_conf_file: "{{ docker_cas_psotgres_source_conf_file }}"
+    docker_postgres_repmgr_source_conf_file: "{{ docker_cas_postgres_source_conf_file }}"
     docker_postgres_repmgr_conf_dir: "{{ docker_cas_postgres_conf_dir }}"
     docker_postgres_repmgr_conf_file: "{{ docker_cas_postgres_conf_file }}"
     docker_postgres_repmgr_data_dir: "{{ docker_cas_postgres_data_dir }}"

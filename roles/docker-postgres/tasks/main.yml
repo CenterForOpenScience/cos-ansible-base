@@ -33,7 +33,7 @@
 - name: Run docker postgres container
   docker:
     name: "{{ docker_postgres_name }}"
-    image: centerforopenscience/postgres:9.4
+    image: postgres:9.4
     state: running
     hostname: "{{ docker_postgres_hostname }}"
     restart_policy: always

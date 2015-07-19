@@ -4,7 +4,7 @@ docker_postgres_log_rotate_file: postgres
 docker_postgres_log_rotate_source_file: logrotate.j2
 
 docker_postgres_name: postgres_1
-docker_postgres_hostname: "{{ hostname_name }}-postgres"
+docker_postgres_hostname: "{{ hostname_name }}"
 docker_postgres_net: bridge
 docker_postgres_expose: []
 docker_postgres_ports: []

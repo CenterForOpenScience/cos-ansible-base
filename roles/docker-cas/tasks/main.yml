@@ -18,6 +18,7 @@
   tags:
     - install
     - settings
+    - upgrade
 
 
 - name: Restart docker cas server container
@@ -29,7 +30,7 @@
 
 - name: Run docker cas server container
   docker:
-    command: '/usr/bin/mvn -pl cas-server-webapp/ jetty:run {{ docker_cas_server_definitions }}'
+    command: "/usr/bin/mvn -pl cas-server-webapp/ jetty:run {{ docker_cas_server_definitions }}"
     env: "{{ docker_cas_server_env }}"
     expose: "{{ docker_cas_server_expose }}"
     hostname: "{{ docker_cas_server_hostname }}"

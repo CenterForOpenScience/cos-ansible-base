@@ -71,7 +71,7 @@
   sudo: yes
   apt:
     state: latest
-    pkg: "lxc-docker-1.7.0"
+    pkg: "lxc-docker-1.7.1"
     # pkg: "lxc-docker-1.6.0"
     # pkg: "lxc-docker-1.5.0"
     # pkg: "lxc-docker-1.4.1"

@@ -10,7 +10,7 @@
     command: "{{ docker_unoconv_command }}"
     env: "{{ docker_unoconv_env }}"
     expose: "{{ docker_unoconv_expose }}"
-    hostname: "{{ hostname_name }}-unoconv"
+    hostname: "{{ hostname_name }}"
     image: "{{ docker_unoconv_image }}"
     name: "{{ docker_unoconv_name }}"
     ports: "{{ docker_unoconv_ports }}"
