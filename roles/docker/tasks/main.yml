@@ -77,3 +77,12 @@
     # pkg: "lxc-docker-1.4.1"
   tags:
     - install
+
+
+- name: Restart docker
+  sudo: yes
+  service:
+    name: docker
+    state: restarted
+  tags:
+    - install

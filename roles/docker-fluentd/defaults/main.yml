@@ -14,6 +14,5 @@ docker_fluentd_ports: []
 docker_fluentd_volumes:
   - "{{ docker_fluentd_conf_dir }}:/etc/fluent:ro"
   - "{{ docker_fluentd_log_dir }}:/log"
-  - "/var/log/auth.log:/var/log/auth.log:ro"
-  - "/var/log/lfd.log:/var/log/lfd.log:ro"
+  - "/var/log:/var/log:ro"
   - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
