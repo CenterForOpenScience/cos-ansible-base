@@ -46,7 +46,7 @@
     name: "{{ docker_tokumx_name }}"
     state: running
     privileged: yes
-    hostname: "{{ hostname_name }}-tokumx"
+    hostname: "{{ hostname_name }}"
     restart_policy: always
     image: "centerforopenscience/tokumx:latest"
     env: "{{ docker_tokumx_env }}"

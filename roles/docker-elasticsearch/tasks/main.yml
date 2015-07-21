@@ -46,7 +46,7 @@
   docker:
     name: "{{ docker_elasticsearch_name }}"
     state: running
-    hostname: "{{ hostname_name }}-elasticsearch"
+    hostname: "{{ hostname_name }}"
     restart_policy: always
     image: "elasticsearch:latest"
     expose: "{{ docker_elasticsearch_expose }}"

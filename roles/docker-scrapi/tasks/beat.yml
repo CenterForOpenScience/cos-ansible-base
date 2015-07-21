@@ -46,7 +46,7 @@
     command: "/bin/bash -c 'invoke beat 2>&1 | tee -a /log/{{ docker_scrapi_beat_name }}.log'"
     env: "{{ docker_scrapi_beat_env }}"
     expose: "{{ docker_scrapi_beat_expose }}"
-    hostname: "{{ hostname_name }}-beat"
+    hostname: "{{ hostname_name }}"
     image: "centerforopenscience/scrapi:latest"
     links: "{{ docker_scrapi_beat_links }}"
     name: "{{ docker_scrapi_beat_name }}"

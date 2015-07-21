@@ -1,15 +1,3 @@
-- name: Ensure docker postgres logrotate config
-  template:
-    src: "{{ docker_postgres_log_rotate_source_file }}"
-    dest: "/etc/logrotate.d/{{ docker_postgres_log_rotate_file }}"
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - install
-    - settings
-
-
 - name: Restart docker postgres container
   sudo: yes
   shell: "docker restart {{ docker_postgres_name }}"
@@ -24,7 +12,6 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_postgres_data_dir }}"
-    - "{{ docker_postgres_log_dir }}"
   tags:
     - install
     - upgrade
@@ -32,16 +19,17 @@
 
 - name: Run docker postgres container
   docker:
-    name: "{{ docker_postgres_name }}"
-    image: postgres:9.4
-    state: running
-    hostname: "{{ docker_postgres_hostname }}"
-    restart_policy: always
-    net: "{{ docker_postgres_net }}"
     env: "{{ docker_postgres_env }}"
-    links: "{{ docker_postgres_links }}"
     expose: "{{ docker_postgres_expose }}"
+    hostname: "{{ docker_postgres_hostname }}"
+    image: "{{ docker_postgres_image }}"
+    links: "{{ docker_postgres_links }}"
+    name: "{{ docker_postgres_name }}"
+    net: "{{ docker_postgres_net }}"
     ports: "{{ docker_postgres_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
     volumes: "{{ docker_postgres_volumes }}"
   tags:
     - install

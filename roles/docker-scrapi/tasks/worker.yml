@@ -48,7 +48,7 @@
     command: '/bin/bash -c "invoke worker 2>&1 | tee -a /log/{{ docker_scrapi_worker_name }}_{{ item }}.log"'
     env: "{{ docker_scrapi_worker_env }}"
     expose: "{{ docker_scrapi_worker_expose }}"
-    hostname: "{{ hostname_name }}-worker{{ item }}"
+    hostname: "{{ hostname_name }}"
     image: "centerforopenscience/scrapi:latest"
     links: "{{ docker_scrapi_worker_links }}"
     name: "{{ docker_scrapi_worker_name }}_{{ item }}"

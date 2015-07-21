@@ -1,8 +1,6 @@
 dependencies:
   - role: docker
 
-  - role: docker-clean
-
   - role: docker-elasticsearch
     docker_elasticsearch_name: "{{ docker_osf_elasticsearch_name }}"
     docker_elasticsearch_conf_dir: "{{ docker_osf_elasticsearch_conf_dir }}"

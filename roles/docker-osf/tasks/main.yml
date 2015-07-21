@@ -60,7 +60,7 @@
 #   docker:
 #     name: "{{ docker_osf_celery_name }}_{{ item }}"
 #     state: running
-#     hostname: "{{ hostname_name }}-celery{{ item }}"
+#     hostname: "{{ hostname_name }}"
 #     image: "centerforopenscience/osf:latest"
 #     command: '/bin/bash -c "invoke celery 2>&1 | tee -a /log/{{ docker_osf_celery_name }}_{{ item }}.log"'
 #     restart_policy: always
@@ -86,7 +86,7 @@
 #   docker:
 #     name: "{{ docker_osf_server_name }}_{{ item }}"
 #     state: running
-#     hostname: "{{ hostname_name }}-server{{ item }}"
+#     hostname: "{{ hostname_name }}"
 #     image: "centerforopenscience/osf:latest"
 #     command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_osf_server_name }}_{{ item }}.log"'
 #     # expose:

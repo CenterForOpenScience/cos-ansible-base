@@ -69,7 +69,7 @@
     command: "nginx -g \"daemon off;\""
     env: "{{ docker_dor_nginx_env }}"
     expose: "{{ docker_dor_nginx_expose }}"
-    hostname: "{{ hostname_name }}-nginx1"
+    hostname: "{{ hostname_name }}"
     image: "{{ docker_dor_nginx_image }}"
     links: "{{ docker_dor_nginx_links }}"
     name: "{{ docker_dor_nginx_name }}"

@@ -1,9 +1,7 @@
 docker_postgres_data_dir: /opt/postgres/data
-docker_postgres_log_dir: /var/log/postgres
-docker_postgres_log_rotate_file: postgres
-docker_postgres_log_rotate_source_file: logrotate.j2
 
 docker_postgres_name: postgres_1
+docker_postgres_image: postgres:9.4
 docker_postgres_hostname: "{{ hostname_name }}"
 docker_postgres_net: bridge
 docker_postgres_expose: []
@@ -12,4 +10,3 @@ docker_postgres_env: {}
 docker_postgres_links: []
 docker_postgres_volumes:
   - "{{ docker_postgres_data_dir }}:/var/lib/postgresql/data"
-  - "{{ docker_postgres_log_dir }}:/log"

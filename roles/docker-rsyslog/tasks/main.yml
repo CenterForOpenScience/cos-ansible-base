@@ -35,7 +35,7 @@
     state: running
     image: "centerforopenscience/rsyslog:latest"
     restart_policy: always
-    hostname: "{{ hostname_name }}-rsyslog"
+    hostname: "{{ hostname_name }}"
     env: "{{ docker_rsyslog_env }}"
     volumes:
       - "{{ docker_rsyslog_conf_dir }}/:/etc/rsyslog.d/"
