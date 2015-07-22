@@ -1,15 +1,29 @@
 dependencies:
   - role: docker-storage
-    docker_storage_name: "{{ docker_share_reg_storage_temp_name }}"
-    docker_storage_volumes: "{{ docker_share_reg_storage_temp_volumes }}"
-    docker_storage: "{{ docker_share_reg_storage_temp }}"
+    docker_storage_name: "{{ docker_share_reg_storage_name }}"
+    docker_storage_volumes: "{{ docker_share_reg_storage_volumes }}"
+    docker_storage: "{{ docker_share_reg_storage }}"
 
   - role: docker-postgres
     docker_postgres_name: "{{ docker_share_reg_postgres_name }}"
     docker_postgres_data_dir: "{{ docker_share_reg_postgres_data_dir }}"
-    docker_postgres_log_dir: "{{ docker_share_reg_postgres_log_dir }}"
-    docker_postgres_log_rotate_file: "{{ docker_share_reg_postgres_log_rotate_file }}"
     docker_postgres_env: "{{ docker_share_reg_postgres_env }}"
     docker_postgres_expose: "{{ docker_share_reg_postgres_expose }}"
     docker_postgres_ports: "{{ docker_share_reg_postgres_ports }}"
     when: docker_share_reg_postgres
+
+  - role: docker-nginx
+    docker_nginx_name: "{{ docker_share_reg_nginx_name }}"
+    docker_nginx_image: "{{ docker_share_reg_nginx_image }}"
+    docker_nginx_source_confd_dir: "{{ docker_share_reg_nginx_source_confd_dir }}"
+    docker_nginx_source_ssl_dir: "{{ docker_share_reg_nginx_source_ssl_dir }}"
+    docker_nginx_conf_dir: "{{ docker_share_reg_nginx_conf_dir }}"
+    docker_nginx_confd_dir: "{{ docker_share_reg_nginx_confd_dir }}"
+    docker_nginx_ssl_dir: "{{ docker_share_reg_nginx_ssl_dir }}"
+    docker_nginx_env: "{{ docker_share_reg_nginx_env }}"
+    docker_nginx_expose: "{{ docker_share_reg_nginx_expose }}"
+    docker_nginx_ports: "{{ docker_share_reg_nginx_ports }}"
+    docker_nginx_links: "{{ docker_share_reg_nginx_links }}"
+    docker_nginx_volumes: "{{ docker_share_reg_nginx_volumes }}"
+    docker_nginx_volumes_from: "{{ docker_share_reg_nginx_volumes_from }}"
+    when: docker_share_reg_nginx
