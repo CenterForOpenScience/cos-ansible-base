@@ -35,6 +35,26 @@ genericusers_users:
     append: yes
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6D05yHt+UeRI6YAAjnU1yHLS02wVOAIAHnGE3U7axrJdDn49ft94/CNqMqxWo9lDS7VoaxtBQfVZioqRdN+PuCB5lc6hJ1M5oRC+8YN1g8javLUygL7U80VDcSBd/2L5wJI572tJBEUg2R1Syume5RgVIbN2ieEY82AU0TDZZvN1VM0Be7+wSXs1u6Czzq5qulH9GyuJfr83vPmvEW+FIGj1rbR/+t/ghbc/38GZnAvpxWZvi9i4mEV5GME2UqSwiNdE75yMLI89BC/hHymKP5BhQNg1i6MjWchx+PwWrnmyECtuuUbbrDFd6bHlJfKwXA5L8FxjMnHC0NmaQ+5AX sloria@stevens-air
+  - name: icereval
+    pass: $5$rounds=110000$eOfP.zr4uq752c.J$DARAtBgPxI.iDVZzL8l.HbvaFJm50bh1eRYnNn66poB
+    shell: /bin/bash
+    groups:
+      - admin
+      - elasticsearch
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr6BXe1LEo4+Gc0rNg0w5IABZTmCGanN25ElvRTOnmRYYQWac2v5dl59RI3uRLBBzo/KYXCGSb2lXNbka8S9C+KCSBA9V5U4Wlau7DuArL0fwl6xMFkKZor+fC2NGLFIpXX39xe2deMrUkIYnO14DJpHdcopCn2yFodOilpsUqqHFuelryYMIXP66uRd6Mquj4ILiBvRWSgmX2HNiS7nrBXgfomlQq5RLQnoOkB6EgG8A1g1/sSg7prwZKQpoJfo/eyXeMbG7trefGDz0vLEuUwXfgByYxkmgOYA6ttyC+GIymXaPV05uRd1HQ6A/5U7M+HikFSnKmfCwINUt1q9h5 michael@Citidel.local
+  - name: mattclark
+    pass: $6$rounds=100000$R7Pw5Fct6tH/wveL$XXvgKZ55rWqvbJX6XNcKKNEHZBRsHfLtqFdqNdeV.XDkqCXVzE.QQUNdbGdtyUQCbwQbzsc7exUTdQJjlkG080
+    shell: /bin/bash
+    groups:
+      - admin
+      - elasticsearch
+      - sudo
+    append: yes
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBrNoVSuemCS/gb+tSN3XR187HuJSbzdJKzqim3vXdjQmiGX5JZVGLEJaaJ2qnXolhL9kUOkeCISepdm659y6rnf+GQWgEB0FTJPlqh052WpJNr7Ze1E8WHNaM9cg/TBozBnPx1RcmA9t5cw5XY4WsTbfPl4vYdxLhy8GTjXpbx027D+3jBgpORFfezlHYTHqsI66v+tL4hdGZepQNR6C+oG6PztHLt4lH2mmi85ka2S/avqfa9w1HzX8m0gP1zLo5ht5LsdbH7RCMKrNMLEPsT2Oe+Se5oOGd1YGmo0r6CIhMtn+wZPn5jmgsGqoNpYE+QuP+Q0LwfO73ZOIuaQyr mattclark@technologic-2.local
 
 # --- network_interfaces
 
