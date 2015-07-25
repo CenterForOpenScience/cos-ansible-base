@@ -26,10 +26,10 @@ docker_dor_postgres_ports: []
 docker_dor_nginx: no
 docker_dor_nginx_name: "{{ docker_dor_env }}_dor_nginx_1"
 docker_dor_nginx_image: nginx:1
-docker_dor_nginx_source_confd_dir: conf.d/
+docker_dor_nginx_source_conf_file: nginx.conf
 docker_dor_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
 docker_dor_nginx_conf_dir: "/opt/{{ docker_dor_env }}_dor_nginx/conf"
-docker_dor_nginx_confd_dir: "{{ docker_dor_nginx_conf_dir }}/conf.d"
+docker_dor_nginx_conf_file: "{{ docker_dor_nginx_conf_dir }}/nginx.conf"
 docker_dor_nginx_ssl_dir: "{{ docker_dor_nginx_conf_dir }}/ssl"
 docker_dor_nginx_env: {}
 docker_dor_nginx_expose:
@@ -38,7 +38,7 @@ docker_dor_nginx_expose:
 docker_dor_nginx_ports: []
 docker_dor_nginx_links: []
 docker_dor_nginx_volumes:
-  - "{{ docker_dor_nginx_confd_dir }}:/etc/nginx/conf.d:ro"
+  - "{{ docker_dor_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
   - "{{ docker_dor_nginx_ssl_dir }}:/etc/ssl/private:ro"
 docker_dor_nginx_volumes_from:
   - "{{ docker_dor_storage_name }}"

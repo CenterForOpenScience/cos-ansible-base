@@ -1,26 +1,58 @@
-docker_osf_celery_name: osf_celery
-docker_osf_celery_instances: 1
+# variables
 
-docker_osf_server_name: osf_server
-docker_osf_server_instances: 1
+docker_osf_env: test
 
-docker_osf_conf_dir: /opt/osf/conf
-docker_osf_data_dir: /opt/osf/data
-docker_osf_mfrcache_dir: /opt/osf/mfrcache
-docker_osf_mfrctemp_dir: /opt/osf/mfrtemp
-docker_osf_log_dir: /var/log/osf
 
-docker_osf_sharejs_name: osf_sharejs_1
+# shared storage
 
-docker_osf_elasticsearch_name: osf_elasticsearch_1
-docker_osf_elasticsearch_conf_dir: "{{ docker_osf_conf_dir }}/elasticsearch"
-docker_osf_elasticsearch_data_dir: "{{ docker_osf_data_dir }}/elasticsearch"
-docker_osf_elasticsearch_log_dir: "{{ docker_osf_log_dir }}/elasticsearch"
+docker_osf_storage: no
+docker_osf_storage_name: "{{ docker_osf_env }}_osf_storage_1"
+docker_osf_storage_volumes:
+  - /tmp
 
-docker_osf_rabbitmq_name: osf_rabbitmq_1
-docker_osf_rabbitmq_dir: "{{ docker_osf_data_dir }}/rabbitmq"
 
-docker_osf_tokumx_name: osf_tokumx_1
-docker_osf_tokumx_conf_file: "{{ docker_osf_conf_dir }}/tokumx.conf"
-docker_osf_tokumx_data_dir: "{{ docker_osf_data_dir }}/tokumx"
-docker_osf_tokumx_log_dir: "{{ docker_osf_log_dir }}/tokumx"
+# support servers
+
+docker_osf_elasticsearch: no
+docker_osf_elasticsearch_name: "{{ docker_osf_env }}_osf_elasticsearch_1"
+docker_osf_elasticsearch_source_conf_dir: roles/docker-elasticsearch/conf/
+docker_osf_elasticsearch_conf_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch/conf"
+docker_osf_elasticsearch_data_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch/data"
+docker_osf_elasticsearch_env:
+  ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
+docker_osf_elasticsearch_net: bridge
+docker_osf_elasticsearch_hostname: "{{ hostname_name }}"
+docker_osf_elasticsearch_expose:
+  - 9200
+  - 9300
+docker_osf_elasticsearch_ports: []
+
+docker_osf_elasticsearch_nginx: no
+docker_osf_elasticsearch_nginx_name: "{{ docker_osf_env }}_osf_elasticsearch_nginx_1"
+docker_osf_elasticsearch_nginx_image: centerforopenscience/nginx:1 # allow for environment variables in nginx.conf
+docker_osf_elasticsearch_nginx_source_conf_file: elasticsearch/nginx.conf
+docker_osf_elasticsearch_nginx_source_htpasswd_file: elasticsearch/.htpasswd
+docker_osf_elasticsearch_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
+docker_osf_elasticsearch_nginx_conf_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch_nginx/conf"
+docker_osf_elasticsearch_nginx_env: {}
+docker_osf_elasticsearch_nginx_net: bridge
+docker_osf_elasticsearch_nginx_hostname: "{{ hostname_name }}"
+docker_osf_elasticsearch_nginx_links:
+  - "{{ docker_osf_elasticsearch_name }}:elasticsearch"
+docker_osf_elasticsearch_nginx_expose:
+  - 9243
+  - 9343
+docker_osf_elasticsearch_nginx_ports: []
+
+
+# servers
+
+docker_osf_nginx: no
+docker_osf_nginx_volumes_from:
+  - "{{ docker_osf_storage }}"
+
+docker_osf_uwsgi: no
+docker_osf_uwsgi_links:
+  - "{{ docker_osf_elasticsearch_nginx_name }}:elasticsearch"
+docker_osf_uwsgi_volumes_from:
+  - "{{ docker_osf_storage }}"

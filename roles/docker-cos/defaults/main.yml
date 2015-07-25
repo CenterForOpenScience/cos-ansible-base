@@ -32,10 +32,10 @@ docker_cos_memcached_ports: []
 docker_cos_nginx: no
 docker_cos_nginx_name: "{{ docker_cos_env }}_cos_nginx_1"
 docker_cos_nginx_image: nginx:1
-docker_cos_nginx_source_confd_dir: conf.d/
+docker_cos_nginx_source_conf_file: nginx.conf
 docker_cos_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
 docker_cos_nginx_conf_dir: "/opt/{{ docker_cos_env }}_cos_nginx/conf"
-docker_cos_nginx_confd_dir: "{{ docker_cos_nginx_conf_dir }}/conf.d"
+docker_cos_nginx_conf_file: "{{ docker_cos_nginx_conf_dir }}/nginx.conf"
 docker_cos_nginx_ssl_dir: "{{ docker_cos_nginx_conf_dir }}/ssl"
 docker_cos_nginx_env: {}
 docker_cos_nginx_expose:
@@ -44,7 +44,7 @@ docker_cos_nginx_expose:
 docker_cos_nginx_ports: []
 docker_cos_nginx_links: []
 docker_cos_nginx_volumes:
-  - "{{ docker_cos_nginx_confd_dir }}:/etc/nginx/conf.d:ro"
+  - "{{ docker_cos_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
   - "{{ docker_cos_nginx_ssl_dir }}:/etc/ssl/private:ro"
 docker_cos_nginx_volumes_from:
   - "{{ docker_cos_storage_name }}"

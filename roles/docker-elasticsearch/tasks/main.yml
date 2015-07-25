@@ -1,13 +1,25 @@
-- name: Ensure docker elasticsearch logrotate config
-  template:
-    src: "{{ docker_elasticsearch_log_rotate_source_file }}"
-    dest: "/etc/logrotate.d/{{ docker_elasticsearch_log_rotate_file }}"
-    owner: root
-    group: root
+- name: Ensure docker elasticsearch directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_elasticsearch_conf_dir }}"
+    - "{{ docker_elasticsearch_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker elasticsearch configuration settings
+  copy:
+    src: "{{ docker_elasticsearch_source_conf_dir }}"
+    dest: "{{ docker_elasticsearch_conf_dir }}/"
     mode: 0644
   tags:
     - install
     - settings
+    - upgrade
 
 
 - name: Restart docker elasticsearch container
@@ -17,47 +29,19 @@
     - restart
 
 
-- name: Ensure docker elasticsearch directories exist
-  sudo: yes
-  file:
-    state: directory
-    path: "{{ item }}"
-  with_items:
-    - "{{ docker_elasticsearch_conf_dir }}"
-    - "{{ docker_elasticsearch_data_dir }}"
-    - "{{ docker_elasticsearch_log_dir }}"
-  tags:
-    - install
-    - upgrade
-
-
-- name: Copy docker elasticsearch configuration settings
-  copy:
-    src: "conf/"
-    dest: "{{ docker_elasticsearch_conf_dir }}/"
-    mode: 0660
-  tags:
-    - install
-    - settings
-    - upgrade
-
-
 - name: Run docker elasticsearch container
   docker:
-    name: "{{ docker_elasticsearch_name }}"
-    state: running
-    hostname: "{{ hostname_name }}"
-    restart_policy: always
-    image: "elasticsearch:latest"
-    expose: "{{ docker_elasticsearch_expose }}"
-    ports: "{{ docker_elasticsearch_ports }}"
     env: "{{ docker_elasticsearch_env }}"
-    env:
-      ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
-    volumes:
-      - "{{ docker_elasticsearch_conf_dir }}:/usr/share/elasticsearch/config"
-      - "{{ docker_elasticsearch_data_dir }}:/usr/share/elasticsearch/data"
-      - "{{ docker_elasticsearch_log_dir }}:/usr/share/elasticsearch/logs"
+    expose: "{{ docker_elasticsearch_expose }}"
+    hostname: "{{ docker_elasticsearch_hostname }}"
+    image: "{{ docker_elasticsearch_image }}"
+    name: "{{ docker_elasticsearch_name }}"
+    net: "{{ docker_elasticsearch_net }}"
+    ports: "{{ docker_elasticsearch_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_elasticsearch_volumes }}"
   tags:
     - install
     - upgrade

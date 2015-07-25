@@ -2,7 +2,7 @@ dependencies:
   - role: docker-storage
     docker_storage_name: "{{ docker_mfr_storage_name }}"
     docker_storage_volumes: "{{ docker_mfr_storage_volumes }}"
-    docker_storage: "{{ docker_mfr_storage }}"
+    when: docker_mfr_storage
 
   - role: docker-unoconv
     docker_unoconv_name: "{{ docker_mfr_unoconv_name }}"

@@ -1,5 +1,4 @@
 # servers
 
-docker_storage: no
 docker_storage_name: storage_1
 docker_storage_volumes: []

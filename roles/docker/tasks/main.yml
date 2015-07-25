@@ -33,21 +33,6 @@
     - install
 
 
-- name: Install docker pip dependencies
-  sudo: yes
-  pip:
-    state: latest
-    name: "{{ item }}"
-  with_items:
-    - "docker-py==1.2.3" # docker 1.7.0 compatible
-    # - "docker-py==1.2.2" # docker 1.6.0 compatible
-    # - "docker-py==1.1.0" # docker 1.5.0 compatible
-    # - "docker-py==0.7.2" # docker 1.4.1 compatible
-    - "python-apt"
-  tags:
-    - install
-
-
 - name: Install docker apt keys
   sudo: yes
   apt_key:
@@ -67,16 +52,49 @@
     - install
 
 
-- name: Install docker
+- name: Install docker pip dependencies (v1.7)
+  sudo: yes
+  pip:
+    state: latest
+    name: "{{ item }}"
+  with_items:
+    - "docker-py==1.2.3"
+    - "python-apt"
+  tags:
+    - v1.7
+
+
+- name: Install docker (v1.7)
   sudo: yes
   apt:
     state: latest
     pkg: "lxc-docker-1.7.1"
-    # pkg: "lxc-docker-1.6.0"
-    # pkg: "lxc-docker-1.5.0"
-    # pkg: "lxc-docker-1.4.1"
   tags:
-    - install
+    - v1.7
+
+
+# Stuck on v1.5 when needing to mount a single file.
+# issue: https://github.com/ansible/ansible-modules-core/issues/1158
+# pull: https://github.com/ansible/ansible-modules-core/pull/1744
+- name: Install docker pip dependencies (v1.5)
+  sudo: yes
+  pip:
+    state: latest
+    name: "{{ item }}"
+  with_items:
+    - "docker-py==1.1.0"
+    - "python-apt"
+  tags:
+    - v1.5
+
+
+- name: Install docker (v1.5)
+  sudo: yes
+  apt:
+    state: latest
+    pkg: "lxc-docker-1.5.0"
+  tags:
+    - v1.5
 
 
 - name: Restart docker

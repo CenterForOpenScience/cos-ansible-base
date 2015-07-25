@@ -5,17 +5,27 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_nginx_conf_dir }}"
-    - "{{ docker_nginx_confd_dir }}"
     - "{{ docker_nginx_ssl_dir }}"
   tags:
     - install
     - upgrade
 
 
-- name: Copy docker nginx conf.d settings
+- name: Copy docker nginx.conf file
   copy:
-    src: "{{ docker_nginx_source_confd_dir }}"
-    dest: "{{ docker_nginx_confd_dir }}"
+    src: "{{ docker_nginx_source_conf_file }}"
+    dest: "{{ docker_nginx_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker .htpasswd file
+  copy:
+    src: "{{ docker_nginx_source_htpasswd_file }}"
+    dest: "{{ docker_nginx_htpasswd_file }}"
     mode: 0644
   tags:
     - install
@@ -44,10 +54,12 @@
 - name: Run docker nginx container
   docker:
     env: "{{ docker_nginx_env }}"
-    hostname: "{{ hostname_name }}"
+    expose: "{{ docker_nginx_expose }}"
+    hostname: "{{ docker_nginx_hostname }}"
     image: "{{ docker_nginx_image }}"
     links: "{{ docker_nginx_links }}"
     name: "{{ docker_nginx_name }}"
+    net: "{{ docker_nginx_net }}"
     ports: "{{ docker_nginx_ports }}"
     pull: always
     restart_policy: always

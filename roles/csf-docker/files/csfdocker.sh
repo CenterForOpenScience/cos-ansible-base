@@ -1,6 +1,7 @@
 #!/bin/sh
-iptables -C ALLOWOUT -o docker0 -j ACCEPT 2> /dev/null
+iptables -C ALLOWIN -i docker0 -j ACCEPT 2> /dev/null
 if [ $? = 1 ]; then
+    iptables -A ALLOWIN -i docker0 -j ACCEPT
     iptables -A ALLOWOUT -o docker0 -j ACCEPT
 fi
 

@@ -26,10 +26,10 @@ docker_share_reg_postgres_ports: []
 docker_share_reg_nginx: no
 docker_share_reg_nginx_name: "{{ docker_share_reg_env }}_share_reg_nginx_1"
 docker_share_reg_nginx_image: nginx:1
-docker_share_reg_nginx_source_confd_dir: conf.d/
+docker_share_reg_nginx_source_conf_file: nginx.conf
 docker_share_reg_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
 docker_share_reg_nginx_conf_dir: "/opt/{{ docker_share_reg_env }}_share_reg_nginx/conf"
-docker_share_reg_nginx_confd_dir: "{{ docker_share_reg_nginx_conf_dir }}/conf.d"
+docker_share_reg_nginx_conf_file: "{{ docker_share_reg_nginx_conf_dir }}/nginx.conf"
 docker_share_reg_nginx_ssl_dir: "{{ docker_share_reg_nginx_conf_dir }}/ssl"
 docker_share_reg_nginx_env: {}
 docker_share_reg_nginx_expose:
@@ -38,7 +38,7 @@ docker_share_reg_nginx_expose:
 docker_share_reg_nginx_ports: []
 docker_share_reg_nginx_links: []
 docker_share_reg_nginx_volumes:
-  - "{{ docker_share_reg_nginx_confd_dir }}:/etc/nginx/conf.d:ro"
+  - "{{ docker_share_reg_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
   - "{{ docker_share_reg_nginx_ssl_dir }}:/etc/ssl/private:ro"
 docker_share_reg_nginx_volumes_from:
   - "{{ docker_share_reg_storage_name }}"

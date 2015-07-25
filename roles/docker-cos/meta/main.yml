@@ -2,7 +2,7 @@ dependencies:
   - role: docker-storage
     docker_storage_name: "{{ docker_cos_storage_name }}"
     docker_storage_volumes: "{{ docker_cos_storage_volumes }}"
-    docker_storage: "{{ docker_cos_storage }}"
+    when: docker_cos_storage
 
   - role: docker-postgres
     docker_postgres_name: "{{ docker_cos_postgres_name }}"
@@ -21,10 +21,10 @@ dependencies:
   - role: docker-nginx
     docker_nginx_name: "{{ docker_cos_nginx_name }}"
     docker_nginx_image: "{{ docker_cos_nginx_image }}"
-    docker_nginx_source_confd_dir: "{{ docker_cos_nginx_source_confd_dir }}"
+    docker_nginx_source_conf_file: "{{ docker_cos_nginx_source_conf_file }}"
     docker_nginx_source_ssl_dir: "{{ docker_cos_nginx_source_ssl_dir }}"
     docker_nginx_conf_dir: "{{ docker_cos_nginx_conf_dir }}"
-    docker_nginx_confd_dir: "{{ docker_cos_nginx_confd_dir }}"
+    docker_nginx_conf_file: "{{ docker_cos_nginx_conf_file }}"
     docker_nginx_ssl_dir: "{{ docker_cos_nginx_ssl_dir }}"
     docker_nginx_env: "{{ docker_cos_nginx_env }}"
     docker_nginx_expose: "{{ docker_cos_nginx_expose }}"

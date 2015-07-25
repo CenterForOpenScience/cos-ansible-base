@@ -1,0 +1,4 @@
+- name: Rackspace Multicast
+  hosts: all
+  roles:
+    - role: rackspace-multicast

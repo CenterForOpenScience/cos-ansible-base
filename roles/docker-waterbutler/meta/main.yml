@@ -2,7 +2,7 @@ dependencies:
   - role: docker-storage
     docker_storage_name: "{{ docker_waterbutler_storage_name }}"
     docker_storage_volumes: "{{ docker_waterbutler_storage_volumes }}"
-    docker_storage: "{{ docker_waterbutler_storage }}"
+    when: docker_waterbutler_storage
 
   - role: docker-rabbitmq
     docker_rabbitmq_name: "{{ docker_waterbutler_rabbitmq_name }}"
