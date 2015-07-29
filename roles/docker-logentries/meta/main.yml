@@ -1,0 +1,7 @@
+dependencies:
+  - role: docker-fluentd
+    docker_fluentd_name: "{{ docker_logentries_fluentd_name }}"
+    docker_fluentd_source_conf_dir: "{{ docker_logentries_fluentd_source_conf_dir }}"
+    docker_fluentd_env: "{{ docker_logentries_fluentd_env }}"
+    docker_fluentd_volumes: "{{ docker_logentries_fluentd_volumes }}"
+    when: docker_logentries_fluentd

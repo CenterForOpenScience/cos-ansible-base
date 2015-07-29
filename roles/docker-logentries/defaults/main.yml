@@ -1,0 +1,9 @@
+docker_logentries_fluentd: no
+docker_logentries_fluentd_name: fluentd_1
+docker_logentries_fluentd_source_conf_dir: fluentd/
+docker_logentries_fluentd_env:
+  FLUENTD_GEMS: "fluent-plugin-order fluent-plugin-record-reformer fluent-plugin-rewrite-tag-filter fluent-plugin-jsonbucket fluent-plugin-docker-format" # fluent-plugin-logentries removed (pr in for fix)
+docker_logentries_fluentd_volumes:
+  - "{{ docker_logentries_fluentd_conf_dir }}:/etc/fluent:ro"
+  - "/var/log:/var/log:ro"
+  - "/var/lib/docker/containers:/var/lib/docker/containers:ro"

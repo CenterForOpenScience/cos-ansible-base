@@ -1,0 +1,4 @@
+- name: docker logentires
+  hosts: all
+  roles:
+    - role: docker-logentries
