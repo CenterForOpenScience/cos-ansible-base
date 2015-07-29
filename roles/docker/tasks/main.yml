@@ -104,3 +104,4 @@
     state: restarted
   tags:
     - install
+    - restart

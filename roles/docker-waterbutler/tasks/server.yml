@@ -60,7 +60,7 @@
     command: invoke server
     env: "{{ docker_waterbutler_server_env }}"
     expose: "{{ docker_waterbutler_server_expose }}"
-    hostname: "{{ hostname_name }}"
+    hostname: "{{ docker_waterbutler_server_hostname }}"
     image: "{{ docker_waterbutler_server_image }}"
     links: "{{ docker_waterbutler_server_links }}"
     #log_driver: fluentd

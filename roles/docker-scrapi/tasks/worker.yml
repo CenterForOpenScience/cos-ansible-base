@@ -1,15 +1,3 @@
-- name: Ensure docker scrapi worker logrotate config
-  template:
-    src: "{{ docker_scrapi_worker_log_rotate_source_file }}"
-    dest: "/etc/logrotate.d/{{ docker_scrapi_worker_log_rotate_file }}"
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - install
-    - settings
-
-
 - name: Ensure docker scrapi worker directories exist
   sudo: yes
   file:
@@ -17,7 +5,6 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_scrapi_worker_conf_dir }}"
-    - "{{ docker_scrapi_worker_log_dir }}"
   tags:
     - install
     - upgrade
@@ -27,7 +14,7 @@
   copy:
     src: "{{ docker_scrapi_worker_source_conf_file }}"
     dest: "{{ docker_scrapi_worker_conf_file }}"
-    mode: 0660
+    mode: 0644
   tags:
     - install
     - settings
@@ -45,16 +32,17 @@
 
 - name: Run docker scrapi worker container
   docker:
-    command: '/bin/bash -c "invoke worker 2>&1 | tee -a /log/{{ docker_scrapi_worker_name }}_{{ item }}.log"'
+    command: "invoke worker --hostname=worker{{ item }}.%h"
     env: "{{ docker_scrapi_worker_env }}"
     expose: "{{ docker_scrapi_worker_expose }}"
-    hostname: "{{ hostname_name }}"
+    hostname: "{{ docker_scrapi_worker_hostname }}"
     image: "centerforopenscience/scrapi:latest"
     links: "{{ docker_scrapi_worker_links }}"
     name: "{{ docker_scrapi_worker_name }}_{{ item }}"
     ports: "{{ docker_scrapi_worker_ports }}"
+    pull: always
     restart_policy: always
-    state: running
+    state: reloaded
     volumes: "{{ docker_scrapi_worker_volumes }}"
   with_sequence: count={{ docker_scrapi_worker_instances }}
   when: docker_scrapi_worker_instances > 0
