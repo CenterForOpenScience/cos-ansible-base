@@ -4,10 +4,12 @@ docker_fluentd_hostname: "{{ hostname_name }}"
 docker_fluentd_net: bridge
 docker_fluentd_source_conf_dir: etc/
 docker_fluentd_conf_dir: /opt/fluentd/conf
+docker_fluentd_data_dir: /opt/fluetnd/data
 docker_fluentd_env: {}
 docker_fluentd_links: []
 docker_fluentd_expose:
   - 24224
 docker_fluentd_ports: []
 docker_fluentd_volumes:
+  - "{{ docker_fluetnd_data_dir }}:/data"
   - "{{ docker_fluentd_conf_dir }}:/etc/fluent:ro"

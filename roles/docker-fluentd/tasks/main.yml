@@ -5,6 +5,7 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_fluentd_conf_dir }}"
+    - "{{ docker_fluentd_data_dir }}"
   tags:
     - install
     - upgrade
