@@ -15,7 +15,7 @@ docker_osf_storage_volumes:
 
 docker_osf_elasticsearch: no
 docker_osf_elasticsearch_name: "{{ docker_osf_env }}_osf_elasticsearch_1"
-docker_osf_elasticsearch_source_conf_dir: roles/docker-elasticsearch/conf/
+docker_osf_elasticsearch_source_conf_dir: roles/docker-elasticsearch/files/conf/
 docker_osf_elasticsearch_conf_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch/conf"
 docker_osf_elasticsearch_data_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch/data"
 docker_osf_elasticsearch_env:
