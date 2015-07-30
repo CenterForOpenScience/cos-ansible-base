@@ -9,6 +9,7 @@ dependencies:
 
   - role: docker-elasticsearch
     docker_elasticsearch_name: "{{ docker_scrapi_elasticsearch_name }}"
+    docker_elasticsearch_source_conf_dir: "{{ docker_scrapi_elasticsearch_source_conf_dir }}"
     docker_elasticsearch_conf_dir: "{{ docker_scrapi_elasticsearch_conf_dir }}"
     docker_elasticsearch_data_dir: "{{ docker_scrapi_elasticsearch_data_dir }}"
     docker_elasticsearch_expose: "{{ docker_scrapi_elasticsearch_expose }}"

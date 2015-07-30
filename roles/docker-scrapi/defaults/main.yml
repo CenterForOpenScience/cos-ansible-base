@@ -24,6 +24,7 @@ docker_scrapi_cassandra_ports: []
 
 docker_scrapi_elasticsearch: no
 docker_scrapi_elasticsearch_name: "{{ docker_scrapi_env }}_scrapi_elasticsearch_1"
+docker_scrapi_elasticsearch_source_conf_dir: roles/docker-elasticsearch/files/conf
 docker_scrapi_elasticsearch_conf_dir: "/opt/{{ docker_scrapi_env }}_scrapi_elasticsearch/conf"
 docker_scrapi_elasticsearch_data_dir: "/opt/{{ docker_scrapi_env }}_scrapi_elasticsearch/data"
 docker_scrapi_elasticsearch_expose:
