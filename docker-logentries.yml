@@ -1,4 +1,5 @@
 - name: docker logentires
   hosts: all
   roles:
+    - role: rsyslog
     - role: docker-logentries

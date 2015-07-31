@@ -13,4 +13,5 @@
     - role: ntp
     - role: tmux
     - role: logrotate
+    - role: rsyslog
     - role: editors
