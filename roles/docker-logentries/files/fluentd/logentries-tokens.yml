@@ -1,0 +1,17 @@
+host.auth.log:
+  app: 11111111-2222-3333-4444-555555555555
+
+host.lfd.log:
+  app: 11111111-2222-3333-4444-555555555555
+
+docker.fluentd:
+  app: 11111111-2222-3333-4444-555555555555
+
+docker.prod_waterbutler_celery:
+  app: 11111111-2222-3333-4444-555555555555
+
+docker.stage_waterbutler_celery:
+  app: 11111111-2222-3333-4444-555555555555
+
+docker.test_waterbutler_celery:
+  app: 11111111-2222-3333-4444-555555555555

@@ -1,8 +1,16 @@
 docker_elasticsearch_name: elasticsearch_1
+docker_elasticsearch_image: elasticsearch:1.7
+docker_elasticsearch_source_conf_dir: conf/
 docker_elasticsearch_conf_dir: /opt/elasticsearch/conf
 docker_elasticsearch_data_dir: /opt/elasticsearch/data
-docker_elasticsearch_log_dir: /var/log/elasticsearch
 docker_elasticsearch_env:
   ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
-docker_elasticsearch_expose: []
+docker_elasticsearch_hostname: "{{ hostname_name }}"
+docker_elasticsearch_net: bridge
+docker_elasticsearch_expose:
+  - 9200
+  - 9300
 docker_elasticsearch_ports: []
+docker_elasticsearch_volumes:
+  - "{{ docker_elasticsearch_conf_dir }}:/usr/share/elasticsearch/config"
+  - "{{ docker_elasticsearch_data_dir }}:/usr/share/elasticsearch/data"

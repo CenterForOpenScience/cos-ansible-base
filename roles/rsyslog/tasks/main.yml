@@ -1,0 +1,17 @@
+- name: Enable rsyslog cron.log
+  lineinfile:
+    dest: /etc/rsyslog.d/50-default.conf
+    regexp: ^(#|)cron.*
+    line: cron.*                         /var/log/cron.log
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart rsyslog service
+  service:
+    name: rsyslog
+    state: restarted
+  tags:
+    - install
+    - upgrade

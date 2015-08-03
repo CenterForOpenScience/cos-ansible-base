@@ -1,15 +1,3 @@
-- name: Ensure docker cassandra logrotate config
-  template:
-    src: logrotate.j2
-    dest: /etc/logrotate.d/cassandra
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - install
-    - settings
-
-
 - name: Restart docker cassandra container
   sudo: yes
   shell: "docker restart {{ docker_cassandra_name }}"
@@ -24,7 +12,6 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_cassandra_data_dir }}"
-    - "{{ docker_cassandra_log_dir }}"
   tags:
     - install
     - upgrade
@@ -32,15 +19,17 @@
 
 - name: Run docker cassandra container
   docker:
+    env: "{{ docker_cassandra_env }}"
     expose: "{{ docker_cassandra_expose }}"
-    hostname: "{{ hostname_name }}-cassandra"
-    image: "centerforopenscience/cassandra:latest"
+    hostname: "{{ docker_cassandra_hostname }}"
+    image: "{{ docker_cassandra_image }}"
     name: "{{ docker_cassandra_name }}"
     ports: "{{ docker_cassandra_ports }}"
+    pull: always
     restart_policy: always
-    volumes:
-      - "{{ docker_cassandra_data_dir }}:/opt/cassandra/data"
-      - "{{ docker_cassandra_log_dir }}:/opt/cassandra/logs"
+    state: reloaded
+    volumes: "{{ docker_cassandra_volumes }}"
+    volumes_from: "{{ docker_cassandra_volumes_from }}"
   tags:
     - install
     - upgrade

@@ -1,3 +1,26 @@
+- name: Ensure docker scrapi server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_server_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker scrapi server configuration settings
+  copy:
+    src: "{{ docker_scrapi_server_source_conf_file }}"
+    dest: "{{ docker_scrapi_server_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker scrapi server container
   sudo: yes
   shell: "docker restart {{ docker_scrapi_server_name }}_{{ item }}"
@@ -9,16 +32,17 @@
 
 - name: Run docker scrapi server container
   docker:
-    command: '/bin/bash -c "invoke server 2>&1 | tee -a /log/{{ docker_scrapi_server_name }}_{{ item }}.log"'
+    command: "invoke server"
     env: "{{ docker_scrapi_server_env }}"
     expose: "{{ docker_scrapi_server_expose }}"
-    hostname: "{{ hostname_name }}-server{{ item }}"
+    hostname: "{{ docker_scrapi_server_hostname }}"
     image: "centerforopenscience/scrapi:latest"
     links: "{{ docker_scrapi_server_links }}"
     name: "{{ docker_scrapi_server_name }}_{{ item }}"
     ports: "{{ docker_scrapi_server_ports }}"
+    pull: always
     restart_policy: always
-    state: running
+    state: reloaded
     volumes: "{{ docker_scrapi_server_volumes }}"
   with_sequence: count={{ docker_scrapi_server_instances }}
   when: docker_scrapi_server_instances > 0

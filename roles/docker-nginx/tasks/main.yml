@@ -1,10 +1,3 @@
-- name: Restart docker nginx container
-  sudo: yes
-  shell: "docker restart {{ docker_nginx_name }}"
-  tags:
-    - restart
-
-
 - name: Ensure docker nginx directories exist
   sudo: yes
   file:
@@ -12,13 +5,13 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_nginx_conf_dir }}"
-    - "{{ docker_nginx_log_dir }}"
+    - "{{ docker_nginx_ssl_dir }}"
   tags:
     - install
     - upgrade
 
 
-- name: Copy docker nginx configuration settings
+- name: Copy docker nginx.conf file
   copy:
     src: "{{ docker_nginx_source_conf_file }}"
     dest: "{{ docker_nginx_conf_file }}"
@@ -29,16 +22,50 @@
     - upgrade
 
 
+- name: Copy docker .htpasswd file
+  copy:
+    src: "{{ docker_nginx_source_htpasswd_file }}"
+    dest: "{{ docker_nginx_htpasswd_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker nginx ssl certificates
+  copy:
+    mode: 0600
+    src: "{{ docker_nginx_source_ssl_dir }}"
+    dest: "{{ docker_nginx_ssl_dir }}"
+  when: docker_nginx_source_ssl_dir | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker nginx container
+  sudo: yes
+  shell: "docker restart {{ docker_nginx_name }}"
+  tags:
+    - restart
+
+
 - name: Run docker nginx container
   docker:
-    name: "{{ docker_nginx_name }}"
-    state: running
-    hostname: "{{ hostname_name }}-nginx"
-    restart_policy: always
     env: "{{ docker_nginx_env }}"
-    image: "nginx:1.7"
+    expose: "{{ docker_nginx_expose }}"
+    hostname: "{{ docker_nginx_hostname }}"
+    image: "{{ docker_nginx_image }}"
     links: "{{ docker_nginx_links }}"
+    name: "{{ docker_nginx_name }}"
+    net: "{{ docker_nginx_net }}"
+    ports: "{{ docker_nginx_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
     volumes: "{{ docker_nginx_volumes }}"
+    volumes_from: "{{ docker_nginx_volumes_from }}"
   tags:
     - install
     - upgrade

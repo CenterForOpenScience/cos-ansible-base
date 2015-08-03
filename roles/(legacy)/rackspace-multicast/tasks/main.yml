@@ -1,0 +1,11 @@
+- name: Set net.ipv4.icmp_echo_ignore_broadcasts in /etc/sysctl.conf
+  sysctl:
+    name: net.ipv4.icmp_echo_ignore_broadcasts
+    value: 0
+    state: present
+  tags:
+    - install
+    - upgrade
+
+- name: Add a route for the multicast network range
+  command: "ip route add 224.0.0.0/4 dev {{ rackspace_multicast_interface_name }}"

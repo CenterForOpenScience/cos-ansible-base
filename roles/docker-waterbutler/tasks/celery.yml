@@ -1,3 +1,26 @@
+- name: Ensure docker waterbutler celery directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_waterbutler_celery_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker waterbutler celery configuration settings
+  copy:
+    src: "{{ docker_waterbutler_celery_source_conf_file }}"
+    dest: "{{ docker_waterbutler_celery_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker waterbutler celery container
   sudo: yes
   shell: "docker restart {{ docker_waterbutler_celery_name }}_{{ item }}"
@@ -9,16 +32,17 @@
 
 - name: Run docker waterbutler celery container
   docker:
-    command: '/bin/bash -c "invoke celery 2>&1 | tee -a /log/{{ docker_waterbutler_celery_name }}_{{ item }}.log"'
+    command: "invoke celery --hostname=worker{{ item }}.%h"
     env: "{{ docker_waterbutler_celery_env }}"
     expose: "{{ docker_waterbutler_celery_expose }}"
-    hostname: "{{ hostname_name }}-celery{{ item }}"
-    image: "centerforopenscience/waterbutler:latest"
+    hostname: "{{ docker_waterbutler_celery_hostname }}"
+    image: "{{ docker_waterbutler_celery_image }}"
     links: "{{ docker_waterbutler_celery_links }}"
     name: "{{ docker_waterbutler_celery_name }}_{{ item }}"
     ports: "{{ docker_waterbutler_celery_ports }}"
+    pull: always
     restart_policy: always
-    state: running
+    state: reloaded
     volumes: "{{ docker_waterbutler_celery_volumes }}"
     volumes_from: "{{ docker_waterbutler_celery_volumes_from }}"
   with_sequence: count={{ docker_waterbutler_celery_instances }}

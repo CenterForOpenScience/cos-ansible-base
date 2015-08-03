@@ -1,3 +1,15 @@
+- name: Ensure docker tokumx logrotate config
+  template:
+    src: "{{ docker_tokumx_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_tokumx_log_rotate_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - settings
+
+
 - name: Restart docker tokumx container
   sudo: yes
   shell: "docker restart {{ docker_tokumx_name }}"
@@ -11,9 +23,21 @@
     state: directory
     path: "{{ item }}"
   with_items:
+    - "{{ docker_tokumx_conf_dir }}"
     - "{{ docker_tokumx_data_dir }}"
   tags:
     - install
+    - upgrade
+
+
+- name: Copy docker tokumx configuration settings
+  copy:
+    src: "{{ docker_tokumx_source_conf_file }}"
+    dest: "{{ docker_tokumx_conf_file }}"
+    mode: 0600
+  tags:
+    - install
+    - settings
     - upgrade
 
 
@@ -22,7 +46,7 @@
     name: "{{ docker_tokumx_name }}"
     state: running
     privileged: yes
-    hostname: "{{ hostname_name }}-tokumx"
+    hostname: "{{ hostname_name }}"
     restart_policy: always
     image: "centerforopenscience/tokumx:latest"
     env: "{{ docker_tokumx_env }}"

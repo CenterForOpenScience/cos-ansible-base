@@ -1,5 +1,5 @@
 - name: Docker setup
   hosts: all
   roles:
-    - role: docker
     - role: csf-docker
+    - role: docker

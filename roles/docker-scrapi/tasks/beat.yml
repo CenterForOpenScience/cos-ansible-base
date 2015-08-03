@@ -1,3 +1,26 @@
+- name: Ensure docker scrapi beat directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_beat_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker scrapi beat configuration settings
+  copy:
+    src: "{{ docker_scrapi_beat_source_conf_file }}"
+    dest: "{{ docker_scrapi_beat_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker scrapi beat container
   sudo: yes
   shell: "docker restart {{ docker_scrapi_beat_name }}"
@@ -7,16 +30,17 @@
 
 - name: Run docker scrapi beat container
   docker:
-    command: "/bin/bash -c 'invoke beat 2>&1 | tee -a /log/{{ docker_scrapi_beat_name }}.log'"
+    command: "invoke beat"
     env: "{{ docker_scrapi_beat_env }}"
     expose: "{{ docker_scrapi_beat_expose }}"
-    hostname: "{{ hostname_name }}-beat"
+    hostname: "{{ docker_scrapi_beat_hostname }}"
     image: "centerforopenscience/scrapi:latest"
     links: "{{ docker_scrapi_beat_links }}"
     name: "{{ docker_scrapi_beat_name }}"
     ports: "{{ docker_scrapi_beat_ports }}"
+    pull: always
     restart_policy: always
-    state: running
+    state: reloaded
     volumes: "{{ docker_scrapi_beat_volumes }}"
   tags:
     - install

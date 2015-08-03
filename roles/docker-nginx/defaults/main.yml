@@ -1,10 +1,20 @@
 docker_nginx_name: nginx_1
+docker_nginx_image: nginx:1
 docker_nginx_source_conf_file: nginx.conf
+docker_nginx_source_htpasswd_file: .htpasswd
+docker_nginx_source_ssl_dir: ssl/
 docker_nginx_env: {}
-docker_nginx_conf_dir: /opt/nginx/conf
+docker_nginx_conf_dir: "/opt/nginx/conf/conf"
 docker_nginx_conf_file: "{{ docker_nginx_conf_dir }}/nginx.conf"
-docker_nginx_log_dir: /var/log/nginx
+docker_nginx_htpasswd_file: "{{ docker_nginx_conf_dir }}/.htpasswd"
+docker_nginx_ssl_dir: "{{ docker_nginx_conf_dir }}/ssl"
+docker_nginx_net: bridge
+docker_nginx_hostname: "{{ hostname_name }}"
 docker_nginx_links: []
+docker_nginx_expose: []
+docker_nginx_ports: []
 docker_nginx_volumes:
   - "{{ docker_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
-  - "{{ docker_nginx_log_dir }}:/var/log/nginx"
+  - "{{ docker_nginx_htpasswd_file }}:/etc/nginx/.htpasswd:ro"
+  - "{{ docker_nginx_ssl_dir }}:/etc/ssl/private:ro"
+docker_nginx_volumes_from: []

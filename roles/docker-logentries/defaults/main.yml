@@ -1,5 +1,13 @@
-docker_logentries_name: logentries_1
-docker_logentires_logs_token: "8a3ccd88-d979-4167-939d-d49ae161bdc9"
-docker_logentires_stats_token: "a8a37ae7-4ad0-40af-8ec8-a0bf2fb1c516"
-docker_logentries_command: "-l {{ docker_logsentires_logs_token }} -k {{ docker_logentires_stats_token }}  -j -a host={{ hostname_name }}"
-docker_logentries_env: {}
+docker_logentries_fluentd: no
+docker_logentries_fluentd_name: fluentd_1
+docker_logentries_fluentd_source_conf_dir: roles/docker-logentries/files/fluentd/
+docker_logentries_fluentd_conf_dir: "/opt/fluentd/conf"
+docker_logentries_fluentd_conf_file: "{{ docker_logentries_fluentd_conf_dir }}/fluent.conf"
+docker_logentries_fluentd_data_dir: "/opt/fluentd/data"
+docker_logentries_fluentd_env:
+  FLUENTD_GEMS: "fluent-plugin-order fluent-plugin-record-reformer fluent-plugin-rewrite-tag-filter fluent-plugin-jsonbucket fluent-plugin-docker-format" # fluent-plugin-logentries removed (pr in for fix)
+docker_logentries_fluentd_volumes:
+  - "{{ docker_logentries_fluentd_data_dir }}:/data"
+  - "{{ docker_logentries_fluentd_conf_dir }}:/etc/fluent:ro"
+  - "/var/log:/var/log:ro"
+  - "/var/lib/docker/containers:/var/lib/docker/containers:ro"

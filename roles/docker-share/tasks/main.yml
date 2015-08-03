@@ -1,8 +1,0 @@
-- include: common.yml
-  when: docker_share_registration_uwsgi or docker_share_registration_nginx
-
-- include: registration_uwsgi.yml
-  when: docker_share_registration_uwsgi
-
-- include: registration_nginx.yml
-  when: docker_share_registration_nginx

@@ -1,6 +1,6 @@
 docker_memcached_name: memcached_1
-docker_memcached_data_dir: /opt/memcached/data
-docker_memcached_log_dir: /var/log/memcached
+docker_memcached_command: "memcached -vv"
+docker_memcached_image: memcached:1
 docker_memcached_expose:
   - 11211
 docker_memcached_ports: []

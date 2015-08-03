@@ -1,0 +1,42 @@
+# variables
+
+docker_haproxy_name: haproxy_1
+docker_haproxy_env: {}
+docker_haproxy_conf_dir: /opt/haproxy/conf
+docker_haproxy_enable_https: false
+docker_haproxy_default_cert_src: ""
+docker_haproxy_certsd_dir_src: ""
+docker_haproxy_stats_user: User1
+docker_haproxy_stats_password: password
+docker_haproxy_backends: {}
+#   - name: my_domain
+#     domain: my.domain.com
+#     servers:
+#       - ip: "192.168.1.2"
+#         port: 1111
+#       - ip: "192.168.1.2"
+#         port: 1112
+#       - ip: "192.168.1.6"
+#         port: 1111
+#       - ip: "192.168.1.6"
+#         port: 1112
+
+
+# support servers
+
+docker_rsyslog: no
+docker_rsyslog_name: haproxy_rsyslog_1
+docker_rsyslog_conf_dir: "{{ docker_haproxy_conf_dir }}/rsyslog"
+docker_rsyslog_log_dir: /var/log/haproxy
+
+
+# servers
+
+docker_haproxy_log_rotate_file: haproxy
+docker_haproxy_log_rotate_source_file: logrotate.j2
+docker_haproxy_hostname: "haproxy_1"
+docker_haproxy_links:
+  - "{{ docker_rsyslog_name }}:rsyslog"
+docker_haproxy_links: []
+docker_haproxy_expose: []
+docker_haproxy_ports: []

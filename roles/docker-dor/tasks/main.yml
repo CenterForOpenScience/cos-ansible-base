@@ -1,5 +1,2 @@
 - include: uwsgi.yml
   when: docker_dor_uwsgi
-
-- include: nginx.yml
-  when: docker_dor_nginx

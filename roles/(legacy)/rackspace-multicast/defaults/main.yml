@@ -1,0 +1,5 @@
+rackspace_multicast_interface_name: eth2
+
+# Remmber to enable firewall inbound/outbound rules
+#sudo iptables -I INPUT -d 224.0.0.0/4 -j ACCEPT
+#sudo iptables -I OUTPUT -d 224.0.0.0/4 -j ACCEPT

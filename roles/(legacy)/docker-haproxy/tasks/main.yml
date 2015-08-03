@@ -1,0 +1,103 @@
+- name: Ensure docker haproxy logrotate config
+  template:
+    src: "{{ docker_haproxy_log_rotate_source_file }}"
+    dest: "/etc/logrotate.d/{{ docker_haproxy_log_rotate_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - install
+    - upgrade
+
+
+- name: Ensure docker haproxy directories exist
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_haproxy_conf_dir }}"
+    - "{{ docker_haproxy_conf_dir }}/ssl"
+    - "{{ docker_haproxy_conf_dir }}/ssl/certs.d"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker haproxy server settings
+  template:
+    mode: 0640
+    src: "haproxy.conf.j2"
+    dest: "{{ docker_haproxy_conf_dir }}/haproxy.cfg"
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker haproxy rsyslog settings
+  template:
+    mode: 0640
+    src: "49-haproxy.conf.j2"
+    dest: "{{ docker_rsyslog_conf_dir }}/49-haproxy.conf"
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+# - name: docker_haproxy_default_cert_src
+#   debug:
+#     msg: "{{ docker_haproxy_default_cert_src }}"
+
+
+# - name: docker_haproxy_default_cert_src
+#   debug:
+#     msg: "{{ docker_haproxy_conf_dir }}/ssl/default.pem"
+
+
+- name: Restart docker haproxy container
+  sudo: yes
+  shell: "docker restart {{ docker_haproxy_name }}"
+  tags:
+    - restart
+
+
+- name: Copy docker haproxy ssl default certificate
+  copy:
+    mode: 0640
+    src: "{{ docker_haproxy_default_cert_src }}"
+    dest: "{{ docker_haproxy_conf_dir }}/ssl/default.pem"
+  when: docker_haproxy_default_cert_src | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker haproxy ssl certificates directory
+  copy:
+    mode: 0640
+    src: "{{ docker_haproxy_certsd_dir_src }}"
+    dest: "{{ docker_haproxy_conf_dir }}/ssl/certs.d"
+  when: docker_haproxy_certsd_dir_src | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Run docker haproxy container
+  docker:
+    command: "haproxy -f /usr/local/etc/haproxy/haproxy.cfg"
+    env: "{{ docker_haproxy_env }}"
+    expose: "{{ docker_haproxy_expose }}"
+    hostname: "{{ docker_haproxy_hostname }}"
+    image: "centerforopenscience/haproxy:latest"
+    links: "{{ docker_haproxy_links }}"
+    name: "{{ docker_haproxy_name }}"
+    ports: "{{ docker_haproxy_ports }}"
+    restart_policy: always
+    volumes:
+      - "{{ docker_haproxy_conf_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+      - "{{ docker_haproxy_conf_dir }}/ssl:/etc/ssl/private"
+  tags:
+    - install
+    - upgrade

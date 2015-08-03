@@ -1,0 +1,21 @@
+- name: Restart docker logentries container
+  sudo: yes
+  shell: "docker restart {{ docker_rabbitmq_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker logentries container
+  docker:
+    name: "{{ docker_logentries_name }}"
+    command: "{{ docker_logentries_command }}"
+    state: running
+    hostname: "{{ hostname_name }}"
+    restart_policy: always
+    env: "{{ docker_logentries_env }}"
+    image: "logentries/docker-logentries"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  tags:
+    - install
+    - upgrade

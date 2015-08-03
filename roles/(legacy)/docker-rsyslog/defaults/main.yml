@@ -1,0 +1,6 @@
+docker_rsyslog_name: rsyslog_1
+docker_rsyslog_conf_dir: /opt/rsyslog/conf
+docker_rsyslog_log_dir: /var/log/rsyslog
+docker_rsyslog_log_rotate_file: rsyslog
+docker_rsyslog_log_rotate_source_file: logrotate.j2
+docker_rsyslog_env: {}

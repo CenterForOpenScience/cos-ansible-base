@@ -1,0 +1,2 @@
+- include: uwsgi.yml
+  when: docker_share_reg_uwsgi

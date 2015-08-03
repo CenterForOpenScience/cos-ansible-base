@@ -1,17 +1,22 @@
+# variables
+
+docker_cos_env: test
+
+
 # shared storage
 
-docker_cos_storage_temp: no
-docker_cos_storage_temp_name: cos_storage_temp_1
-docker_cos_storage_temp_volumes:
+docker_cos_storage: no
+docker_cos_storage_name: "{{ docker_cos_env }}_cos_storage_1"
+docker_cos_storage_volumes:
   - /tmp
+  - /code
 
 
 # support servers
 
 docker_cos_postgres: no
-docker_cos_postgres_name: cos_postgres_1
-docker_cos_postgres_data_dir: /opt/cos-postgres/data
-docker_cos_postgres_log_dir: /var/log/cos-postgres
+docker_cos_postgres_name: "{{ docker_cos_env }}_cos_postgres_1"
+docker_cos_postgres_data_dir: "/opt/{{ docker_cos_env }}_cos_postgres/data"
 docker_cos_postgres_env:
   POSTGRES_DB: cos_staging
 docker_cos_postgres_expose:
@@ -19,26 +24,44 @@ docker_cos_postgres_expose:
 docker_cos_postgres_ports: []
 
 docker_cos_memcached: no
-docker_cos_memcached_name: cos_memcached_1
-docker_cos_memcached_log_dir: /var/log/cos-memcached
+docker_cos_memcached_name: "{{ docker_cos_env }}_cos_memcached_1"
 docker_cos_memcached_expose:
   - 11211
 docker_cos_memcached_ports: []
+
+docker_cos_nginx: no
+docker_cos_nginx_name: "{{ docker_cos_env }}_cos_nginx_1"
+docker_cos_nginx_image: nginx:1
+docker_cos_nginx_source_conf_file: nginx.conf
+docker_cos_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
+docker_cos_nginx_conf_dir: "/opt/{{ docker_cos_env }}_cos_nginx/conf"
+docker_cos_nginx_conf_file: "{{ docker_cos_nginx_conf_dir }}/nginx.conf"
+docker_cos_nginx_ssl_dir: "{{ docker_cos_nginx_conf_dir }}/ssl"
+docker_cos_nginx_env: {}
+docker_cos_nginx_expose:
+  - 80
+  - 443
+docker_cos_nginx_ports: []
+docker_cos_nginx_links: []
+docker_cos_nginx_volumes:
+  - "{{ docker_cos_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
+  - "{{ docker_cos_nginx_ssl_dir }}:/etc/ssl/private:ro"
+docker_cos_nginx_volumes_from:
+  - "{{ docker_cos_storage_name }}"
 
 
 # servers
 
 docker_cos_uwsgi: no
-docker_cos_uwsgi_name: cos_uwsgi_1
+docker_cos_uwsgi_name: "{{ docker_cos_env }}_cos_uwsgi_1"
 docker_cos_uwsgi_image: centerforopenscience/cos:latest
 docker_cos_uwsgi_source_branch: master
 docker_cos_uwsgi_source_repo: https://github.com/ZobairAlijan/COS-Site.git
 docker_cos_uwsgi_source_conf_file: uwsgi.ini
 docker_cos_uwsgi_source_app_file: local.py
-docker_cos_uwsgi_conf_dir: "/opt/cos-uwsgi/conf"
+docker_cos_uwsgi_conf_dir: "/opt/{{ docker_cos_env }}_cos_uwsgi/conf"
 docker_cos_uwsgi_conf_file: "{{ docker_cos_uwsgi_conf_dir }}/uwsgi.ini"
 docker_cos_uwsgi_app_file: "{{ docker_cos_uwsgi_conf_dir }}/local.py"
-docker_cos_uwsgi_log_dir: "/var/log/cos-uwsgi"
 docker_cos_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_cos_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_cos_uwsgi_source_repo }}"
@@ -50,29 +73,5 @@ docker_cos_uwsgi_links:
 docker_cos_uwsgi_volumes:
   - "{{ docker_cos_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
   - "{{ docker_cos_uwsgi_app_file }}:/home/.cos/local.py"
-  - "{{ docker_cos_uwsgi_log_dir }}:/log"
 docker_cos_uwsgi_volumes_from:
-  - "{{ docker_cos_storage_temp_name }}"
-
-
-docker_cos_nginx: no
-docker_cos_nginx_name: cos_nginx_1
-docker_cos_nginx_image: centerforopenscience/nginx:latest
-docker_cos_nginx_source_conf_file: nginx.conf
-docker_cos_nginx_source_ssl_crt_file: ""
-docker_cos_nginx_source_ssl_key_file: ""
-docker_cos_nginx_conf_dir: "/opt/cos-nginx/conf"
-docker_cos_nginx_conf_file: "{{ docker_cos_nginx_conf_dir }}/nginx.conf"
-docker_cos_nginx_log_dir: "/var/log/cos-nginx"
-docker_cos_nginx_env: {}
-docker_cos_nginx_expose:
-  - 80
-  - 443
-docker_cos_nginx_ports: []
-docker_cos_nginx_links: []
-docker_cos_nginx_volumes:
-  - "{{ docker_cos_nginx_conf_file }}:/etc/nginx/sites-templates/default.conf.tmpl"
-  - "{{ docker_cos_nginx_log_dir }}:/var/log/nginx"
-docker_cos_nginx_volumes_from:
-  - "{{ docker_cos_uwsgi_name }}"
-  - "{{ docker_cos_storage_temp_name }}"
+  - "{{ docker_cos_storage_name }}"
