@@ -39,6 +39,8 @@ genericusers_users:
     pass: $5$rounds=110000$eOfP.zr4uq752c.J$DARAtBgPxI.iDVZzL8l.HbvaFJm50bh1eRYnNn66poB
     shell: /bin/bash
     groups:
+      - admin
+      - elasticsearch
       - sudo
     append: yes
     ssh_keys:
@@ -47,6 +49,8 @@ genericusers_users:
     pass: $6$rounds=100000$R7Pw5Fct6tH/wveL$XXvgKZ55rWqvbJX6XNcKKNEHZBRsHfLtqFdqNdeV.XDkqCXVzE.QQUNdbGdtyUQCbwQbzsc7exUTdQJjlkG080
     shell: /bin/bash
     groups:
+      - admin
+      - elasticsearch
       - sudo
     append: yes
     ssh_keys:
