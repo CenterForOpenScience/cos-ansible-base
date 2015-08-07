@@ -8,6 +8,6 @@ docker_tokumx_log_rotate_file: tokumx
 docker_tokumx_log_rotate_source_file: logrotate.j2
 docker_tokumx_env: {}
 docker_tokumx_volumes:
-  - "{{ docker_tokumx_conf_file }}":/etc/tokumx.conf
-  - "{{ docker_tokumx_data_dir }}":/data
-  - "{{ docker_tokumx_log_dir }}":/log
+  - "{{ docker_tokumx_conf_file }}:/etc/tokumx.conf"
+  - "{{ docker_tokumx_data_dir }}:/data"
+  - "{{ docker_tokumx_log_dir }}:/log"
