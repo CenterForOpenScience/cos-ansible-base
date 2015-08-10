@@ -1,0 +1,17 @@
+# Disables transparent-huge-pages for tokumx
+
+- name: Disables transparent-huge-pages for tokumx
+  sudo: yes
+  copy:
+    src: disable-transparent-hugepages
+    dest: /etc/init.d/disable-transparent-hugepages
+    mode: 0755
+  tags:
+    - install
+
+
+- name: Register the file with init.d
+  sudo: yes
+  command: update-rc.d disable-transparent-hugepages defaults
+  tags:
+    - install

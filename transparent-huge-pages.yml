@@ -1,0 +1,4 @@
+- name: Transparent Huge Pages
+  hosts: all
+  roles:
+    - role: transparent-huge-pages
