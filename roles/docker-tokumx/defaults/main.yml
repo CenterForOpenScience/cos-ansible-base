@@ -11,3 +11,8 @@ docker_tokumx_volumes:
   - "{{ docker_tokumx_conf_file }}:/etc/tokumx.conf"
   - "{{ docker_tokumx_data_dir }}:/data"
   - "{{ docker_tokumx_log_dir }}:/log"
+docker_tokumx_net: bridge
+docker_tokumx_expose:
+  - 27017
+  - 28017
+docker_tokumx_ports: []

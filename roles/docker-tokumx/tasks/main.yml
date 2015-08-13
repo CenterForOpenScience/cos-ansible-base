@@ -44,14 +44,17 @@
 - name: Run docker tokumx container
   docker:
     name: "{{ docker_tokumx_name }}"
-    state: running
+    state: reloaded
     privileged: yes
     hostname: "{{ hostname_name }}"
+    net: "{{ docker_tokumx_net }}"
+    expose: "{{ docker_tokumx_expose }}"
+    ports: "{{ docker_tokumx_ports }}"
+    pull: always
     restart_policy: always
-    image: "centerforopenscience/tokumx:latest"
+    image: "mattclarkdocker/tokumx:latest"
     env: "{{ docker_tokumx_env }}"
     volumes:
-      - "{{ docker_tokumx_conf_file }}:/etc/tokumx.conf"
       - "{{ docker_tokumx_data_dir }}:/data/db"
   tags:
     - install
