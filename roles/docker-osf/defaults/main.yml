@@ -44,6 +44,36 @@ docker_osf_elasticsearch_nginx_expose:
   - 9343
 docker_osf_elasticsearch_nginx_ports: []
 
+docker_osf_tokumx: no
+docker_osf_tokumx_name: "{{ docker_osf_env }}_osf_tokumx_1"
+docker_osf_tokumx_source_conf_dir: roles/docker-tokumx/files/conf/
+docker_osf_tokumx_conf_dir: "/opt/{{ docker_osf_env }}_osf_tokumx/conf"
+docker_osf_tokumx_data_dir: "/opt/{{ docker_osf_env }}_osf_tokumx/data"
+docker_osf_tokumx_env: {}
+docker_osf_tokumx_net: bridge
+docker_osf_tokumx_hostname: "{{ hostname_name }}"
+docker_osf_tokumx_expose:
+  - 27017
+  - 28017
+docker_osf_tokumx_ports: []
+
+docker_osf_tokumx_nginx: no
+docker_osf_tokumx_nginx_name: "{{ docker_osf_env }}_osf_tokumx_nginx_1"
+docker_osf_tokumx_nginx_image: centerforopenscience/nginx:1 # allow for environment variables in nginx.conf
+docker_osf_tokumx_nginx_source_conf_file: tokumx/nginx.conf
+docker_osf_tokumx_nginx_source_htpasswd_file: tokumx/.htpasswd
+docker_osf_tokumx_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
+docker_osf_tokumx_nginx_conf_dir: "/opt/{{ docker_osf_env }}_osf_tokumx_nginx/conf"
+docker_osf_tokumx_nginx_env: {}
+docker_osf_tokumx_nginx_net: bridge
+docker_osf_tokumx_nginx_hostname: "{{ hostname_name }}"
+docker_osf_tokumx_nginx_links:
+  - "{{ docker_osf_tokumx_name }}:tokumx"
+docker_osf_tokumx_nginx_expose:
+  - 27017
+  - 28017
+docker_osf_tokumx_nginx_ports: []
+
 
 # servers
 
