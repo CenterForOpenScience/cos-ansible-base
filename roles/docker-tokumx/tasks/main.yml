@@ -22,6 +22,17 @@
     - upgrade
 
 
+- name: Copy docker tokumx authentication keyfile
+  copy:
+    src: "{{ docker_tokumx_source_key_file }}"
+    dest: "{{ docker_tokumx_key_file }}"
+    mode: 0600
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker tokumx container
   sudo: yes
   shell: "docker restart {{ docker_tokumx_name }}"

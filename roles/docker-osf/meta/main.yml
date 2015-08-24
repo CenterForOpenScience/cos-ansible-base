@@ -34,6 +34,7 @@ dependencies:
   - role: docker-tokumx
     docker_tokumx_name: "{{ docker_osf_tokumx_name }}"
     docker_tokumx_source_conf_file: "{{ docker_osf_tokumx_source_conf_file }}"
+    docker_tokumx_source_key_file: "{{ docker_osf_tokumx_source_key_file }}"
     docker_tokumx_conf_dir: "{{ docker_osf_tokumx_conf_dir }}"
     docker_tokumx_data_dir: "{{ docker_osf_tokumx_data_dir }}"
     docker_tokumx_env: "{{ docker_osf_tokumx_env }}"
