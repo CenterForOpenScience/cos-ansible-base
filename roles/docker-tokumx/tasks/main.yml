@@ -15,7 +15,7 @@
   copy:
     src: "{{ docker_tokumx_source_conf_file }}"
     dest: "{{ docker_tokumx_conf_file }}"
-    mode: 0600
+    mode: 0644
   tags:
     - install
     - settings
@@ -31,6 +31,7 @@
 
 - name: Run docker tokumx container
   docker:
+    command: "{{ docker_tokumx_command }}"
     env: "{{ docker_tokumx_env }}"
     expose: "{{ docker_tokumx_expose }}"
     name: "{{ docker_tokumx_name }}"

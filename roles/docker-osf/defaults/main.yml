@@ -46,7 +46,7 @@ docker_osf_elasticsearch_nginx_ports: []
 
 docker_osf_tokumx: no
 docker_osf_tokumx_name: "{{ docker_osf_env }}_osf_tokumx_1"
-docker_osf_tokumx_source_conf_dir: roles/docker-tokumx/files/conf/
+docker_osf_tokumx_source_conf_file: roles/docker-tokumx/files/tokeumx.conf
 docker_osf_tokumx_conf_dir: "/opt/{{ docker_osf_env }}_osf_tokumx/conf"
 docker_osf_tokumx_data_dir: "/opt/{{ docker_osf_env }}_osf_tokumx/data"
 docker_osf_tokumx_env: {}
@@ -59,6 +59,8 @@ docker_osf_tokumx_ports: []
 
 
 # servers
+
+docker_osf_sharejs: no
 
 docker_osf_nginx: no
 docker_osf_nginx_volumes_from:

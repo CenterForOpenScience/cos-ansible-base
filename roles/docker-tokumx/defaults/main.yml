@@ -1,5 +1,6 @@
 docker_tokumx_name: tokumx_1
 docker_tokumx_image: centerforopenscience/tokumx:latest
+docker_tokumx_command: mongod --config /etc/tokumx.conf
 docker_tokumx_conf_dir: /opt/tokumx/conf
 docker_tokumx_conf_file: "{{ docker_tokumx_conf_dir }}/tokumx.conf"
 docker_tokumx_source_conf_file: tokumx.conf
@@ -12,4 +13,5 @@ docker_tokumx_expose:
   - 28017
 docker_tokumx_ports: []
 docker_tokumx_volumes:
+  - "{{ docker_tokumx_conf_file }}:/etc/tokumx.conf:ro"
   - "{{ docker_tokumx_data_dir }}:/data/db"
