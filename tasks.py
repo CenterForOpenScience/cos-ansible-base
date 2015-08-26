@@ -25,7 +25,7 @@ def install_roles(force=False, ignore_errors=False):
 
 
 @task
-def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
+def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_pass=False, ask_sudo_pass=True,
          verbose=False, extra='', key=None, limit=None, tags=None, list_tasks=False):
     """Run a playbook. Defaults to using the "hosts" inventory"""
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
@@ -40,6 +40,8 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True
     cmd = 'ansible-playbook {playbook} -i {inventory} -u {user}'.format(**locals())
     if sudo:
         cmd += ' -s'
+    if ask_pass:
+        cmd += ' --ask-pass'
     if ask_sudo_pass:
         cmd += ' --ask-sudo-pass'
     if verbose:
@@ -200,4 +202,3 @@ def gen_gitlab_pass(rounds=12):
 
 def escape(value, chars):
     return re.sub(r'([{0}])'.format(chars), '\\\\\\1', value)
-
