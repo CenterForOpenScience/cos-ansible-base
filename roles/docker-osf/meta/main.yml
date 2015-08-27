@@ -2,6 +2,7 @@ dependencies:
   - role: docker-storage
     docker_storage_name: "{{ docker_osf_storage_name }}"
     docker_storage_volumes: "{{ docker_osf_storage_volumes }}"
+    docker_storage_dirs: "{{ docker_osf_storage_dirs }}"
     when: docker_osf_storage
 
   - role: docker-elasticsearch
@@ -42,3 +43,21 @@ dependencies:
     docker_tokumx_expose: "{{ docker_osf_tokumx_expose }}"
     docker_tokumx_ports: "{{ docker_osf_tokumx_ports }}"
     when: docker_osf_tokumx
+
+  - role: docker-nginx
+    docker_nginx_name: "{{ docker_osf_server_nginx_name }}"
+    docker_nginx_image: "{{ docker_osf_server_nginx_image }}"
+    docker_nginx_source_conf_file: "{{ docker_osf_server_nginx_source_conf_file }}"
+    docker_nginx_source_ssl_dir: "{{ docker_osf_server_nginx_source_ssl_dir }}"
+    docker_nginx_conf_dir: "{{ docker_osf_server_nginx_conf_dir }}"
+    docker_nginx_conf_file: "{{ docker_osf_server_nginx_conf_file }}"
+    docker_nginx_ssl_dir: "{{ docker_osf_server_nginx_ssl_dir }}"
+    docker_nginx_env: "{{ docker_osf_server_nginx_env }}"
+    docker_nginx_net: "{{ docker_osf_server_nginx_net }}"
+    docker_nginx_hostname: "{{ docker_osf_server_nginx_hostname }}"
+    docker_nginx_expose: "{{ docker_osf_server_nginx_expose }}"
+    docker_nginx_ports: "{{ docker_osf_server_nginx_ports }}"
+    docker_nginx_links: "{{ docker_osf_server_nginx_links }}"
+    docker_nginx_volumes: "{{ docker_osf_server_nginx_volumes }}"
+    docker_nginx_volumes_from: "{{ docker_osf_server_nginx_volumes_from }}"
+    when: docker_osf_server_nginx

@@ -1,6 +1,7 @@
 # variables
 
 docker_osf_env: test
+docker_osf_source_website_conf_dir: roles/docker-osf/files/website/
 
 
 # shared storage
@@ -9,6 +10,7 @@ docker_osf_storage: no
 docker_osf_storage_name: "{{ docker_osf_env }}_osf_storage_1"
 docker_osf_storage_volumes:
   - /tmp
+  - /code
 
 
 # support servers
@@ -29,7 +31,7 @@ docker_osf_elasticsearch_ports: []
 
 docker_osf_elasticsearch_nginx: no
 docker_osf_elasticsearch_nginx_name: "{{ docker_osf_env }}_osf_elasticsearch_nginx_1"
-docker_osf_elasticsearch_nginx_image: centerforopenscience/nginx:1 # allow for environment variables in nginx.conf
+docker_osf_elasticsearch_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change, and environment variables in nginx.conf
 docker_osf_elasticsearch_nginx_source_conf_file: elasticsearch/nginx.conf
 docker_osf_elasticsearch_nginx_source_htpasswd_file: elasticsearch/.htpasswd
 docker_osf_elasticsearch_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
@@ -60,14 +62,56 @@ docker_osf_tokumx_ports: []
 
 # servers
 
-docker_osf_sharejs: no
-
-docker_osf_nginx: no
-docker_osf_nginx_volumes_from:
-  - "{{ docker_osf_storage }}"
-
-docker_osf_uwsgi: no
-docker_osf_uwsgi_links:
+docker_osf_server: no
+docker_osf_server_links:
   - "{{ docker_osf_elasticsearch_nginx_name }}:elasticsearch"
-docker_osf_uwsgi_volumes_from:
+docker_osf_server_volumes_from:
   - "{{ docker_osf_storage }}"
+
+docker_osf_server_nginx: no
+docker_osf_server_nginx_name: "{{ docker_osf_env }}_osf_server_nginx_1"
+docker_osf_server_nginx_image: nginx:1
+docker_osf_server_nginx_source_conf_file: server/nginx.conf
+docker_osf_server_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
+docker_osf_server_nginx_conf_dir: "/opt/{{ docker_osf_env }}_osf_server_nginx/conf"
+docker_osf_server_nginx_conf_file: "{{ docker_osf_server_nginx_conf_dir }}/nginx.conf"
+docker_osf_server_nginx_ssl_dir: "{{ docker_osf_server_nginx_conf_dir }}/ssl"
+docker_osf_server_nginx_env: {}
+docker_osf_server_nginx_net: bridge
+docker_osf_server_nginx_hostname: "{{ hostname_name }}"
+docker_osf_server_nginx_expose:
+  - 80
+  - 81
+  - 443
+docker_osf_server_nginx_ports: []
+docker_osf_server_nginx_links: []
+docker_osf_server_nginx_volumes:
+  - "{{ docker_osf_server_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
+  - "{{ docker_osf_server_nginx_ssl_dir }}:/etc/ssl/private:ro"
+docker_osf_server_nginx_volumes_from:
+  - "{{ docker_osf_storage_name }}"
+
+docker_osf_server_uwsgi: no
+docker_osf_server_uwsgi_name: "{{ docker_osf_env }}_osf_server_uwsgi_1"
+docker_osf_server_uwsgi_image: centerforopenscience/osf:latest
+docker_osf_server_uwsgi_source_branch: master
+docker_osf_server_uwsgi_source_repo: https://github.com/CenterForOpenScience/osf.io.git
+docker_osf_server_uwsgi_source_conf_file: uwsgi.ini
+docker_osf_server_uwsgi_source_website_conf_dir: "{{ docker_osf_source_website_conf_dir }}"
+docker_osf_server_uwsgi_conf_dir: "/opt/{{ docker_osf_env }}_osf_server_uwsgi/conf"
+docker_osf_server_uwsgi_website_conf_dir: "{{ docker_osf_server_uwsgi_conf_dir }}/website/"
+docker_osf_server_uwsgi_conf_file: "{{ docker_osf_server_uwsgi_conf_dir }}/uwsgi.ini"
+docker_osf_server_uwsgi_env:
+  SOURCE_BRANCH: "{{ docker_osf_server_uwsgi_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_server_uwsgi_source_repo }}"
+docker_osf_server_uwsgi_net: bridge
+docker_osf_server_uwsgi_hostname: "{{ hostname_name }}"
+docker_osf_server_uwsgi_expose: []
+docker_osf_server_uwsgi_ports: []
+docker_osf_server_uwsgi_links:
+  - "{{ docker_osf_tokumx_name }}:tokumx"
+docker_osf_server_uwsgi_volumes:
+  - "{{ docker_osf_server_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
+  - "{{ docker_osf_server_uwsgi_source_website_conf_dir }}settings/local.py:/code/website/settings/local.py"
+docker_osf_server_uwsgi_volumes_from:
+  - "{{ docker_osf_storage_name }}"

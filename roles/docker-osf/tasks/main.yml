@@ -1,5 +1,2 @@
-- include: sharejs.yml
-  when: docker_osf_sharejs
-
-# - include: uwsgi.yml
-#   when: docker_osf_uwsgi
+- include: server_uwsgi.yml
+  when: docker_osf_server_uwsgi
