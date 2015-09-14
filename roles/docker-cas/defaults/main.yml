@@ -28,8 +28,8 @@ docker_cas_postgres_volumes:
 # servers
 
 docker_cas_server: no
-docker_cas_server_source_branch: master
 docker_cas_server_image: centerforopenscience/cas:4.1
+docker_cas_server_source_branch: master
 docker_cas_server_source_repo: https://github.com/CenterForOpenScience/cas-overlay.git
 docker_cas_server_definitions: "-Dproject.parent.basedir=/etc/cas"
 docker_cas_server_source_conf_dir: etc
