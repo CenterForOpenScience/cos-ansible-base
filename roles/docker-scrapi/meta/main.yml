@@ -31,3 +31,32 @@ dependencies:
     docker_rabbitmq_name: "{{ docker_scrapi_rabbitmq_name }}"
     docker_rabbitmq_data_dir: "{{ docker_scrapi_rabbitmq_data_dir }}"
     when: docker_scrapi_rabbitmq
+
+  - role: docker-storage
+    docker_storage_name: "{{ docker_apiserver_storage_name }}"
+    docker_storage_volumes: "{{ docker_apiserver_storage_volumes }}"
+    when: docker_apiserver_storage
+
+  - role: docker-postgres
+    docker_postgres_name: "{{ docker_apiserver_postgres_name }}"
+    docker_postgres_data_dir: "{{ docker_apiserver_postgres_data_dir }}"
+    docker_postgres_env: "{{ docker_apiserver_postgres_env }}"
+    docker_postgres_expose: "{{ docker_apiserver_postgres_expose }}"
+    docker_postgres_ports: "{{ docker_apiserver_postgres_ports }}"
+    when: docker_apiserver_postgres
+
+  - role: docker-nginx
+    docker_nginx_name: "{{ docker_apiserver_nginx_name }}"
+    docker_nginx_image: "{{ docker_apiserver_nginx_image }}"
+    docker_nginx_source_conf_file: "{{ docker_apiserver_nginx_source_conf_file }}"
+    docker_nginx_source_ssl_dir: "{{ docker_apiserver_nginx_source_ssl_dir }}"
+    docker_nginx_conf_dir: "{{ docker_apiserver_nginx_conf_dir }}"
+    docker_nginx_conf_file: "{{ docker_apiserver_nginx_conf_file }}"
+    docker_nginx_ssl_dir: "{{ docker_apiserver_nginx_ssl_dir }}"
+    docker_nginx_env: "{{ docker_apiserver_nginx_env }}"
+    docker_nginx_expose: "{{ docker_apiserver_nginx_expose }}"
+    docker_nginx_ports: "{{ docker_apiserver_nginx_ports }}"
+    docker_nginx_links: "{{ docker_apiserver_nginx_links }}"
+    docker_nginx_volumes: "{{ docker_apiserver_nginx_volumes }}"
+    docker_nginx_volumes_from: "{{ docker_apiserver_nginx_volumes_from }}"
+    when: docker_apiserver_nginx
