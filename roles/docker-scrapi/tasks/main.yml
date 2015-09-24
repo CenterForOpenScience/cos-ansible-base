@@ -11,4 +11,4 @@
   when: docker_scrapi_apiserver
 
 - include: uwsgi.yml
-  when: docker_apiserver_uwsgi
+  when: docker_scrapi_apiserver_uwsgi
