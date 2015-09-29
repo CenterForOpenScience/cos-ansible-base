@@ -27,10 +27,9 @@
   tags:
     - restart
 
-
-- name: Run docker scrapi apiserver container
+- name: Set up postgres database for docker scrapi apiserver container and run apiserver
   docker:
-    command: "invoke apidb && invoke apiserver"
+    command: /bin/bash -c "ln -s /home/.cos/local.py /code/api/api/settings/local.py && invoke apidb && invoke apiserver"
     env: "{{ docker_scrapi_apiserver_env }}"
     expose: "{{ docker_scrapi_apiserver_expose }}"
     hostname: "{{ docker_scrapi_apiserver_hostname }}"
