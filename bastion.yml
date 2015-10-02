@@ -1,0 +1,6 @@
+- name: Set up bastion
+  hosts:
+    - bastion-staging
+    - bastion-production
+  roles:
+    - role: bastion
