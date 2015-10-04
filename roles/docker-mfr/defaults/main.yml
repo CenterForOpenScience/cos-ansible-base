@@ -15,7 +15,7 @@ docker_mfr_server_ssl_cert_file: ""
 docker_mfr_server_ssl_key_file: ""
 docker_mfr_server_cert_src: ""
 docker_mfr_server_instances: 2
-docker_mfr_server_start_port: 7770
+docker_mfr_server_start_port: 7780
 docker_mfr_server_env:
   ENV: "{{ docker_env | default('test') }}"
   SOURCE_BRANCH: "{{ docker_mfr_source_branch }}"
