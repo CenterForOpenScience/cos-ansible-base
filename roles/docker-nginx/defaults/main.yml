@@ -1,5 +1,5 @@
 docker_nginx_name: nginx_1
-docker_nginx_image: nginx:1
+docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
 docker_nginx_source_conf_file: nginx.conf
 docker_nginx_source_htpasswd_file: roles/docker-nginx/files/.htpasswd
 docker_nginx_source_ssl_dir: ssl/

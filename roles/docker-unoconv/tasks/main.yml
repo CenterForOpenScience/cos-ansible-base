@@ -13,6 +13,7 @@
     hostname: "{{ hostname_name }}"
     image: "{{ docker_unoconv_image }}"
     name: "{{ docker_unoconv_name }}"
+    net: "{{ docker_unoconv_net }}"
     ports: "{{ docker_unoconv_ports }}"
     pull: always
     restart_policy: always

@@ -1,79 +1,48 @@
 # variables
-
-docker_waterbutler_env: test
-docker_waterbutler_image: centerforopenscience/waterbutler:latest
 docker_waterbutler_source_branch: develop
 docker_waterbutler_source_repo: https://github.com/CenterForOpenScience/waterbutler.git
-docker_waterbutler_source_conf_file: settings.json
-docker_waterbutler_conf_dir: "/opt/{{ docker_waterbutler_env }}_waterbutler/conf"
-docker_waterbutler_conf_file: "{{ docker_waterbutler_conf_dir }}/settings.json"
-docker_waterbutler_osfstorage_pending_dir: "/opt/{{ docker_waterbutler_env }}_waterbutler_osfstorage/pending"
-docker_waterbutler_osfstorage_complete_dir: "/opt/{{ docker_waterbutler_env }}_waterbutler_osfstorage/complete"
+docker_waterbutler_osfstorage_pending_dir: "/opt/waterbutler_osfstorage/pending"
+docker_waterbutler_osfstorage_complete_dir: "/opt/waterbutler_osfstorage/complete"
 
-
-# shared storage
-
-docker_waterbutler_storage: no
-docker_waterbutler_storage_name: "{{ docker_waterbutler_env }}_waterbutler_storage_1"
-docker_waterbutler_storage_volumes:
-  - /tmp
-  - "{{ docker_waterbutler_osfstorage_pending_dir }}:/data/osfstorage/pending"
-  - "{{ docker_waterbutler_osfstorage_complete_dir }}:/data/osfstorage/complete"
-
-
-docker_waterbutler_rabbitmq: no
-docker_waterbutler_rabbitmq_name: "{{ docker_waterbutler_env }}_waterbutler_rabbitmq_1"
-docker_waterbutler_rabbitmq_data_dir: "/opt/{{ docker_waterbutler_env }}_waterbutler_rabbitmq/data"
-
-
-# servers
-
+# celery
 docker_waterbutler_celery: no
-docker_waterbutler_celery_name: "{{ docker_waterbutler_env }}_waterbutler_celery"
-docker_waterbutler_celery_image: "{{ docker_waterbutler_image }}"
+docker_waterbutler_celery_name: waterbutler_celery
+docker_waterbutler_celery_image: centerforopenscience/waterbutler:latest
+docker_waterbutler_celery_command: "invoke celery --hostname=worker{{ item }}.%h"
 docker_waterbutler_celery_hostname: "{{ hostname_name }}"
 docker_waterbutler_celery_instances: 1
-docker_waterbutler_celery_conf_dir: "{{ docker_waterbutler_conf_dir }}"
-docker_waterbutler_celery_conf_file: "{{ docker_waterbutler_conf_file }}"
-docker_waterbutler_celery_source_conf_file: "{{ docker_waterbutler_source_conf_file }}"
 docker_waterbutler_celery_env:
-  ENV: "{{ docker_waterbutler_env }}"
+  ENV: "{{ docker_env | default('test') }}"
   SOURCE_BRANCH: "{{ docker_waterbutler_source_branch }}"
   SOURCE_REPO: "{{ docker_waterbutler_source_repo }}"
+docker_waterbutler_celery_net: bridge
 docker_waterbutler_celery_expose: []
 docker_waterbutler_celery_ports: []
 docker_waterbutler_celery_links:
   - "{{ docker_waterbutler_rabbitmq_name }}:rabbitmq"
-docker_waterbutler_celery_volumes_from:
-  - "{{ docker_waterbutler_storage_name }}"
-docker_waterbutler_celery_volumes:
-  - "{{ docker_waterbutler_conf_file }}:/home/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
+docker_waterbutler_celery_volumes: []
+docker_waterbutler_celery_volumes_from: []
 
-
+# server
 docker_waterbutler_server: no
-docker_waterbutler_server_name: "{{ docker_waterbutler_env }}_waterbutler_server"
-docker_waterbutler_server_image: "{{ docker_waterbutler_image }}"
+docker_waterbutler_server_name: waterbutler_server
+docker_waterbutler_server_image: centerforopenscience/waterbutler:latest
+docker_waterbutler_server_command: invoke server
 docker_waterbutler_server_hostname: "{{ hostname_name }}"
 docker_waterbutler_server_instances: 2
-docker_waterbutler_server_conf_dir: "{{ docker_waterbutler_conf_dir }}"
-docker_waterbutler_server_conf_file: "{{ docker_waterbutler_conf_file }}"
-docker_waterbutler_server_source_conf_file: "{{ docker_waterbutler_source_conf_file }}"
-docker_waterbutler_server_ssl_cert_file: ""
-docker_waterbutler_server_ssl_key_file: ""
-docker_waterbutler_server_cert_src: ""
+docker_waterbutler_server_source_ssl_dir: ssl/
+docker_waterbutler_server_conf_dir: /opt/waterbutler_server/conf
+docker_waterbutler_server_ssl_dir: "{{ docker_waterbutler_server_conf_dir }}ssl/"
 docker_waterbutler_server_start_port: 7770
 docker_waterbutler_server_env:
-  ENV: "{{ docker_waterbutler_env }}"
+  ENV: "{{ docker_env | default('test') }}"
   SOURCE_BRANCH: "{{ docker_waterbutler_source_branch }}"
   SOURCE_REPO: "{{ docker_waterbutler_source_repo }}"
-docker_waterbutler_server_volumes_from:
-  - "{{ docker_waterbutler_storage_name }}"
-docker_waterbutler_server_volumes:
-  - "{{ docker_waterbutler_conf_file }}:/home/.cos/waterbutler-{{ docker_waterbutler_env }}.json"
-  - "{{ docker_waterbutler_conf_dir }}/ssl:/home/.cos/ssl"
-docker_waterbutler_server_links:
-  - "{{ docker_waterbutler_rabbitmq_name }}:rabbitmq"
+docker_waterbutler_server_net: bridge
+docker_waterbutler_server_links: []
 docker_waterbutler_server_expose:
   - 7777
-docker_waterbutler_server_ports:
-  - "{{ (docker_waterbutler_server_start_port | int) + (item | int) - 1 }}:7777"
+docker_waterbutler_server_ports: []
+docker_waterbutler_server_volumes:
+  - "{{ docker_waterbutler_server_ssl_dir }}:/home/.cos/ssl:ro"
+docker_waterbutler_server_volumes_from: []

@@ -1,2 +1,63 @@
-- include: server_uwsgi.yml
-  when: docker_osf_server_uwsgi
+- include: server.yml
+  when: docker_osf_server
+
+- include: apiserver.yml
+  when: docker_osf_apiserver
+
+- include: celery.yml
+  vars:
+    docker_osf_celery_instances: "{{ docker_osf_celery_beat_instances }}"
+    docker_osf_celery_name: "{{ docker_osf_celery_beat_name }}"
+    docker_osf_celery_image: "{{ docker_osf_celery_beat_image }}"
+    docker_osf_celery_source_branch: "{{ docker_osf_celery_beat_source_branch }}"
+    docker_osf_celery_source_repo: "{{ docker_osf_celery_beat_source_repo }}"
+    docker_osf_celery_command: "{{ docker_osf_celery_beat_command }}"
+    docker_osf_celery_data_dir: "{{ docker_osf_celery_beat_data_dir }}"
+    docker_osf_celery_env: "{{ docker_osf_celery_beat_env }}"
+    docker_osf_celery_net: "{{ docker_osf_celery_beat_net }}"
+    docker_osf_celery_hostname: "{{ docker_osf_celery_beat_hostname }}"
+    docker_osf_celery_expose: "{{ docker_osf_celery_beat_expose }}"
+    docker_osf_celery_ports: "{{ docker_osf_celery_beat_ports }}"
+    docker_osf_celery_links: "{{ docker_osf_celery_beat_links }}"
+    docker_osf_celery_volumes: "{{ docker_osf_celery_beat_volumes }}"
+    docker_osf_celery_volumes_from: "{{ docker_osf_celery_beat_volumes_from }}"
+  when: docker_osf_celery_beat
+
+- include: celery.yml
+  vars:
+    docker_osf_celery_instances: "{{ docker_osf_celery_worker_instances }}"
+    docker_osf_celery_name: "{{ docker_osf_celery_worker_name }}"
+    docker_osf_celery_image: "{{ docker_osf_celery_worker_image }}"
+    docker_osf_celery_source_branch: "{{ docker_osf_celery_worker_source_branch }}"
+    docker_osf_celery_source_repo: "{{ docker_osf_celery_worker_source_repo }}"
+    docker_osf_celery_command: "{{ docker_osf_celery_worker_command }}"
+    docker_osf_celery_env: "{{ docker_osf_celery_worker_env }}"
+    docker_osf_celery_net: "{{ docker_osf_celery_worker_net }}"
+    docker_osf_celery_hostname: "{{ docker_osf_celery_worker_hostname }}"
+    docker_osf_celery_expose: "{{ docker_osf_celery_worker_expose }}"
+    docker_osf_celery_ports: "{{ docker_osf_celery_worker_ports }}"
+    docker_osf_celery_links: "{{ docker_osf_celery_worker_links }}"
+    docker_osf_celery_volumes: "{{ docker_osf_celery_worker_volumes }}"
+    docker_osf_celery_volumes_from: "{{ docker_osf_celery_worker_volumes_from }}"
+  when: docker_osf_celery_worker
+
+- include: celery.yml
+  vars:
+    docker_osf_celery_instances: "{{ docker_osf_cron_instances }}"
+    docker_osf_celery_name: "{{ docker_osf_cron_name }}"
+    docker_osf_celery_image: "{{ docker_osf_cron_image }}"
+    docker_osf_celery_source_branch: "{{ docker_osf_cron_source_branch }}"
+    docker_osf_celery_source_repo: "{{ docker_osf_cron_source_repo }}"
+    docker_osf_celery_command: "{{ docker_osf_cron_command }}"
+    docker_osf_celery_env: "{{ docker_osf_cron_env }}"
+    docker_osf_celery_net: "{{ docker_osf_cron_net }}"
+    docker_osf_celery_hostname: "{{ docker_osf_cron_hostname }}"
+    docker_osf_celery_expose: "{{ docker_osf_cron_expose }}"
+    docker_osf_celery_ports: "{{ docker_osf_cron_ports }}"
+    docker_osf_celery_links: "{{ docker_osf_cron_links }}"
+    docker_osf_celery_volumes: "{{ docker_osf_cron_volumes }}"
+    docker_osf_celery_volumes_from: "{{ docker_osf_cron_volumes_from }}"
+  when: docker_osf_cron
+
+- include: sharejs.yml
+  when: docker_osf_sharejs

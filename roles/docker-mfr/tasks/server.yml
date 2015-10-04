@@ -64,6 +64,7 @@
     image: "{{ docker_mfr_server_image }}"
     links: "{{ docker_mfr_server_links }}"
     name: "{{ docker_mfr_server_name }}_{{ item }}"
+    net: "{{ docker_mfr_server_net }}"
     ports: "{{ docker_mfr_server_ports }}"
     pull: always
     restart_policy: always

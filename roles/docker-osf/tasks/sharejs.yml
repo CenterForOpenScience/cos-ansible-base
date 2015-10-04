@@ -1,0 +1,27 @@
+- name: Restart docker osf sharejs container
+  sudo: yes
+  shell: "docker restart {{ docker_osf_sharejs_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker osf sharejs container
+  docker:
+    command: "{{ docker_osf_sharejs_command }}"
+    env: "{{ docker_osf_sharejs_env }}"
+    expose: "{{ docker_osf_sharejs_expose }}"
+    hostname: "{{ docker_osf_sharejs_hostname }}"
+    image: "{{ docker_osf_sharejs_image }}"
+    links: "{{ docker_osf_sharejs_links }}"
+    name: "{{ docker_osf_sharejs_name }}"
+    net: "{{ docker_osf_sharejs_net }}"
+    ports: "{{ docker_osf_sharejs_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_osf_sharejs_volumes }}"
+    volumes_from: "{{ docker_osf_sharejs_volumes_from }}"
+  tags:
+    - install
+    - upgrade

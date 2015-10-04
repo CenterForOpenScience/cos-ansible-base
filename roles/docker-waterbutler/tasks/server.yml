@@ -5,41 +5,17 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_waterbutler_server_conf_dir }}"
-    - "{{ docker_waterbutler_server_conf_dir }}/ssl"
+    - "{{ docker_waterbutler_server_ssl_dir }}"
   tags:
     - install
     - upgrade
 
 
-- name: Copy docker waterbutler server configuration settings
+- name: Copy docker waterbutler server ssl configuration settings
   copy:
-    src: "{{ docker_waterbutler_server_source_conf_file }}"
-    dest: "{{ docker_waterbutler_server_conf_file }}"
-    mode: 0660
-  tags:
-    - install
-    - settings
-    - upgrade
-
-
-- name: Copy docker waterbutler server ssl certificate file
-  copy:
+    src: "{{ docker_waterbutler_server_source_ssl_dir }}"
+    dest: "{{ docker_waterbutler_server_ssl_dir }}"
     mode: 0640
-    src: "{{ docker_waterbutler_server_ssl_cert_file }}"
-    dest: "{{ docker_waterbutler_server_conf_dir }}/ssl/default.crt"
-  when: docker_waterbutler_server_ssl_cert_file | default("") != ""
-  tags:
-    - install
-    - settings
-    - upgrade
-
-
-- name: Copy docker waterbutler server ssl key file
-  copy:
-    mode: 0640
-    src: "{{ docker_waterbutler_server_ssl_key_file }}"
-    dest: "{{ docker_waterbutler_server_conf_dir }}/ssl/default.key"
-  when: docker_waterbutler_server_ssl_key_file | default("") != ""
   tags:
     - install
     - settings
@@ -57,14 +33,14 @@
 
 - name: Run docker waterbutler server container
   docker:
-    command: invoke server
+    command: "{{ docker_waterbutler_server_command }}"
     env: "{{ docker_waterbutler_server_env }}"
     expose: "{{ docker_waterbutler_server_expose }}"
     hostname: "{{ docker_waterbutler_server_hostname }}"
     image: "{{ docker_waterbutler_server_image }}"
     links: "{{ docker_waterbutler_server_links }}"
-    #log_driver: fluentd
     name: "{{ docker_waterbutler_server_name }}_{{ item }}"
+    net: "{{ docker_waterbutler_server_net }}"
     ports: "{{ docker_waterbutler_server_ports }}"
     pull: always
     restart_policy: always

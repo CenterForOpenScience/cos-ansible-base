@@ -2,5 +2,114 @@
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_storage_name: "{{ docker_env }}_osf_storage_1"
+    docker_storage_dir: "/opt/{{ docker_env }}_osf_storage/"
+    docker_storage_conf_dir: "{{ docker_storage_dir }}conf/"
+    docker_storage_copy_ops:
+      - src: roles/docker-osf/files/conf/
+        dest: "{{ docker_storage_conf_dir }}"
+    docker_storage_file_ops:
+      - state: directory
+        path: "{{ docker_storage_dir }}code"
+        mode: 644
+        owner: www-data
+        group: www-data
+    docker_storage_volumes:
+      - "{{ docker_storage_conf_dir }}code/:/code:rw"
+      - "{{ docker_storage_conf_dir }}api/local.py:/code/api/base/settings/local.py:ro"
+      - "{{ docker_storage_conf_dir }}website/local.py:/code/website/settings/local.py:ro"
+
+    docker_elasticsearch_name: "{{ docker_env }}_osf_elasticsearch_1"
+    docker_elasticsearch_conf_dir: "/opt/{{ docker_env }}_osf_elasticsearch/conf"
+    docker_elasticsearch_data_dir: "/opt/{{ docker_env }}_osf_elasticsearch/data"
+
+    docker_tokumx_name: "{{ docker_env }}_osf_tokumx_1"
+    docker_tokumx_conf_dir: "/opt/{{ docker_env }}_osf_tokumx/conf"
+    docker_tokumx_data_dir: "/opt/{{ docker_env }}_osf_tokumx/data"
+
+    docker_rabbitmq_name: "{{ docker_env }}_osf_rabbitmq_1"
+    docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_osf_rabbitmq/data"
+
+    docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
+    docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf"
+    docker_osf_apiserver_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_apiserver_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_osf_server_name: "{{ docker_env }}_osf_server_1"
+    docker_osf_server_conf_dir: "/opt/{{ docker_env }}_osf_server/conf"
+    docker_osf_server_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_server_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_osf_celery_beat_name: "{{ docker_env }}_osf_celery_beat"
+    docker_osf_celery_beat_data_dir: "/opt/{{ docker_env }}_osf_celery_beat/data"
+    docker_osf_celery_beat_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_celery_beat_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_osf_celery_worker_name: "{{ docker_env }}_osf_celery_worker"
+    docker_osf_celery_worker_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_celery_worker_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_osf_cron_name: "{{ docker_env }}_osf_cron"
+    docker_osf_cron_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_cron_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_osf_sharejs_name: "{{ docker_env }}_osf_sharejs_1"
+    docker_osf_sharejs_command: "invoke sharejs"
+    docker_osf_sharejs_conf_db_host: tokumx
+    docker_osf_sharejs_conf_db_port: 27017
+    docker_osf_sharejs_conf_db_name: sharejs
+    docker_osf_sharejs_links:
+      - "{{ docker_tokumx_name }}:tokumx"
+    docker_osf_cron_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_nginx_name: "{{ docker_env }}_osf_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_osf_nginx/conf"
+    docker_nginx_expose:
+      - 80
+      - 443
+    docker_nginx_links:
+      - "{{ docker_osf_apiserver_name }}:apiserver"
+      - "{{ docker_osf_server_name }}:server"
+      - "{{ docker_osf_sharejs_name }}:sharejs"
+    docker_nginx_volumes_from:
+      - "{{ docker_storage_name }}"
   roles:
+    - role: docker-storage
+      when: docker_storage
+
+    - role: docker-elasticsearch
+      when: docker_elasticsearch
+
+    - role: docker-tokumx
+      when: docker_tokumx
+
+    - role: docker-rabbitmq
+      when: docker_rabbitmq
+
     - role: docker-osf
+
+    - role: docker-nginx
+      when: docker_nginx

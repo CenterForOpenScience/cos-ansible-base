@@ -1,143 +1,122 @@
 # variables
+docker_osf_source_branch: master
+docker_osf_source_repo: https://github.com/CenterForOpenScience/osf.io.git
 
-docker_osf_env: test
-docker_osf_source_website_conf_dir: roles/docker-osf/files/website/
-
-
-# shared storage
-
-docker_osf_storage: no
-docker_osf_storage_name: "{{ docker_osf_env }}_osf_storage_1"
-docker_osf_storage_volumes:
-  - /tmp
-  - /code
-
-
-# support servers
-
-docker_osf_elasticsearch: no
-docker_osf_elasticsearch_name: "{{ docker_osf_env }}_osf_elasticsearch_1"
-docker_osf_elasticsearch_source_conf_dir: roles/docker-elasticsearch/files/conf/
-docker_osf_elasticsearch_conf_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch/conf"
-docker_osf_elasticsearch_data_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch/data"
-docker_osf_elasticsearch_env:
-  ES_HEAP_SIZE: "{{ (ansible_memtotal_mb / 2) | int }}m"
-docker_osf_elasticsearch_net: bridge
-docker_osf_elasticsearch_hostname: "{{ hostname_name }}"
-docker_osf_elasticsearch_expose:
-  - 9200
-  - 9300
-docker_osf_elasticsearch_ports: []
-
-docker_osf_elasticsearch_nginx: no
-docker_osf_elasticsearch_nginx_name: "{{ docker_osf_env }}_osf_elasticsearch_nginx_1"
-docker_osf_elasticsearch_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change, and environment variables in nginx.conf
-docker_osf_elasticsearch_nginx_source_conf_file: elasticsearch/nginx.conf
-docker_osf_elasticsearch_nginx_source_htpasswd_file: elasticsearch/.htpasswd
-docker_osf_elasticsearch_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
-docker_osf_elasticsearch_nginx_conf_dir: "/opt/{{ docker_osf_env }}_osf_elasticsearch_nginx/conf"
-docker_osf_elasticsearch_nginx_env: {}
-docker_osf_elasticsearch_nginx_net: bridge
-docker_osf_elasticsearch_nginx_hostname: "{{ hostname_name }}"
-docker_osf_elasticsearch_nginx_links:
-  - "{{ docker_osf_elasticsearch_name }}:elasticsearch"
-docker_osf_elasticsearch_nginx_expose:
-  - 9243
-  - 9343
-docker_osf_elasticsearch_nginx_ports: []
-
-docker_osf_tokumx: no
-docker_osf_tokumx_name: "{{ docker_osf_env }}_osf_tokumx_1"
-docker_osf_tokumx_source_conf_file: roles/docker-tokumx/files/tokeumx.conf
-docker_osf_tokumx_source_key_file: roles/docker-tokumx/files/tokumx-keyfile
-docker_osf_tokumx_conf_dir: "/opt/{{ docker_osf_env }}_osf_tokumx/conf"
-docker_osf_tokumx_data_dir: "/opt/{{ docker_osf_env }}_osf_tokumx/data"
-docker_osf_tokumx_env: {}
-docker_osf_tokumx_net: bridge
-docker_osf_tokumx_hostname: "{{ hostname_name }}"
-docker_osf_tokumx_expose:
-  - 27017
-  - 28017
-docker_osf_tokumx_ports: []
-
-docker_osf_rabbitmq: no
-docker_osf_rabbitmq_name: "{{ docker_osf_env }}_osf_rabbitmq_1"
-docker_osf_rabbitmq_data_dir: "/opt/{{ docker_osf_env }}_osf_rabbitmq/data"
-
-
-# servers
-
-docker_osf_celery: no
-docker_osf_celery_name: "{{ docker_osf_env }}_osf_celery"
-docker_osf_celery_image: "{{ docker_osf_image }}"
-docker_osf_celery_hostname: "{{ hostname_name }}"
-docker_osf_celery_instances: 1
-docker_osf_celery_conf_dir: "{{ docker_osf_conf_dir }}"
-docker_osf_celery_conf_file: "{{ docker_osf_conf_file }}"
-docker_osf_celery_source_conf_file: "{{ docker_osf_source_conf_file }}"
-docker_osf_celery_env:
-  ENV: "{{ docker_osf_env }}"
+# apiserver
+docker_osf_apiserver: no
+docker_osf_apiserver_name: osf_apiserver_1
+docker_osf_apiserver_image: centerforopenscience/osf:api
+docker_osf_apiserver_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+docker_osf_apiserver_source_conf_file: apiserver.ini
+docker_osf_apiserver_conf_dir: /opt/osf_apiserver/conf
+docker_osf_apiserver_conf_file: "{{ docker_osf_apiserver_conf_dir }}/uwsgi.ini"
+docker_osf_apiserver_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
-docker_osf_celery_expose: []
-docker_osf_celery_ports: []
-docker_osf_celery_links:
-  - "{{ docker_osf_rabbitmq_name }}:rabbitmq"
-docker_osf_celery_volumes_from:
-  - "{{ docker_osf_storage_name }}"
-docker_osf_celery_volumes: []
-  # - "{{ docker_osf_conf_file }}:/home/.cos/osf-{{ docker_osf_env }}.json"
+docker_osf_apiserver_net: bridge
+docker_osf_apiserver_hostname: "{{ hostname_name }}"
+docker_osf_apiserver_expose:
+  - 8000
+docker_osf_apiserver_ports: []
+docker_osf_apiserver_links: []
+docker_osf_apiserver_volumes:
+  - "{{ docker_osf_apiserver_conf_file }}:/etc/uwsgi/uwsgi.ini"
+docker_osf_apiserver_volumes_from: []
 
+# server
 docker_osf_server: no
-docker_osf_server_links:
-  - "{{ docker_osf_elasticsearch_nginx_name }}:elasticsearch"
-docker_osf_server_volumes_from:
-  - "{{ docker_osf_storage }}"
+docker_osf_server_name: osf_server_1
+docker_osf_server_image: centerforopenscience/osf:web
+docker_osf_server_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+docker_osf_server_source_conf_file: server.ini
+docker_osf_server_conf_dir: /opt/osf_server/conf
+docker_osf_server_conf_file: "{{ docker_osf_server_conf_dir }}/uwsgi.ini"
+docker_osf_server_env:
+  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_source_repo }}"
+docker_osf_server_net: bridge
+docker_osf_server_hostname: "{{ hostname_name }}"
+docker_osf_server_expose:
+  - 5000
+docker_osf_server_ports: []
+docker_osf_server_links: []
+docker_osf_server_volumes:
+  - "{{ docker_osf_server_conf_file }}:/etc/uwsgi/uwsgi.ini"
+docker_osf_server_volumes_from: []
 
-docker_osf_server_nginx: no
-docker_osf_server_nginx_name: "{{ docker_osf_env }}_osf_server_nginx_1"
-docker_osf_server_nginx_image: nginx:1
-docker_osf_server_nginx_source_conf_file: server/nginx.conf
-docker_osf_server_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
-docker_osf_server_nginx_conf_dir: "/opt/{{ docker_osf_env }}_osf_server_nginx/conf"
-docker_osf_server_nginx_conf_file: "{{ docker_osf_server_nginx_conf_dir }}/nginx.conf"
-docker_osf_server_nginx_ssl_dir: "{{ docker_osf_server_nginx_conf_dir }}/ssl"
-docker_osf_server_nginx_env: {}
-docker_osf_server_nginx_net: bridge
-docker_osf_server_nginx_hostname: "{{ hostname_name }}"
-docker_osf_server_nginx_expose:
-  - 80
-  - 81
-  - 443
-docker_osf_server_nginx_ports: []
-docker_osf_server_nginx_links: []
-docker_osf_server_nginx_volumes:
-  - "{{ docker_osf_server_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
-  - "{{ docker_osf_server_nginx_ssl_dir }}:/etc/ssl/private:ro"
-docker_osf_server_nginx_volumes_from:
-  - "{{ docker_osf_storage_name }}"
+# celery beat
+docker_osf_celery_beat: no
+docker_osf_celery_beat_instances: 1
+docker_osf_celery_beat_name: osf_celery_beat
+docker_osf_celery_beat_image: centerforopenscience/osf:celery
+docker_osf_celery_beat_command: "gosu www-data invoke celery_beat --schedule=/celery/celerybeat-schedule"
+docker_osf_celery_beat_data_dir: /opt/osf_celery_beat/data/
+docker_osf_celery_beat_env:
+  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_source_repo }}"
+docker_osf_celery_beat_net: bridge
+docker_osf_celery_beat_hostname: "{{ hostname_name }}"
+docker_osf_celery_beat_expose: []
+docker_osf_celery_beat_ports: []
+docker_osf_celery_beat_links: []
+docker_osf_celery_beat_volumes:
+  - "{{ docker_osf_celery_beat_data_dir }}:/celery"
+docker_osf_celery_beat_volumes_from: []
 
-docker_osf_server_uwsgi: no
-docker_osf_server_uwsgi_name: "{{ docker_osf_env }}_osf_server_uwsgi_1"
-docker_osf_server_uwsgi_image: centerforopenscience/osf:latest
-docker_osf_server_uwsgi_source_branch: master
-docker_osf_server_uwsgi_source_repo: https://github.com/CenterForOpenScience/osf.io.git
-docker_osf_server_uwsgi_source_conf_file: uwsgi.ini
-docker_osf_server_uwsgi_source_website_conf_dir: "{{ docker_osf_source_website_conf_dir }}"
-docker_osf_server_uwsgi_conf_dir: "/opt/{{ docker_osf_env }}_osf_server_uwsgi/conf"
-docker_osf_server_uwsgi_website_conf_dir: "{{ docker_osf_server_uwsgi_conf_dir }}/website/"
-docker_osf_server_uwsgi_conf_file: "{{ docker_osf_server_uwsgi_conf_dir }}/uwsgi.ini"
-docker_osf_server_uwsgi_env:
-  SOURCE_BRANCH: "{{ docker_osf_server_uwsgi_source_branch }}"
-  SOURCE_REPO: "{{ docker_osf_server_uwsgi_source_repo }}"
-docker_osf_server_uwsgi_net: bridge
-docker_osf_server_uwsgi_hostname: "{{ hostname_name }}"
-docker_osf_server_uwsgi_expose: []
-docker_osf_server_uwsgi_ports: []
-docker_osf_server_uwsgi_links:
-  - "{{ docker_osf_tokumx_name }}:tokumx"
-docker_osf_server_uwsgi_volumes:
-  - "{{ docker_osf_server_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_osf_server_uwsgi_source_website_conf_dir }}settings/local.py:/code/website/settings/local.py"
-docker_osf_server_uwsgi_volumes_from:
-  - "{{ docker_osf_storage_name }}"
+# celery worker
+docker_osf_celery_worker: no
+docker_osf_celery_worker_instances: 2
+docker_osf_celery_worker_name: osf_celery_worker
+docker_osf_celery_worker_image: centerforopenscience/osf:celery
+docker_osf_celery_worker_command: "gosu www-data invoke celery_worker --hostname=worker{{ item }}.%h"
+docker_osf_celery_worker_env:
+  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_source_repo }}"
+docker_osf_celery_worker_net: bridge
+docker_osf_celery_worker_hostname: "{{ hostname_name }}"
+docker_osf_celery_worker_expose: []
+docker_osf_celery_worker_ports: []
+docker_osf_celery_worker_links: []
+docker_osf_celery_worker_volumes: []
+docker_osf_celery_worker_volumes_from: []
+
+# cron
+docker_osf_cron: no
+docker_osf_cron_instances: 1
+docker_osf_cron_name: osf_cron
+docker_osf_cron_image: centerforopenscience/osf:celery
+docker_osf_cron_command: /bin/bash -c "gosu www-data python -m scripts.cron; /usr/sbin/cron -f"
+docker_osf_cron_env:
+  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_source_repo }}"
+docker_osf_cron_net: bridge
+docker_osf_cron_hostname: "{{ hostname_name }}"
+docker_osf_cron_expose: []
+docker_osf_cron_ports: []
+docker_osf_cron_links: []
+docker_osf_cron_volumes: []
+docker_osf_cron_volumes_from: []
+
+# sharejs
+docker_osf_sharejs: no
+docker_osf_sharejs_name: osf_sharejs_1
+docker_osf_sharejs_image: centerforopenscience/osf:sharejs
+docker_osf_sharejs_command: "invoke sharejs"
+docker_osf_sharejs_env:
+  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_source_repo }}"
+  SHAREJS_SERVER_HOST: "{{ docker_osf_sharejs_conf_server_host | default('0.0.0.0') }}"
+  SHAREJS_SERVER_PORT: "{{ docker_osf_sharejs_conf_server_port | default('7007') }}"
+  SHAREJS_CORS_ALLOW_ORIGIN: "{{ docker_osf_sharejs_conf_cors_allow_origin | default('https://test.osf.io') }}"
+  SHAREJS_DB_HOST: "{{ docker_osf_sharejs_conf_db_host | default('localhost') }}"
+  SHAREJS_DB_PORT: "{{ docker_osf_sharejs_conf_db_port | default('27017') }}"
+  SHAREJS_DB_NAME: "{{ docker_osf_sharejs_conf_db_name | default('sharejs') }}"
+  SHAREJS_SENTRY_DSN: "{{ docker_osf_sharejs_conf_sentry_dsn | default() }}"
+docker_osf_sharejs_net: bridge
+docker_osf_sharejs_hostname: "{{ hostname_name }}"
+docker_osf_sharejs_expose:
+  - 7007
+docker_osf_sharejs_ports: []
+docker_osf_sharejs_links: []
+docker_osf_sharejs_volumes: []
+docker_osf_sharejs_volumes_from: []

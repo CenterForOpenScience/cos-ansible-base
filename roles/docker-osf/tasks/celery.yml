@@ -1,0 +1,54 @@
+- name: Celery Deployment
+  debug:
+    msg: "docker_osf_celery_name: {{ docker_osf_celery_name }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Ensure docker osf celery directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: www-data
+    group: www-data
+  with_items:
+    - "{{ docker_osf_celery_data_dir | default(omit) }}"
+  when: docker_osf_celery_data_dir | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker osf celery container
+  sudo: yes
+  shell: "docker restart {{ docker_osf_celery_name }}_{{ item }}"
+  with_sequence: count={{ docker_osf_celery_instances }}
+  when: docker_osf_celery_instances > 0
+  tags:
+    - restart
+
+
+- name: Run docker osf celery container
+  docker:
+    command: "{{ docker_osf_celery_command }}"
+    env: "{{ docker_osf_celery_env }}"
+    expose: "{{ docker_osf_celery_expose }}"
+    hostname: "{{ docker_osf_celery_hostname }}"
+    image: "{{ docker_osf_celery_image }}"
+    links: "{{ docker_osf_celery_links }}"
+    name: "{{ docker_osf_celery_name }}_{{ item }}"
+    net: "{{ docker_osf_celery_net }}"
+    ports: "{{ docker_osf_celery_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_osf_celery_volumes }}"
+    volumes_from: "{{ docker_osf_celery_volumes_from }}"
+  with_sequence: count={{ docker_osf_celery_instances }}
+  when: docker_osf_celery_instances > 0
+  tags:
+    - install
+    - upgrade
