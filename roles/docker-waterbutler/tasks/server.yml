@@ -15,7 +15,9 @@
   copy:
     src: "{{ docker_waterbutler_server_source_ssl_dir }}"
     dest: "{{ docker_waterbutler_server_ssl_dir }}"
-    mode: 0640
+    mode: 0600
+    owner: www-data
+    group: www-data
   tags:
     - install
     - settings
