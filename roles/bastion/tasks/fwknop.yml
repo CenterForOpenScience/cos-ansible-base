@@ -1,0 +1,48 @@
+- name: Install fwknop server (v2.6.7)
+    sudo: yes
+    apt:
+      name: fwknop-server=2.6.7
+    tags:
+      - install
+
+- name: copy fwknopd.conf
+    template: src=fwknopd.conf.j2 dest=/etc/fwknop/fwknopd.conf
+    sudo: yes
+
+- name: copy access.conf
+    template: src=access.conf.j2 dest=/etc/fwknop/access.conf
+    sudo: yes
+
+- name: copy upstart config
+    template: src=upstart.conf.j2 dest=/etc/init/fwknopd.conf
+    sudo: yes
+
+#- name: Generate system gpg key
+#    gpgkey_gen: >
+#        length=2048
+#        expiry=0
+#        name='{{name}}'
+#        comment={{inventory_hostname}}
+#        email=admin@{{inventory_hostname}}.{{domain}}
+#        replaceOld=yes
+#    register: new_key
+#-   name: Stash passphrase
+#      template: >
+#        src=gpg.j2
+#        dest=/etc/logpull.key
+#        mode=0600
+#-   name: Trust admin key
+#      gpgkey_sign: '{{gpg_key_id}} {{new_key.passphrase}}'
+#
+
+#- name: copy ip tables drop rules
+#  template: src=iptables_default_log.sh.j2 dest=/home/ubuntu/iptables_default_log.sh
+#  sudo: yes
+
+- name: fwknop restart
+    service: name=fwknopd state=restarted
+    sudo: yes
+
+#- name: Execute the ip tables drop rules script
+#  command: sh /home/ubuntu/iptables_default_log.sh
+#  sudo: yes

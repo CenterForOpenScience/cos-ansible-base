@@ -165,11 +165,11 @@ HMAC_KEY_BASE64     {{ hmac_key_base64 }}
 
 # If you want to use GnuPG keys then define the following variables
 #
-#GPG_HOME_DIR           /homedir/path/.gnupg
-#GPG_DECRYPT_ID         ABCD1234
-#GPG_DECRYPT_PW         __CHANGEME__
+#GPG_HOME_DIR           {{ gnupg_dir }}
+#GPG_DECRYPT_ID         {{ new_key_keyid }}
+#GPG_DECRYPT_PW         {{ new_key_passphrase }}
 
 # If you want to require GPG signatures:
 #GPG_REQUIRE_SIG                    Y
 #GPG_IGNORE_SIG_VERIFY_ERROR        N
-#GPG_REMOTE_ID                      1234ABCD
+#GPG_REMOTE_ID                      {{ gpg_key_id }}

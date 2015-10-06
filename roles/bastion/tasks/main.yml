@@ -4,34 +4,6 @@
   tags:
     - install
 
-- name: Install fwknop server (v2.6.7)
-  sudo: yes
-  apt:
-    state: latest
-    pkg: "fwknop-server"
-  tags:
-    - install
+#- include: fwknop.yml
 
-- name: copy fwknopd.conf
-  template: src=fwknopd.conf.j2 dest=/etc/fwknop/fwknopd.conf
-  sudo: yes
-
-- name: copy access.conf
-  template: src=access.conf.j2 dest=/etc/fwknop/access.conf
-  sudo: yes
-
-- name: copy upstart config
-  template: src=upstart.conf.j2 dest=/etc/init/fwknopd.conf
-  sudo: yes
-
-- name: copy ip tables drop rules
-  template: src=iptables_default_log.sh.j2 dest=/home/ubuntu/iptables_default_log.sh
-  sudo: yes
-
-- name: fwknop restart
-  service: name=fwknopd state=restarted
-  sudo: yes
-
-- name: Execute the ip tables drop rules script
-  command: sh /home/ubuntu/iptables_default_log.sh
-  sudo: yes
+- include: openvpn.yml
