@@ -85,7 +85,7 @@ docker_osf_cron: no
 docker_osf_cron_instances: 1
 docker_osf_cron_name: osf_cron
 docker_osf_cron_image: centerforopenscience/osf:celery
-docker_osf_cron_command: /bin/bash -c "gosu www-data python -m scripts.cron; /usr/sbin/cron -f"
+docker_osf_cron_command: /bin/bash -c "gosu www-data python -m scripts.cron; touch /var/log/cron.log && rsyslogd && cron && tail -f /var/log/syslog /var/log/cron.log"
 docker_osf_cron_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
