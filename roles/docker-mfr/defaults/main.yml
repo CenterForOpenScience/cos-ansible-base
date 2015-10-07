@@ -1,52 +1,31 @@
-# varaibles
-
-docker_mfr_env: test
-
-
-# shared storage
-
-docker_mfr_storage: no
-docker_mfr_storage_name: "{{ docker_mfr_env }}_mfr_storage_1"
-docker_mfr_storage_volumes:
-  - /tmp
-
-
-# support servers
-
-docker_mfr_unoconv: no
-docker_mfr_unoconv_name: "{{ docker_mfr_env }}_mfr_unoconv_1"
-docker_mfr_unoconv_volumes: []
-docker_mfr_unoconv_volumes_from:
-  - "{{ docker_mfr_storage_name }}"
+# variables
+docker_mfr_source_branch: master
+docker_mfr_source_repo: https://github.com/CenterForOpenScience/modular-file-renderer.git
 
 
 # servers
 
 docker_mfr_server: no
-docker_mfr_server_name: "{{ docker_mfr_env }}_mfr_server"
+docker_mfr_server_name: mfr_server
 docker_mfr_server_image: centerforopenscience/mfr:latest
-docker_mfr_server_source_branch: master
-docker_mfr_server_source_repo: https://github.com/CenterForOpenScience/modular-file-renderer.git
 docker_mfr_server_source_conf_file: settings.json
-docker_mfr_server_conf_dir: "/opt/{{ docker_mfr_env }}_mfr_server/conf"
+docker_mfr_server_conf_dir: "/opt/mfr_server/conf"
 docker_mfr_server_conf_file: "{{ docker_mfr_server_conf_dir }}/settings.json"
 docker_mfr_server_ssl_cert_file: ""
 docker_mfr_server_ssl_key_file: ""
 docker_mfr_server_cert_src: ""
 docker_mfr_server_instances: 2
-docker_mfr_server_start_port: 7770
+docker_mfr_server_start_port: 7780
 docker_mfr_server_env:
-  ENV: "{{ docker_mfr_env }}"
-  SOURCE_BRANCH: "{{ docker_mfr_server_source_branch }}"
-  SOURCE_REPO: "{{ docker_mfr_server_source_repo }}"
-docker_mfr_server_volumes:
-  - "{{ docker_mfr_server_conf_file }}:/home/.cos/mfr-{{ docker_mfr_env }}.json"
-  - "{{ docker_mfr_server_conf_dir }}/ssl:/home/.cos/ssl"
-docker_mfr_server_volumes_from:
-  - "{{ docker_mfr_storage_name }}"
-docker_mfr_server_links:
-  - "{{ docker_mfr_unoconv_name }}:unoconv"
+  ENV: "{{ docker_env | default('test') }}"
+  SOURCE_BRANCH: "{{ docker_mfr_source_branch }}"
+  SOURCE_REPO: "{{ docker_mfr_source_repo }}"
+docker_mfr_server_net: bridge
+docker_mfr_server_links: []
 docker_mfr_server_expose:
   - 7778
-docker_mfr_server_ports:
-  - "{{ (docker_mfr_server_start_port | int) + (item | int) - 1 }}:7778"
+docker_mfr_server_ports: []
+docker_mfr_server_volumes:
+  - "{{ docker_mfr_server_conf_file }}:/home/.cos/mfr-{{ docker_env | default('test') }}.json"
+  - "{{ docker_mfr_server_conf_dir }}/ssl:/home/.cos/ssl"
+docker_mfr_server_volumes_from: []

@@ -5,8 +5,8 @@ docker_scrapi_env: test
 
 # variables
 
-docker_scrapi_source_branch: develop
-docker_scrapi_source_repo: https://github.com/fabianvf/scrapi.git
+docker_scrapi_source_branch: master
+docker_scrapi_source_repo: https://github.com/CenterForOpenScience/scrapi.git
 docker_scrapi_source_conf_file: local.py
 docker_scrapi_conf_dir: "/opt/{{ docker_scrapi_env }}_scrapi/conf"
 docker_scrapi_conf_file: "{{ docker_scrapi_conf_dir }}/local.py"

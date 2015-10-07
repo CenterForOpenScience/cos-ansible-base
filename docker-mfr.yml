@@ -2,5 +2,38 @@
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_storage_name: "{{ docker_env }}_mfr_storage_1"
+    docker_storage_dir: "/opt/{{ docker_env }}_mfr_storage/"
+    docker_storage_file_ops:
+      - state: directory
+        path: "{{ docker_storage_dir }}"
+        recurse: false
+      - state: directory
+        path: "{{ docker_storage_dir }}localcache"
+        recurse: false
+        owner: www-data
+        group: www-data
+    docker_storage_volumes:
+      - "{{ docker_storage_dir }}localcache:/tmp/mfrlocalcache:rw" # shared between server & unoconv to transfer exported files
+
+    docker_unoconv_name: "{{ docker_env }}_mfr_unoconv_1"
+    docker_unoconv_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_mfr_server_name: "{{ docker_env }}_mfr_server"
+    docker_mfr_server_conf_dir: "/opt/{{ docker_env }}_mfr_server/conf"
+    docker_mfr_server_links:
+      - "{{ docker_unoconv_name }}:unoconv"
+    docker_mfr_server_ports:
+      - "{{ (docker_mfr_server_start_port | int) + (item | int) - 1 }}:7778"
+    docker_mfr_server_volumes_from:
+      - "{{ docker_storage_name }}"
   roles:
+    - role: docker-storage
+      when: docker_storage
+
+    - role: docker-unoconv
+      when: docker_unoconv
+
     - role: docker-mfr

@@ -45,14 +45,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "osf-vagrant" do |osf|
+  config.vm.define "osf-01" do |osf|
     ip_end = "225"
     osf.vm.box = BOX_IMAGE
     osf.vm.box_version = BOX_VERSION
     osf.vm.network :private_network, ip: BOX_IP_ZONE + "." + ip_end
 
     osf.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--memory", "3096"]
     end
   end
 
