@@ -1,9 +1,10 @@
-- name: Celery Deployment
-  debug:
+- debug:
     msg: "docker_osf_celery_name: {{ docker_osf_celery_name }}"
   tags:
     - install
     - upgrade
+    - restart
+    - restart_osf
 
 
 - name: Ensure docker osf celery directories exist
@@ -28,6 +29,7 @@
   when: docker_osf_celery_instances > 0
   tags:
     - restart
+    - restart_osf
 
 
 - name: Run docker osf celery container

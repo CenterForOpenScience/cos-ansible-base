@@ -10,7 +10,7 @@
   tags:
     - install
     - upgrade
-
+    - settings
 
 - name: Perform storage file operations
   sudo: yes
@@ -25,6 +25,7 @@
   tags:
     - install
     - upgrade
+    - settings
 
 
 - name: Run docker storage container
@@ -35,3 +36,4 @@
   tags:
     - install
     - upgrade
+    - settings

@@ -22,7 +22,7 @@
 
 
 - name: Uninstall previous docker
-  shell: dpkg --remove docker-engine && apt-get purge -y lxc-docker* docker.io*
+  shell: dpkg --remove docker-engine || apt-get purge -y lxc-docker* || apt-get purge -y docker.io*
   ignore_errors: yes
   tags:
     - v1.5

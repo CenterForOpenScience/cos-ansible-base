@@ -3,6 +3,7 @@
   shell: "docker restart {{ docker_osf_sharejs_name }}"
   tags:
     - restart
+    - restart_osf
 
 
 - name: Run docker osf sharejs container

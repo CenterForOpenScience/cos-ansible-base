@@ -26,6 +26,7 @@
   shell: "docker restart {{ docker_osf_server_name }}"
   tags:
     - restart
+    - restart_osf
 
 
 - name: Run docker osf server container

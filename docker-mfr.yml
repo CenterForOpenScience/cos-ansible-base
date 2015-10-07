@@ -5,8 +5,17 @@
   vars:
     docker_storage_name: "{{ docker_env }}_mfr_storage_1"
     docker_storage_dir: "/opt/{{ docker_env }}_mfr_storage/"
+    docker_storage_file_ops:
+      - state: directory
+        path: "{{ docker_storage_dir }}"
+        recurse: false
+      - state: directory
+        path: "{{ docker_storage_dir }}localcache"
+        recurse: false
+        owner: www-data
+        group: www-data
     docker_storage_volumes:
-      - /tmp
+      - "{{ docker_storage_dir }}localcache:/tmp/mfrlocalcache:rw" # shared between server & unoconv to transfer exported files
 
     docker_unoconv_name: "{{ docker_env }}_mfr_unoconv_1"
     docker_unoconv_volumes_from:

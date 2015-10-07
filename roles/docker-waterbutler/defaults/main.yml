@@ -1,12 +1,12 @@
 # variables
 docker_waterbutler_source_branch: develop
 docker_waterbutler_source_repo: https://github.com/CenterForOpenScience/waterbutler.git
-docker_waterbutler_osfstorage_pending_dir: "/opt/waterbutler_osfstorage/pending"
-docker_waterbutler_osfstorage_complete_dir: "/opt/waterbutler_osfstorage/complete"
+docker_waterbutler_osfstorage_pending_dir: "/opt/wb_osfstorage/pending"
+docker_waterbutler_osfstorage_complete_dir: "/opt/wb_osfstorage/complete"
 
 # celery
 docker_waterbutler_celery: no
-docker_waterbutler_celery_name: waterbutler_celery
+docker_waterbutler_celery_name: wb_celery
 docker_waterbutler_celery_image: centerforopenscience/waterbutler:latest
 docker_waterbutler_celery_command: "invoke celery --hostname=worker{{ item }}.%h"
 docker_waterbutler_celery_hostname: "{{ hostname_name }}"
@@ -25,13 +25,13 @@ docker_waterbutler_celery_volumes_from: []
 
 # server
 docker_waterbutler_server: no
-docker_waterbutler_server_name: waterbutler_server
+docker_waterbutler_server_name: wb_server
 docker_waterbutler_server_image: centerforopenscience/waterbutler:latest
 docker_waterbutler_server_command: invoke server
 docker_waterbutler_server_hostname: "{{ hostname_name }}"
 docker_waterbutler_server_instances: 2
 docker_waterbutler_server_source_ssl_dir: ssl/
-docker_waterbutler_server_conf_dir: /opt/waterbutler_server/conf
+docker_waterbutler_server_conf_dir: /opt/wb_server/conf
 docker_waterbutler_server_ssl_dir: "{{ docker_waterbutler_server_conf_dir }}ssl/"
 docker_waterbutler_server_start_port: 7770
 docker_waterbutler_server_env:

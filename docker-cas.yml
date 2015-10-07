@@ -2,5 +2,37 @@
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    # postgres
+    docker_postgres_repmgr: no
+    docker_postgres_repmgr_source_conf_file: roles/docker-cas/files/repmgr.conf
+    docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_cas_postgres/conf"
+    docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_cas_postgres/data"
+    docker_postgres_repmgr_name: "{{ docker_env }}_cas_postgres_1"
+    docker_postgres_repmgr_env:
+      POSTGRES_DB: cas_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    # server
+    docker_cas_server: no
+    docker_cas_server_conf_dir: /opt/{{ docker_env }}_cas_server/conf
+    docker_cas_server_name: "{{ docker_env }}_cas_server_1"
+    docker_cas_server_env:
+      SOURCE_BRANCH: "{{ docker_cas_source_branch }}"
+      SOURCE_REPO: "{{ docker_cas_source_repo }}"
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD:
+      OSF_DB_PORT_27017_TCP_ADDR: 127.0.0.1
+      OSF_DB_PORT_27017_TCP_PORT: 27017
+      OSF_DB_NAME: osf20130903
+    docker_cas_server_links:
+      - "{{ docker_postgres_repmgr_name }}:postgres"
+    docker_cas_server_ports:
+      - 8080
+      - 8443
   roles:
+    - role: docker-postgres-repmgr
+      when: docker_postgres_repmgr
+
     - role: docker-cas
