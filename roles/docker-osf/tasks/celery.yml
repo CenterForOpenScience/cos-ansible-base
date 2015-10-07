@@ -12,8 +12,6 @@
   file:
     state: directory
     path: "{{ item }}"
-    owner: www-data
-    group: www-data
   with_items:
     - "{{ docker_osf_celery_data_dir | default(omit) }}"
   when: docker_osf_celery_data_dir | default("") != ""

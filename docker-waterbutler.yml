@@ -4,8 +4,9 @@
     - fail: msg="One or more tags must be specified to run this playbook"
   vars:
     docker_waterbutler_source_conf_dir: roles/docker-waterbutler/files/conf/
-    docker_waterbutler_osfstorage_pending_dir: "/opt/{{ docker_env }}_wb_osfstorage/pending"
-    docker_waterbutler_osfstorage_complete_dir: "/opt/{{ docker_env }}_wb_osfstorage/complete"
+    docker_waterbutler_osfstorage_dir: "/opt/{{ docker_env }}_wb_osfstorage/"
+    docker_waterbutler_osfstorage_pending_dir: "{{ docker_waterbutler_osfstorage_dir }}pending"
+    docker_waterbutler_osfstorage_complete_dir: "{{ docker_waterbutler_osfstorage_dir }}complete"
 
     docker_storage_name: "{{ docker_env }}_wb_storage_1"
     docker_storage_dir: "/opt/{{ docker_env }}_wb_storage/"
@@ -14,6 +15,9 @@
       - src: "{{ docker_waterbutler_source_conf_dir }}"
         dest: "{{ docker_storage_conf_dir }}"
     docker_storage_file_ops:
+      - state: directory
+        path: "{{ docker_waterbutler_osfstorage_dir }}"
+        recurse: false
       - state: directory
         path: "{{ docker_waterbutler_osfstorage_pending_dir }}"
         recurse: false
