@@ -1,21 +1,26 @@
+- name: Update APT package cache
+  apt: update_cache=yes
+  sudo: yes
+  tags:
+    - install
+
 - name: Install fwknop server (v2.6.7)
-    sudo: yes
-    apt:
-      name: fwknop-server=2.6.7
-    tags:
-      - install
+  sudo: yes
+  apt: pkg=fwknop-server
+  tags:
+    - install
 
 - name: copy fwknopd.conf
-    template: src=fwknopd.conf.j2 dest=/etc/fwknop/fwknopd.conf
-    sudo: yes
+  template: src=fwknopd.conf.j2 dest=/etc/fwknop/fwknopd.conf
+  sudo: yes
 
 - name: copy access.conf
-    template: src=access.conf.j2 dest=/etc/fwknop/access.conf
-    sudo: yes
+  template: src=access.conf.j2 dest=/etc/fwknop/access.conf
+  sudo: yes
 
-- name: copy upstart config
-    template: src=upstart.conf.j2 dest=/etc/init/fwknopd.conf
-    sudo: yes
+#- name: copy upstart config
+#  template: src=upstart.conf.j2 dest=/etc/init/fwknopd.conf
+#  sudo: yes
 
 #- name: Generate system gpg key
 #    gpgkey_gen: >
@@ -40,8 +45,8 @@
 #  sudo: yes
 
 - name: fwknop restart
-    service: name=fwknopd state=restarted
-    sudo: yes
+  service: name=fwknopd state=restarted
+  sudo: yes
 
 #- name: Execute the ip tables drop rules script
 #  command: sh /home/ubuntu/iptables_default_log.sh

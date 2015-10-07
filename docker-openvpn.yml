@@ -1,6 +1,6 @@
-- name: Set up bastion
+- name: Set up openvpn
   hosts:
     - bastion-staging
     - bastion-production
   roles:
-    - role: bastion
+    - role: docker-openvpn

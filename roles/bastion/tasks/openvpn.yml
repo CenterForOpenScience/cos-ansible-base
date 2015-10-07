@@ -1,4 +1,0 @@
-- name: Install OpenVPN (v2.3.2)
-  sudo: yes
-  apt:
-    name: openvpn-server=2.3.2

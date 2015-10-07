@@ -1,9 +1,0 @@
-- name: Update APT package cache
-  apt: update_cache=yes
-  sudo: yes
-  tags:
-    - install
-
-#- include: fwknop.yml
-
-- include: openvpn.yml
