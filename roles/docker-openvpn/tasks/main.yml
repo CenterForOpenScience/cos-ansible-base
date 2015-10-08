@@ -5,21 +5,15 @@
     - restart
 
 - name: Run docker openvpn container
-  sudo: yes
-  shell: "docker run -d --volumes-from {{ docker_openvpn_storage_name }} -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn"
+  docker:
+    hostname: "{{ docker_openvpn_hostname }}"
+    image: "{{ docker_openvpn_image }}"
+    name: "{{ docker_openvpn_name }}"
+    ports: "{{ docker_openvpn_ports }}"
+    restart_policy: always
+    state: reloaded
+    volumes_from: "{{ docker_openvpn_volumes }}"
+    privileged: yes
   tags:
     - install
-
-#- name: Run docker openvpn container
-#  docker:
-#    hostname: "{{ docker_openvpn_hostname }}"
-#    image: "{{ docker_openvpn_image }}"
-#    name: "{{ docker_openvpn_name }}"
-#    ports: "{{ docker_openvpn_ports }}"
-#    restart_policy: always
-#    state: reloaded
-#    volumes: "{{ docker_openvpn_volumes }}"
-#    cap_add: NET_ADMIN
-#  tags:
-#    - install
-#    - upgrade
+    - upgrade
