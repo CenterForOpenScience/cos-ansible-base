@@ -5,8 +5,8 @@
   vars:
     docker_waterbutler_source_conf_dir: roles/docker-waterbutler/files/conf/
     docker_waterbutler_osfstorage_dir: "/opt/{{ docker_env }}_wb_osfstorage/"
-    docker_waterbutler_osfstorage_pending_dir: "{{ docker_waterbutler_osfstorage_dir }}pending"
-    docker_waterbutler_osfstorage_complete_dir: "{{ docker_waterbutler_osfstorage_dir }}complete"
+    docker_waterbutler_osfstorage_pending_dir: "{{ docker_waterbutler_osfstorage_dir }}pending/"
+    docker_waterbutler_osfstorage_complete_dir: "{{ docker_waterbutler_osfstorage_dir }}complete/"
 
     docker_storage_name: "{{ docker_env }}_wb_storage_1"
     docker_storage_dir: "/opt/{{ docker_env }}_wb_storage/"
@@ -49,7 +49,7 @@
       - "{{ docker_storage_name }}"
 
     docker_waterbutler_server_name: "{{ docker_env }}_wb_server"
-    docker_waterbutler_server_conf_dir: "/opt/{{ docker_env }}_wb_server/conf"
+    docker_waterbutler_server_conf_dir: "/opt/{{ docker_env }}_wb_server/conf/"
     docker_waterbutler_server_links:
       - "{{ docker_rabbitmq_name }}:rabbitmq"
     docker_waterbutler_server_ports:
