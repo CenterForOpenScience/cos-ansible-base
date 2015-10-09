@@ -1,0 +1,19 @@
+- name: Restart docker openvpn container
+  sudo: yes
+  shell: "docker restart {{ docker_openvpn_name }}"
+  tags:
+    - restart
+
+- name: Run docker openvpn container
+  docker:
+    hostname: "{{ docker_openvpn_hostname }}"
+    image: "{{ docker_openvpn_image }}"
+    name: "{{ docker_openvpn_name }}"
+    restart_policy: always
+    state: reloaded
+    volumes_from: "{{ docker_openvpn_volumes }}"
+    privileged: yes
+    net: "{{ docker_openvpn_net }}"
+  tags:
+    - install
+    - upgrade
