@@ -9,11 +9,11 @@
     hostname: "{{ docker_openvpn_hostname }}"
     image: "{{ docker_openvpn_image }}"
     name: "{{ docker_openvpn_name }}"
-    ports: "{{ docker_openvpn_ports }}"
     restart_policy: always
     state: reloaded
     volumes_from: "{{ docker_openvpn_volumes }}"
     privileged: yes
+    net: "{{ docker_openvpn_net }}"
   tags:
     - install
     - upgrade

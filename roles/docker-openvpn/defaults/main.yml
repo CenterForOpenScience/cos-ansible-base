@@ -12,4 +12,4 @@ docker_openvpn_image: kylemanna/openvpn
 docker_openvpn_fqdn: vpn-01.iad.stage.cos.io
 docker_openvpn_volumes: "{{ docker_openvpn_storage_name }}"
 docker_openvpn_hostname: "{{ hostname_name }}"
-docker_openvpn_ports: 1194:1194/udp
+docker_openvpn_net: host
