@@ -1,5 +1,14 @@
 # Access Configuration
+
 source: ""
+open_ports: ""
+
+# Rijndael
 key_base64: ""
 hmac_key_base64: ""
-open_ports: ""
+
+# GnuPG
+gnupg_dir: ""
+new_key_keyid: ""
+new_key_passphrase: ""
+gpg_key_id: ""
