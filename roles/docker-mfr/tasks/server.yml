@@ -64,10 +64,12 @@
     image: "{{ docker_mfr_server_image }}"
     links: "{{ docker_mfr_server_links }}"
     name: "{{ docker_mfr_server_name }}_{{ item }}"
+    net: "{{ docker_mfr_server_net }}"
     ports: "{{ docker_mfr_server_ports }}"
     pull: always
     restart_policy: always
     state: reloaded
+    tty: yes
     volumes: "{{ docker_mfr_server_volumes }}"
     volumes_from: "{{ docker_mfr_server_volumes_from }}"
   with_sequence: count={{ docker_mfr_server_instances }}

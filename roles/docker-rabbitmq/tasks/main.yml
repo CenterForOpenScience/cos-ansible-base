@@ -20,14 +20,14 @@
 - name: Run docker rabbitmq container
   docker:
     env: "{{ docker_rabbitmq_env }}"
-    hostname: "{{ hostname_name }}"
-    image: rabbitmq:latest
+    hostname: "{{ docker_rabbitmq_hostname }}"
+    image: "{{ docker_rabbitmq_image }}"
     name: "{{ docker_rabbitmq_name }}"
+    net: "{{ docker_rabbitmq_net }}"
     pull: always
     restart_policy: always
     state: reloaded
-    volumes:
-      - "{{ docker_rabbitmq_data_dir }}:/var/lib/rabbitmq"
+    volumes: "{{ docker_rabbitmq_volumes }}"
   tags:
     - install
     - upgrade

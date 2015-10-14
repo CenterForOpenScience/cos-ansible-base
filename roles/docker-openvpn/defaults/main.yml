@@ -1,0 +1,15 @@
+# storage
+
+docker_openvpn_storage: no
+docker_openvpn_storage_name: "{{ docker_bastion_env }}_openvpn_storage_1"
+docker_openvpn_storage_volumes:
+  - /etc/openvpn
+
+# openvpn
+
+docker_openvpn_name: openvpn_1
+docker_openvpn_image: kylemanna/openvpn
+docker_openvpn_fqdn: "{{ docker_openvpn_fqdn }}"
+docker_openvpn_volumes: "{{ docker_openvpn_storage_name }}"
+docker_openvpn_hostname: "{{ hostname_name }}"
+docker_openvpn_net: host

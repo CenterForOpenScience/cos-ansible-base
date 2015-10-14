@@ -1,0 +1,51 @@
+- name: Ensure docker osf server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_osf_server_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker osf server configuration settings
+  copy:
+    src: "{{ docker_osf_server_source_conf_file }}"
+    dest: "{{ docker_osf_server_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker osf server container
+  sudo: yes
+  shell: "docker restart {{ docker_osf_server_name }}"
+  tags:
+    - restart
+    - restart_osf
+
+
+- name: Run docker osf server container
+  docker:
+    command: "{{ docker_osf_server_command }}"
+    env: "{{ docker_osf_server_env }}"
+    expose: "{{ docker_osf_server_expose }}"
+    hostname: "{{ docker_osf_server_hostname }}"
+    image: "{{ docker_osf_server_image }}"
+    links: "{{ docker_osf_server_links }}"
+    name: "{{ docker_osf_server_name }}"
+    net: "{{ docker_osf_server_net }}"
+    ports: "{{ docker_osf_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_osf_server_volumes }}"
+    volumes_from: "{{ docker_osf_server_volumes_from }}"
+  tags:
+    - install
+    - upgrade

@@ -7,6 +7,9 @@ NOTE: local.py will not be added to source control.
 
 from . import defaults
 
+# DOMAIN = ''
+# API_DOMAIN = ''
+
 DEV_MODE = True
 DEBUG_MODE = True  # Sets app to debug mode, turns off template caching, etc.
 

@@ -9,6 +9,7 @@
 - vagrant >= 1.6
 - invoke (Python task execution library)
 - python >= 2.7 or >= 3.4 with pip
+- fwknop >= 2.6.5
 - At least 2Gb of memory
 
 ### Installing Ansible and Vagrant on Mac OSX with homebrew
@@ -125,6 +126,29 @@ $ invoke provision -u sloria -e "ssh_test=false"
 
 The above would temporarily disable SSH configuration testing.
 
+
+
+## Setting up for Single Packet Authorization
+
+If using encryption and HMAC keys, execute on client: 
+
+```bash 
+fwknop -A tcp/22 -a PUBLIC_CLIENT_IP -D TARGET_SERVER_IP --key-gen --use-hmac --save-rc-stanza
+ ```
+
+Print your newly generated keys:
+
+ ```bash
+ grep KEY ~/.fwknoprc
+ ```
+And add to Single Packet Authorization Server access configuration /etc/fwknop/access.conf:
+ 
+ ```
+ SOURCE              ANY
+ KEY_BASE64          [KEY]
+ HMAC_KEY_BASE64     [HMAC_KEY]
+ ```
+ 
 
 ## Setting up for OSF deployment
 

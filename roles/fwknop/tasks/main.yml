@@ -1,0 +1,29 @@
+- name: Update APT package cache
+  apt: update_cache=yes
+  sudo: yes
+  tags:
+    - install
+
+- name: Install fwknopd server (v2.6.7)
+  sudo: yes
+  apt: pkg=fwknop-server=2.6.0-2
+  tags:
+    - install
+
+- name: copy fwknopd.conf
+  template: src=fwknopd.conf.j2 dest=/etc/fwknop/fwknopd.conf
+  sudo: yes
+  tags:
+    - install
+
+- name: copy access.conf
+  template: src=access.conf.j2 dest=/etc/fwknop/access.conf
+  sudo: yes
+  tags:
+    - install
+
+- name: fwknopd restart
+  shell: fwknopd -R
+  sudo: yes
+  tags:
+    - install

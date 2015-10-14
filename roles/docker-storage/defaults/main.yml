@@ -1,5 +1,6 @@
 # servers
 
 docker_storage_name: storage_1
-docker_storage_dirs: []
+docker_storage_copy_ops: []
+docker_storage_file_ops: []
 docker_storage_volumes: []

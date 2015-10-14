@@ -6,7 +6,9 @@
     group: root
     mode: 0644
   tags:
-    - install
+    - v1.5
+    - v1.7
+    - v1.8
     - settings
 
 
@@ -14,42 +16,116 @@
   apt: update_cache=yes
   sudo: yes
   tags:
-    - install
+    - v1.5
+    - v1.7
+    - v1.8
+
+
+- name: Uninstall previous docker
+  shell: dpkg --remove docker-engine; apt-get purge -y lxc-docker*; apt-get purge -y docker.io*
+  ignore_errors: yes
+  tags:
+    - v1.5
+    - v1.7
+    - v1.8
+
+
+- name: Verify docker is not installed
+  file:
+    path: /usr/bin/docker
+    state: absent
+  tags:
+    - v1.5
+    - v1.7
+    - v1.8
 
 
 - name: Install docker system dependencies
-  sudo: yes
   apt:
+    pkg: "{{ item }}"
     state: latest
-    pkg: python-pip
+  with_items:
+    - python-pip
+    - curl
+    - ca-certificates
   tags:
-    - install
+    - v1.5
+    - v1.7
+    - v1.8
 
 
-- name: Force pip upgrade
-  sudo: yes
-  shell: easy_install -U pip
+- name: Install docker system dependencies (v1.7, v1.8)
+  shell: apt-get install -y apparmor linux-image-extra-virtual linux-image-extra-$(uname -r)
   tags:
-    - install
+    - v1.7
+    - v1.8
 
 
-- name: Install docker apt keys
+- name: Download Docker Engine deb (v1.8)
+  get_url:
+    url: "http://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.8.2-0~{{ ansible_distribution_release }}_amd64.deb"
+    dest: /tmp/docker-engine.deb
+    force: yes
+    mode: 0440
+  tags:
+    - v1.8
+
+
+- name: Download Docker Engine deb (v1.7)
+  get_url:
+    url: "http://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.7.1-0~{{ ansible_distribution_release }}_amd64.deb"
+    dest: /tmp/docker-engine.deb
+    force: yes
+    mode: 0440
+  tags:
+    - v1.7
+
+
+- name: Install docker-engine deb (v1.7, v1.8)
+  shell: dpkg -i /tmp/docker-engine.deb
+  tags:
+    - v1.7
+    - v1.8
+
+
+- name: Install docker apt keys (v1.5)
   sudo: yes
   apt_key:
     id: 36A1D7869245C8950F966E92D8576A8BA88D21E9
     keyserver: "hkp://keyserver.ubuntu.com:80"
     state: present
   tags:
-    - install
+    - v1.5
 
 
-- name: Install docker apt repository
+- name: Install docker apt repository (v1.5)
   sudo: yes
   apt_repository:
     repo: "deb https://get.docker.com/ubuntu docker main"
     state: present
   tags:
-    - install
+    - v1.5
+
+
+- name: Force pip upgrade
+  sudo: yes
+  shell: easy_install -U pip
+  tags:
+    - v1.5
+    - v1.7
+    - v1.8
+
+
+- name: Install docker pip dependencies (v1.8)
+  sudo: yes
+  pip:
+    state: latest
+    name: "{{ item }}"
+  with_items:
+    - "docker-py==1.4.0"
+    - "python-apt"
+  tags:
+    - v1.8
 
 
 - name: Install docker pip dependencies (v1.7)
@@ -60,15 +136,6 @@
   with_items:
     - "docker-py==1.2.3"
     - "python-apt"
-  tags:
-    - v1.7
-
-
-- name: Install docker (v1.7)
-  sudo: yes
-  apt:
-    state: latest
-    pkg: "lxc-docker-1.7.1"
   tags:
     - v1.7
 
@@ -97,11 +164,24 @@
     - v1.5
 
 
-- name: Restart docker
+- name: Disable inter-container communication, require explicitly linked containers
+  lineinfile:
+    dest: /etc/default/docker
+    regexp: ^(#|)DOCKER_OPTS
+    line: DOCKER_OPTS="--icc=false"
+  tags:
+    - v1.5
+    - v1.7
+    - v1.8
+
+
+- name: Restart docker daemon (reapply firewall rules)
   sudo: yes
   service:
     name: docker
     state: restarted
   tags:
-    - install
+    - v1.5
+    - v1.7
+    - v1.8
     - restart

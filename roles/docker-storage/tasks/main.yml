@@ -1,12 +1,31 @@
-- name: Ensure docker storage directories exist
+- name: Perform storage copy operations
   sudo: yes
-  file:
-    state: directory
-    path: "{{ item }}"
-  with_items: docker_storage_dirs
+  copy:
+    src: "{{ item.src | default(omit) }}"
+    dest: "{{ item.dest | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+    owner: "{{ item.owner | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+  with_items: docker_storage_copy_ops
   tags:
     - install
     - upgrade
+    - settings
+
+- name: Perform storage file operations
+  sudo: yes
+  file:
+    state: "{{ item.state | default(omit) }}"
+    path: "{{ item.path | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+    owner: "{{ item.owner | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    recurse: "{{ item.recurse | default(omit) }}"
+  with_items: docker_storage_file_ops
+  tags:
+    - install
+    - upgrade
+    - settings
 
 
 - name: Run docker storage container
@@ -17,3 +36,4 @@
   tags:
     - install
     - upgrade
+    - settings
