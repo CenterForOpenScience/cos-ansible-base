@@ -1,6 +1,4 @@
 - name: Set up fwknop
-  hosts:
-    - bastion-staging
-    - bastion-production
+  hosts: all
   roles:
     - role: fwknop

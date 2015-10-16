@@ -1,0 +1,32 @@
+- name: Set up bastion
+  hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_openvpn_name: "{{ docker_env }}_bastion_openvpn_1"
+    # docker_openvpn_source_conf_dir: "..."
+    docker_openvpn_conf_dir: "/opt/{{ docker_env }}_bastion_openvpn/conf/"
+    docker_openvpn_volumes:
+      - "{{ docker_openvpn_conf_dir }}:/etc/openvpn:rw"
+  pre_tasks:
+    - name: Copy openvpn configuration directory
+      copy:
+        src: "{{ docker_openvpn_source_conf_dir }}"
+        dest: "{{ docker_openvpn_conf_dir }}"
+      tags:
+        - install
+        - settings
+        - upgrade
+
+    - name: Set net.ipv4.ip_forward in /etc/sysctl.conf
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: 1
+        state: present
+      tags:
+        - install
+        - settings
+        - upgrade
+  roles:
+    - role: docker-openvpn
+      when: docker_openvpn
