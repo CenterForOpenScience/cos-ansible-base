@@ -37,7 +37,7 @@
 # Default if not set is eth0.  The '-i <intf>' command line option overrides
 # the PCAP_INTF setting.
 #
-PCAP_INTF                   eth0;
+PCAP_INTF                   {{ fwknop_pcap_intf }};
 
 # By default fwknopd does not put the pcap interface into promiscuous mode.
 # Set this to 'Y' to enable promiscuous sniffing.

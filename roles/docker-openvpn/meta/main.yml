@@ -1,5 +1,0 @@
-dependencies:
-  - role: docker-storage
-    docker_storage_name: "{{ docker_openvpn_storage_name }}"
-    docker_storage_volumes: "{{ docker_openvpn_storage_volumes }}"
-    when: docker_openvpn_storage

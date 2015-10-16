@@ -4,16 +4,19 @@
   tags:
     - restart
 
+
 - name: Run docker openvpn container
   docker:
     hostname: "{{ docker_openvpn_hostname }}"
     image: "{{ docker_openvpn_image }}"
     name: "{{ docker_openvpn_name }}"
+    net: "{{ docker_openvpn_net }}"
+    privileged: "{{ docker_openvpn_privileged }}"
+    pull: always
     restart_policy: always
     state: reloaded
-    volumes_from: "{{ docker_openvpn_volumes }}"
-    privileged: yes
-    net: "{{ docker_openvpn_net }}"
+    volumes: "{{ docker_openvpn_volumes }}"
+    volumes_from: "{{ docker_openvpn_volumes_from }}"
   tags:
     - install
     - upgrade

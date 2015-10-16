@@ -48,6 +48,8 @@
     - python-pip
     - curl
     - ca-certificates
+    # - python-setuptools
+    # - python-distutils-extra
   tags:
     - v1.5
     - v1.7
@@ -123,7 +125,7 @@
     name: "{{ item }}"
   with_items:
     - "docker-py==1.4.0"
-    - "python-apt"
+    # - "python-apt"
   tags:
     - v1.8
 
@@ -135,7 +137,7 @@
     name: "{{ item }}"
   with_items:
     - "docker-py==1.2.3"
-    - "python-apt"
+    # - "python-apt"
   tags:
     - v1.7
 

@@ -22,7 +22,7 @@
 ##############################################################################
 #
 
-# SOURCE                ANY
+# SOURCE                  ANY
 #
 # This defines the source address from which a SPA packet will be accepted.
 # Every  authorization stanza in this file must start  with  the  SOURCE
@@ -36,7 +36,7 @@
 # be honored from any source IP.
 #
 
-OPEN_PORTS: {{ open_ports }};
+# OPEN_PORTS              tcp/22, tcp/993
 #
 # Define a set of ports and protocols (tcp or udp) that are allowed to be
 # opened if a valid SPA packet is received and its access request matches
@@ -159,17 +159,26 @@ OPEN_PORTS: {{ open_ports }};
 
 #### fwknopd access.conf stanzas ###
 
-SOURCE              {{ source }}
-KEY_BASE64          {{ key_base64 }}
-HMAC_KEY_BASE64     {{ hmac_key_base64 }}
+{% if fwknop_access_stanzas %}
+{% for stanza in fwknop_access_stanzas %}
+SOURCE                     {{ stanza['source'] }}
+OPEN_PORTS                 {{ stanza['open_ports'] }}
+{% if stanza.get('required_username') %}REQUIRE_USERNAME           {{ stanza['required_username'] }}{% endif %}
+REQUIRE_SOURCE_ADDRESS     {{ stanza['required_source_address'] | default('Y') }}
+FW_ACCESS_TIMEOUT          {{ stanza['fw_access_timeout'] | default('10') }}
+KEY_BASE64                 {{ stanza['key_base64'] }}
+HMAC_KEY_BASE64            {{ stanza['hmac_key_base64'] }}
+
+{% endfor %}
+{% endif %}
 
 # If you want to use GnuPG keys then define the following variables
 #
-#GPG_HOME_DIR           {{ gnupg_dir }}
-#GPG_DECRYPT_ID         {{ new_key_keyid }}
-#GPG_DECRYPT_PW         {{ new_key_passphrase }}
+#GPG_HOME_DIR           /homedir/path/.gnupg
+#GPG_DECRYPT_ID         ABCD1234
+#GPG_DECRYPT_PW         __CHANGEME__
 
 # If you want to require GPG signatures:
 #GPG_REQUIRE_SIG                    Y
 #GPG_IGNORE_SIG_VERIFY_ERROR        N
-#GPG_REMOTE_ID                      {{ gpg_key_id }}
+#GPG_REMOTE_ID                      1234ABCD

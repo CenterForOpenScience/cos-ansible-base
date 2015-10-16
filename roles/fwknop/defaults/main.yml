@@ -1,14 +1,8 @@
 # Access Configuration
 
-source: ""
-open_ports: ""
-
-# Rijndael
-key_base64: ""
-hmac_key_base64: ""
-
-# GnuPG
-gnupg_dir: ""
-new_key_keyid: ""
-new_key_passphrase: ""
-gpg_key_id: ""
+fwknop_pcap_intf: eth0
+fwknop_access_stanzas:
+  - source: ANY
+    open_ports: tcp/22
+    key_base64: __change_me__
+    hmac_key_base64: __change_me__

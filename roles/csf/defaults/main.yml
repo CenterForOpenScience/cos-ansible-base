@@ -1,3 +1,6 @@
+csf_csfpre_file: ""
+csf_csfpost_file: ""
+
 csf_auto_update: 0
 csf_faststart: 0
 
@@ -78,4 +81,3 @@ csf_lf_su_email_alert: 1
 
 
 csf_ui_allowed_ips:
-

@@ -41,6 +41,22 @@
   template: src=ui.allow.j2 dest=/etc/csf/ui/ui.allow
   sudo: yes
 
+- name: copy csfpre.sh
+  template:
+    src: "{{ csf_csfpre_file }}"
+    dest: /etc/csf/csfpre.sh
+    mode: 0755
+  when: csf_csfpre_file | default("") != ""
+  sudo: yes
+
+- name: copy csfpost.sh
+  template:
+    src: "{{ csf_csfpost_file }}"
+    dest: /etc/csf/csfpost.sh
+    mode: 0755
+  when: csf_csfpost_file | default("") != ""
+  sudo: yes
+
 - name: csf update
   command: csf -u
   sudo: yes
