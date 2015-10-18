@@ -1,0 +1,19 @@
+- name: Restart docker jenkins container
+  sudo: yes
+  shell: "docker restart {{ docker_jenkins_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker jenkins container
+  docker:
+    image: "{{ docker_jenkins_image }}"
+    name: "{{ docker_jenkins_name }}"
+    ports: "{{ docker_jenkins_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_jenkins_volumes }}"
+  tags:
+    - install
+    - upgrade

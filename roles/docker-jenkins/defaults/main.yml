@@ -1,0 +1,8 @@
+docker_jenkins_name: jenkins_1
+docker_jenkins_image: "{{ docker_jenkins_image }}"
+docker_jenkins_data_dir: /opt/jenkins/data
+docker_jenkins_ports: []
+docker_jenkins_volumes:
+  - "/var/jenkins_home"
+#docker_jenkins_volumes:
+#  - "{{ docker_jenkins_data_dir }}:/var/jenkins_home"
