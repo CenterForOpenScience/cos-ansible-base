@@ -21,6 +21,18 @@
     - v1.8
 
 
+- name: Shutdown running docker daemon
+  sudo: yes
+  ignore_errors: yes
+  service:
+    name: docker
+    state: stopped
+  tags:
+    - v1.5
+    - v1.7
+    - v1.8
+
+
 - name: Uninstall previous docker
   shell: dpkg --remove docker-engine; apt-get purge -y lxc-docker*; apt-get purge -y docker.io*
   ignore_errors: yes
