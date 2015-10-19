@@ -75,7 +75,7 @@
 
 - name: Download Docker Engine deb (v1.8)
   get_url:
-    url: "http://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.8.2-0~{{ ansible_distribution_release }}_amd64.deb"
+    url: "http://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.8.3-0~{{ ansible_distribution_release }}_amd64.deb"
     dest: /tmp/docker-engine.deb
     force: yes
     mode: 0440
