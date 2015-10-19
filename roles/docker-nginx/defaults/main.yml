@@ -11,7 +11,8 @@ docker_nginx_ssl_dir: "{{ docker_nginx_conf_dir }}/ssl"
 docker_nginx_net: bridge
 docker_nginx_hostname: "{{ hostname_name }}"
 docker_nginx_links: []
-docker_nginx_expose: []
+docker_nginx_expose:
+  - 8080
 docker_nginx_ports: []
 docker_nginx_volumes:
   - "{{ docker_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"

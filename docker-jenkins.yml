@@ -3,4 +3,5 @@
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
   roles:
+    - role: docker-nginx
     - role: docker-jenkins
