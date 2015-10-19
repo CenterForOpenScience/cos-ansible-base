@@ -1,9 +1,3 @@
-- name: Install emacs
-  apt:
-    pkg: "{{editors_emacs_base}}"
-    state: present
-
-
 - name: Make sure vim-tiny is uninstalled
   apt:
     pkg: "vim-tiny"
