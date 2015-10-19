@@ -15,97 +15,22 @@ docker_scrapi_conf_file: "{{ docker_scrapi_conf_dir }}/local.py"
 # support servers
 
 docker_scrapi_cassandra: no
-docker_scrapi_cassandra_name: "{{ docker_scrapi_env }}_scrapi_cassandra_1"
-docker_scrapi_cassandra_data_dir: "/opt/{{ docker_scrapi_env }}_scrapi_cassandra/data"
-docker_scrapi_cassandra_env: {}
-docker_scrapi_cassandra_expose:
-  - 9160
-docker_scrapi_cassandra_ports: []
-
 docker_scrapi_elasticsearch: no
-docker_scrapi_elasticsearch_name: "{{ docker_scrapi_env }}_scrapi_elasticsearch_1"
-docker_scrapi_elasticsearch_source_conf_dir: roles/docker-elasticsearch/files/conf
-docker_scrapi_elasticsearch_conf_dir: "/opt/{{ docker_scrapi_env }}_scrapi_elasticsearch/conf"
-docker_scrapi_elasticsearch_data_dir: "/opt/{{ docker_scrapi_env }}_scrapi_elasticsearch/data"
-docker_scrapi_elasticsearch_expose:
-  - 9200
-docker_scrapi_elasticsearch_ports: []
-
 docker_scrapi_fluentd: no
-docker_scrapi_fluentd_name: "{{ docker_scrapi_env }}_scrapi_fluentd_1"
-docker_scrapi_fluentd_source_conf_dir: roles/docker-scrapi/files/fluentd/
-docker_scrapi_fluentd_conf_dir: "/opt/{{ docker_scrapi_env }}_scrapi_fluentd/conf"
-docker_scrapi_fluentd_conf_file: "{{ docker_fluentd_conf_dir }}/fluent.conf"
-docker_scrapi_fluentd_env:
-  FLUENTD_GEMS: "fluent-plugin-elasticsearch"
-docker_scrapi_fluentd_links:
-  - "{{ docker_scrapi_elasticsearch_name }}:elasticsearch"
-docker_scrapi_fluentd_expose:
-  - 24224
-docker_scrapi_fluentd_ports: []
 
 docker_scrapi_rabbitmq: no
-docker_scrapi_rabbitmq_name: "{{ docker_scrapi_env }}_scrapi_rabbitmq_1"
-docker_scrapi_rabbitmq_data_dir: "/opt/{{ docker_scrapi_env }}_scrapi_rabbitmq/data"
-
 
 # servers
 
 docker_scrapi_beat: no
-docker_scrapi_beat_name: "{{ docker_scrapi_env }}_scrapi_beat_1"
-docker_scrapi_beat_hostname: "{{ hostname_name }}"
-docker_scrapi_beat_source_conf_file: "{{ docker_scrapi_source_conf_file }}"
-docker_scrapi_beat_conf_dir: "{{ docker_scrapi_conf_dir }}"
-docker_scrapi_beat_conf_file: "{{ docker_scrapi_conf_file }}"
-docker_scrapi_beat_env:
-  SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
-  SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-docker_scrapi_beat_expose: []
-docker_scrapi_beat_ports: []
-docker_scrapi_beat_links:
-  - "{{ docker_scrapi_cassandra_name }}:cassandra"
-  - "{{ docker_scrapi_elasticsearch_name }}:elasticsearch"
-  - "{{ docker_scrapi_fluentd_name }}:fluentd"
-  - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
-docker_scrapi_beat_volumes:
-  - "{{ docker_scrapi_beat_conf_file }}:/home/.cos/local.py"
-
-docker_scrapi_server: no
-docker_scrapi_server_name: "{{ docker_scrapi_env }}_scrapi_server"
-docker_scrapi_server_hostname: "{{ hostname_name }}"
-docker_scrapi_server_instances: 1
-docker_scrapi_server_source_conf_file: "{{ docker_scrapi_source_conf_file }}"
-docker_scrapi_server_conf_dir: "{{ docker_scrapi_conf_dir }}"
-docker_scrapi_server_conf_file: "{{ docker_scrapi_conf_file }}"
-docker_scrapi_server_env:
-  SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
-  SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-docker_scrapi_server_expose: []
-docker_scrapi_server_ports: []
-docker_scrapi_server_links:
-  - "{{ docker_scrapi_cassandra_name }}:cassandra"
-  - "{{ docker_scrapi_elasticsearch_name }}:elasticsearch"
-  - "{{ docker_scrapi_fluentd_name }}:fluentd"
-  - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
-docker_scrapi_server_volumes:
-  - "{{ docker_scrapi_server_conf_file }}:/home/.cos/local.py"
-
 docker_scrapi_worker: no
-docker_scrapi_worker_name: "{{ docker_scrapi_env }}_scrapi_worker"
-docker_scrapi_worker_hostname: "{{ hostname_name }}"
-docker_scrapi_worker_instances: 1
-docker_scrapi_worker_source_conf_file: "{{ docker_scrapi_source_conf_file }}"
-docker_scrapi_worker_conf_dir: "{{ docker_scrapi_conf_dir }}"
-docker_scrapi_worker_conf_file: "{{ docker_scrapi_conf_file }}"
-docker_scrapi_worker_env:
-  SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
-  SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-docker_scrapi_worker_links:
-  - "{{ docker_scrapi_cassandra_name }}:cassandra"
-  - "{{ docker_scrapi_elasticsearch_name }}:elasticsearch"
-  - "{{ docker_scrapi_fluentd_name }}:fluentd"
-  - "{{ docker_scrapi_rabbitmq_name }}:rabbitmq"
-docker_scrapi_worker_expose: []
-docker_scrapi_worker_ports: []
-docker_scrapi_worker_volumes:
-  - "{{ docker_scrapi_worker_conf_file }}:/home/.cos/local.py"
+docker_scrapi_apiserver: no
+
+# support servers
+
+docker_scrapi_apiserver_postgres: no
+docker_scrapi_apiserver_nginx: no
+
+# servers
+
+docker_scrapi_apiserver_uwsgi: no

@@ -1,31 +1,8 @@
-- name: Ensure docker scrapi worker directories exist
-  sudo: yes
-  file:
-    state: directory
-    path: "{{ item }}"
-  with_items:
-    - "{{ docker_scrapi_worker_conf_dir }}"
-  tags:
-    - install
-    - upgrade
-
-
-- name: Copy docker scrapi worker configuration settings
-  copy:
-    src: "{{ docker_scrapi_worker_source_conf_file }}"
-    dest: "{{ docker_scrapi_worker_conf_file }}"
-    mode: 0644
-  tags:
-    - install
-    - settings
-    - upgrade
-
-
 - name: Restart docker scrapi worker container
   sudo: yes
-  shell: "docker restart {{ docker_scrapi_worker_name }}_{{ item }}"
-  with_sequence: count={{ docker_scrapi_worker_instances }}
-  when: docker_scrapi_worker_instances > 0
+  shell: "docker restart {{ docker_scrapi_celery_worker_name }}_{{ item }}"
+  with_sequence: count={{ docker_scrapi_celery_worker_instances }}
+  when: docker_scrapi_celery_worker_instances > 0
   tags:
     - restart
 
@@ -33,19 +10,19 @@
 - name: Run docker scrapi worker container
   docker:
     command: "invoke worker --hostname=worker{{ item }}.%h"
-    env: "{{ docker_scrapi_worker_env }}"
-    expose: "{{ docker_scrapi_worker_expose }}"
-    hostname: "{{ docker_scrapi_worker_hostname }}"
-    image: "centerforopenscience/scrapi:latest"
-    links: "{{ docker_scrapi_worker_links }}"
-    name: "{{ docker_scrapi_worker_name }}_{{ item }}"
-    ports: "{{ docker_scrapi_worker_ports }}"
+    env: "{{ docker_scrapi_celery_worker_env }}"
+    expose: "{{ docker_scrapi_celery_worker_expose }}"
+    hostname: "{{ docker_scrapi_celery_worker_hostname }}"
+    image: "{{ docker_scrapi_image }}"
+    links: "{{ docker_scrapi_celery_worker_links }}"
+    name: "{{ docker_scrapi_celery_worker_name }}_{{ item }}"
+    ports: "{{ docker_scrapi_celery_worker_ports }}"
     pull: always
     restart_policy: always
     state: reloaded
-    volumes: "{{ docker_scrapi_worker_volumes }}"
-  with_sequence: count={{ docker_scrapi_worker_instances }}
-  when: docker_scrapi_worker_instances > 0
+    volumes_from: "{{ docker_scrapi_celery_worker_volumes_from }}"
+  with_sequence: count={{ docker_scrapi_celery_worker_instances }}
+  when: docker_scrapi_celery_worker_instances > 0
   tags:
     - install
     - upgrade

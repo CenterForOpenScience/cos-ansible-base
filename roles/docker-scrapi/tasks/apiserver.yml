@@ -1,0 +1,23 @@
+- name: Restart docker scrapi apiserver container
+  sudo: yes
+  shell: "docker restart {{ docker_scrapi_apiserver_name }}"
+  tags:
+    - restart
+
+- name: Set up postgres database for docker scrapi apiserver container and run apiserver
+  docker:
+    command: /bin/bash -c "invoke apidb && invoke apiserver"
+    env: "{{ docker_scrapi_apiserver_env }}"
+    expose: "{{ docker_scrapi_apiserver_expose }}"
+    hostname: "{{ docker_scrapi_apiserver_hostname }}"
+    image: "{{ docker_scrapi_image }}"
+    links: "{{ docker_scrapi_apiserver_links }}"
+    name: "{{ docker_scrapi_apiserver_name }}"
+    ports: "{{ docker_scrapi_apiserver_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes_from: "{{ docker_scrapi_apiserver_volumes_from }}"
+  tags:
+    - install
+    - upgrade

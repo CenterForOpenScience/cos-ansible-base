@@ -1,0 +1,59 @@
+- name: Ensure docker SHARE apiserver uwsgi directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_apiserver_uwsgi_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker SHARE apiserver uwsgi configuration settings
+  copy:
+    src: "{{ docker_scrapi_apiserver_uwsgi_source_conf_file }}"
+    dest: "{{ docker_scrapi_apiserver_uwsgi_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker SHARE apiserver uwsgi application settings
+  copy:
+    src: "{{ docker_scrapi_apiserver_uwsgi_source_app_file }}"
+    dest: "{{ docker_scrapi_apiserver_uwsgi_app_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker SHARE apiserver uwsgi container
+  sudo: yes
+  shell: "docker restart {{ docker_scrapi_apiserver_uwsgi_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker SHARE apiserver uwsgi container
+  docker:
+    command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+    env: "{{ docker_scrapi_apiserver_uwsgi_env }}"
+    expose: "{{ docker_scrapi_apiserver_uwsgi_expose }}"
+    hostname: "{{ hostname_name }}"
+    image: "{{ docker_scrapi_apiserver_uwsgi_image }}"
+    links: "{{ docker_scrapi_apiserver_uwsgi_links }}"
+    name: "{{ docker_scrapi_apiserver_uwsgi_name }}"
+    ports: "{{ docker_scrapi_apiserver_uwsgi_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes_from: "{{ docker_scrapi_apiserver_uwsgi_volumes_from }}"
+    volumes: "{{ docker_scrapi_apiserver_uwsgi_volumes }}"
+  tags:
+    - install
+    - upgrade
