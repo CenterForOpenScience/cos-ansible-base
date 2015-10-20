@@ -26,7 +26,7 @@ def install_roles(force=False, ignore_errors=False):
 
 @task
 def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_pass=False, ask_sudo_pass=True,
-         verbose=False, extra='', key=None, limit=None, tags=None, list_tasks=False):
+         verbose=False, extra=None, extra_vars=None, key=None, limit=None, tags=None, list_tasks=False):
     """Run a playbook. Defaults to using the "hosts" inventory"""
     print('[invoke] Playing {0!r} on {1!r} with user {2!r}...'.format(
         playbook, inventory, user)
@@ -52,6 +52,8 @@ def play(playbook, user, inventory=SITE_INVENTORY, sudo=True, ask_pass=False, as
         cmd += ' --private-key={0}'.format(key)
     if extra:
         cmd += ' -e {0!r}'.format(extra)
+    if extra_vars:
+        cmd += ' -e "{}"'.format(extra_vars)
     if tags:
         cmd += ' --tags={0!r}'.format(tags)
     if list_tasks:
