@@ -1,22 +1,50 @@
+- name: Ensure docker scrapi apiserver directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_apiserver_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker scrapi apiserver configuration settings
+  copy:
+    src: "{{ docker_scrapi_apiserver_source_conf_file }}"
+    dest: "{{ docker_scrapi_apiserver_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker scrapi apiserver container
   sudo: yes
   shell: "docker restart {{ docker_scrapi_apiserver_name }}"
   tags:
     - restart
+    - restart_scrapi
 
-- name: Set up postgres database for docker scrapi apiserver container and run apiserver
+
+- name: Run docker scrapi apiserver container
   docker:
-    command: /bin/bash -c "invoke apidb && invoke apiserver"
+    command: "{{ docker_scrapi_apiserver_command }}"
     env: "{{ docker_scrapi_apiserver_env }}"
     expose: "{{ docker_scrapi_apiserver_expose }}"
     hostname: "{{ docker_scrapi_apiserver_hostname }}"
-    image: "{{ docker_scrapi_image }}"
+    image: "{{ docker_scrapi_apiserver_image }}"
     links: "{{ docker_scrapi_apiserver_links }}"
     name: "{{ docker_scrapi_apiserver_name }}"
+    net: "{{ docker_scrapi_apiserver_net }}"
     ports: "{{ docker_scrapi_apiserver_ports }}"
     pull: always
     restart_policy: always
     state: reloaded
+    tty: yes
+    volumes: "{{ docker_scrapi_apiserver_volumes }}"
     volumes_from: "{{ docker_scrapi_apiserver_volumes_from }}"
   tags:
     - install

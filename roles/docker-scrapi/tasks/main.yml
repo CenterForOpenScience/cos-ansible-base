@@ -1,11 +1,39 @@
-- include: worker.yml
-  when: docker_scrapi_celery_worker
-
-- include: beat.yml
-  when: docker_scrapi_celery_beat
-
 - include: apiserver.yml
   when: docker_scrapi_apiserver
 
-- include: uwsgi.yml
-  when: docker_scrapi_uwsgi
+- include: celery.yml
+  vars:
+    docker_scrapi_celery_instances: "{{ docker_scrapi_celery_worker_instances }}"
+    docker_scrapi_celery_name: "{{ docker_scrapi_celery_worker_name }}"
+    docker_scrapi_celery_image: "{{ docker_scrapi_celery_worker_image }}"
+    docker_scrapi_celery_source_branch: "{{ docker_scrapi_celery_worker_source_branch }}"
+    docker_scrapi_celery_source_repo: "{{ docker_scrapi_celery_worker_source_repo }}"
+    docker_scrapi_celery_command: "{{ docker_scrapi_celery_worker_command }}"
+    docker_scrapi_celery_env: "{{ docker_scrapi_celery_worker_env }}"
+    docker_scrapi_celery_net: "{{ docker_scrapi_celery_worker_net }}"
+    docker_scrapi_celery_hostname: "{{ docker_scrapi_celery_worker_hostname }}"
+    docker_scrapi_celery_expose: "{{ docker_scrapi_celery_worker_expose }}"
+    docker_scrapi_celery_ports: "{{ docker_scrapi_celery_worker_ports }}"
+    docker_scrapi_celery_links: "{{ docker_scrapi_celery_worker_links }}"
+    docker_scrapi_celery_volumes: "{{ docker_scrapi_celery_worker_volumes }}"
+    docker_scrapi_celery_volumes_from: "{{ docker_scrapi_celery_worker_volumes_from }}"
+  when: docker_scrapi_celery_worker
+
+- include: celery.yml
+  vars:
+    docker_scrapi_celery_instances: "{{ docker_scrapi_celery_beat_instances }}"
+    docker_scrapi_celery_name: "{{ docker_scrapi_celery_beat_name }}"
+    docker_scrapi_celery_image: "{{ docker_scrapi_celery_beat_image }}"
+    docker_scrapi_celery_source_branch: "{{ docker_scrapi_celery_beat_source_branch }}"
+    docker_scrapi_celery_source_repo: "{{ docker_scrapi_celery_beat_source_repo }}"
+    docker_scrapi_celery_command: "{{ docker_scrapi_celery_beat_command }}"
+    docker_scrapi_celery_data_dir: "{{ docker_scrapi_celery_beat_data_dir }}"
+    docker_scrapi_celery_env: "{{ docker_scrapi_celery_beat_env }}"
+    docker_scrapi_celery_net: "{{ docker_scrapi_celery_beat_net }}"
+    docker_scrapi_celery_hostname: "{{ docker_scrapi_celery_beat_hostname }}"
+    docker_scrapi_celery_expose: "{{ docker_scrapi_celery_beat_expose }}"
+    docker_scrapi_celery_ports: "{{ docker_scrapi_celery_beat_ports }}"
+    docker_scrapi_celery_links: "{{ docker_scrapi_celery_beat_links }}"
+    docker_scrapi_celery_volumes: "{{ docker_scrapi_celery_beat_volumes }}"
+    docker_scrapi_celery_volumes_from: "{{ docker_scrapi_celery_beat_volumes_from }}"
+  when: docker_scrapi_celery_beat

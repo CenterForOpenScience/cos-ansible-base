@@ -3,11 +3,14 @@
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
   vars:
+    docker_env: test
+
+    docker_storage: no
     docker_storage_name: "{{ docker_env }}_scrapi_storage_1"
     docker_storage_dir: "/opt/{{ docker_env }}_scrapi_storage/"
     docker_storage_conf_dir: "{{ docker_storage_dir }}conf/"
     docker_storage_copy_ops:
-      - src: "{{ docker_storage_source_dir }}"
+      - src: "{{ docker_storage_source_conf_dir }}"
         dest: "{{ docker_storage_conf_dir }}"
     docker_storage_file_ops:
       - state: directory
@@ -18,14 +21,16 @@
     docker_storage_volumes:
       - "{{ docker_storage_conf_dir }}code/:/code:rw"
       - "{{ docker_storage_conf_dir }}local.py:/code/scrapi/settings/local.py:ro"
-      - "{{ docker_storage_conf_dir }}local.py:/code/api/api/settings/local.py:ro"
+      - "{{ docker_storage_conf_dir }}local2.py:/code/api/api/settings/local.py:ro"
 
+    docker_elasticsearch: no
     docker_elasticsearch_name: "{{ docker_env }}_scrapi_elasticsearch_1"
     docker_elasticsearch_conf_dir: "/opt/{{ docker_env }}_scrapi_elasticsearch/conf"
     docker_elasticsearch_data_dir: "/opt/{{ docker_env }}_scrapi_elasticsearch/data"
     docker_elasticsearch_expose:
       - 9200
 
+    docker_cassandra: no
     docker_cassandra_name: "{{ docker_env }}_scrapi_cassandra_1"
     docker_cassandra_data_dir: "/opt/{{ docker_env }}_scrapi_cassandra/data"
     docker_cassandra_env: {}
@@ -33,14 +38,17 @@
       - 9160
     docker_cassandra_ports: []
 
-    docker_postgres_name: "{{ docker_env }}_scrapi_postgres_1"
-    docker_postgres_data_dir: "/opt/{{ docker_env }}_scrapi_postgres/data"
-    docker_postgres_env:
-      POSTGRES_DB: scrapi
-    docker_postgres_expose:
-      - 5432
-    docker_postgres_ports: []
+    docker_postgres_repmgr: no
+    docker_postgres_repmgr_source_conf_file: roles/docker-scrapi/files/repmgr.conf
+    docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_scrapi_postgres/conf"
+    docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_scrapi_postgres/data"
+    docker_postgres_repmgr_name: "{{ docker_env }}_scrapi_postgres_1"
+    docker_postgres_repmgr_env:
+      POSTGRES_DB: "scrapi_{{ docker_env }}"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
+    docker_rabbitmq: no
     docker_rabbitmq_name: "{{ docker_env }}_scrapi_rabbitmq_1"
     docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_scrapi_rabbitmq/data"
 
@@ -57,14 +65,14 @@
     docker_fluentd_ports: []
 
     docker_scrapi_apiserver_name: "{{ docker_env }}_scrapi_apiserver_1"
-    docker_scrapi_apiserver_hostname: "{{ hostname_name }}"
-    docker_scrapi_celery_beat_env:
+    docker_scrapi_apiserver_conf_dir: "/opt/{{ docker_env }}_scrapi_apiserver/conf"
+    docker_scrapi_apiserver_env:
+      UPDATE_CMD: "invoke wheelhouse && invoke requirements && gosu www-data python manage.py collectstatic --noinput"
       SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
       SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
     docker_scrapi_apiserver_links:
       - "{{ docker_elasticsearch_name }}:elasticsearch"
-      - "{{ docker_cassandra_name }}:cassandra"
-      - "{{ docker_postgres_name }}:postgres"
+      - "{{ docker_postgres_repmgr_name }}:postgres"
       - "{{ docker_rabbitmq_name }}:rabbitmq"
       - "{{ docker_fluentd_name }}:fluentd"
     docker_scrapi_apiserver_volumes_from:
@@ -72,16 +80,9 @@
 
     docker_scrapi_celery_beat_name: "{{ docker_env }}_scrapi_celery_beat"
     docker_scrapi_celery_beat_data_dir: "/opt/{{ docker_env }}_scrapi_celery_beat/data"
-    docker_scrapi_celery_beat_name: "{{ docker_env }}_scrapi_celery_beat_1"
-    docker_scrapi_celery_beat_hostname: "{{ hostname_name }}"
-    docker_scrapi_celery_beat_env:
-      SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
-      SOURCE_REPO: "{{ docker_scrapi_source_repo }}"
-    docker_scrapi_celery_beat_expose: []
-    docker_scrapi_celery_beat_ports: []
     docker_scrapi_celery_beat_links:
       - "{{ docker_elasticsearch_name }}:elasticsearch"
-      - "{{ docker_postgres_name }}:postgres"
+      - "{{ docker_postgres_repmgr_name }}:postgres"
       - "{{ docker_rabbitmq_name }}:rabbitmq"
       - "{{ docker_fluentd_name }}:fluentd"
     docker_scrapi_celery_beat_volumes_from:
@@ -98,65 +99,42 @@
     docker_scrapi_celery_worker_links:
       - "{{ docker_elasticsearch_name }}:elasticsearch"
       - "{{ docker_cassandra_name }}:cassandra"
-      - "{{ docker_postgres_name }}:postgres"
+      - "{{ docker_postgres_repmgr_name }}:postgres"
       - "{{ docker_rabbitmq_name }}:rabbitmq"
       - "{{ docker_fluentd_name }}:fluentd"
     docker_scrapi_celery_worker_volumes_from:
       - "{{ docker_storage_name }}"
 
-    # docker_nginx_name: "{{ docker_env }}_scrapi_nginx_1"
-    # docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
-    # docker_nginx_conf_dir: "/opt/{{ docker_env }}_scrapi_nginx/conf"
-    # docker_ssl_dir: "{{ docker_nginx_conf_dir }}/ssl"
-    # docker_nginx_expose:
-    #   - 80
-    #   - 443
-    # docker_nginx_links:
-    #   - "{{ docker_scrapi_apiserver_name }}:apiserver"
-    # docker_nginx_volumes_from:
-    #   - "{{ docker_storage_name }}"
-
-    # docker_uwsgi_name: "{{ docker_scrapi_env }}_scrapi_apiserver_uwsgi_1"
-    # docker_uwsgi_image: centerforopenscience/share-reg:latest
-    # docker_uwsgi_source_branch: master
-    # docker_uwsgi_source_repo: https://github.com/centerforopenscience/scrapi.git
-    # docker_uwsgi_source_conf_file: uwsgi.ini
-    # docker_uwsgi_source_app_file: local.py
-    # docker_uwsgi_conf_dir: "/opt/{{ docker_scrapi_env }}_scrapi_apiserver_uwsgi/conf"
-    # docker_uwsgi_conf_file: "{{ docker_scrapi_apiserver_uwsgi_conf_dir }}/uwsgi.ini"
-    # docker_uwsgi_app_file: "{{ docker_scrapi_apiserver_uwsgi_conf_dir }}/local.py"
-    # docker_uwsgi_env:
-    #   SOURCE_BRANCH: "{{ docker_scrapi_apiserver_uwsgi_source_branch }}"
-    #   SOURCE_REPO: "{{ docker_scrapi_apiserver_uwsgi_source_repo }}"
-    # docker_scrapi_apiserver_uwsgi_expose: []
-    # docker_scrapi_apiserver_uwsgi_ports: []
-    # docker_scrapi_apiserver_uwsgi_links:
-    #   - "{{ docker_scrapi_apiserver_postgres_name }}:postgres"
-    # docker_scrapi_apiserver_uwsgi_volumes:
-    #   - "{{ docker_scrapi_apiserver_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-    #   - "{{ docker_scrapi_apiserver_uwsgi_app_file }}:/home/.cos/local.py"
-    # docker_scrapi_apiserver_uwsgi_volumes_from:
-    #   - "{{ docker_scrapi_apiserver_storage_name }}"
+    docker_nginx_name: "{{ docker_env }}_scrapi_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_scrapi_nginx/conf"
+    docker_nginx_expose:
+      - 80
+      - 443
+    docker_nginx_links:
+      - "{{ docker_scrapi_apiserver_name }}:apiserver"
+    docker_nginx_volumes_from:
+      - "{{ docker_storage_name }}"
   roles:
     - role: docker-storage
-      when: docker_scrapi_storage
+      when: docker_storage
 
     - role: docker-cassandra
-      when: docker_scrapi_cassandra
+      when: docker_cassandra
 
     - role: docker-elasticsearch
-      when: docker_scrapi_elasticsearch
+      when: docker_elasticsearch
 
     - role: docker-fluentd
-      when: docker_scrapi_fluentd
+      when: docker_fluentd
 
     - role: docker-rabbitmq
-      when: docker_scrapi_rabbitmq
+      when: docker_rabbitmq
 
-    - role: docker-postgres
-      when: docker_scrapi_postgres
+    - role: docker-postgres-repmgr
+      when: docker_postgres_repmgr
 
     - role: docker-scrapi
 
     - role: docker-nginx
-      when: docker_scrapi_nginx
+      when: docker_nginx

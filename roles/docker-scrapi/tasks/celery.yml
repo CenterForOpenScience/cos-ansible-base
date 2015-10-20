@@ -1,0 +1,54 @@
+- debug:
+    msg: "docker_scrapi_celery_name: {{ docker_scrapi_celery_name }}"
+  tags:
+    - install
+    - upgrade
+    - restart
+    - restart_scrapi
+
+
+- name: Ensure docker scrapi celery directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_scrapi_celery_data_dir | default(omit) }}"
+  when: docker_scrapi_celery_data_dir | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker scrapi celery container
+  sudo: yes
+  shell: "docker restart {{ docker_scrapi_celery_name }}_{{ item }}"
+  with_sequence: count={{ docker_scrapi_celery_instances }}
+  when: docker_scrapi_celery_instances > 0
+  tags:
+    - restart
+    - restart_scrapi
+
+
+- name: Run docker scrapi celery container
+  docker:
+    command: "{{ docker_scrapi_celery_command }}"
+    env: "{{ docker_scrapi_celery_env }}"
+    expose: "{{ docker_scrapi_celery_expose }}"
+    hostname: "{{ docker_scrapi_celery_hostname }}"
+    image: "{{ docker_scrapi_celery_image }}"
+    links: "{{ docker_scrapi_celery_links }}"
+    name: "{{ docker_scrapi_celery_name }}_{{ item }}"
+    net: "{{ docker_scrapi_celery_net }}"
+    ports: "{{ docker_scrapi_celery_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_scrapi_celery_volumes }}"
+    volumes_from: "{{ docker_scrapi_celery_volumes_from }}"
+  with_sequence: count={{ docker_scrapi_celery_instances }}
+  when: docker_scrapi_celery_instances > 0
+  tags:
+    - install
+    - upgrade
