@@ -1,8 +1,13 @@
 docker_jenkins_name: jenkins_1
-docker_jenkins_image: "{{ docker_jenkins_image }}"
+docker_jenkins_image: centerforopenscience/jenkins
 docker_jenkins_data_dir: /opt/jenkins/data
+docker_jenkins_hostname: "{{ hostname_name }}"
+docker_jenkins_env: {}
+docker_jenkins_net: bridge
+docker_jenkins_expose:
+  - 8080
+  - 50000
 docker_jenkins_ports: []
 docker_jenkins_volumes:
-  - "/var/jenkins_home"
-#docker_jenkins_volumes:
-#  - "{{ docker_jenkins_data_dir }}:/var/jenkins_home"
+  - "{{ docker_jenkins_data_dir }}:/var/jenkins_home"
+docker_jenkins_volumes_from: []

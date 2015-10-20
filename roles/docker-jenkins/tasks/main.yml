@@ -7,13 +7,18 @@
 
 - name: Run docker jenkins container
   docker:
+    env: "{{ docker_jenkins_env }}"
+    expose: "{{ docker_jenkins_expose }}"
+    hostname: "{{ docker_jenkins_hostname }}"
     image: "{{ docker_jenkins_image }}"
     name: "{{ docker_jenkins_name }}"
+    net: "{{ docker_jenkins_net }}"
     ports: "{{ docker_jenkins_ports }}"
     pull: always
     restart_policy: always
     state: reloaded
     volumes: "{{ docker_jenkins_volumes }}"
+    volumes_from: "{{ docker_jenkins_volumes_from }}"
   tags:
     - install
     - upgrade
