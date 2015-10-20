@@ -2,6 +2,23 @@
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_env: test
+
+    docker_jenkins_name: "{{ docker_env }}_jenkins_1"
+    docker_jenkins_conf_dir: "/opt/{{ docker_env }}_jenkins/conf"
+
+    docker_nginx_name: "{{ docker_env }}_jenkins_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_scrapi_nginx/conf"
+    docker_nginx_expose:
+      - 80
+      - 443
+    docker_nginx_links:
+      - "{{ docker_jenkins_name }}:jenkins"
   roles:
-    - role: docker-nginx
     - role: docker-jenkins
+
+    - role: docker-nginx
+      when: docker_nginx
+
