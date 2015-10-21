@@ -16,6 +16,8 @@
       - 443
     docker_nginx_links:
       - "{{ docker_jenkins_name }}:jenkins"
+    docker_nginx_volumes_from:
+      - "{{ docker_jenkins_name }}"
   roles:
     - role: docker-jenkins
 
