@@ -42,6 +42,7 @@
   when: docker_nginx_source_ssl_dir | default("") != ""
   tags:
     - install
+    - settings
     - upgrade
 
 
