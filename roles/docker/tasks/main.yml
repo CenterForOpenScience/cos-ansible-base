@@ -21,10 +21,33 @@
     - v1.8
 
 
+- name: Install docker system dependencies
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - python-pip
+    - curl
+    - ca-certificates
+    # - python-setuptools
+    # - python-distutils-extra
+  tags:
+    - v1.5
+    - v1.7
+    - v1.8
+
+
+- name: Install docker system dependencies (v1.7, v1.8)
+  shell: apt-get install -y apparmor linux-image-extra-virtual linux-image-extra-$(uname -r)
+  tags:
+    - v1.7
+    - v1.8
+
+
 - name: Shutdown running docker containers
   sudo: yes
   ignore_errors: yes
-  shell: docker stop -t 60 $(docker ps -a -q)
+  shell: docker stop -t 0 $(docker ps -a -q)
   tags:
     - v1.5
     - v1.7
@@ -46,29 +69,6 @@
     state: absent
   tags:
     - v1.5
-    - v1.7
-    - v1.8
-
-
-- name: Install docker system dependencies
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
-    - python-pip
-    - curl
-    - ca-certificates
-    # - python-setuptools
-    # - python-distutils-extra
-  tags:
-    - v1.5
-    - v1.7
-    - v1.8
-
-
-- name: Install docker system dependencies (v1.7, v1.8)
-  shell: apt-get install -y apparmor linux-image-extra-virtual linux-image-extra-$(uname -r)
-  tags:
     - v1.7
     - v1.8
 

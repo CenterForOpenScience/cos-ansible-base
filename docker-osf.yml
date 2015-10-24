@@ -91,6 +91,7 @@
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_osf_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_source_conf_dir: roles/docker-osf/files/nginx/
     docker_nginx_conf_dir: "/opt/{{ docker_env }}_osf_nginx/conf/"
     docker_nginx_expose:
       - 80
