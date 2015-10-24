@@ -28,9 +28,9 @@ docker_dor_nginx_name: "{{ docker_dor_env }}_dor_nginx_1"
 docker_dor_nginx_image: nginx:1
 docker_dor_nginx_source_conf_file: nginx.conf
 docker_dor_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
-docker_dor_nginx_conf_dir: "/opt/{{ docker_dor_env }}_dor_nginx/conf"
-docker_dor_nginx_conf_file: "{{ docker_dor_nginx_conf_dir }}/nginx.conf"
-docker_dor_nginx_ssl_dir: "{{ docker_dor_nginx_conf_dir }}/ssl"
+docker_dor_nginx_conf_dir: "/opt/{{ docker_dor_env }}_dor_nginx/conf/"
+docker_dor_nginx_conf_file: "{{ docker_dor_nginx_conf_dir }}nginx.conf"
+docker_dor_nginx_ssl_dir: "{{ docker_dor_nginx_conf_dir }}ssl/"
 docker_dor_nginx_env: {}
 docker_dor_nginx_expose:
   - 80
@@ -53,9 +53,9 @@ docker_dor_uwsgi_source_branch: master
 docker_dor_uwsgi_source_repo: https://github.com/mfraezz/DirectoryOfRepositories.git
 docker_dor_uwsgi_source_conf_file: uwsgi.ini
 docker_dor_uwsgi_source_app_file: local.py
-docker_dor_uwsgi_conf_dir: "/opt/{{ docker_dor_env }}_dor_uwsgi/conf"
-docker_dor_uwsgi_conf_file: "{{ docker_dor_uwsgi_conf_dir }}/uwsgi.ini"
-docker_dor_uwsgi_app_file: "{{ docker_dor_uwsgi_conf_dir }}/local.py"
+docker_dor_uwsgi_conf_dir: "/opt/{{ docker_dor_env }}_dor_uwsgi/conf/"
+docker_dor_uwsgi_conf_file: "{{ docker_dor_uwsgi_conf_dir }}uwsgi.ini"
+docker_dor_uwsgi_app_file: "{{ docker_dor_uwsgi_conf_dir }}local.py"
 docker_dor_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_dor_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_dor_uwsgi_source_repo }}"

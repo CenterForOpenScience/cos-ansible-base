@@ -6,11 +6,11 @@
     docker_env: test
 
     docker_jenkins_name: "{{ docker_env }}_jenkins_1"
-    docker_jenkins_data_dir: "/opt/{{ docker_env }}_jenkins/data"
+    docker_jenkins_data_dir: "/opt/{{ docker_env }}_jenkins/data/"
 
     docker_nginx_name: "{{ docker_env }}_jenkins_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
-    docker_nginx_conf_dir: "/opt/{{ docker_env }}_jenkins_nginx/conf"
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_jenkins_nginx/conf/"
     docker_nginx_expose:
       - 80
       - 443

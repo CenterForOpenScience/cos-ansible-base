@@ -3,8 +3,8 @@ docker_fluentd_image: centerforopenscience/fluentd:latest
 docker_fluentd_hostname: "{{ hostname_name }}"
 docker_fluentd_net: bridge
 docker_fluentd_source_conf_dir: etc/
-docker_fluentd_conf_dir: /opt/fluentd/conf
-docker_fluentd_data_dir: /opt/fluentd/data
+docker_fluentd_conf_dir: /opt/fluentd/conf/
+docker_fluentd_data_dir: /opt/fluentd/data/
 docker_fluentd_env: {}
 docker_fluentd_links: []
 docker_fluentd_expose:

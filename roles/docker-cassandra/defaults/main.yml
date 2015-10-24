@@ -1,6 +1,6 @@
 docker_cassandra_name: cassandra_1
 docker_cassandra_image: centerforopenscience/cassandra:2.2
-docker_cassandra_data_dir: /opt/cassandra/data
+docker_cassandra_data_dir: /opt/cassandra/data/
 docker_cassandra_hostname: "{{ hostname_name }}"
 docker_cassandra_env: {}
 docker_cassandra_expose: []

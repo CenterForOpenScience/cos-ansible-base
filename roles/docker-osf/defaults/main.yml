@@ -7,9 +7,9 @@ docker_osf_apiserver: no
 docker_osf_apiserver_name: osf_apiserver_1
 docker_osf_apiserver_image: centerforopenscience/osf:api
 docker_osf_apiserver_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
-docker_osf_apiserver_source_conf_file: apiserver.ini
-docker_osf_apiserver_conf_dir: /opt/osf_apiserver/conf
-docker_osf_apiserver_conf_file: "{{ docker_osf_apiserver_conf_dir }}/uwsgi.ini"
+docker_osf_apiserver_source_conf_file: apiserver/uwsgi.ini
+docker_osf_apiserver_conf_dir: /opt/osf_apiserver/conf/
+docker_osf_apiserver_conf_file: "{{ docker_osf_apiserver_conf_dir }}uwsgi.ini"
 docker_osf_apiserver_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
@@ -28,9 +28,9 @@ docker_osf_server: no
 docker_osf_server_name: osf_server_1
 docker_osf_server_image: centerforopenscience/osf:web
 docker_osf_server_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
-docker_osf_server_source_conf_file: server.ini
-docker_osf_server_conf_dir: /opt/osf_server/conf
-docker_osf_server_conf_file: "{{ docker_osf_server_conf_dir }}/uwsgi.ini"
+docker_osf_server_source_conf_file: server/uwsgi.ini
+docker_osf_server_conf_dir: /opt/osf_server/conf/
+docker_osf_server_conf_file: "{{ docker_osf_server_conf_dir }}uwsgi.ini"
 docker_osf_server_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"

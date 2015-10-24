@@ -1,7 +1,7 @@
 docker_postgres_repmgr_source_conf_file: repmgr.conf
-docker_postgres_repmgr_conf_dir: /opt/postgres/conf
-docker_postgres_repmgr_conf_file: "{{ docker_postgres_repmgr_conf_dir }}/repmgr.conf"
-docker_postgres_repmgr_data_dir: /opt/postgres/data
+docker_postgres_repmgr_conf_dir: /opt/postgres/conf/
+docker_postgres_repmgr_conf_file: "{{ docker_postgres_repmgr_conf_dir }}repmgr.conf"
+docker_postgres_repmgr_data_dir: /opt/postgres/data/
 docker_postgres_repmgr_name: postgres_1
 docker_postgres_repmgr_image: centerforopenscience/postgres:9.4-repmgr
 docker_postgres_repmgr_hostname: "{{ hostname_name }}"

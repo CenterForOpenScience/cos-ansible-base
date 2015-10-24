@@ -1,12 +1,12 @@
 docker_tokumx_name: tokumx_1
 docker_tokumx_image: centerforopenscience/tokumx:latest
 docker_tokumx_command: mongod --config /etc/tokumx.conf
-docker_tokumx_conf_dir: /opt/tokumx/conf
-docker_tokumx_conf_file: "{{ docker_tokumx_conf_dir }}/tokumx.conf"
+docker_tokumx_conf_dir: /opt/tokumx/conf/
+docker_tokumx_conf_file: "{{ docker_tokumx_conf_dir }}tokumx.conf"
 docker_tokumx_source_conf_file: tokumx.conf
-docker_tokumx_key_file: "{{ docker_tokumx_conf_dir }}/tokumx-keyfile"
+docker_tokumx_key_file: "{{ docker_tokumx_conf_dir }}tokumx-keyfile"
 docker_tokumx_source_key_file: tokumx-keyfile
-docker_tokumx_data_dir: /opt/tokumx/data
+docker_tokumx_data_dir: /opt/tokumx/data/
 docker_tokumx_env: {}
 docker_tokumx_hostname: "{{ hostname_name }}"
 docker_tokumx_net: bridge

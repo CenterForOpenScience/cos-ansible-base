@@ -1,6 +1,6 @@
 docker_jenkins_name: jenkins_1
 docker_jenkins_image: centerforopenscience/jenkins
-docker_jenkins_data_dir: /opt/jenkins/data
+docker_jenkins_data_dir: /opt/jenkins/data/
 docker_jenkins_hostname: "{{ hostname_name }}"
 docker_jenkins_env: {}
 docker_jenkins_net: bridge

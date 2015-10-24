@@ -14,7 +14,7 @@
 - name: Copy docker elasticsearch configuration settings
   copy:
     src: "{{ docker_elasticsearch_source_conf_dir }}"
-    dest: "{{ docker_elasticsearch_conf_dir }}/"
+    dest: "{{ docker_elasticsearch_conf_dir }}"
     mode: 0644
   tags:
     - install

@@ -5,7 +5,7 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_mfr_server_conf_dir }}"
-    - "{{ docker_mfr_server_conf_dir }}/ssl"
+    - "{{ docker_mfr_server_conf_dir }}ssl/"
   tags:
     - install
     - upgrade
@@ -26,7 +26,7 @@
   copy:
     mode: 0640
     src: "{{ docker_mfr_server_ssl_cert_file }}"
-    dest: "{{ docker_mfr_server_conf_dir }}/ssl/default.crt"
+    dest: "{{ docker_mfr_server_conf_dir }}ssl/default.crt"
   when: docker_mfr_server_ssl_cert_file | default("") != ""
   tags:
     - install
@@ -38,7 +38,7 @@
   copy:
     mode: 0640
     src: "{{ docker_mfr_server_ssl_key_file }}"
-    dest: "{{ docker_mfr_server_conf_dir }}/ssl/default.key"
+    dest: "{{ docker_mfr_server_conf_dir }}ssl/default.key"
   when: docker_mfr_server_ssl_key_file | default("") != ""
   tags:
     - install

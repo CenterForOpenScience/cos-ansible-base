@@ -16,7 +16,7 @@ docker_share_reg_storage_volumes:
 
 docker_share_reg_postgres: no
 docker_share_reg_postgres_name: "{{ docker_share_reg_env }}_share_reg_postgres_1"
-docker_share_reg_postgres_data_dir: "/opt/{{ docker_share_reg_env }}_share_reg_postgres/data"
+docker_share_reg_postgres_data_dir: "/opt/{{ docker_share_reg_env }}_share_reg_postgres/data/"
 docker_share_reg_postgres_env:
   POSTGRES_DB: share_registration
 docker_share_reg_postgres_expose:
@@ -28,9 +28,9 @@ docker_share_reg_nginx_name: "{{ docker_share_reg_env }}_share_reg_nginx_1"
 docker_share_reg_nginx_image: nginx:1
 docker_share_reg_nginx_source_conf_file: nginx.conf
 docker_share_reg_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
-docker_share_reg_nginx_conf_dir: "/opt/{{ docker_share_reg_env }}_share_reg_nginx/conf"
-docker_share_reg_nginx_conf_file: "{{ docker_share_reg_nginx_conf_dir }}/nginx.conf"
-docker_share_reg_nginx_ssl_dir: "{{ docker_share_reg_nginx_conf_dir }}/ssl"
+docker_share_reg_nginx_conf_dir: "/opt/{{ docker_share_reg_env }}_share_reg_nginx/conf/"
+docker_share_reg_nginx_conf_file: "{{ docker_share_reg_nginx_conf_dir }}nginx.conf"
+docker_share_reg_nginx_ssl_dir: "{{ docker_share_reg_nginx_conf_dir }}ssl/"
 docker_share_reg_nginx_env: {}
 docker_share_reg_nginx_expose:
   - 80
@@ -53,9 +53,9 @@ docker_share_reg_uwsgi_source_branch: master
 docker_share_reg_uwsgi_source_repo: https://github.com/erinspace/shareregistration.git
 docker_share_reg_uwsgi_source_conf_file: uwsgi.ini
 docker_share_reg_uwsgi_source_app_file: local.py
-docker_share_reg_uwsgi_conf_dir: "/opt/{{ docker_share_reg_env }}_share_reg_uwsgi/conf"
-docker_share_reg_uwsgi_conf_file: "{{ docker_share_reg_uwsgi_conf_dir }}/uwsgi.ini"
-docker_share_reg_uwsgi_app_file: "{{ docker_share_reg_uwsgi_conf_dir }}/local.py"
+docker_share_reg_uwsgi_conf_dir: "/opt/{{ docker_share_reg_env }}_share_reg_uwsgi/conf/"
+docker_share_reg_uwsgi_conf_file: "{{ docker_share_reg_uwsgi_conf_dir }}uwsgi.ini"
+docker_share_reg_uwsgi_app_file: "{{ docker_share_reg_uwsgi_conf_dir }}local.py"
 docker_share_reg_uwsgi_env:
   SOURCE_BRANCH: "{{ docker_share_reg_uwsgi_source_branch }}"
   SOURCE_REPO: "{{ docker_share_reg_uwsgi_source_repo }}"

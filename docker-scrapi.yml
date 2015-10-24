@@ -25,8 +25,8 @@
 
     docker_elasticsearch: no
     docker_elasticsearch_name: "{{ docker_env }}_scrapi_elasticsearch_1"
-    docker_elasticsearch_conf_dir: "/opt/{{ docker_env }}_scrapi_elasticsearch/conf"
-    docker_elasticsearch_data_dir: "/opt/{{ docker_env }}_scrapi_elasticsearch/data"
+    docker_elasticsearch_conf_dir: "/opt/{{ docker_env }}_scrapi_elasticsearch/conf/"
+    docker_elasticsearch_data_dir: "/opt/{{ docker_env }}_scrapi_elasticsearch/data/"
     docker_elasticsearch_expose:
       - 9200
 
@@ -40,8 +40,8 @@
 
     docker_postgres_repmgr: no
     docker_postgres_repmgr_source_conf_file: roles/docker-scrapi/files/repmgr.conf
-    docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_scrapi_postgres/conf"
-    docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_scrapi_postgres/data"
+    docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_scrapi_postgres/conf/"
+    docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_scrapi_postgres/data/"
     docker_postgres_repmgr_name: "{{ docker_env }}_scrapi_postgres_1"
     docker_postgres_repmgr_env:
       POSTGRES_DB: "scrapi_{{ docker_env }}"
@@ -50,13 +50,13 @@
 
     docker_rabbitmq: no
     docker_rabbitmq_name: "{{ docker_env }}_scrapi_rabbitmq_1"
-    docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_scrapi_rabbitmq/data"
+    docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_scrapi_rabbitmq/data/"
 
     docker_fluentd: no
     docker_fluentd_name: "{{ docker_env }}_scrapi_fluentd_1"
     docker_fluentd_source_conf_dir: roles/docker-scrapi/files/fluentd/
-    docker_fluentd_conf_dir: "/opt/{{ docker_env }}_scrapi_fluentd/conf"
-    docker_fluentd_conf_file: "{{ docker_fluentd_conf_dir }}/fluent.conf"
+    docker_fluentd_conf_dir: "/opt/{{ docker_env }}_scrapi_fluentd/conf/"
+    # docker_fluentd_conf_file: "{{ docker_fluentd_conf_dir }}fluent.conf"
     docker_fluentd_env:
       FLUENTD_GEMS: "fluent-plugin-elasticsearch"
     docker_fluentd_links:
@@ -66,7 +66,7 @@
     docker_fluentd_ports: []
 
     docker_scrapi_apiserver_name: "{{ docker_env }}_scrapi_apiserver_1"
-    docker_scrapi_apiserver_conf_dir: "/opt/{{ docker_env }}_scrapi_apiserver/conf"
+    docker_scrapi_apiserver_conf_dir: "/opt/{{ docker_env }}_scrapi_apiserver/conf/"
     docker_scrapi_apiserver_env:
       UPDATE_CMD: "invoke wheelhouse && invoke requirements && gosu www-data python manage.py collectstatic --noinput"
       SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
@@ -80,7 +80,7 @@
       - "{{ docker_storage_name }}"
 
     docker_scrapi_celery_beat_name: "{{ docker_env }}_scrapi_celery_beat"
-    docker_scrapi_celery_beat_data_dir: "/opt/{{ docker_env }}_scrapi_celery_beat/data"
+    docker_scrapi_celery_beat_data_dir: "/opt/{{ docker_env }}_scrapi_celery_beat/data/"
     docker_scrapi_celery_beat_links:
       - "{{ docker_elasticsearch_name }}:elasticsearch"
       - "{{ docker_postgres_repmgr_name }}:postgres"
@@ -109,7 +109,7 @@
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_scrapi_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
-    docker_nginx_conf_dir: "/opt/{{ docker_env }}_scrapi_nginx/conf"
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_scrapi_nginx/conf/"
     docker_nginx_expose:
       - 80
       - 443

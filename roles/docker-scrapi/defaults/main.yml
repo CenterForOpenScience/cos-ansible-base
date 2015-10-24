@@ -8,8 +8,8 @@ docker_scrapi_apiserver_name: scrapi_apiserver_1
 docker_scrapi_apiserver_image: centerforopenscience/scrapi:3.5
 docker_scrapi_apiserver_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
 docker_scrapi_apiserver_source_conf_file: apiserver/uwsgi.ini
-docker_scrapi_apiserver_conf_dir: /opt/scrapi_apiserver/conf
-docker_scrapi_apiserver_conf_file: "{{ docker_scrapi_apiserver_conf_dir }}/uwsgi.ini"
+docker_scrapi_apiserver_conf_dir: /opt/scrapi_apiserver/conf/
+docker_scrapi_apiserver_conf_file: "{{ docker_scrapi_apiserver_conf_dir }}uwsgi.ini"
 docker_scrapi_apiserver_env:
   SOURCE_BRANCH: "{{ docker_scrapi_source_branch }}"
   SOURCE_REPO: "{{ docker_scrapi_source_repo }}"

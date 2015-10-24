@@ -6,8 +6,8 @@
     # postgres
     docker_postgres_repmgr: no
     docker_postgres_repmgr_source_conf_file: roles/docker-cas/files/repmgr.conf
-    docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_cas_postgres/conf"
-    docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_cas_postgres/data"
+    docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_cas_postgres/conf/"
+    docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_cas_postgres/data/"
     docker_postgres_repmgr_name: "{{ docker_env }}_cas_postgres_1"
     docker_postgres_repmgr_env:
       POSTGRES_DB: cas_test
@@ -16,7 +16,7 @@
 
     # server
     docker_cas_server: no
-    docker_cas_server_conf_dir: /opt/{{ docker_env }}_cas_server/conf
+    docker_cas_server_conf_dir: /opt/{{ docker_env }}_cas_server/conf/
     docker_cas_server_name: "{{ docker_env }}_cas_server_1"
     docker_cas_server_env:
       SOURCE_BRANCH: "{{ docker_cas_source_branch }}"

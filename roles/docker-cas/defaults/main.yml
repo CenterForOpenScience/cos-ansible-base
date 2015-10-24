@@ -8,7 +8,7 @@ docker_cas_server: no
 docker_cas_server_image: centerforopenscience/cas:4.1
 docker_cas_server_definitions: "-Dproject.parent.basedir=/etc/cas"
 docker_cas_server_source_conf_dir: etc
-docker_cas_server_conf_dir: /opt/cas_server/conf
+docker_cas_server_conf_dir: /opt/cas_server/conf/
 docker_cas_server_hostname: "{{ hostname_name }}"
 docker_cas_server_name: "cas_server_1"
 docker_cas_server_net: bridge

@@ -9,8 +9,8 @@ docker_mfr_server: no
 docker_mfr_server_name: mfr_server
 docker_mfr_server_image: centerforopenscience/mfr:latest
 docker_mfr_server_source_conf_file: settings.json
-docker_mfr_server_conf_dir: "/opt/mfr_server/conf"
-docker_mfr_server_conf_file: "{{ docker_mfr_server_conf_dir }}/settings.json"
+docker_mfr_server_conf_dir: /opt/mfr_server/conf/
+docker_mfr_server_conf_file: "{{ docker_mfr_server_conf_dir }}settings.json"
 docker_mfr_server_ssl_cert_file: ""
 docker_mfr_server_ssl_key_file: ""
 docker_mfr_server_cert_src: ""
@@ -27,5 +27,5 @@ docker_mfr_server_expose:
 docker_mfr_server_ports: []
 docker_mfr_server_volumes:
   - "{{ docker_mfr_server_conf_file }}:/home/.cos/mfr-{{ docker_env | default('test') }}.json"
-  - "{{ docker_mfr_server_conf_dir }}/ssl:/home/.cos/ssl"
+  - "{{ docker_mfr_server_conf_dir }}ssl/:/home/.cos/ssl"
 docker_mfr_server_volumes_from: []

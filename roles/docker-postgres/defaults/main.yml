@@ -1,7 +1,6 @@
-docker_postgres_data_dir: /opt/postgres/data
-
 docker_postgres_name: postgres_1
 docker_postgres_image: postgres:9.4
+docker_postgres_data_dir: /opt/postgres/data/
 docker_postgres_hostname: "{{ hostname_name }}"
 docker_postgres_net: bridge
 docker_postgres_expose: []
