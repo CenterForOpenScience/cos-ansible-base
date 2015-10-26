@@ -1,10 +1,24 @@
-docker_postgres_repmgr_source_conf_file: repmgr.conf
 docker_postgres_repmgr_conf_dir: /opt/postgres/conf/
 docker_postgres_repmgr_conf_file: "{{ docker_postgres_repmgr_conf_dir }}repmgr.conf"
 docker_postgres_repmgr_data_dir: /opt/postgres/data/
 docker_postgres_repmgr_name: postgres_1
 docker_postgres_repmgr_image: centerforopenscience/postgres:9.4-repmgr
 docker_postgres_repmgr_hostname: "{{ hostname_name }}"
+
+docker_postgres_repmgr_cluster: example_cluster
+docker_postgres_repmgr_node_id: 2
+docker_postgres_repmgr_node_name: node2
+docker_postgres_repmgr_conninfo: host=127.0.0.1 dbname=repmgr_db user=repmgr_usr
+docker_postgres_repmgr_use_replication_slots: 1
+docker_postgres_repmgr_pg_bindir: /usr/lib/postgresql/9.4/bin/
+docker_postgres_repmgr_master_response_timeout: 60
+docker_postgres_repmgr_reconnect_attempts: 6
+docker_postgres_repmgr_reconnect_interval: 10
+docker_postgres_repmgr_failover: automatic
+docker_postgres_repmgr_priority: 100
+docker_postgres_repmgr_promote_command: repmgr standby promote -f /etc/regmgr/regmgr.conf
+docker_postgres_repmgr_follow_command: repmgr standby follow -f /etc/regmgr/regmgr.conf -W
+
 docker_postgres_repmgr_net: bridge
 docker_postgres_repmgr_expose:
   - 5432

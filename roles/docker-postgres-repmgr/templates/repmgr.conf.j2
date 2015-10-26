@@ -11,17 +11,17 @@
 # schema (pattern: "repmgr_{cluster}"); while this name will be quoted
 # to preserve case, we recommend using lower case and avoiding whitespace
 # to facilitate easier querying of the repmgr views and tables.
-cluster=example_cluster
+cluster={{ docker_postgres_repmgr_cluster }}
 
 # Node ID and name
 # (Note: we recommend to avoid naming nodes after their initial
 #  replication funcion, as this will cause confusion when e.g.
 #  "standby2" is promoted to master)
-node=2
-node_name=node2
+node={{ docker_postgres_repmgr_node_id }}
+node_name={{ docker_postgres_repmgr_node_name }}
 
 # Database connection information
-conninfo='host=192.168.204.104 dbname=repmgr_db user=repmgr_usr'
+conninfo='{{ docker_postgres_repmgr_conninfo }}'
 
 # Optional configuration items
 # ============================
@@ -39,7 +39,7 @@ conninfo='host=192.168.204.104 dbname=repmgr_db user=repmgr_usr'
 # physical replication slots - PostgreSQL 9.4 and later only
 # (default: 0)
 #
-# use_replication_slots=0
+use_replication_slots={{ docker_postgres_repmgr_use_replication_slots }}
 
 
 # Logging and monitoring settings
@@ -82,7 +82,7 @@ logfacility=STDERR
 
 # path to PostgreSQL binary directory (location of pg_ctl, pg_basebackup etc.)
 # (if not provided, defaults to system $PATH)
-# pg_bindir=/usr/bin/
+pg_bindir={{ docker_postgres_repmgr_pg_bindir }}
 
 # external command options
 
@@ -111,17 +111,17 @@ logfacility=STDERR
 # These settings are only applied when repmgrd is running.
 
 # How many seconds we wait for master response before declaring master failure
-master_response_timeout=60
+master_response_timeout={{ docker_postgres_repmgr_master_response_timeout }}
 
 # How many time we try to reconnect to master before starting failover procedure
-reconnect_attempts=6
-reconnect_interval=10
+reconnect_attempts={{ docker_postgres_repmgr_reconnect_attempts }}
+reconnect_interval={{ docker_postgres_repmgr_reconnect_interval }}
 
 # Autofailover options
-failover=automatic  # one of 'automatic', 'manual'
-priority=100        # a value of zero or less prevents the node being promoted to master
-promote_command='repmgr standby promote -f /path/to/repmgr.conf'
-follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
+failover={{ docker_postgres_repmgr_failover }}
+priority={{ docker_postgres_repmgr_priority }}        # a value of zero or less prevents the node being promoted to master
+promote_command='{{ docker_postgres_repmgr_promote_command }}'
+follow_command='{{ docker_postgres_repmgr_follow_command }}'
 
 # monitoring interval; default is 2s
 #

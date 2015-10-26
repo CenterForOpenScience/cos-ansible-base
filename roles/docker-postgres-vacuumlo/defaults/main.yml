@@ -1,0 +1,21 @@
+docker_postgres_vacuumlo_name: vacuumlo_1
+docker_postgres_vacuumlo_image: centerforopenscience/postgres:9.4-vacuumlo
+docker_postgres_vacuumlo_hostname: "{{ hostname_name }}"
+docker_postgres_vacuumlo_schedule: 0 2 * * *  # Daily @ 2 AM
+docker_postgres_vacuumlo_db_host:
+docker_postgres_vacuumlo_db_port:
+docker_postgres_vacuumlo_db_user:
+docker_postgres_vacuumlo_db_password:
+docker_postgres_vacuumlo_db_name: database_name
+docker_postgres_vacuumlo_net: bridge
+docker_postgres_vacuumlo_env:
+  SCHEDULE: "{{ docker_postgres_vacuumlo_schedule }}"
+  DB_HOST: "{{ docker_postgres_vacuumlo_db_host | default(omit) }}"
+  DB_PORT: "{{ docker_postgres_vacuumlo_db_port | default(omit) }}"
+  DB_USER: "{{ docker_postgres_vacuumlo_db_user | default(omit) }}"
+  DB_PASSWORD: "{{ docker_postgres_vacuumlo_db_password | default(omit) }}"
+  DB_NAME: "{{ docker_postgres_vacuumlo_db_name }}"
+docker_postgres_vacuumlo_expose: []
+docker_postgres_vacuumlo_ports: []
+docker_postgres_vacuumlo_links: []
+docker_postgres_vacuumlo_volumes: []

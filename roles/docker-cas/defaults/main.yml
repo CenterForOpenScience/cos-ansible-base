@@ -26,4 +26,4 @@ docker_cas_server_expose:
 docker_cas_server_ports: []
 docker_cas_server_links: []
 docker_cas_server_volumes:
-  - "{{ docker_cas_server_conf_dir }}:/etc/cas"
+  - "{{ docker_cas_server_conf_dir }}:/etc/cas/etc"

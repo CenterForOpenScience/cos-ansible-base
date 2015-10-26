@@ -1,0 +1,23 @@
+- name: Restart docker postgres vacuumlo container
+  sudo: yes
+  shell: "docker restart {{ docker_postgres_vacuumlo_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker postgres vacuumlo container
+  docker:
+    env: "{{ docker_postgres_vacuumlo_env }}"
+    expose: "{{ docker_postgres_vacuumlo_expose }}"
+    hostname: "{{ docker_postgres_vacuumlo_hostname }}"
+    image: "{{ docker_postgres_vacuumlo_image }}"
+    links: "{{ docker_postgres_vacuumlo_links }}"
+    name: "{{ docker_postgres_vacuumlo_name }}"
+    net: "{{ docker_postgres_vacuumlo_net }}"
+    ports: "{{ docker_postgres_vacuumlo_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_postgres_vacuumlo_volumes }}"
+  tags:
+    - install

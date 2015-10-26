@@ -3,20 +3,35 @@
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
   vars:
+    docker_env: test
+
     # postgres
     docker_postgres_repmgr: no
-    docker_postgres_repmgr_source_conf_file: roles/docker-cas/files/repmgr.conf
     docker_postgres_repmgr_conf_dir: "/opt/{{ docker_env }}_cas_postgres/conf/"
     docker_postgres_repmgr_data_dir: "/opt/{{ docker_env }}_cas_postgres/data/"
     docker_postgres_repmgr_name: "{{ docker_env }}_cas_postgres_1"
+    docker_postgres_repmgr_cluster: cas
+    docker_postgres_repmgr_node_id: "{{ hostname_name.split('-')[2].split('.')[0] }}"
+    docker_postgres_repmgr_node_name: "{{ hostname_name }}"
     docker_postgres_repmgr_env:
       POSTGRES_DB: cas_test
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
+    # postgres (vacuumlo)
+    docker_postgres_vacuumlo: no
+    docker_postgres_vacuumlo_name: "{{ docker_env }}_cas_vacuumlo_1"
+    docker_postgres_vacuumlo_schedule: "0 1 * * *"
+    docker_postgres_vacuumlo_db_host: postgres
+    docker_postgres_vacuumlo_db_name: cas_test
+    docker_postgres_vacuumlo_db_user: postgres
+    docker_postgres_vacuumlo_db_password: postgres
+    docker_postgres_vacuumlo_links:
+      - "{{ docker_postgres_repmgr_name }}:postgres"
+
     # server
     docker_cas_server: no
-    docker_cas_server_conf_dir: /opt/{{ docker_env }}_cas_server/conf/
+    docker_cas_server_conf_dir: "/opt/{{ docker_env }}_cas_server/conf/"
     docker_cas_server_name: "{{ docker_env }}_cas_server_1"
     docker_cas_server_env:
       SOURCE_BRANCH: "{{ docker_cas_source_branch }}"
@@ -28,11 +43,24 @@
       OSF_DB_NAME: osf20130903
     docker_cas_server_links:
       - "{{ docker_postgres_repmgr_name }}:postgres"
-    docker_cas_server_ports:
-      - 8080
+
+    docker_nginx: no
+    docker_nginx_name: "{{ docker_env }}_cas_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_source_conf_dir: roles/docker-cas/files/nginx/
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_cas_nginx/conf/"
+    docker_nginx_expose:
       - 8443
+    docker_nginx_links:
+      - "{{ docker_cas_server_name }}:server"
   roles:
     - role: docker-postgres-repmgr
       when: docker_postgres_repmgr
 
+    - role: docker-postgres-vacuumlo
+      when: docker_postgres_vacuumlo
+
     - role: docker-cas
+
+    - role: docker-nginx
+      when: docker_nginx
