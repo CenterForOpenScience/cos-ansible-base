@@ -22,7 +22,7 @@
       - "{{ docker_storage_name }}"
 
     docker_mfr_server_name: "{{ docker_env }}_mfr_server"
-    docker_mfr_server_conf_dir: "/opt/{{ docker_env }}_mfr_server/conf"
+    docker_mfr_server_conf_dir: "/opt/{{ docker_env }}_mfr_server/conf/"
     docker_mfr_server_links:
       - "{{ docker_unoconv_name }}:unoconv"
     docker_mfr_server_ports:

@@ -1,5 +1,7 @@
 - name: Setup docker logentries
   hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
   vars:
     docker_fluentd: yes
     docker_fluentd_name: fluentd_1
@@ -19,10 +21,6 @@
     docker_fluentd_ports: []
   roles:
     - role: rsyslog
-      tags:
-        - install
 
     - role: docker-fluentd
-      tags:
-        - install
       when: docker_fluentd
