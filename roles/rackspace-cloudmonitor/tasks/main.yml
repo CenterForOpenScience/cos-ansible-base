@@ -17,6 +17,13 @@
   apt: update_cache=yes
 
 
+- name: Copy rackspace agent.plugin scripts
+  copy:
+    src: plugins/
+    dest: /usr/lib/rackspace-monitoring-agent/plugins
+    mode: o+x
+
+
 - name: Install new rackspace cloud monitoring agent
   sudo: yes
   apt:
