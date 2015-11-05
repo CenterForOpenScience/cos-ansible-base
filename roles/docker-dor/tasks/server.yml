@@ -1,0 +1,59 @@
+- name: Ensure docker dor server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_dor_server_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker dor server configuration settings
+  copy:
+    src: "{{ docker_dor_server_source_conf_file }}"
+    dest: "{{ docker_dor_server_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker dor server application settings
+  copy:
+    src: "{{ docker_dor_server_source_app_file }}"
+    dest: "{{ docker_dor_server_app_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker dor server container
+  sudo: yes
+  shell: "docker restart {{ docker_dor_server_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker dor server container
+  docker:
+    command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+    env: "{{ docker_dor_server_env }}"
+    expose: "{{ docker_dor_server_expose }}"
+    hostname: "{{ hostname_name }}"
+    image: "{{ docker_dor_server_image }}"
+    links: "{{ docker_dor_server_links }}"
+    name: "{{ docker_dor_server_name }}"
+    ports: "{{ docker_dor_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes_from: "{{ docker_dor_server_volumes_from }}"
+    volumes: "{{ docker_dor_server_volumes }}"
+  tags:
+    - install
+    - upgrade
