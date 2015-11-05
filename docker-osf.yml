@@ -13,9 +13,6 @@
     docker_storage_file_ops:
       - state: directory
         path: "{{ docker_storage_dir }}code/"
-        mode: 644
-        owner: www-data
-        group: www-data
     docker_storage_volumes:
       - "{{ docker_storage_conf_dir }}code/:/code:rw"
       - "{{ docker_storage_conf_dir }}api/local.py:/code/api/base/settings/local.py:ro"
