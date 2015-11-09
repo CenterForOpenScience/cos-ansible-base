@@ -6,7 +6,7 @@ docker_nginx_source_htpasswd_file: ""
 docker_nginx_source_confd_dir: "{{ docker_nginx_source_conf_dir }}conf.d/"
 docker_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
 docker_nginx_env: {}
-docker_nginx_conf_dir: "/opt/nginx/conf/conf/"
+docker_nginx_conf_dir: "/opt/nginx/conf/"
 docker_nginx_nginx_conf_file: "{{ docker_nginx_conf_dir }}nginx.conf"
 docker_nginx_htpasswd_file: "{{ docker_nginx_conf_dir }}.htpasswd"
 docker_nginx_confd_dir: "{{ docker_nginx_conf_dir }}conf.d/"
