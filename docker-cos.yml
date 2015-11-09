@@ -26,11 +26,15 @@
     docker_storage_volumes:
       - "{{ docker_storage_dir }}code/:/code:rw"
 
+# memcached
+    docker_memcached_name: "{{ docker_env }}_cos_memcached_1"
+
 # cos
     docker_cos_uwsgi_name: "{{ docker_env }}_cos_server_1"
     docker_cos_uwsgi_conf_dir: "/opt/{{ docker_env }}_cos_uwsgi/conf/"
     docker_cos_uwsgi_links:
       - "{{ docker_postgres_name }}:postgres"
+      - "{{ docker_memcached_name }}:memcached"
     docker_cos_uwsgi_volumes_from:
       - "{{ docker_storage_name }}"
 
