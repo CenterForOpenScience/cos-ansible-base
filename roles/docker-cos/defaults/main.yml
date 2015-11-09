@@ -6,18 +6,17 @@ docker_cos_source_repo: https://github.com/CenterForOpenScience/centerforopensci
 
 docker_cos_uwsgi: no
 docker_cos_uwsgi_name: "{{ docker_cos_env }}_cos_uwsgi_1"
-docker_cos_uwsgi_image: centerforopenscience/cos:latest
-docker_cos_uwsgi_source_branch: "{{ docker_cos_source_branch }}"
-docker_cos_uwsgi_source_repo: "{{ docker_cos_source_repo }}"
+docker_cos_uwsgi_image: mattclarkdocker/docker-library:cos
 docker_cos_uwsgi_source_conf_file: uwsgi.ini
 docker_cos_uwsgi_source_app_file: local.py
 docker_cos_uwsgi_conf_dir: "/opt/{{ docker_cos_env }}_cos_uwsgi/conf/"
 docker_cos_uwsgi_conf_file: "{{ docker_cos_uwsgi_conf_dir }}uwsgi.ini"
 docker_cos_uwsgi_app_file: "{{ docker_cos_uwsgi_conf_dir }}local.py"
 docker_cos_uwsgi_env:
-  SOURCE_BRANCH: "{{ docker_cos_uwsgi_source_branch }}"
-  SOURCE_REPO: "{{ docker_cos_uwsgi_source_repo }}"
-docker_cos_uwsgi_expose: []
+  SOURCE_BRANCH: "{{ docker_cos_source_branch }}"
+  SOURCE_REPO: "{{ docker_cos_source_repo }}"
+docker_cos_uwsgi_expose:
+  - 8000
 docker_cos_uwsgi_ports: []
 docker_cos_uwsgi_links:
   - "{{ docker_cos_postgres_name }}:postgres"

@@ -24,7 +24,7 @@
       - state: directory
         path: "{{ docker_storage_dir }}code/"
     docker_storage_volumes:
-      - "{{ docker_storage_conf_dir }}code/:/code:rw"
+      - "{{ docker_storage_dir }}code/:/code:rw"
 
 # cos
     docker_cos_uwsgi_name: "{{ docker_env }}_cos_server_1"
