@@ -25,6 +25,7 @@
         path: "{{ docker_storage_dir }}code/"
     docker_storage_volumes:
       - "{{ docker_storage_dir }}code/:/code:rw"
+      - "{{ docker_storage_dir }}data/:/data:rw"
 
 # memcached
     docker_memcached_name: "{{ docker_env }}_cos_memcached_1"
@@ -58,6 +59,9 @@
 
     - role: docker-storage
       when: docker_storage
+
+    - role: docker-memcached
+      when: docker_memcached
 
     - role: docker-cos
 
