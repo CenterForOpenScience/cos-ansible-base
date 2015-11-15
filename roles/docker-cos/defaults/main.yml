@@ -23,6 +23,6 @@ docker_cos_uwsgi_links:
   - "{{ docker_cos_memcached_name }}:memcached"
 docker_cos_uwsgi_volumes:
   - "{{ docker_cos_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_cos_uwsgi_app_file }}:/code/mysite/local.py"
+  - "{{ docker_cos_uwsgi_app_file }}:/code/mysite/local_settings.py"
 docker_cos_uwsgi_volumes_from:
   - "{{ docker_cos_storage_name }}"
