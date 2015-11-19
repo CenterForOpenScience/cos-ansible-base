@@ -77,9 +77,8 @@
 
     docker_osf_sharejs_name: "{{ docker_env }}_osf_sharejs_1"
     docker_osf_sharejs_command: "invoke sharejs"
-    docker_osf_sharejs_conf_db_host: tokumx
-    docker_osf_sharejs_conf_db_port: 27017
     docker_osf_sharejs_conf_db_name: sharejs
+    docker_osf_sharejs_conf_db_url: mongodb://tokumx:27017/sharejs
     docker_osf_sharejs_links:
       - "{{ docker_tokumx_name }}:tokumx"
     docker_osf_cron_volumes_from:

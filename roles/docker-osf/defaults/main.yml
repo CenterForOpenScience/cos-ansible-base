@@ -107,10 +107,9 @@ docker_osf_sharejs_env:
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
   SHAREJS_SERVER_HOST: "{{ docker_osf_sharejs_conf_server_host | default('0.0.0.0') }}"
   SHAREJS_SERVER_PORT: "{{ docker_osf_sharejs_conf_server_port | default('7007') }}"
-  SHAREJS_CORS_ALLOW_ORIGIN: "{{ docker_osf_sharejs_conf_cors_allow_origin | default('https://test.osf.io') }}"
-  SHAREJS_DB_HOST: "{{ docker_osf_sharejs_conf_db_host | default('localhost') }}"
-  SHAREJS_DB_PORT: "{{ docker_osf_sharejs_conf_db_port | default('27017') }}"
   SHAREJS_DB_NAME: "{{ docker_osf_sharejs_conf_db_name | default('sharejs') }}"
+  SHAREJS_DB_URL: "{{ docker_osf_sharejs_conf_db_url | default('mongodb://localhost:27017/sharejs') }}"
+  SHAREJS_CORS_ALLOW_ORIGIN: "{{ docker_osf_sharejs_conf_cors_allow_origin | default('https://test.osf.io') }}"
   SHAREJS_SENTRY_DSN: "{{ docker_osf_sharejs_conf_sentry_dsn | default() }}"
 docker_osf_sharejs_net: bridge
 docker_osf_sharejs_hostname: "{{ hostname_name }}"
