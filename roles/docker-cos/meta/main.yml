@@ -1,35 +1,35 @@
-dependencies:
-  - role: docker-storage
-    docker_storage_name: "{{ docker_cos_storage_name }}"
-    docker_storage_volumes: "{{ docker_cos_storage_volumes }}"
-    when: docker_cos_storage
-
-  - role: docker-postgres
-    docker_postgres_name: "{{ docker_cos_postgres_name }}"
-    docker_postgres_data_dir: "{{ docker_cos_postgres_data_dir }}"
-    docker_postgres_env: "{{ docker_cos_postgres_env }}"
-    docker_postgres_expose: "{{ docker_cos_postgres_expose }}"
-    docker_postgres_ports: "{{ docker_cos_postgres_ports }}"
-    when: docker_cos_postgres
-
-  - role: docker-memcached
-    docker_memcached_name: "{{ docker_cos_memcached_name }}"
-    docker_memcached_expose: "{{ docker_cos_memcached_expose }}"
-    docker_memcached_ports: "{{ docker_cos_memcached_ports }}"
-    when: docker_cos_memcached
-
-  - role: docker-nginx
-    docker_nginx_name: "{{ docker_cos_nginx_name }}"
-    docker_nginx_image: "{{ docker_cos_nginx_image }}"
-    docker_nginx_source_conf_file: "{{ docker_cos_nginx_source_conf_file }}"
-    docker_nginx_source_ssl_dir: "{{ docker_cos_nginx_source_ssl_dir }}"
-    docker_nginx_conf_dir: "{{ docker_cos_nginx_conf_dir }}"
-    docker_nginx_conf_file: "{{ docker_cos_nginx_conf_file }}"
-    docker_nginx_ssl_dir: "{{ docker_cos_nginx_ssl_dir }}"
-    docker_nginx_env: "{{ docker_cos_nginx_env }}"
-    docker_nginx_expose: "{{ docker_cos_nginx_expose }}"
-    docker_nginx_ports: "{{ docker_cos_nginx_ports }}"
-    docker_nginx_links: "{{ docker_cos_nginx_links }}"
-    docker_nginx_volumes: "{{ docker_cos_nginx_volumes }}"
-    docker_nginx_volumes_from: "{{ docker_cos_nginx_volumes_from }}"
-    when: docker_cos_nginx
+#dependencies:
+#  - role: docker-storage
+#    docker_storage_name: "{{ docker_cos_storage_name }}"
+#    docker_storage_volumes: "{{ docker_cos_storage_volumes }}"
+#    when: docker_cos_storage
+#
+#  - role: docker-postgres
+#    docker_postgres_name: "{{ docker_cos_postgres_name }}"
+#    docker_postgres_data_dir: "{{ docker_cos_postgres_data_dir }}"
+#    docker_postgres_env: "{{ docker_cos_postgres_env }}"
+#    docker_postgres_expose: "{{ docker_cos_postgres_expose }}"
+#    docker_postgres_ports: "{{ docker_cos_postgres_ports }}"
+#    when: docker_cos_postgres
+#
+#  - role: docker-memcached
+#    docker_memcached_name: "{{ docker_cos_memcached_name }}"
+#    docker_memcached_expose: "{{ docker_cos_memcached_expose }}"
+#    docker_memcached_ports: "{{ docker_cos_memcached_ports }}"
+#    when: docker_cos_memcached
+#
+#  - role: docker-nginx
+#    docker_nginx_name: "{{ docker_cos_nginx_name }}"
+#    docker_nginx_image: "{{ docker_cos_nginx_image }}"
+#    docker_nginx_source_conf_file: "{{ docker_cos_nginx_source_conf_file }}"
+#    docker_nginx_source_ssl_dir: "{{ docker_cos_nginx_source_ssl_dir }}"
+#    docker_nginx_conf_dir: "{{ docker_cos_nginx_conf_dir }}"
+#    docker_nginx_conf_file: "{{ docker_cos_nginx_conf_file }}"
+#    docker_nginx_ssl_dir: "{{ docker_cos_nginx_ssl_dir }}"
+#    docker_nginx_env: "{{ docker_cos_nginx_env }}"
+#    docker_nginx_expose: "{{ docker_cos_nginx_expose }}"
+#    docker_nginx_ports: "{{ docker_cos_nginx_ports }}"
+#    docker_nginx_links: "{{ docker_cos_nginx_links }}"
+#    docker_nginx_volumes: "{{ docker_cos_nginx_volumes }}"
+#    docker_nginx_volumes_from: "{{ docker_cos_nginx_volumes_from }}"
+#    when: docker_cos_nginx
