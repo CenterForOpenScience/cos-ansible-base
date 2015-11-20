@@ -1,0 +1,68 @@
+- name: Ensure docker haproxy directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_haproxy_conf_dir }}"
+    - "{{ docker_haproxy_ssl_dir }}"
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker haproxy haproxy.conf file
+  copy:
+    src: "{{ docker_haproxy_source_conf_file }}"
+    dest: "{{ docker_haproxy_conf_file }}"
+    mode: 0644
+  when: docker_haproxy_source_conf_file | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Clear docker haproxy ssl certificates
+  shell: "rm -Rf {{ docker_haproxy_ssl_dir }}*"
+  when: docker_haproxy_source_ssl_dir | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker haproxy ssl certificates
+  copy:
+    mode: 0600
+    src: "{{ docker_haproxy_source_ssl_dir }}"
+    dest: "{{ docker_haproxy_ssl_dir }}"
+  when: docker_haproxy_source_ssl_dir | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker haproxy container
+  sudo: yes
+  shell: "docker restart {{ docker_haproxy_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker haproxy container
+  docker:
+    env: "{{ docker_haproxy_env }}"
+    expose: "{{ docker_haproxy_expose }}"
+    hostname: "{{ docker_haproxy_hostname }}"
+    image: "{{ docker_haproxy_image }}"
+    links: "{{ docker_haproxy_links }}"
+    name: "{{ docker_haproxy_name }}"
+    net: "{{ docker_haproxy_net }}"
+    ports: "{{ docker_haproxy_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_haproxy_volumes }}"
+    volumes_from: "{{ docker_haproxy_volumes_from }}"
+  tags:
+    - install
+    - upgrade

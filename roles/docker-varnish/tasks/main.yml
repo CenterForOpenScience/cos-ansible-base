@@ -1,0 +1,50 @@
+- name: Ensure docker varnish directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_varnish_conf_dir }}"
+    - "{{ docker_varnish_data_dir }}"
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker varnish default.vcl file
+  copy:
+    src: "{{ docker_varnish_source_conf_file }}"
+    dest: "{{ docker_varnish_conf_file }}"
+    mode: 0644
+  when: docker_varnish_source_conf_file | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker varnish container
+  sudo: yes
+  shell: "docker restart {{ docker_varnish_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker varnish container
+  docker:
+    command: "{{ docker_varnish_command }}"
+    env: "{{ docker_varnish_env }}"
+    expose: "{{ docker_varnish_expose }}"
+    hostname: "{{ docker_varnish_hostname }}"
+    image: "{{ docker_varnish_image }}"
+    links: "{{ docker_varnish_links }}"
+    name: "{{ docker_varnish_name }}"
+    net: "{{ docker_varnish_net }}"
+    ports: "{{ docker_varnish_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_varnish_volumes }}"
+    volumes_from: "{{ docker_varnish_volumes_from }}"
+  tags:
+    - install
+    - upgrade

@@ -2,5 +2,11 @@
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_haproxy: no
+    docker_haproxy_name: "{{ docker_env }}_haproxy_1"
+    docker_haproxy_conf_dir: "/opt/{{ docker_env }}_haproxy/conf/"
+    docker_haproxy_ssl_dir: "/opt/{{ docker_env }}_haproxy/ssl/"
   roles:
     - role: docker-haproxy
+      when: docker_haproxy

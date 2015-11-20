@@ -1,0 +1,12 @@
+- name: Set up varnish
+  hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_varnish: no
+    docker_varnish_name: "{{ docker_env }}_varnish_1"
+    docker_varnish_conf_dir: "/opt/{{ docker_env }}_varnish/conf/"
+    docker_varnish_data_dir: "/opt/{{ docker_env }}_varnish/data/"
+  roles:
+    - role: docker-varnish
+      when: docker_varnish

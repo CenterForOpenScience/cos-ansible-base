@@ -1,0 +1,18 @@
+docker_varnish_name: varnish_1
+docker_varnish_command: "varnishd -F -f /etc/varnish/default.vcl -s malloc,128m -T 0.0.0.0:2000 -a 0.0.0.0:8193 -p feature=+esi_disable_xml_check"
+docker_varnish_image: centerforopenscience/varnish:latest
+docker_varnish_source_conf_dir: roles/docker-varnish/files/conf/
+docker_varnish_source_conf_file: "{{ docker_varnish_source_conf_dir }}default.vcl"
+docker_varnish_conf_dir: /opt/varnish/conf/
+docker_varnish_conf_file: "{{ docker_varnish_conf_dir }}default.vcl"
+docker_varnish_data_dir: /opt/varnish/data/
+docker_varnish_hostname: "{{ hostname_name }}"
+docker_varnish_env: {}
+docker_varnish_links: []
+docker_varnish_net: bridge
+docker_varnish_expose: []
+docker_varnish_ports: []
+docker_varnish_volumes:
+  - "{{ docker_varnish_conf_file }}:/etc/varnish/default.vcl:ro"
+  - "{{ docker_varnish_data_dir }}:/var/lib/varnish/:rw"
+docker_varnish_volumes_from: []
