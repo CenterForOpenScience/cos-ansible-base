@@ -4,5 +4,6 @@ docker_rabbitmq_hostname: "{{ hostname_name }}"
 docker_rabbitmq_env: {}
 docker_rabbitmq_data_dir: /opt/rabbitmq/data/
 docker_rabbitmq_net: bridge
+docker_rabbitmq_ports:  "{{ docker_rabbitmq_ports }}"
 docker_rabbitmq_volumes:
   - "{{ docker_rabbitmq_data_dir }}:/var/lib/rabbitmq"

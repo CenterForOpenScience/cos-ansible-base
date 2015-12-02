@@ -24,6 +24,7 @@
     image: "{{ docker_rabbitmq_image }}"
     name: "{{ docker_rabbitmq_name }}"
     net: "{{ docker_rabbitmq_net }}"
+    ports: "{{ docker_rabbitmq_ports }}"
     pull: always
     restart_policy: always
     state: reloaded
