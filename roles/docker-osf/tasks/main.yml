@@ -4,6 +4,9 @@
 - include: apiserver.yml
   when: docker_osf_apiserver
 
+- include: adminserver.yml
+  when: docker_osf_adminserver
+
 - include: celery.yml
   vars:
     docker_osf_celery_instances: "{{ docker_osf_celery_beat_instances }}"

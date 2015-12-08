@@ -1,0 +1,51 @@
+- name: Ensure docker osf apiserver directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_osf_adminserver_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker osf adminserver configuration settings
+  copy:
+    src: "{{ docker_osf_adminserver_source_conf_file }}"
+    dest: "{{ docker_osf_adminserver_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker osf adminserver container
+  sudo: yes
+  shell: "docker restart {{ docker_osf_adminserver_name }}"
+  tags:
+    - restart
+    - restart_osf
+
+
+- name: Run docker osf adminserver container
+  docker:
+    command: "{{ docker_osf_adminserver_command }}"
+    env: "{{ docker_osf_adminserver_env }}"
+    expose: "{{ docker_osf_adminserver_expose }}"
+    hostname: "{{ docker_osf_adminserver_hostname }}"
+    image: "{{ docker_osf_adminserver_image }}"
+    links: "{{ docker_osf_adminserver_links }}"
+    name: "{{ docker_osf_adminserver_name }}"
+    net: "{{ docker_osf_adminserver_net }}"
+    ports: "{{ docker_osf_adminserver_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_osf_adminserver_volumes }}"
+    volumes_from: "{{ docker_osf_adminserver_volumes_from }}"
+  tags:
+    - install
+    - upgrade

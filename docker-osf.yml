@@ -28,6 +28,16 @@
     docker_tokumx_conf_dir: "/opt/{{ docker_env }}_osf_tokumx/conf/"
     docker_tokumx_data_dir: "/opt/{{ docker_env }}_osf_tokumx/data/"
 
+    # postgres
+    docker_postgres: no
+    docker_postgres_conf_dir: "/opt/{{ docker_env }}_osf_postgres/conf/"
+    docker_postgres_data_dir: "/opt/{{ docker_env }}_osf_postgres/data/"
+    docker_postgres_name: "{{ docker_env }}_osf_postgres_1"
+    docker_postgres_env:
+      POSTGRES_DB: "osf_admin_{{ docker_env }}"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
     docker_rabbitmq: no
     docker_rabbitmq_name: "{{ docker_env }}_osf_rabbitmq_1"
     docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_osf_rabbitmq/data/"
@@ -40,6 +50,13 @@
       - "{{ docker_tokumx_name }}:tokumx"
       - "{{ docker_rabbitmq_name }}:rabbitmq"
     docker_osf_apiserver_volumes_from:
+      - "{{ docker_storage_name }}"
+
+    docker_osf_adminserver_name: "{{ docker_env }}_osf_adminserver_1"
+    docker_osf_adminserver_conf_dir: "/opt/{{ docker_env }}_osf_adminserver/conf/"
+#    docker_osf_adminserver_links:
+#      - "{{ docker_postgres_name }}:postgres"
+    docker_osf_adminserver_volumes_from:
       - "{{ docker_storage_name }}"
 
     docker_osf_server_name: "{{ docker_env }}_osf_server_1"
@@ -86,6 +103,15 @@
     docker_osf_sharejs_volumes_from:
       - "{{ docker_storage_name }}"
 
+    docker_osf_adminserver_name: "{{ docker_env }}_osf_adminserver_1"
+    docker_osf_adminserver_conf_dir: "/opt/{{ docker_env }}_osf_adminserver/conf/"
+#    docker_osf_adminserver_links:
+#      - "{{ docker_elasticsearch_name }}:elasticsearch"
+#      - "{{ docker_tokumx_name }}:tokumx"
+#      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_adminserver_volumes_from:
+      - "{{ docker_storage_name }}"
+
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_osf_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
@@ -94,9 +120,10 @@
     docker_nginx_expose:
       - 80
       - 443
-    docker_nginx_links:
-      - "{{ docker_osf_apiserver_name }}:apiserver"
-      - "{{ docker_osf_server_name }}:server"
+    docker_nginx_links: []
+#      - "{{ docker_osf_apiserver_name }}:apiserver"
+#      - "{{ docker_osf_adminserver_name }}:server"
+#      - "{{ docker_osf_adminserver_name }}:adminserver"
 #      - "{{ docker_osf_sharejs_name }}:sharejs"
     docker_nginx_volumes_from:
       - "{{ docker_storage_name }}"
@@ -109,6 +136,9 @@
 
     - role: docker-tokumx
       when: docker_tokumx
+
+    - role: docker-postgres
+      when: docker_postgres
 
     - role: docker-rabbitmq
       when: docker_rabbitmq
