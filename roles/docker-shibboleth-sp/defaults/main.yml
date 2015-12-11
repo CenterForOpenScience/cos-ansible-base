@@ -1,0 +1,42 @@
+docker_shibboleth_sp_name: shibboleth_sp_1
+docker_shibboleth_sp_image: centerforopenscience/shibboleth:sp
+docker_shibboleth_sp_source_conf_dir: roles/docker-shibboleth-sp/files/conf/
+# docker_shibboleth_sp_source_conf_attribute_map_xml_file: "{{ docker_shibboleth_sp_source_conf_dir }}attribute-map.xml"
+# docker_shibboleth_sp_source_conf_attribute_policy_xml_file: "{{ docker_shibboleth_sp_source_conf_dir }}attribute-policy.xml"
+# docker_shibboleth_sp_source_conf_shibboleth2_xml_file: "{{ docker_shibboleth_sp_source_conf_dir }}shibboleth2.xml"
+# docker_shibboleth_sp_source_conf_sp_cert_pem_file: "{{ docker_shibboleth_sp_source_conf_dir }}sp-cert.pem"
+# docker_shibboleth_sp_source_conf_sp_key_pem_file: "{{ docker_shibboleth_sp_source_conf_dir }}sp-key.pem"
+docker_shibboleth_sp_source_apache2_dir: roles/docker-shibboleth-sp/files/apache2/
+docker_shibboleth_sp_source_apache2_apache2_conf_file: "{{ docker_shibboleth_sp_source_apache2_dir }}apache2.conf"
+docker_shibboleth_sp_source_apache2_ports_conf_file: "{{ docker_shibboleth_sp_source_apache2_dir }}ports.conf"
+docker_shibboleth_sp_source_apache2_sites_enabled_dir: "{{ docker_shibboleth_sp_source_apache2_dir }}sites-enabled/"
+docker_shibboleth_sp_env: {}
+
+docker_shibboleth_sp_conf_dir: /opt/shibboleth_sp/conf/
+# docker_shibboleth_sp_conf_attribute_map_xml_file: "{{ docker_shibboleth_sp_conf_dir }}attribute-map.xml"
+# docker_shibboleth_sp_conf_attribute_policy_xml_file: "{{ docker_shibboleth_sp_conf_dir }}attribute-policy.xml"
+# docker_shibboleth_sp_conf_shibboleth2_xml_file: "{{ docker_shibboleth_sp_conf_dir }}shibboleth2.xml"
+# docker_shibboleth_sp_conf_sp_cert_pem_file: "{{ docker_shibboleth_sp_conf_dir }}sp-cert.pem"
+# docker_shibboleth_sp_conf_sp_key_pem_file: "{{ docker_shibboleth_sp_conf_dir }}sp-key.pem"
+
+docker_shibboleth_sp_apache2_dir: /opt/shibboleth_sp/apache2/
+docker_shibboleth_sp_apache2_apache2_conf_file: "{{ docker_shibboleth_sp_apache2_dir }}apache2.conf"
+docker_shibboleth_sp_apache2_ports_conf_file: "{{ docker_shibboleth_sp_apache2_dir }}ports.conf"
+docker_shibboleth_sp_apache2_sites_enabled_dir: "{{ docker_shibboleth_sp_apache2_dir }}sites-enabled/"
+
+docker_shibboleth_sp_net: bridge
+docker_shibboleth_sp_hostname: "{{ hostname_name }}"
+docker_shibboleth_sp_links: []
+docker_shibboleth_sp_expose: []
+docker_shibboleth_sp_ports: []
+docker_shibboleth_sp_volumes:
+  - "{{ docker_shibboleth_sp_conf_dir }}:/etc/shibboleth/:ro"
+  # - "{{ docker_shibboleth_sp_conf_attribute_map_xml_file }}:/etc/shibboleth/attribute-map.xml:ro"
+  # - "{{ docker_shibboleth_sp_conf_attribute_policy_xml_file }}:/etc/shibboleth/attribute-policy.xml:ro"
+  # - "{{ docker_shibboleth_sp_conf_shibboleth2_xml_file }}:/etc/shibboleth/shibboleth2.xml:ro"
+  # - "{{ docker_shibboleth_sp_conf_sp_cert_pem_file }}:/etc/shibboleth/sp-cert.pem:ro"
+  # - "{{ docker_shibboleth_sp_conf_sp_key_pem_file }}:/etc/shibboleth/sp-key.pem:ro"
+  - "{{ docker_shibboleth_sp_apache2_apache2_conf_file }}:/etc/apache2/apache2.conf:ro"
+  - "{{ docker_shibboleth_sp_apache2_ports_conf_file }}:/etc/apache2/ports.conf:ro"
+  - "{{ docker_shibboleth_sp_apache2_sites_enabled_dir }}:/etc/apache2/sites-enabled/:ro"
+docker_shibboleth_sp_volumes_from: []
