@@ -2,7 +2,6 @@
 docker_sentry: no
 docker_sentry_name: "{{ docker_sentry_name }}"
 docker_sentry_command: ""
-#docker_sentry_command: "sentryd -F -f /etc/sentry/default.vcl -s malloc,128m -T 0.0.0.0:2000 -a 0.0.0.0:8193 -p feature=+esi_disable_xml_check"
 docker_sentry_image: sentry
 docker_sentry_source_conf_dir: roles/docker-sentry/files/conf/
 docker_sentry_source_conf_file: "{{ docker_sentry_source_conf_dir }}sentry.conf.py"
@@ -26,11 +25,8 @@ docker_sentry_celery_beat_instances: 1
 docker_sentry_celery_beat_name: sentry_celery_beat
 docker_sentry_celery_beat_image: sentry
 docker_sentry_celery_beat_command: "sentry celery beat"
-#docker_sentry_celery_beat_command: "gosu www-data invoke celery_beat --schedule=/celery/celerybeat-schedule"
 docker_sentry_celery_beat_data_dir: /opt/sentry_celery_beat/data/
 docker_sentry_celery_beat_env: {}
-#  SOURCE_BRANCH: "{{ docker_sentry_source_branch }}"
-#  SOURCE_REPO: "{{ docker_sentry_source_repo }}"
 docker_sentry_celery_beat_net: bridge
 docker_sentry_celery_beat_hostname: "{{ hostname_name }}"
 docker_sentry_celery_beat_expose: []
@@ -46,10 +42,7 @@ docker_sentry_celery_worker_instances: 2
 docker_sentry_celery_worker_name: sentry_celery_worker
 docker_sentry_celery_worker_image: sentry
 docker_sentry_celery_worker_command: "sentry celery worker"
-#docker_sentry_celery_worker_command: "gosu www-data invoke celery_worker --hostname=worker{{ item }}.%h"
 docker_sentry_celery_worker_env: {}
-#  SOURCE_BRANCH: "{{ docker_sentry_source_branch }}"
-#  SOURCE_REPO: "{{ docker_sentry_source_repo }}"
 docker_sentry_celery_worker_net: bridge
 docker_sentry_celery_worker_hostname: "{{ hostname_name }}"
 docker_sentry_celery_worker_expose: []

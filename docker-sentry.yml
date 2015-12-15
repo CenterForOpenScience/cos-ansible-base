@@ -40,6 +40,18 @@
     docker_sentry_links:
       - "{{ docker_redis_name }}:redis"
       - "{{ docker_postgres_name }}:postgres"
+
+    # nginx
+    docker_nginx: no
+    docker_nginx_name: "{{ docker_env }}_sentry_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_source_conf_dir: roles/docker-sentry/files/nginx/
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_sentry_nginx/conf/"
+    docker_nginx_expose:
+      - 80
+      - 443
+    docker_nginx_links:
+      - "{{ docker_sentry_name }}:sentry"
   roles:
     - role: docker-redis
       when: docker_redis
@@ -49,5 +61,8 @@
 
     - role: docker-sentry
       when: docker_sentry
+
+    - role: docker-nginx
+      when: docker_nginx
 
 
