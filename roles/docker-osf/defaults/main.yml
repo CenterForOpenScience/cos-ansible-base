@@ -34,10 +34,9 @@ docker_osf_adminserver_conf_file: "{{ docker_osf_adminserver_conf_dir }}uwsgi.in
 docker_osf_adminserver_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
-docker_osf_adminserver_net: bridge
+docker_osf_adminserver_net: host
 docker_osf_adminserver_hostname: "{{ hostname_name }}"
-docker_osf_adminserver_expose:
-  - 8001
+docker_osf_adminserver_expose: []
 docker_osf_adminserver_ports: []
 docker_osf_adminserver_links: []
 docker_osf_adminserver_volumes:
