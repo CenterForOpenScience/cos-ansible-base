@@ -1,4 +1,4 @@
-- name: Ensure docker osf apiserver directories exist
+- name: Ensure docker osf adminserver directories exist
   sudo: yes
   file:
     state: directory
