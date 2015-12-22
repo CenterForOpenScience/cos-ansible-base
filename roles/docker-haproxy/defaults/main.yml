@@ -1,10 +1,8 @@
 docker_haproxy_name: haproxy_1
-docker_haproxy_image: haproxy:1.6
+docker_haproxy_image: centerforopenscience/haproxy:latest
 docker_haproxy_source_conf_dir: roles/docker-haproxy/files/conf/
-docker_haproxy_source_conf_file: "{{ docker_haproxy_source_conf_dir }}haproxy.cfg"
 docker_haproxy_source_ssl_dir: roles/docker-haproxy/files/ssl/
 docker_haproxy_conf_dir: /opt/haproxy/conf/
-docker_haproxy_conf_file: "{{ docker_haproxy_conf_dir }}haproxy.cfg"
 docker_haproxy_ssl_dir: "{{ docker_haproxy_conf_dir }}ssl/"
 docker_haproxy_hostname: "{{ hostname_name }}"
 docker_haproxy_env: {}
@@ -13,6 +11,6 @@ docker_haproxy_net: bridge
 docker_haproxy_expose: []
 docker_haproxy_ports: []
 docker_haproxy_volumes:
-  - "{{ docker_haproxy_conf_dir }}haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+  - "{{ docker_haproxy_conf_dir }}:/usr/local/etc/haproxy/:ro"
   - "{{ docker_haproxy_ssl_dir }}:/etc/ssl/private:ro"
 docker_haproxy_volumes_from: []

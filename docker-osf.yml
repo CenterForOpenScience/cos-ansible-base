@@ -31,7 +31,6 @@
     docker_rabbitmq: no
     docker_rabbitmq_name: "{{ docker_env }}_osf_rabbitmq_1"
     docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_osf_rabbitmq/data/"
-    docker_rabbitmq_ports: "{{ docker_rabbitmq_ports }}"
 
     docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
     docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf/"
@@ -80,7 +79,6 @@
     docker_osf_sharejs_command: "invoke sharejs"
     docker_osf_sharejs_conf_db_name: sharejs
     docker_osf_sharejs_conf_db_url: mongodb://tokumx:27017/sharejs
-    docker_osf_sharejs_ports: "{{ docker_osf_sharejs_ports }}"
     docker_osf_sharejs_links:
       - "{{ docker_tokumx_name }}:tokumx"
     docker_osf_sharejs_volumes_from:
@@ -97,7 +95,7 @@
     docker_nginx_links:
       - "{{ docker_osf_apiserver_name }}:apiserver"
       - "{{ docker_osf_server_name }}:server"
-#      - "{{ docker_osf_sharejs_name }}:sharejs"
+      - "{{ docker_osf_sharejs_name }}:sharejs"
     docker_nginx_volumes_from:
       - "{{ docker_storage_name }}"
   roles:
