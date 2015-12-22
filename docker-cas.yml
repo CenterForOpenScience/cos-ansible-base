@@ -44,15 +44,27 @@
     docker_cas_server_links:
       - "{{ docker_postgres_repmgr_name }}:postgres"
 
-    docker_nginx: no
-    docker_nginx_name: "{{ docker_env }}_cas_nginx_1"
-    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
-    docker_nginx_source_conf_dir: roles/docker-cas/files/nginx/
-    docker_nginx_conf_dir: "/opt/{{ docker_env }}_cas_nginx/conf/"
-    docker_nginx_expose:
-      - 8443
-    docker_nginx_links:
-      - "{{ docker_cas_server_name }}:server"
+    # docker_nginx: no
+    # docker_nginx_name: "{{ docker_env }}_cas_nginx_1"
+    # docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    # docker_nginx_source_conf_dir: roles/docker-cas/files/nginx/
+    # docker_nginx_conf_dir: "/opt/{{ docker_env }}_cas_nginx/conf/"
+    # docker_nginx_expose:
+    #   - 8443
+    # docker_nginx_links:
+    #   - "{{ docker_cas_server_name }}:server"
+
+    # shibboleth
+    docker_shibboleth_sp: no
+    docker_shibboleth_sp_name: "{{ docker_env }}_cas_shibboleth_sp_1"
+    # docker_shibboleth_sp_source_conf_dir: roles/docker-shibboleth-sp/files/conf/
+    docker_shibboleth_sp_source_apache2_dir: roles/docker-cas/files/shibboleth-sp/apache2/
+    docker_shibboleth_sp_conf_dir: "/opt/{{ docker_env }}_cas_shibboleth_sp/conf/"
+    docker_shibboleth_sp_apache2_dir: "/opt/{{ docker_env }}_cas_shibboleth_sp/apache2/"
+    docker_shibboleth_sp_expose:
+      - 8080
+    docker_shibboleth_sp_links:
+      - "{{ docker_cas_server_name }}:cas"
   roles:
     - role: docker-postgres-repmgr
       when: docker_postgres_repmgr
@@ -62,5 +74,8 @@
 
     - role: docker-cas
 
-    - role: docker-nginx
-      when: docker_nginx
+    # - role: docker-nginx
+    #   when: docker_nginx
+
+    - role: docker-shibboleth-sp
+      when: docker_shibboleth_sp

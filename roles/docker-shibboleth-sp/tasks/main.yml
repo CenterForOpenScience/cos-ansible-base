@@ -1,0 +1,88 @@
+- name: Ensure docker shibboleth sp directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_shibboleth_sp_conf_dir }}"
+    - "{{ docker_shibboleth_sp_apache2_dir }}"
+    - "{{ docker_shibboleth_sp_apache2_sites_enabled_dir }}"
+  tags:
+    - install
+    - shibboleth-sp-install
+    - settings
+    - shibboleth-sp-settings
+
+- name: Copy docker shibboleth sp conf directory
+  copy:
+    src: "{{ docker_shibboleth_sp_source_conf_dir }}"
+    dest: "{{ docker_shibboleth_sp_conf_dir }}"
+    mode: 0644
+  when: docker_shibboleth_sp_source_conf_dir | default("") != ""
+  tags:
+    - install
+    - shibboleth-sp-install
+    - settings
+    - shibboleth-sp-settings
+
+- name: Copy docker shibboleth_sp apache2/apache2.conf file
+  copy:
+    src: "{{ docker_shibboleth_sp_source_apache2_apache2_conf_file }}"
+    dest: "{{ docker_shibboleth_sp_apache2_apache2_conf_file }}"
+    mode: 0644
+  when: docker_shibboleth_sp_source_apache2_apache2_conf_file | default("") != ""
+  tags:
+    - install
+    - shibboleth-sp-install
+    - settings
+    - shibboleth-sp-settings
+
+- name: Copy docker shibboleth_sp apache2/ports.conf file
+  copy:
+    src: "{{ docker_shibboleth_sp_source_apache2_ports_conf_file }}"
+    dest: "{{ docker_shibboleth_sp_apache2_ports_conf_file }}"
+    mode: 0644
+  when: docker_shibboleth_sp_source_apache2_ports_conf_file | default("") != ""
+  tags:
+    - install
+    - shibboleth-sp-install
+    - settings
+    - shibboleth-sp-settings
+
+- name: Copy docker shibboleth sp apache2/sites-enabled directory
+  copy:
+    src: "{{ docker_shibboleth_sp_source_apache2_sites_enabled_dir }}"
+    dest: "{{ docker_shibboleth_sp_apache2_sites_enabled_dir }}"
+    mode: 0644
+  when: docker_shibboleth_sp_source_apache2_sites_enabled_dir | default("") != ""
+  tags:
+    - install
+    - shibboleth-sp-install
+    - settings
+    - shibboleth-sp-settings
+
+- name: Restart docker shibboleth sp container
+  sudo: yes
+  shell: "docker restart {{ docker_shibboleth_sp_name }}"
+  tags:
+    - restart
+    - shibboleth-sp-restart
+
+- name: Run docker shibboleth sp container
+  docker:
+    env: "{{ docker_shibboleth_sp_env }}"
+    expose: "{{ docker_shibboleth_sp_expose }}"
+    hostname: "{{ docker_shibboleth_sp_hostname }}"
+    image: "{{ docker_shibboleth_sp_image }}"
+    links: "{{ docker_shibboleth_sp_links }}"
+    name: "{{ docker_shibboleth_sp_name }}"
+    net: "{{ docker_shibboleth_sp_net }}"
+    ports: "{{ docker_shibboleth_sp_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_shibboleth_sp_volumes }}"
+    volumes_from: "{{ docker_shibboleth_sp_volumes_from }}"
+  tags:
+    - install
+    - shibboleth-sp-install

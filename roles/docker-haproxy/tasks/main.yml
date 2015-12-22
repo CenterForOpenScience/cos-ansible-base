@@ -11,12 +11,12 @@
     - settings
 
 
-- name: Copy docker haproxy haproxy.conf file
+- name: Copy docker haproxy conf directory
   copy:
-    src: "{{ docker_haproxy_source_conf_file }}"
-    dest: "{{ docker_haproxy_conf_file }}"
     mode: 0644
-  when: docker_haproxy_source_conf_file | default("") != ""
+    src: "{{ docker_haproxy_source_conf_dir }}"
+    dest: "{{ docker_haproxy_conf_dir }}"
+  when: docker_haproxy_source_conf_dir | default("") != ""
   tags:
     - install
     - settings
@@ -27,7 +27,7 @@
   when: docker_haproxy_source_ssl_dir | default("") != ""
   tags:
     - install
-    - settings
+    - settings-clean
 
 
 - name: Copy docker haproxy ssl certificates
@@ -48,6 +48,13 @@
     - restart
 
 
+- name: Reload docker haproxy container
+  sudo: yes
+  shell: "docker kill --signal=SIGHUP {{ docker_haproxy_name }}"
+  tags:
+    - reload
+
+
 - name: Run docker haproxy container
   docker:
     env: "{{ docker_haproxy_env }}"
@@ -61,6 +68,7 @@
     pull: always
     restart_policy: always
     state: reloaded
+    tty: yes
     volumes: "{{ docker_haproxy_volumes }}"
     volumes_from: "{{ docker_haproxy_volumes_from }}"
   tags:
