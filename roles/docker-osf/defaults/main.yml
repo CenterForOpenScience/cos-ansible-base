@@ -2,6 +2,29 @@
 docker_osf_source_branch: master
 docker_osf_source_repo: https://github.com/CenterForOpenScience/osf.io.git
 
+# adminserver
+docker_osf_adminserver: no
+docker_osf_adminserver_name: osf_adminserver_1
+docker_osf_adminserver_image: centerforopenscience/osf:admin
+docker_osf_adminserver_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+docker_osf_adminserver_source_conf_file: adminserver/uwsgi.ini
+docker_osf_adminserver_conf_dir: /opt/osf_adminserver/conf/
+docker_osf_adminserver_conf_file: "{{ docker_osf_adminserver_conf_dir }}uwsgi.ini"
+docker_osf_adminserver_data_dir: /opt/osf_adminserver/data/
+docker_osf_adminserver_env:
+  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
+  SOURCE_REPO: "{{ docker_osf_source_repo }}"
+docker_osf_adminserver_net: bridge
+docker_osf_adminserver_hostname: "{{ hostname_name }}"
+docker_osf_adminserver_expose:
+  - 8001
+docker_osf_adminserver_ports: []
+docker_osf_adminserver_links: []
+docker_osf_adminserver_volumes:
+  - "{{ docker_osf_adminserver_conf_file }}:/etc/uwsgi/uwsgi.ini"
+  - "{{ docker_osf_adminserver_data_dir }}:/data"
+docker_osf_adminserver_volumes_from: []
+
 # apiserver
 docker_osf_apiserver: no
 docker_osf_apiserver_name: osf_apiserver_1
@@ -22,27 +45,6 @@ docker_osf_apiserver_links: []
 docker_osf_apiserver_volumes:
   - "{{ docker_osf_apiserver_conf_file }}:/etc/uwsgi/uwsgi.ini"
 docker_osf_apiserver_volumes_from: []
-
-# adminserver
-docker_osf_adminserver: no
-docker_osf_adminserver_name: osf_adminserver_1
-docker_osf_adminserver_image: centerforopenscience/osf:admin
-docker_osf_adminserver_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
-docker_osf_adminserver_source_conf_file: adminserver/uwsgi.ini
-docker_osf_adminserver_conf_dir: /opt/osf_adminserver/conf/
-docker_osf_adminserver_conf_file: "{{ docker_osf_adminserver_conf_dir }}uwsgi.ini"
-docker_osf_adminserver_env:
-  SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
-  SOURCE_REPO: "{{ docker_osf_source_repo }}"
-docker_osf_adminserver_net: bridge
-docker_osf_adminserver_hostname: "{{ hostname_name }}"
-docker_osf_adminserver_expose:
-  - 8001
-docker_osf_adminserver_ports: []
-docker_osf_adminserver_links: []
-docker_osf_adminserver_volumes:
-  - "{{ docker_osf_adminserver_conf_file }}:/etc/uwsgi/uwsgi.ini"
-docker_osf_adminserver_volumes_from: []
 
 # server
 docker_osf_server: no

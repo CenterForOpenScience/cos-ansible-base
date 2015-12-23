@@ -42,6 +42,16 @@
     docker_rabbitmq_name: "{{ docker_env }}_osf_rabbitmq_1"
     docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_osf_rabbitmq/data/"
 
+    docker_osf_adminserver_name: "{{ docker_env }}_osf_adminserver_1"
+    docker_osf_adminserver_conf_dir: "/opt/{{ docker_env }}_osf_adminserver/conf/"
+    docker_osf_adminserver_data_dir: "/opt/{{ docker_env }}_osf_adminserver/data/"
+    docker_osf_adminserver_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+    docker_osf_adminserver_volumes_from:
+      - "{{ docker_storage_name }}"
+
     docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
     docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf/"
     docker_osf_apiserver_links:
@@ -49,15 +59,6 @@
       - "{{ docker_tokumx_name }}:tokumx"
       - "{{ docker_rabbitmq_name }}:rabbitmq"
     docker_osf_apiserver_volumes_from:
-      - "{{ docker_storage_name }}"
-
-    docker_osf_adminserver_name: "{{ docker_env }}_osf_adminserver_1"
-    docker_osf_adminserver_conf_dir: "/opt/{{ docker_env }}_osf_adminserver/conf/"
-    docker_osf_adminserver_links:
-      - "{{ docker_elasticsearch_name }}:elasticsearch"
-      - "{{ docker_tokumx_name }}:tokumx"
-      - "{{ docker_rabbitmq_name }}:rabbitmq"
-    docker_osf_adminserver_volumes_from:
       - "{{ docker_storage_name }}"
 
     docker_osf_server_name: "{{ docker_env }}_osf_server_1"

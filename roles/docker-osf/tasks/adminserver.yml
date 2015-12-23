@@ -10,6 +10,21 @@
     - upgrade
 
 
+- name: Ensure docker osf adminserver data directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    recurse: false
+    owner: www-data
+    group: www-data
+  with_items:
+    - "{{ docker_osf_adminserver_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
 - name: Copy docker osf adminserver configuration settings
   copy:
     src: "{{ docker_osf_adminserver_source_conf_file }}"
