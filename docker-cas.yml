@@ -36,10 +36,11 @@
     docker_cas_server_env:
       SOURCE_BRANCH: "{{ docker_cas_source_branch }}"
       SOURCE_REPO: "{{ docker_cas_source_repo }}"
+      POSTGRES_DATABASE_URL: jdbc:postgresql://postgres:5432/cas_stage2?targetServerType=master
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD:
-      OSF_DB_PORT_27017_TCP_ADDR: 127.0.0.1
-      OSF_DB_PORT_27017_TCP_PORT: 27017
+      OSF_DB_HOST: tokumx
+      OSF_DB_PORT: 27017
       OSF_DB_NAME: osf20130903
     docker_cas_server_links:
       - "{{ docker_postgres_repmgr_name }}:postgres"
