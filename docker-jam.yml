@@ -1,0 +1,42 @@
+- name: Set up jam
+  hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_elasticsearch: no
+    docker_elasticsearch_name: "{{ docker_env }}_jam_elasticsearch_1"
+    docker_elasticsearch_conf_dir: "/opt/{{ docker_env }}_jam_elasticsearch/conf/"
+    docker_elasticsearch_data_dir: "/opt/{{ docker_env }}_jam_elasticsearch/data/"
+
+    docker_mongo: no
+    docker_mongo_name: "{{ docker_env }}_jam_mongo_1"
+    docker_mongo_conf_dir: "/opt/{{ docker_env }}_jam_mongo/conf/"
+    docker_mongo_data_dir: "/opt/{{ docker_env }}_jam_mongo/data/"
+
+    docker_jam_server_name: "{{ docker_env }}_jam_server_1"
+    docker_jam_server_conf_dir: "/opt/{{ docker_env }}_jam_server/conf/"
+    docker_jam_server_data_dir: "/opt/{{ docker_env }}_jam_server/data/"
+    docker_jam_server_links:
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_mongo_name }}:mongo"
+
+    docker_nginx: no
+    docker_nginx_name: "{{ docker_env }}_jam_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_source_conf_dir: roles/docker-jam/files/nginx/
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_jam_nginx/conf/"
+    docker_nginx_expose:
+      - 1212
+    docker_nginx_links:
+      - "{{ docker_jam_server_name }}:server"
+  roles:
+    - role: docker-elasticsearch
+      when: docker_elasticsearch
+
+    - role: docker-mongo
+      when: docker_mongo
+
+    - role: docker-jam
+
+    - role: docker-nginx
+      when: docker_nginx

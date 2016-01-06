@@ -1,0 +1,2 @@
+- include: server.yml
+  when: docker_jam_server

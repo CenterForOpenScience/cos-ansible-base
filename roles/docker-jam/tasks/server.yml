@@ -1,0 +1,51 @@
+- name: Ensure docker jam server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_jam_server_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker jam server configuration settings
+  copy:
+    src: "{{ docker_jam_server_source_conf_file }}"
+    dest: "{{ docker_jam_server_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker jam server container
+  sudo: yes
+  shell: "docker restart {{ docker_jam_server_name }}"
+  tags:
+    - restart
+    - restart_jam
+
+
+- name: Run docker jam server container
+  docker:
+    command: "{{ docker_jam_server_command }}"
+    env: "{{ docker_jam_server_env }}"
+    expose: "{{ docker_jam_server_expose }}"
+    hostname: "{{ docker_jam_server_hostname }}"
+    image: "{{ docker_jam_server_image }}"
+    links: "{{ docker_jam_server_links }}"
+    name: "{{ docker_jam_server_name }}"
+    net: "{{ docker_jam_server_net }}"
+    ports: "{{ docker_jam_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_jam_server_volumes }}"
+    volumes_from: "{{ docker_jam_server_volumes_from }}"
+  tags:
+    - install
+    - upgrade

@@ -1,0 +1,59 @@
+- name: Ensure docker mongo directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_mongo_conf_dir }}"
+    - "{{ docker_mongo_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker mongo configuration settings
+  copy:
+    src: "{{ docker_mongo_source_conf_file }}"
+    dest: "{{ docker_mongo_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker mongo authentication keyfile
+  copy:
+    src: "{{ docker_mongo_source_key_file }}"
+    dest: "{{ docker_mongo_key_file }}"
+    mode: 0600
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker mongo container
+  sudo: yes
+  shell: "docker restart {{ docker_mongo_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker mongo container
+  docker:
+    command: "{{ docker_mongo_command }}"
+    env: "{{ docker_mongo_env }}"
+    expose: "{{ docker_mongo_expose }}"
+    name: "{{ docker_mongo_name }}"
+    hostname: "{{ docker_mongo_hostname }}"
+    net: "{{ docker_mongo_net }}"
+    ports: "{{ docker_mongo_ports }}"
+    pull: always
+    restart_policy: always
+    image: "{{ docker_mongo_image }}"
+    state: reloaded
+    volumes: "{{ docker_mongo_volumes }}"
+  tags:
+    - install
+    - upgrade

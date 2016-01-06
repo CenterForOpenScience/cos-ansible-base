@@ -1,0 +1,24 @@
+# variables
+docker_jam_source_branch: develop
+docker_jam_source_repo: https://github.com/CenterForOpenScience/jamdb.git
+
+# server
+docker_jam_server: no
+docker_jam_server_name: jam_server_1
+docker_jam_server_image: centerforopenscience/jam:latest
+docker_jam_server_command: "jam server"
+docker_jam_server_source_conf_file: local.yml
+docker_jam_server_conf_dir: /opt/jam_server/conf/
+docker_jam_server_conf_file: "{{ docker_jam_server_conf_dir }}local.yml"
+docker_jam_server_env:
+  SOURCE_BRANCH: "{{ docker_jam_source_branch }}"
+  SOURCE_REPO: "{{ docker_jam_source_repo }}"
+docker_jam_server_net: bridge
+docker_jam_server_hostname: "{{ hostname_name }}"
+docker_jam_server_expose:
+  - 1212
+docker_jam_server_ports: []
+docker_jam_server_links: []
+docker_jam_server_volumes:
+  - "{{ docker_jam_server_conf_file }}:/code/jam/settings/local.yml"
+docker_jam_server_volumes_from: []

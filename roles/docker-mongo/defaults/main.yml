@@ -1,0 +1,20 @@
+docker_mongo_name: mongo_1
+docker_mongo_image: mongo:3
+docker_mongo_command: mongod --config /etc/mongo.conf
+docker_mongo_conf_dir: /opt/mongo/conf/
+docker_mongo_conf_file: "{{ docker_mongo_conf_dir }}mongo.conf"
+docker_mongo_source_conf_file: mongo.conf
+docker_mongo_key_file: "{{ docker_mongo_conf_dir }}mongo-keyfile"
+docker_mongo_source_key_file: mongo-keyfile
+docker_mongo_data_dir: /opt/mongo/data/
+docker_mongo_env: {}
+docker_mongo_hostname: "{{ hostname_name }}"
+docker_mongo_net: bridge
+docker_mongo_expose:
+  - 27017
+  - 28017
+docker_mongo_ports: []
+docker_mongo_volumes:
+  - "{{ docker_mongo_conf_file }}:/etc/mongo.conf:ro"
+  - "{{ docker_mongo_key_file }}:/etc/mongo-keyfile"
+  - "{{ docker_mongo_data_dir }}:/data/db"
