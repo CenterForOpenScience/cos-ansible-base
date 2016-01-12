@@ -1,0 +1,50 @@
+- name: Ensure docker prerender directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_prerender_conf_dir }}"
+    - "{{ docker_prerender_data_dir }}"
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker prerender server.js file
+  copy:
+    src: "{{ docker_prerender_source_conf_file }}"
+    dest: "{{ docker_prerender_conf_file }}"
+    mode: 0644
+  when: docker_prerender_source_conf_file | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker prerender container
+  sudo: yes
+  shell: "docker restart {{ docker_prerender_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker prerender container
+  docker:
+    command: "{{ docker_prerender_command }}"
+    env: "{{ docker_prerender_env }}"
+    expose: "{{ docker_prerender_expose }}"
+    hostname: "{{ docker_prerender_hostname }}"
+    image: "{{ docker_prerender_image }}"
+    links: "{{ docker_prerender_links }}"
+    name: "{{ docker_prerender_name }}"
+    net: "{{ docker_prerender_net }}"
+    ports: "{{ docker_prerender_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_prerender_volumes }}"
+    volumes_from: "{{ docker_prerender_volumes_from }}"
+  tags:
+    - install
+    - upgrade
