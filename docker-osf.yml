@@ -116,11 +116,13 @@
     docker_nginx_expose:
       - 80
       - 443
+      - 3000
     docker_nginx_links:
       - "{{ docker_osf_adminserver_name }}:adminserver"
       - "{{ docker_osf_apiserver_name }}:apiserver"
       - "{{ docker_osf_server_name }}:server"
       - "{{ docker_osf_sharejs_name }}:sharejs"
+      - "{{ docker_prerender_name }}:prerender"
     docker_nginx_volumes_from:
       - "{{ docker_storage_name }}"
   roles:
