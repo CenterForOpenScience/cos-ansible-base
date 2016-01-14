@@ -5,7 +5,6 @@
     path: "{{ item }}"
   with_items:
     - "{{ docker_prerender_conf_dir }}"
-    - "{{ docker_prerender_data_dir }}"
   tags:
     - install
     - settings

@@ -1,11 +1,10 @@
 docker_prerender_name: prerender_1
-docker_prerender_command: "node server.js"
+docker_prerender_command: "gosu www-data node server.js"
 docker_prerender_image: centerforopenscience/prerender:latest
 docker_prerender_source_conf_dir: roles/docker-prerender/files/conf/
 docker_prerender_source_conf_file: "{{ docker_prerender_source_conf_dir }}server.js"
 docker_prerender_conf_dir: /opt/prerender/conf/
 docker_prerender_conf_file: "{{ docker_prerender_conf_dir }}server.js"
-docker_prerender_data_dir: /opt/prerender/data/
 docker_prerender_hostname: "{{ hostname_name }}"
 docker_prerender_env: {}
 docker_prerender_links: []
