@@ -10,5 +10,6 @@ var server = prerender({
 server.use(prerender.whitelist());
 server.use(prerender.removeScriptTags());
 server.use(prerender.httpHeaders());
+server.use(prerender.inMemoryHtmlCache());
 
 server.start();

@@ -11,5 +11,6 @@ docker_prerender_links: []
 docker_prerender_net: bridge
 docker_prerender_expose: []
 docker_prerender_ports: []
-docker_prerender_volumes: []
+docker_prerender_volumes:
+  - "{{ docker_prerender_conf_file }}:/code/server.js:ro"
 docker_prerender_volumes_from: []
