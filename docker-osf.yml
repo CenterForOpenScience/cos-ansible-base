@@ -44,7 +44,7 @@
 
     docker_prerender: no
     docker_prerender_name: "{{ docker_env }}_osf_prerender_1"
-    docker_prerender_conf_dir: "/opt/{{ docker_env }}_prerender/conf/"
+    docker_prerender_conf_dir: "/opt/{{ docker_env }}_osf_prerender/conf/"
 
     docker_osf_adminserver_name: "{{ docker_env }}_osf_adminserver_1"
     docker_osf_adminserver_conf_dir: "/opt/{{ docker_env }}_osf_adminserver/conf/"
