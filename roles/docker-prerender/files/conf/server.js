@@ -1,7 +1,7 @@
 var prerender = require('prerender');
 
 var server = prerender({
-        workers: 4,
+        workers: 2,
         iterations: 10,
         phantomBasePort: 12300,
         messageTimeout: process.env.PHANTOM_CLUSTER_MESSAGE_TIMEOUT
