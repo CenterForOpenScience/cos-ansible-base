@@ -1,0 +1,54 @@
+- debug:
+    msg: "docker_sentry_celery_name: {{ docker_sentry_celery_name }}"
+  tags:
+    - install
+    - upgrade
+    - restart
+    - restart_sentry
+
+
+- name: Ensure docker sentry celery directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_sentry_celery_data_dir | default(omit) }}"
+  when: docker_sentry_celery_data_dir | default("") != ""
+  tags:
+    - install
+    - upgrade
+
+
+- name: Restart docker sentry celery container
+  sudo: yes
+  shell: "docker restart {{ docker_sentry_celery_name }}_{{ item }}"
+  with_sequence: count={{ docker_sentry_celery_instances }}
+  when: docker_sentry_celery_instances > 0
+  tags:
+    - restart
+    - restart_sentry
+
+
+- name: Run docker sentry celery container
+  docker:
+    command: "{{ docker_sentry_celery_command }}"
+    env: "{{ docker_sentry_celery_env }}"
+    expose: "{{ docker_sentry_celery_expose }}"
+    hostname: "{{ docker_sentry_celery_hostname }}"
+    image: "{{ docker_sentry_celery_image }}"
+    links: "{{ docker_sentry_celery_links }}"
+    name: "{{ docker_sentry_celery_name }}_{{ item }}"
+    net: "{{ docker_sentry_celery_net }}"
+    ports: "{{ docker_sentry_celery_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_sentry_celery_volumes }}"
+    volumes_from: "{{ docker_sentry_celery_volumes_from }}"
+  with_sequence: count={{ docker_sentry_celery_instances }}
+  when: docker_sentry_celery_instances > 0
+  tags:
+    - install
+    - upgrade

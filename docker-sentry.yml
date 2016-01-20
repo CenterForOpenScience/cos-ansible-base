@@ -1,0 +1,68 @@
+- name: Set up sentry
+  hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    # redis
+    docker_redis_name: "{{ docker_env }}_sentry_redis_1"
+    docker_redis_conf_dir: "/opt/{{ docker_env }}_sentry_redis/conf/"
+    docker_redis_data_dir: "/opt/{{ docker_env }}_sentry_redis/data/"
+
+
+    # postgres
+    docker_postgres: no
+    docker_postgres_conf_dir: "/opt/{{ docker_env }}_sentry_postgres/conf/"
+    docker_postgres_data_dir: "/opt/{{ docker_env }}_sentry_postgres/data/"
+    docker_postgres_name: "{{ docker_env }}_sentry_postgres_1"
+    docker_postgres_env:
+      POSTGRES_DB: "sentry_{{ docker_env }}"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    # celery beat
+    docker_sentry_celery_beat_name: "{{ docker_env }}_sentry_celery_beat"
+    docker_sentry_celery_beat_data_dir: "/opt/{{ docker_env }}_sentry_celery_beat/data/"
+    docker_sentry_celery_beat_links:
+      - "{{ docker_redis_name }}:redis"
+      - "{{ docker_postgres_name }}:postgres"
+
+    # celery worker
+    docker_sentry_celery_worker_name: "{{ docker_env }}_sentry_celery_worker"
+    docker_sentry_celery_worker_links:
+      - "{{ docker_redis_name }}:redis"
+      - "{{ docker_postgres_name }}:postgres"
+
+    # sentry
+    docker_sentry: no
+    docker_sentry_name: "{{ docker_env }}_sentry_1"
+    docker_sentry_conf_dir: "/opt/{{ docker_env }}_sentry/conf/"
+    docker_sentry_data_dir: "/opt/{{ docker_env }}_sentry/data/"
+    docker_sentry_links:
+      - "{{ docker_redis_name }}:redis"
+      - "{{ docker_postgres_name }}:postgres"
+
+    # nginx
+    docker_nginx: no
+    docker_nginx_name: "{{ docker_env }}_sentry_nginx_1"
+    docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
+    docker_nginx_source_conf_dir: roles/docker-sentry/files/nginx/
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_sentry_nginx/conf/"
+    docker_nginx_expose:
+      - 80
+      - 443
+    docker_nginx_links:
+      - "{{ docker_sentry_name }}:sentry"
+  roles:
+    - role: docker-redis
+      when: docker_redis
+
+    - role: docker-postgres
+      when: docker_postgres
+
+    - role: docker-sentry
+      when: docker_sentry
+
+    - role: docker-nginx
+      when: docker_nginx
+
+
