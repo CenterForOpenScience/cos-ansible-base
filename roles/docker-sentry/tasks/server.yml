@@ -1,0 +1,38 @@
+- name: Ensure docker sentry server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_sentry_server_data_dir }}"
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker sentry server container
+  sudo: yes
+  shell: "docker restart {{ docker_sentry_server_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker sentry server container
+  docker:
+    command: "{{ docker_sentry_server_command }}"
+    env: "{{ docker_sentry_server_env }}"
+    expose: "{{ docker_sentry_server_expose }}"
+    hostname: "{{ docker_sentry_server_hostname }}"
+    image: "{{ docker_sentry_server_image }}"
+    links: "{{ docker_sentry_server_links }}"
+    name: "{{ docker_sentry_server_name }}"
+    net: "{{ docker_sentry_server_net }}"
+    ports: "{{ docker_sentry_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_sentry_server_volumes }}"
+    volumes_from: "{{ docker_sentry_server_volumes_from }}"
+  tags:
+    - install
+    - upgrade

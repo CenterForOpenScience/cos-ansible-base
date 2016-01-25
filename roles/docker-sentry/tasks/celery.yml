@@ -7,19 +7,6 @@
     - restart_sentry
 
 
-- name: Ensure docker sentry celery directories exist
-  sudo: yes
-  file:
-    state: directory
-    path: "{{ item }}"
-  with_items:
-    - "{{ docker_sentry_celery_data_dir | default(omit) }}"
-  when: docker_sentry_celery_data_dir | default("") != ""
-  tags:
-    - install
-    - upgrade
-
-
 - name: Restart docker sentry celery container
   sudo: yes
   shell: "docker restart {{ docker_sentry_celery_name }}_{{ item }}"

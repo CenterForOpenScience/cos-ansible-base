@@ -1,6 +1,3 @@
-- include: sentry.yml
-  when: docker_sentry
-
 - include: celery.yml
   vars:
     docker_sentry_celery_instances: "{{ docker_sentry_celery_beat_instances }}"
@@ -37,3 +34,6 @@
     docker_sentry_celery_volumes: "{{ docker_sentry_celery_worker_volumes }}"
     docker_sentry_celery_volumes_from: "{{ docker_sentry_celery_worker_volumes_from }}"
   when: docker_sentry_celery_worker
+
+- include: server.yml
+  when: docker_sentry_server
