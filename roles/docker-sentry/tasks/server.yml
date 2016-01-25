@@ -8,7 +8,18 @@
   tags:
     - install
     - settings
-
+    
+    
+- name: Copy docker sentry sentry.conf.py file
+  copy:
+    src: "{{ docker_sentry_source_conf_file }}"
+    dest: "{{ docker_sentry_conf_file }}"
+    mode: 0644
+  when: docker_sentry_source_conf_file | default("") != ""
+  tags:
+    - install
+    - settings
+    
 
 - name: Restart docker sentry server container
   sudo: yes
