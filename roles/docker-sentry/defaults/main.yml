@@ -3,6 +3,10 @@ docker_sentry_server: no
 docker_sentry_server_name: "sentry_server_1"
 docker_sentry_server_command: start
 docker_sentry_server_image: centerforopenscience/sentry
+docker_sentry_source_conf_dir: roles/docker-sentry/files/conf/
+docker_sentry_source_conf_file: "{{ docker_sentry_source_conf_dir }}sentry.conf.py"
+docker_sentry_conf_dir: "/opt/{{docker_env}}_sentry/conf/"
+docker_sentry_conf_file: "{{ docker_sentry_conf_dir }}sentry.conf.py"
 docker_sentry_server_data_dir: "/opt/{{docker_env}}_sentry_server/data/"
 docker_sentry_server_hostname: "{{ hostname_name }}"
 docker_sentry_server_env: {}
@@ -11,6 +15,7 @@ docker_sentry_server_net: bridge
 docker_sentry_server_expose: []
 docker_sentry_server_ports: []
 docker_sentry_server_volumes:
+  - "{{ docker_sentry_conf_file }}:/etc/sentry/sentry.conf.py:ro"
   - "{{ docker_sentry_server_data_dir }}:/var/lib/sentry/:rw"
 docker_sentry_server_volumes_from: []
 
