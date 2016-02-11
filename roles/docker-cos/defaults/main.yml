@@ -1,6 +1,6 @@
 # variables
 docker_cos_source_branch: master
-docker_cos_source_repo: https://github.com/CenterForOpenScience/centerforopenscience.org
+docker_cos_source_repo: https://github.com/CenterForOpenScience/cos.io
 
 # servers
 
