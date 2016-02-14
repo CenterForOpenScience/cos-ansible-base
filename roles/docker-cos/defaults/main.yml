@@ -1,28 +1,30 @@
 # variables
 docker_cos_source_branch: master
-docker_cos_source_repo: https://github.com/CenterForOpenScience/cos.io
+docker_cos_source_repo: https://github.com/centerforopenscience/cos.io.git
 
 # servers
 
-docker_cos_uwsgi: no
-docker_cos_uwsgi_name: "{{ docker_cos_env }}_cos_uwsgi_1"
-docker_cos_uwsgi_image: mattclarkdocker/docker-library:cos
-docker_cos_uwsgi_source_conf_file: uwsgi.ini
-docker_cos_uwsgi_source_app_file: local.py
-docker_cos_uwsgi_conf_dir: "/opt/{{ docker_cos_env }}_cos_uwsgi/conf/"
-docker_cos_uwsgi_conf_file: "{{ docker_cos_uwsgi_conf_dir }}uwsgi.ini"
-docker_cos_uwsgi_app_file: "{{ docker_cos_uwsgi_conf_dir }}local.py"
-docker_cos_uwsgi_env:
+docker_cos_server: no
+docker_cos_server_name: cos_server_1
+docker_cos_server_image: centerforopenscience/cos:latest
+docker_cos_server_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+docker_cos_server_source_conf_file: server/uwsgi.ini
+docker_cos_server_source_app_file: server/local.py
+docker_cos_server_conf_dir: /opt/cos_server/conf/
+docker_cos_server_conf_file: "{{ docker_cos_server_conf_dir }}uwsgi.ini"
+docker_cos_server_app_file: "{{ docker_cos_server_conf_dir }}local.py"
+docker_cos_server_data_dir: /opt/cos_server/data/
+docker_cos_server_env:
   SOURCE_BRANCH: "{{ docker_cos_source_branch }}"
   SOURCE_REPO: "{{ docker_cos_source_repo }}"
-docker_cos_uwsgi_expose:
+docker_cos_server_net: bridge
+docker_cos_server_hostname: "{{ hostname_name }}"
+docker_cos_server_expose:
   - 8000
-docker_cos_uwsgi_ports: []
-docker_cos_uwsgi_links:
-  - "{{ docker_cos_postgres_name }}:postgres"
-  - "{{ docker_cos_memcached_name }}:memcached"
-docker_cos_uwsgi_volumes:
-  - "{{ docker_cos_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_cos_uwsgi_app_file }}:/code/mysite/local_settings.py"
-docker_cos_uwsgi_volumes_from:
-  - "{{ docker_cos_storage_name }}"
+docker_cos_server_ports: []
+docker_cos_server_links: []
+docker_cos_server_volumes:
+  - "{{ docker_cos_server_conf_file }}:/etc/uwsgi/uwsgi.ini"
+  - "{{ docker_cos_server_app_file }}:/code/mysite/local_settings.py"
+  - "{{ docker_cos_server_data_dir }}:/data"
+docker_cos_server_volumes_from: []

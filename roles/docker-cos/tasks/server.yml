@@ -1,0 +1,75 @@
+- name: Ensure docker cos server directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_cos_server_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Ensure docker cos server data directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    recurse: false
+    owner: www-data
+    group: www-data
+  with_items:
+    - "{{ docker_cos_server_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker cos server configuration settings
+  copy:
+    src: "{{ docker_cos_server_source_conf_file }}"
+    dest: "{{ docker_cos_server_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Copy docker cos server application settings
+  copy:
+    src: "{{ docker_cos_server_source_app_file }}"
+    dest: "{{ docker_cos_server_app_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker cos server container
+  sudo: yes
+  shell: "docker restart {{ docker_cos_server_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker cos server container
+  docker:
+    command: "{{ docker_cos_server_command }}"
+    env: "{{ docker_cos_server_env }}"
+    expose: "{{ docker_cos_server_expose }}"
+    hostname: "{{ docker_cos_server_hostname }}"
+    image: "{{ docker_cos_server_image }}"
+    links: "{{ docker_cos_server_links }}"
+    name: "{{ docker_cos_server_name }}"
+    net: "{{ docker_cos_server_net }}"
+    ports: "{{ docker_cos_server_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_cos_server_volumes }}"
+    volumes_from: "{{ docker_cos_server_volumes_from }}"
+  tags:
+    - install
+    - upgrade
