@@ -17,6 +17,8 @@
       - "{{ docker_storage_conf_dir }}code/:/code:rw"
       - "{{ docker_storage_conf_dir }}api/local.py:/code/api/base/settings/local.py:ro"
       - "{{ docker_storage_conf_dir }}website/local.py:/code/website/settings/local.py:ro"
+      - "{{ docker_storage_conf_dir }}api/newrelic.ini:/code/api/newrelic.ini:ro"
+      - "{{ docker_storage_conf_dir }}website/newrelic.ini:/code/website/newrelic.ini:ro"
 
     docker_elasticsearch: no
     docker_elasticsearch_name: "{{ docker_env }}_osf_elasticsearch_1"
