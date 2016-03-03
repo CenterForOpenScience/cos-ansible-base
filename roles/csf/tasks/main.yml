@@ -8,7 +8,7 @@
   register: check_path
 
 - name: download csf
-  get_url: url=http://www.configserver.com/free/csf.tgz dest=/tmp/
+  get_url: url=https://download.configserver.com/csf.tgz dest=/tmp/
   when: check_path.stat.exists == false
 
 - command: tar -xzf /tmp/csf.tgz -C /tmp/
