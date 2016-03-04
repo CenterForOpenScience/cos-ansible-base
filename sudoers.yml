@@ -1,4 +1,0 @@
-- name: Adds specific sudoers files to /etc/sudoers.d/
-  hosts: all
-  roles:
-    - role: sudoers
