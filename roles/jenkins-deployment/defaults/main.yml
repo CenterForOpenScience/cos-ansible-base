@@ -1,0 +1,4 @@
+deploy_script_owner: jenkins
+deploy_script_source_file: "{{ root_source_conf_dir }}osf/{{ docker_env }}/conf/deploy.sh"
+deploy_script_file_dir: "/home/{{ deploy_script_owner }}/deploy/"
+deploy_script_file: "{{ deploy_script_file_dir }}deploy.sh"
