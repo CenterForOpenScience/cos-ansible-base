@@ -1,0 +1,19 @@
+- name: Ensure /etc/sudoers.d directory is present
+  file: path=/etc/sudoers.d state=directory
+
+- name: Adds user to the sudoers
+  action: 'lineinfile dest=/etc/sudoers.d/{{ deploy_script_owner }} state=present create=yes regexp="{{ deploy_script_owner }} .*" line="{{ deploy_script_owner }} ALL=(ALL) NOPASSWD: /usr/bin/docker"'
+
+- name: Ensure /etc/sudoers.d files have correct permissions
+  action: file path=/etc/sudoers.d/jenkins mode=0440 state=file owner=root group=root
+
+- name: Ensures deploy dir exists
+  file: path="{{ deploy_script_file_dir }}" state=directory owner="{{ deploy_script_owner }}" group="{{ deploy_script_owner }}"
+
+- name: copy deploy script
+  copy:
+    src: "{{ deploy_script_source_file }}"
+    dest: "{{ deploy_script_file }}"
+    owner: "{{ deploy_script_owner }}"
+    mode: 0500
+  sudo: yes

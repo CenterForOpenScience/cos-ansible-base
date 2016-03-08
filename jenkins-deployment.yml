@@ -1,0 +1,4 @@
+- name: Adds deployment scripts
+  hosts: all
+  roles:
+    - role: jenkins-deployment
