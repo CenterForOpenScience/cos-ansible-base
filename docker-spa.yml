@@ -17,5 +17,8 @@
     docker_nginx_links:
       - "{{ docker_experimenter_server_name }}:server"
   roles:
+    - role: docker-experimenter
+      when: docker_experimenter
+
     - role: docker-nginx
       when: docker_nginx
