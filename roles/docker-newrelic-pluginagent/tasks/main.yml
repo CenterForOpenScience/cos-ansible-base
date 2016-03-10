@@ -1,0 +1,45 @@
+- name: Ensure docker newrelic pluginagent directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_newrelic_pluginagent_conf_dir }}"
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker newrelic pluginagent configuration settings
+  copy:
+    src: "{{ docker_newrelic_pluginagent_source_conf_file }}"
+    dest: "{{ docker_newrelic_pluginagent_conf_file }}"
+    mode: 0660
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker newrelic pluginagent container
+  sudo: yes
+  shell: "docker restart {{ docker_newrelic_pluginagent_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker newrelic pluginagent container
+  docker:
+    env: "{{ docker_newrelic_pluginagent_env }}"
+    expose: "{{ docker_newrelic_pluginagent_expose }}"
+    hostname: "{{ docker_newrelic_pluginagent_hostname }}"
+    image: "{{ docker_newrelic_pluginagent_image }}"
+    links: "{{ docker_newrelic_pluginagent_links }}"
+    name: "{{ docker_newrelic_pluginagent_name }}"
+    net: "{{ docker_newrelic_pluginagent_net }}"
+    ports: "{{ docker_newrelic_pluginagent_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_newrelic_pluginagent_volumes }}"
+  tags:
+    - install

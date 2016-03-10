@@ -1,0 +1,13 @@
+docker_newrelic_pluginagent_name: newrelic_pluginagent_1
+docker_newrelic_pluginagent_image: centerforopenscience/newrelic:plugin-agent
+docker_newrelic_pluginagent_hostname: "{{ hostname_name }}"
+docker_newrelic_pluginagent_net: bridge
+docker_newrelic_pluginagent_source_conf_file: newrelic-plugin-agent.cfg
+docker_newrelic_pluginagent_conf_dir: /opt/newrelic_pluginagent/conf/
+docker_newrelic_pluginagent_conf_file: "{{ docker_newrelic_pluginagent_conf_dir }}newrelic-plugin-agent.cfg"
+docker_newrelic_pluginagent_env: {}
+docker_newrelic_pluginagent_links: []
+docker_newrelic_pluginagent_expose: []
+docker_newrelic_pluginagent_ports: []
+docker_newrelic_pluginagent_volumes:
+  - "{{ docker_newrelic_pluginagent_conf_file }}:/etc/newrelic/newrelic-plugin-agent.cfg:rw"

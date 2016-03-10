@@ -1,0 +1,6 @@
+- name: New Relic Sysmon Daemon
+  hosts: all
+  vars:
+    docker_newrelic_sysmond_source_conf_file: "{{ root_source_conf_dir }}newrelic/nrsysmond.cfg"
+  roles:
+    - role: newrelic-sysmond

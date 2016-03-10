@@ -1,0 +1,41 @@
+- name: Ensure newrelic sysmond apt repository
+  sudo: yes
+  apt_repository:
+    repo: "deb http://apt.newrelic.com/debian/ newrelic non-free"
+    state: present
+
+
+- name: Import public key used by apt
+  sudo: yes
+  apt_key:
+    keyserver: hkp://pgp.mit.edu:80
+    id: 548C16BF
+    state: present
+
+
+- name: Update APT package cache
+  sudo: yes
+  apt: update_cache=yes
+
+
+- name: Install newrelic sysmond
+  sudo: yes
+  apt:
+    state: present
+    pkg: newrelic-sysmond
+
+
+- name: Copy docker newrelic sysmond configuration settings
+  copy:
+    src: "{{ docker_newrelic_sysmond_source_conf_file }}"
+    dest: "/etc/newrelic/nrsysmond.cfg"
+    owner: newrelic
+    group: newrelic
+    mode: 0640
+
+
+- name: Start the newrelic sysmon daemon
+  sudo: yes
+  service:
+    name: newrelic-sysmond
+    state: restarted

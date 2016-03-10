@@ -1,0 +1,11 @@
+- name: Setup docker newrelic pluginagent
+  hosts: all
+  pre_tasks:
+    - fail: msg="One or more tags must be specified to run this playbook"
+  vars:
+    docker_newrelic_pluginagent: yes
+    docker_newrelic_pluginagent_name: "{{ docker_env }}_newrelic_pluginagent_1"
+    docker_newrelic_pluginagent_conf_dir: "/opt/{{ docker_env }}_newrelic_pluginagent/conf/"
+  roles:
+    - role: docker-newrelic-pluginagent
+      when: docker_newrelic_pluginagent
