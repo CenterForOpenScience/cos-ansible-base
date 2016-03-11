@@ -31,7 +31,7 @@
 
 - name: Run docker experimenter server container
   docker:
-    command: "{{ docker_experimenter_server_command }}"
+#    command: "{{ docker_experimenter_server_command }}"
     env: "{{ docker_experimenter_server_env }}"
     expose: "{{ docker_experimenter_server_expose }}"
     hostname: "{{ docker_experimenter_server_hostname }}"
@@ -41,8 +41,8 @@
     net: "{{ docker_experimenter_server_net }}"
     ports: "{{ docker_experimenter_server_ports }}"
     pull: always
-    restart_policy: always
-    state: reloaded
+#    restart_policy: no
+#    state: reloaded
     tty: yes
     volumes: "{{ docker_experimenter_server_volumes }}"
     volumes_from: "{{ docker_experimenter_server_volumes_from }}"

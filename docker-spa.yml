@@ -3,9 +3,22 @@
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
   vars:
+    docker_storage: no
+    docker_storage_name: "{{ docker_env }}_experimenter_storage_1"
+    docker_storage_dir: "/opt/{{ docker_env }}_experimenter_storage/"
+    docker_storage_conf_dir: "{{ docker_storage_dir }}conf/"
+    docker_storage_file_ops:
+      - state: directory
+        path: "{{ docker_storage_dir }}code/"
+    docker_storage_volumes:
+      - "{{ docker_storage_dir }}code/:/code:rw"
+
     docker_experimenter_server_name: "{{ docker_env }}_experimenter_server_1"
     docker_experimenter_server_conf_dir: "/opt/{{ docker_env }}_experimenter_server/conf/"
     docker_experimenter_server_data_dir: "/opt/{{ docker_env }}_experimenter_server/data/"
+    docker_experimenter_server_source_conf_file: "{{ root_source_conf_dir }}spa/{{ docker_env }}/conf/.env"
+    docker_experimenter_server_volumes_from:
+      - "{{ docker_storage_name }}"
 
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_experimenter_nginx_1"
@@ -14,9 +27,12 @@
     docker_nginx_conf_dir: "/opt/{{ docker_env }}_experimenter_nginx/conf/"
     docker_nginx_expose:
       - 1212
-    docker_nginx_links:
-      - "{{ docker_experimenter_server_name }}:server"
+    docker_nginx_volumes_from:
+      - "{{ docker_storage_name }}"
   roles:
+    - role: docker-storage
+      when: docker_storage
+
     - role: docker-experimenter
       when: docker_experimenter
 
