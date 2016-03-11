@@ -1,0 +1,26 @@
+# variables
+docker_experimenter_source_branch: develop
+docker_experimenter_source_repo: https://github.com/CenterForOpenScience/experimenter.git
+#docker_experimenter_build_env: development
+
+# server
+docker_experimenter_server: no
+#docker_experimenter_server_restart: no
+docker_experimenter_server_name: experimenter_server_1
+docker_experimenter_server_image: centerforopenscience/experimenter:latest
+docker_experimenter_server_source_conf_file: .env
+docker_experimenter_server_conf_dir: /opt/experimenter_server/conf/
+docker_experimenter_server_conf_file: "{{ docker_experimenter_server_conf_dir }}.env"
+docker_experimenter_server_env:
+  SOURCE_BRANCH: "{{ docker_experimenter_source_branch }}"
+  SOURCE_REPO: "{{ docker_experimenter_source_repo }}"
+#  BUILD_ENV: "{{ docker_experimenter_build_env }}"
+docker_experimenter_server_net: bridge
+docker_experimenter_server_hostname: "{{ hostname_name }}"
+docker_experimenter_server_expose:
+  - 4200
+docker_experimenter_server_ports: []
+docker_experimenter_server_links: []
+docker_experimenter_server_volumes:
+  - "{{ docker_experimenter_server_conf_file }}:/code/.env"
+docker_experimenter_server_volumes_from: []
