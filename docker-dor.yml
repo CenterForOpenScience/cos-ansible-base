@@ -37,6 +37,8 @@
     docker_dor_server_conf_dir: "/opt/{{ docker_env }}_dor_server/conf/"
     docker_dor_server_links:
       - "{{ docker_postgres_name }}:postgres"
+    docker_dor_server_expose:
+       - 8000
 #    docker_dor_server_volumes_from:
 #      - "{{ docker_storage_name }}"
 

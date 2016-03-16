@@ -58,12 +58,12 @@ docker_dor_server_app_file: "{{ docker_dor_server_conf_dir }}local.py"
 docker_dor_server_env:
   SOURCE_BRANCH: "{{ docker_dor_server_source_branch }}"
   SOURCE_REPO: "{{ docker_dor_server_source_repo }}"
-docker_dor_server_expose: []
+docker_dor_server_expose: "{{ docker_dor_server_expose }}"
 docker_dor_server_ports: []
 docker_dor_server_links: []
 docker_dor_server_volumes:
   - "{{ docker_dor_server_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_dor_server_app_file }}:/home/.cos/local.py"
+  - "{{ docker_dor_server_app_file }}:/code/RepoDir/settings/local.py"
 docker_dor_server_volumes_from: []
 #  - "{{ docker_dor_storage_name }}"
 
