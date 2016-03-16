@@ -1,0 +1,57 @@
+- debug:
+    msg: "docker_ember_name: {{ docker_ember_name }}"
+  tags:
+    - install
+    - upgrade
+    - restart
+
+
+- name: Ensure docker ember directories exist
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_ember_code_dir }}"
+    - "{{ docker_ember_conf_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker ember configuration settings
+  copy:
+    src: "{{ docker_ember_source_conf_dir }}"
+    dest: "{{ docker_ember_conf_dir }}"
+    mode: 0640
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
+- name: Restart docker ember container
+  sudo: yes
+  shell: "docker restart {{ docker_ember_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker ember container
+  docker:
+    command: "{{ docker_ember_command }}"
+    env: "{{ docker_ember_env }}"
+    hostname: "{{ docker_ember_hostname }}"
+    image: "{{ docker_ember_image }}"
+    links: "{{ docker_ember_links }}"
+    name: "{{ docker_ember_name }}"
+    net: "{{ docker_ember_net }}"
+    pull: always
+    restart_policy: "no"
+    state: reloaded
+    tty: yes
+    volumes: "{{ docker_ember_volumes }}"
+    volumes_from: "{{ docker_ember_volumes_from }}"
+  tags:
+    - install
+    - upgrade

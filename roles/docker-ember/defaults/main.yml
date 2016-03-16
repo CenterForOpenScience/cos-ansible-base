@@ -1,0 +1,24 @@
+# variables
+docker_ember_source_branch: <CHANGE>
+docker_ember_source_repo: https://github.com/CenterForOpenScience/<CHANGE>
+docker_ember_working_dir: /<CHANGE>/
+
+# storage
+docker_ember: no
+docker_ember_name: ember_1
+docker_ember_image: centerforopenscience/<CHANGE>:latest
+docker_ember_command: gosu www-data ember build --env staging
+docker_ember_source_conf_dir: roles/docker-ember/files/
+docker_ember_code_dir: /opt/ember/code/
+docker_ember_conf_dir: /opt/ember/conf/
+docker_ember_env:
+  SOURCE_BRANCH: "{{ docker_ember_source_branch }}"
+  SOURCE_REPO: "{{ docker_ember_source_repo }}"
+  WORKDIR: "{{ docker_ember_working_dir }}"
+docker_ember_hostname: "{{ hostname_name }}"
+docker_ember_net: bridge
+docker_ember_links: []
+docker_ember_volumes:
+  - "{{ docker_ember_code_dir }}.env:{{ docker_ember_working_dir }}:rw"
+  - "{{ docker_ember_conf_dir }}.env:{{ docker_ember_working_dir }}.env:rw"
+docker_ember_volumes_from: []

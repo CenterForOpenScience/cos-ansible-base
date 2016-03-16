@@ -1,40 +1,98 @@
-- name: Set up experimenter
+- name: Set up SPA
   hosts: all
   pre_tasks:
     - fail: msg="One or more tags must be specified to run this playbook"
   vars:
-    docker_storage: no
-    docker_storage_name: "{{ docker_env }}_experimenter_storage_1"
-    docker_storage_dir: "/opt/{{ docker_env }}_experimenter_storage/"
-    docker_storage_conf_dir: "{{ docker_storage_dir }}conf/"
-    docker_storage_file_ops:
-      - state: directory
-        path: "{{ docker_storage_dir }}code/"
-    docker_storage_volumes:
-      - "{{ docker_storage_dir }}code/:/code:rw"
+    docker_experimenter: no
+    docker_experimenter_source_branch: develop
+    docker_experimenter_source_repo: https://github.com/CenterForOpenScience/experimenter.git
+    docker_experimenter_working_dir: /experimenter/
+    docker_experimenter_name: "{{ docker_env }}_experimenter_1"
+    docker_experimenter_image: centerforopenscience/ember:latest
+    docker_experimenter_command: gosu www-data ember build --env staging
+    docker_experimenter_source_conf_dir: roles/docker-spa/files/experimenter/
+    docker_experimenter_code_dir: "/opt/{{ docker_env }}_experimenter/code/"
+    docker_experimenter_conf_dir: "/opt/{{ docker_env }}_experimenter/conf/"
+    docker_experimenter_env:
+      SOURCE_BRANCH: "{{ docker_experimenter_source_branch }}"
+      SOURCE_REPO: "{{ docker_experimenter_source_repo }}"
+      WORKDIR: "{{ docker_experimenter_working_dir }}"
+    docker_experimenter_net: bridge
+    docker_experimenter_hostname: "{{ hostname_name }}"
+    docker_experimenter_links: []
+    docker_experimenter_volumes:
+      - "{{ docker_experimenter_code_dir }}:{{ docker_experimenter_working_dir }}:rw"
+      - "{{ docker_experimenter_conf_dir }}env:{{ docker_experimenter_working_dir }}.env:rw"
+    docker_experimenter_volumes_from: []
 
-    docker_experimenter_server_name: "{{ docker_env }}_experimenter_server_1"
-    docker_experimenter_server_conf_dir: "/opt/{{ docker_env }}_experimenter_server/conf/"
-    docker_experimenter_server_data_dir: "/opt/{{ docker_env }}_experimenter_server/data/"
-    docker_experimenter_server_source_conf_file: "{{ root_source_conf_dir }}spa/{{ docker_env }}/conf/.env"
-    docker_experimenter_server_volumes_from:
-      - "{{ docker_storage_name }}"
+    docker_lookit: no
+    docker_lookit_source_branch: develop
+    docker_lookit_source_repo: https://github.com/CenterForOpenScience/lookit.git
+    docker_lookit_working_dir: /lookit/
+    docker_lookit_name: "{{ docker_env }}_lookit_1"
+    docker_lookit_image: centerforopenscience/ember:latest
+    docker_lookit_command: gosu www-data ember build --env staging
+    docker_lookit_source_conf_dir: roles/docker-spa/files/lookit/
+    docker_lookit_code_dir: "/opt/{{ docker_env }}_lookit/code/"
+    docker_lookit_conf_dir: "/opt/{{ docker_env }}_lookit/conf/"
+    docker_lookit_env:
+      SOURCE_BRANCH: "{{ docker_lookit_source_branch }}"
+      SOURCE_REPO: "{{ docker_lookit_source_repo }}"
+      WORKDIR: "{{ docker_lookit_working_dir }}"
+    docker_lookit_net: bridge
+    docker_lookit_hostname: "{{ hostname_name }}"
+    docker_lookit_links: []
+    docker_lookit_volumes:
+      - "{{ docker_lookit_code_dir }}:{{ docker_lookit_working_dir }}:rw"
+      - "{{ docker_lookit_conf_dir }}env:{{ docker_lookit_working_dir }}.env:rw"
+    docker_lookit_volumes_from: []
 
     docker_nginx: no
-    docker_nginx_name: "{{ docker_env }}_experimenter_nginx_1"
+    docker_nginx_name: "{{ docker_env }}_spa_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
-    docker_nginx_source_conf_dir: roles/docker-experimenter/files/nginx/
-    docker_nginx_conf_dir: "/opt/{{ docker_env }}_experimenter_nginx/conf/"
+    docker_nginx_source_conf_dir: roles/docker-spa/files/nginx/
+    docker_nginx_conf_dir: "/opt/{{ docker_env }}_spa_nginx/conf/"
     docker_nginx_expose:
       - 4200
     docker_nginx_volumes_from:
-      - "{{ docker_storage_name }}"
+      - "{{ docker_experimenter_name }}"
+      - "{{ docker_lookit_name }}"
   roles:
-    - role: docker-storage
-      when: docker_storage
-
-    - role: docker-experimenter
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_experimenter_source_branch }}"
+      docker_ember_source_repo: "{{ docker_experimenter_source_repo }}"
+      docker_ember_working_dir: "{{ docker_experimenter_working_dir }}"
+      docker_ember_name: "{{ docker_experimenter_name }}"
+      docker_ember_image: "{{ docker_experimenter_image }}"
+      docker_ember_command: "{{ docker_experimenter_command }}"
+      docker_ember_source_conf_dir: "{{ docker_experimenter_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_experimenter_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_experimenter_conf_dir }}"
+      docker_ember_env: "{{ docker_experimenter_env }}"
+      docker_ember_net: "{{ docker_experimenter_net }}"
+      docker_ember_hostname: "{{ docker_experimenter_hostname }}"
+      docker_ember_links: "{{ docker_experimenter_links }}"
+      docker_ember_volumes: "{{ docker_experimenter_volumes }}"
+      docker_ember_volumes_from: "{{ docker_experimenter_volumes_from }}"
       when: docker_experimenter
+
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_lookit_source_branch }}"
+      docker_ember_source_repo: "{{ docker_lookit_source_repo }}"
+      docker_ember_working_dir: "{{ docker_lookit_working_dir }}"
+      docker_ember_name: "{{ docker_lookit_name }}"
+      docker_ember_image: "{{ docker_lookit_image }}"
+      docker_ember_command: "{{ docker_lookit_command }}"
+      docker_ember_source_conf_dir: "{{ docker_lookit_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_lookit_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_lookit_conf_dir }}"
+      docker_ember_env: "{{ docker_lookit_env }}"
+      docker_ember_net: "{{ docker_lookit_net }}"
+      docker_ember_hostname: "{{ docker_lookit_hostname }}"
+      docker_ember_links: "{{ docker_lookit_links }}"
+      docker_ember_volumes: "{{ docker_lookit_volumes }}"
+      docker_ember_volumes_from: "{{ docker_lookit_volumes_from }}"
+      when: docker_lookit
 
     - role: docker-nginx
       when: docker_nginx
