@@ -93,6 +93,7 @@
     - restart
     - nginx-restart
 
+
 - name: Run docker nginx container
   docker:
     env: "{{ docker_nginx_env }}"
