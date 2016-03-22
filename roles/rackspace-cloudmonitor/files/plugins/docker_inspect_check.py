@@ -81,6 +81,7 @@ class DockerService(object):
             container_state = stats['State']
             print 'metric container_running string', container_state['Running']
             print 'metric container_restarting string', container_state['Restarting']
+            print 'metric container_oomkilled string', container_state['OOMKilled']
             sys.exit(0)
         else:
             print 'status err failed to obtain docker container stats.'
