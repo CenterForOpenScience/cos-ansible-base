@@ -19,7 +19,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from ConfigParser import SafeConfigParser
 import sys
+
+parser = SafeConfigParser()
+parser.read('.env')
+DATABASE_USER = parser.get('tokumx', 'DATABASE_USER')
+DATABASE_PASS = parser.get('tokumx', 'DATABASE_PASS')
+DATABASE_HOST = parser.get('tokumx', 'DATABASE_HOST')
+DATABASE_PORT = parser.get('tokumx', 'DATABASE_PORT')
+DATABASE_DB = parser.get('tokumx', 'DATABASE_DB')
+
 try:
     from pymongo import MongoClient as Client
 except ImportError:
@@ -45,11 +55,8 @@ def mongodb_stats(host, p, database, username, password):
 
 
 def main():
-    if len(sys.argv) != 6:
-        print "Usage: %s <host> <port> <database> <username> <password> " % sys.argv[0]
-        sys.exit(0)
 
-    s = mongodb_stats(*sys.argv[1:])
+    s = mongodb_stats(DATABASE_HOST,DATABASE_PORT,DATABASE_DB,DATABASE_USER,DATABASE_PASS)
 
     if not s:
         print "status err unable to generate statistics"
