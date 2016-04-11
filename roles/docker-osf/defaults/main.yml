@@ -100,7 +100,8 @@ docker_osf_celery_worker_hostname: "{{ hostname_name }}"
 docker_osf_celery_worker_expose: []
 docker_osf_celery_worker_ports: []
 docker_osf_celery_worker_links: []
-docker_osf_celery_worker_volumes: []
+docker_osf_celery_worker_volumes:
+  - "{{ docker_osf_celery_worker_data_dir }}:/data"
 docker_osf_celery_worker_volumes_from: []
 
 # cron

@@ -30,6 +30,7 @@
     docker_osf_celery_name: "{{ docker_osf_celery_worker_name }}"
     docker_osf_celery_image: "{{ docker_osf_celery_worker_image }}"
     docker_osf_celery_command: "{{ docker_osf_celery_worker_command }}"
+    docker_osf_celery_data_dir: "{{ docker_osf_celery_worker_data_dir }}"
     docker_osf_celery_env: "{{ docker_osf_celery_worker_env }}"
     docker_osf_celery_net: "{{ docker_osf_celery_worker_net }}"
     docker_osf_celery_hostname: "{{ docker_osf_celery_worker_hostname }}"
