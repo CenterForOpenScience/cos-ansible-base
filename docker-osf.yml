@@ -76,6 +76,7 @@
 
     docker_osf_celery_beat_name: "{{ docker_env }}_osf_celery_beat"
     docker_osf_celery_beat_data_dir: "/opt/{{ docker_env }}_osf_celery_beat/data/"
+    docker_osf_celery_beat_log_dir: "/opt/{{ docker_env }}_osf_celery_beat/log/"
     docker_osf_celery_beat_links:
       - "{{ docker_rabbitmq_name }}:rabbitmq"
       - "{{ docker_elasticsearch_name }}:elasticsearch"
@@ -85,6 +86,7 @@
 
     docker_osf_celery_worker_name: "{{ docker_env }}_osf_celery_worker"
     docker_osf_celery_worker_data_dir: "/opt/{{ docker_env }}_osf_celery_worker/data/"
+    docker_osf_celery_worker_log_dir: "/opt/{{ docker_env }}_osf_celery_worker/log/"
     docker_osf_celery_worker_links:
       - "{{ docker_rabbitmq_name }}:rabbitmq"
       - "{{ docker_elasticsearch_name }}:elasticsearch"

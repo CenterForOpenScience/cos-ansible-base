@@ -74,6 +74,7 @@ docker_osf_celery_beat_name: osf_celery_beat
 docker_osf_celery_beat_image: centerforopenscience/osf:celery
 docker_osf_celery_beat_command: "gosu www-data invoke celery_beat --schedule=/celery/celerybeat-schedule"
 docker_osf_celery_beat_data_dir: /opt/osf_celery_beat/data/
+docker_osf_celery_beat_log_dir: /opt/osf_celery_beat/log/
 docker_osf_celery_beat_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
@@ -84,6 +85,7 @@ docker_osf_celery_beat_ports: []
 docker_osf_celery_beat_links: []
 docker_osf_celery_beat_volumes:
   - "{{ docker_osf_celery_beat_data_dir }}:/celery"
+  - "{{ docker_osf_celery_beat_log_dir }}:/log"
 docker_osf_celery_beat_volumes_from: []
 
 # celery worker
@@ -92,6 +94,8 @@ docker_osf_celery_worker_instances: 2
 docker_osf_celery_worker_name: osf_celery_worker
 docker_osf_celery_worker_image: centerforopenscience/osf:celery
 docker_osf_celery_worker_command: "gosu www-data invoke celery_worker --hostname=worker{{ item }}.%h"
+docker_osf_celery_worker_data_dir: /opt/osf_celery_worker/data/
+docker_osf_celery_worker_log_dir: /opt/osf_celery_worker/log/
 docker_osf_celery_worker_env:
   SOURCE_BRANCH: "{{ docker_osf_source_branch }}"
   SOURCE_REPO: "{{ docker_osf_source_repo }}"
@@ -102,6 +106,7 @@ docker_osf_celery_worker_ports: []
 docker_osf_celery_worker_links: []
 docker_osf_celery_worker_volumes:
   - "{{ docker_osf_celery_worker_data_dir }}:/data"
+  - "{{ docker_osf_celery_worker_log_dir }}:/log"
 docker_osf_celery_worker_volumes_from: []
 
 # cron

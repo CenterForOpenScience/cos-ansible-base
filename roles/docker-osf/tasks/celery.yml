@@ -7,14 +7,17 @@
     - restart_osf
 
 
-- name: Ensure docker osf celery directories exist
+- name: Ensure docker osf celery directories exist (www-data)
   sudo: yes
   file:
     state: directory
     path: "{{ item }}"
+    recurse: false
+    owner: www-data
+    group: www-data
   with_items:
-    - "{{ docker_osf_celery_data_dir | default(omit) }}"
-  when: docker_osf_celery_data_dir | default("") != ""
+    - "{{ docker_osf_celery_data_dir }}"
+    - "{{ docker_osf_celery_log_dir }}"
   tags:
     - install
     - upgrade
