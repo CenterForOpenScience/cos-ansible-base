@@ -1,6 +1,6 @@
 docker_rabbitmq_name: rabbitmq_1
-docker_rabbitmq_image: rabbitmq:3
-docker_rabbitmq_hostname: "{{ hostname_name }}"
+docker_rabbitmq_image: rabbitmq:3-management
+docker_rabbitmq_hostname: "{{ ansible_hostname }}"  # rabbitmqctl does not handle periods in hostname
 docker_rabbitmq_env: {}
 docker_rabbitmq_data_dir: /opt/rabbitmq/data/
 docker_rabbitmq_net: bridge
