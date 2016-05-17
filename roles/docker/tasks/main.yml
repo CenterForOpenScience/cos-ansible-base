@@ -9,6 +9,7 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
     - settings
 
 
@@ -19,6 +20,7 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
 
 
 - name: Install docker system dependencies
@@ -35,13 +37,33 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
 
 
-- name: Install docker system dependencies (v1.7, v1.8)
-  shell: apt-get install -y apparmor linux-image-extra-virtual linux-image-extra-$(uname -r)
+- name: Gather kernel release information
+  shell: uname -r
+  ignore_errors: yes
+  register: uname_r
   tags:
     - v1.7
     - v1.8
+    - v1.11
+
+
+- name: Install docker system dependencies (v1.7, v1.8, v1.11)
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - apparmor
+    - libltdl7
+    - libsystemd-journal0
+    - linux-image-extra-virtual
+    - "linux-image-extra-{{ uname_r.stdout }}"
+  tags:
+    - v1.7
+    - v1.8
+    - v1.11
 
 
 - name: Shutdown running docker containers
@@ -52,6 +74,7 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
 
 
 - name: Uninstall previous docker
@@ -61,6 +84,7 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
 
 
 - name: Verify docker is not installed
@@ -71,6 +95,17 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
+
+
+- name: Download Docker Engine deb (v1.11)
+  get_url:
+    url: "http://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.11.1-0~{{ ansible_distribution_release }}_amd64.deb"
+    dest: /tmp/docker-engine.deb
+    force: yes
+    mode: 0440
+  tags:
+    - v1.11
 
 
 - name: Download Docker Engine deb (v1.8)
@@ -93,11 +128,12 @@
     - v1.7
 
 
-- name: Install docker-engine deb (v1.7, v1.8)
-  shell: dpkg -i /tmp/docker-engine.deb
+- name: Install docker-engine deb (v1.7, v1.8, v1.11)
+  shell: dpkg --force-confnew -i /tmp/docker-engine.deb
   tags:
     - v1.7
     - v1.8
+    - v1.11
 
 
 - name: Install docker apt keys (v1.5)
@@ -126,6 +162,7 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
 
 
 - name: Install docker pip dependencies (v1.8)
@@ -138,6 +175,7 @@
     # - "python-apt"
   tags:
     - v1.8
+    - v1.11
 
 
 - name: Install docker pip dependencies (v1.7)
@@ -185,6 +223,7 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
 
 
 - name: Restart docker daemon (reapply firewall rules)
@@ -196,4 +235,5 @@
     - v1.5
     - v1.7
     - v1.8
+    - v1.11
     - restart
