@@ -1,0 +1,11 @@
+docker_celery_flower_name: celery_flower_1
+docker_celery_flower_image: centerforopenscience/celery-flower:latest
+docker_celery_flower_command: flower
+docker_celery_flower_hostname: "{{ hostname_name }}"
+docker_celery_flower_net: bridge
+docker_celery_flower_env: {}
+docker_celery_flower_links: []
+docker_celery_flower_expose:
+  - 5555
+docker_celery_flower_ports: []
+docker_celery_flower_volumes: []

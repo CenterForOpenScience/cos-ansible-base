@@ -1,0 +1,25 @@
+- name: Restart docker celery flower container
+  sudo: yes
+  shell: "docker restart {{ docker_celery_flower_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker celery flower container
+  docker:
+    command: "{{ docker_celery_flower_command }}"
+    env: "{{ docker_celery_flower_env }}"
+    expose: "{{ docker_celery_flower_expose }}"
+    hostname: "{{ docker_celery_flower_hostname }}"
+    links: "{{ docker_celery_flower_links }}"
+    image: "{{ docker_celery_flower_image }}"
+    name: "{{ docker_celery_flower_name }}"
+    net: "{{ docker_celery_flower_net }}"
+    ports: "{{ docker_celery_flower_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_celery_flower_volumes }}"
+  tags:
+    - install
+    - upgrade

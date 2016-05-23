@@ -42,6 +42,12 @@
     docker_rabbitmq_name: "{{ docker_env }}_osf_rabbitmq_1"
     docker_rabbitmq_data_dir: "/opt/{{ docker_env }}_osf_rabbitmq/data/"
 
+    docker_celery_flower: no
+    docker_celery_flower_name: "{{ docker_env }}_osf_celery_flower_1"
+    docker_celery_flower_command: "flower --broker=amqp://guest:guest@rabbitmq:5672//"
+    docker_celery_flower_links:
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+
     docker_prerender: no
     docker_prerender_name: "{{ docker_env }}_osf_prerender_1"
     docker_prerender_conf_dir: "/opt/{{ docker_env }}_osf_prerender/conf/"
@@ -143,6 +149,9 @@
 
     - role: docker-rabbitmq
       when: docker_rabbitmq
+
+    - role: docker-celery-flower
+      when: docker_celery_flower
 
     - role: docker-prerender
       when: docker_prerender
