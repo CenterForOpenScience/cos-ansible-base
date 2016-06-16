@@ -25,6 +25,28 @@
       - "{{ docker_experimenter_conf_dir }}env:{{ docker_experimenter_working_dir }}.env:rw"
     docker_experimenter_volumes_from: []
 
+    docker_isp: no
+    docker_isp_source_branch: develop
+    docker_isp_source_repo: https://github.com/CenterForOpenScience/isp.git
+    docker_isp_working_dir: /isp/
+    docker_isp_name: "{{ docker_env }}_isp_1"
+    docker_isp_image: centerforopenscience/ember:latest
+    docker_isp_command: gosu www-data ember build --env staging
+    docker_isp_source_conf_dir: roles/docker-spa/files/isp/
+    docker_isp_code_dir: "/opt/{{ docker_env }}_isp/code/"
+    docker_isp_conf_dir: "/opt/{{ docker_env }}_isp/conf/"
+    docker_isp_env:
+      SOURCE_BRANCH: "{{ docker_isp_source_branch }}"
+      SOURCE_REPO: "{{ docker_isp_source_repo }}"
+      WORKDIR: "{{ docker_isp_working_dir }}"
+    docker_isp_net: bridge
+    docker_isp_hostname: "{{ hostname_name }}"
+    docker_isp_links: []
+    docker_isp_volumes:
+      - "{{ docker_isp_code_dir }}:{{ docker_isp_working_dir }}:rw"
+      - "{{ docker_isp_conf_dir }}env:{{ docker_isp_working_dir }}.env:rw"
+    docker_isp_volumes_from: []
+
     docker_lookit: no
     docker_lookit_source_branch: develop
     docker_lookit_source_repo: https://github.com/CenterForOpenScience/lookit.git
@@ -57,6 +79,7 @@
     docker_nginx_volumes_from:
       - "{{ docker_experimenter_name }}"
       - "{{ docker_lookit_name }}"
+      - "{{ docker_isp_name }}"
   roles:
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_experimenter_source_branch }}"
@@ -75,6 +98,25 @@
       docker_ember_volumes: "{{ docker_experimenter_volumes }}"
       docker_ember_volumes_from: "{{ docker_experimenter_volumes_from }}"
       when: docker_experimenter
+
+  roles:
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_isp_source_branch }}"
+      docker_ember_source_repo: "{{ docker_isp_source_repo }}"
+      docker_ember_working_dir: "{{ docker_isp_working_dir }}"
+      docker_ember_name: "{{ docker_isp_name }}"
+      docker_ember_image: "{{ docker_isp_image }}"
+      docker_ember_command: "{{ docker_isp_command }}"
+      docker_ember_source_conf_dir: "{{ docker_isp_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_isp_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_isp_conf_dir }}"
+      docker_ember_env: "{{ docker_isp_env }}"
+      docker_ember_net: "{{ docker_isp_net }}"
+      docker_ember_hostname: "{{ docker_isp_hostname }}"
+      docker_ember_links: "{{ docker_isp_links }}"
+      docker_ember_volumes: "{{ docker_isp_volumes }}"
+      docker_ember_volumes_from: "{{ docker_isp_volumes_from }}"
+      when: docker_isp
 
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_lookit_source_branch }}"
