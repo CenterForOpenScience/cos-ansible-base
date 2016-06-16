@@ -10,4 +10,5 @@ docker_jenkins_expose:
 docker_jenkins_ports: []
 docker_jenkins_volumes:
   - "{{ docker_jenkins_data_dir }}:/var/jenkins_home"
+  - "/var/run/docker.sock:/var/run/docker.sock"
 docker_jenkins_volumes_from: []
