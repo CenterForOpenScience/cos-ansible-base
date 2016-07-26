@@ -74,7 +74,7 @@
     docker_cos_source_repo: https://github.com/CenterForOpenScience/centerforopenscience.org
     docker_cos_working_dir: /cos/
     docker_cos_name: "{{ docker_env }}_cos_1"
-    docker_cos_image: mattclarkdocker/docker-library:old-cos
+    docker_cos_image: centerforopenscience/cos-legacy:latest
     docker_cos_command: gosu www-data python main.py
     docker_cos_source_conf_dir: roles/docker-spa/files/cos/
     docker_cos_code_dir: "/opt/{{ docker_env }}_cos/code/"
