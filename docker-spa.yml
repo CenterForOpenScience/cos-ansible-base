@@ -90,6 +90,27 @@
       - "{{ docker_cos_code_dir }}:{{ docker_cos_working_dir }}:rw"
     docker_cos_volumes_from: []
 
+    docker_badges: no
+    docker_badges_source_branch: master
+    docker_badges_source_repo: https://github.com/CenterForOpenScience/open_research_badges.git
+    docker_badges_working_dir: /badges/
+    docker_badges_name: "{{ docker_env }}_badges_1"
+    docker_badges_image: mattclarkdocker/docker-library:old-cos
+    docker_badges_command:
+    docker_badges_source_conf_dir: roles/docker-spa/files/badges/
+    docker_badges_code_dir: "/opt/{{ docker_env }}_badges/code/"
+    docker_badges_conf_dir: "/opt/{{ docker_env }}_badges/conf/"
+    docker_badges_env:
+      SOURCE_BRANCH: "{{ docker_badges_source_branch }}"
+      SOURCE_REPO: "{{ docker_badges_source_repo }}"
+      WORKDIR: "{{ docker_badges_working_dir }}"
+    docker_badges_net: bridge
+    docker_badges_hostname: "{{ hostname_name }}"
+    docker_badges_links: []
+    docker_badges_volumes:
+      - "{{ docker_badges_code_dir }}:{{ docker_badges_working_dir }}:rw"
+    docker_badges_volumes_from: []
+
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_spa_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
@@ -102,6 +123,7 @@
       - "{{ docker_lookit_name }}"
       - "{{ docker_isp_name }}"
       - "{{ docker_cos_name }}"
+      - "{{ docker_badges_name }}"
   roles:
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_experimenter_source_branch }}"
@@ -175,6 +197,24 @@
       docker_ember_volumes: "{{ docker_cos_volumes }}"
       docker_ember_volumes_from: "{{ docker_cos_volumes_from }}"
       when: docker_cos
+
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_badges_source_branch }}"
+      docker_ember_source_repo: "{{ docker_badges_source_repo }}"
+      docker_ember_working_dir: "{{ docker_badges_working_dir }}"
+      docker_ember_name: "{{ docker_badges_name }}"
+      docker_ember_image: "{{ docker_badges_image }}"
+      docker_ember_command: "{{ docker_badges_command }}"
+      docker_ember_source_conf_dir: "{{ docker_badges_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_badges_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_badges_conf_dir }}"
+      docker_ember_env: "{{ docker_badges_env }}"
+      docker_ember_net: "{{ docker_badges_net }}"
+      docker_ember_hostname: "{{ docker_badges_hostname }}"
+      docker_ember_links: "{{ docker_badges_links }}"
+      docker_ember_volumes: "{{ docker_badges_volumes }}"
+      docker_ember_volumes_from: "{{ docker_badges_volumes_from }}"
+      when: docker_badges
 
     - role: docker-nginx
       when: docker_nginx
