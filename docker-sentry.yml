@@ -5,7 +5,6 @@
   vars:
     # redis
     docker_redis_name: "{{ docker_env }}_sentry_redis_1"
-    docker_redis_conf_dir: "/opt/{{ docker_env }}_sentry_redis/conf/"
     docker_redis_data_dir: "/opt/{{ docker_env }}_sentry_redis/data/"
 
     # postgres
