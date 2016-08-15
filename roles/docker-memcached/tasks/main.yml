@@ -1,5 +1,5 @@
 - name: Restart docker memcached container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_memcached_name }}"
   tags:
     - restart

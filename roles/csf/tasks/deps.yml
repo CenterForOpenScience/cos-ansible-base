@@ -1,6 +1,6 @@
 - name: Install sendmail
   apt: pkg={{ item }}
-  sudo: yes
+  become: yes
   register: install_sendmail
   with_items:
     - sendmail-bin
@@ -8,5 +8,5 @@
 
 - name: Install libwww-perl
   apt: pkg=libwww-perl
-  sudo: yes
+  become: yes
   register: install_libwww

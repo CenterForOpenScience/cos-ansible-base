@@ -2,4 +2,4 @@
 
 - name: Install supervisord
   apt: pkg=supervisor
-  sudo: yes
+  become: yes

@@ -1,5 +1,5 @@
 - name: Restart docker unoconv container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_unoconv_name }}"
   tags:
     - restart

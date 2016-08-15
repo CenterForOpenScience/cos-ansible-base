@@ -56,7 +56,7 @@
 
 
 - name: Restart docker haproxy container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_haproxy_name }}"
   tags:
     - restart

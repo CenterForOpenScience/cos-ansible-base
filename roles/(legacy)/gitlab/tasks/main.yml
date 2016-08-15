@@ -152,7 +152,7 @@
 
 - name: Make gitlab start on boot
   command: update-rc.d gitlab defaults 21
-  sudo: yes
+  become: yes
 
 
 - name: Set up logrotate

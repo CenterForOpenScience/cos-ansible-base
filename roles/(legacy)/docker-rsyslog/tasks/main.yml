@@ -11,7 +11,7 @@
 
 
 - name: Restart docker rsyslog container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_rsyslog_name }}"
   tags:
     - restart

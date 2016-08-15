@@ -1,5 +1,5 @@
 - name: Restart docker osf sharejs container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_osf_sharejs_name }}"
   tags:
     - restart

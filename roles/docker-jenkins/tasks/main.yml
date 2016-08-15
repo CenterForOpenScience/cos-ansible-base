@@ -1,5 +1,5 @@
 - name: Restart docker jenkins container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_jenkins_name }}"
   tags:
     - restart

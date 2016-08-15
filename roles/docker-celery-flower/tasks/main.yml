@@ -1,5 +1,5 @@
 - name: Restart docker celery flower container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_celery_flower_name }}"
   tags:
     - restart

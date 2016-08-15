@@ -4,7 +4,7 @@
 - name: Security Check | Find Form Mail
   shell: find / -name "[Ff]orm[mM]ai*"
   when: check_mailers
-  sudo: yes
+  become: yes
   # Failed if any files are found
   register: result
   failed_when: result.stdout
@@ -15,7 +15,7 @@
 - name: Security Check | Find CGIeMail
   shell: find / -name "[Cc]giemai*"
   when: check_mailers
-  sudo: yes
+  become: yes
   # Fail if any files are found
   register: result
   failed_when: result.stdout

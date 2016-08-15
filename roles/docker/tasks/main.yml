@@ -15,7 +15,7 @@
 
 - name: Update APT package cache
   apt: update_cache=yes
-  sudo: yes
+  become: yes
   tags:
     - v1.5
     - v1.7
@@ -67,7 +67,7 @@
 
 
 - name: Shutdown running docker containers
-  sudo: yes
+  become: yes
   ignore_errors: yes
   shell: docker stop -t 0 $(docker ps -a -q)
   tags:
@@ -137,7 +137,7 @@
 
 
 - name: Install docker apt keys (v1.5)
-  sudo: yes
+  become: yes
   apt_key:
     id: 36A1D7869245C8950F966E92D8576A8BA88D21E9
     keyserver: "hkp://keyserver.ubuntu.com:80"
@@ -147,7 +147,7 @@
 
 
 - name: Install docker apt repository (v1.5)
-  sudo: yes
+  become: yes
   apt_repository:
     repo: "deb https://get.docker.com/ubuntu docker main"
     state: present
@@ -156,7 +156,7 @@
 
 
 - name: Force pip upgrade
-  sudo: yes
+  become: yes
   shell: easy_install -U pip
   tags:
     - v1.5
@@ -166,7 +166,7 @@
 
 
 - name: Install docker pip dependencies (v1.8)
-  sudo: yes
+  become: yes
   pip:
     state: latest
     name: "{{ item }}"
@@ -179,7 +179,7 @@
 
 
 - name: Install docker pip dependencies (v1.7)
-  sudo: yes
+  become: yes
   pip:
     state: latest
     name: "{{ item }}"
@@ -194,7 +194,7 @@
 # issue: https://github.com/ansible/ansible-modules-core/issues/1158
 # pull: https://github.com/ansible/ansible-modules-core/pull/1744
 - name: Install docker pip dependencies (v1.5)
-  sudo: yes
+  become: yes
   pip:
     state: latest
     name: "{{ item }}"
@@ -206,7 +206,7 @@
 
 
 - name: Install docker (v1.5)
-  sudo: yes
+  become: yes
   apt:
     state: latest
     pkg: "lxc-docker-1.5.0"
@@ -227,7 +227,7 @@
 
 
 - name: Restart docker daemon (reapply firewall rules)
-  sudo: yes
+  become: yes
   service:
     name: docker
     state: restarted

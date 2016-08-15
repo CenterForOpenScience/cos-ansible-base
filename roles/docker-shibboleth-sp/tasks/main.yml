@@ -1,5 +1,5 @@
 - name: Ensure docker shibboleth sp directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -62,7 +62,7 @@
     - shibboleth-sp-settings
 
 - name: Restart docker shibboleth sp container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_shibboleth_sp_name }}"
   tags:
     - restart

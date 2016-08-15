@@ -25,16 +25,16 @@
                    password={{ sentry_db_pass }}
                    port={{ postgresql_port }}
                    state=present
-  sudo_user: postgres
-  sudo: yes
+  become_user: postgres
+  become: yes
 
 - name: Provision db schema
   postgresql_db: name={{ sentry_db_name }}
                  port={{ postgresql_port }}
                  owner={{ sentry_db_user }}
                  state=present
-  sudo_user: postgres
-  sudo: yes
+  become_user: postgres
+  become: yes
 
 - name: Ensure config directory exists
   file: path=/etc/sentry

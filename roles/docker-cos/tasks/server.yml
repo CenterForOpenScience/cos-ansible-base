@@ -1,5 +1,5 @@
 - name: Ensure docker cos server directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -11,7 +11,7 @@
 
 
 - name: Ensure docker cos server data directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -48,7 +48,7 @@
 
 
 - name: Restart docker cos server container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_cos_server_name }}"
   tags:
     - restart

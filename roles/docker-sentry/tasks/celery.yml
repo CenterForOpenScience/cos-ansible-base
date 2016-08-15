@@ -8,7 +8,7 @@
 
 
 - name: Restart docker sentry celery container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_sentry_celery_name }}_{{ item }}"
   with_sequence: count={{ docker_sentry_celery_instances }}
   when: docker_sentry_celery_instances > 0

@@ -4,4 +4,4 @@
     src: etc_cron.sh
     dest: "/etc/cron.{{ rkhunter_cron_frequency }}/rkhunter"
     mode: 0755
-  sudo: yes
+  become: yes

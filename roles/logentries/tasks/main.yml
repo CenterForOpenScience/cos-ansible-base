@@ -1,12 +1,12 @@
 - name: Ensure logentires apt repository
-  sudo: yes
+  become: yes
   apt_repository:
     repo: "deb http://rep.logentries.com/ trusty main"
     state: present
 
 
 - name: Import public key used by apt
-  sudo: yes
+  become: yes
   apt_key:
     keyserver: hkp://pgp.mit.edu:80
     id: C43C79AD
@@ -14,25 +14,25 @@
 
 
 - name: Update APT package cache
-  sudo: yes
+  become: yes
   apt: update_cache=yes
 
 
 - name: Install log entries command line application
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: logentries
 
 
 - name: Register the host with logentires
-  sudo: yes
+  become: yes
   command: "le register --account-key={{ logentries_account_key }}"
   when: logentries_account_key
 
 
 - name: Ensure logentries filters directory exists
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: /etc/le/le_filters
@@ -71,7 +71,7 @@
 
 
 - name: Configure log entries to monitor files
-  sudo: yes
+  become: yes
   logentries:
     logtype: "{{ item.get('type') }}"
     name: "{{ item.get('name') }}"
@@ -82,14 +82,14 @@
 
 
 - name: Install log entries daemon
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: logentries-daemon
 
 
 - name: Start the log entries daemon
-  sudo: yes
+  become: yes
   service:
     name: logentries
     state: restarted

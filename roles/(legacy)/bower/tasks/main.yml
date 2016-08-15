@@ -6,7 +6,7 @@
 
 - name: Symlink "nodejs" -> "node"
   file: src="/usr/bin/nodejs" dest="/usr/bin/node" state=link
-  sudo: yes
+  become: yes
 
 - name: Install bower
   npm: name=bower global=yes

@@ -4,7 +4,7 @@
 
 - name: check if csf exists
   stat: path=/usr/local/csf/bin/csftest.pl
-  sudo: yes
+  become: yes
   register: check_path
 
 - name: download csf
@@ -15,31 +15,31 @@
   when: check_path.stat.exists == false
 
 - command: ufw disable
-  sudo: yes
+  become: yes
   when: check_path.stat.exists == false
 
 - name: install
   command: sh install.sh chdir=/tmp/csf/
-  sudo: yes
+  become: yes
   when: check_path.stat.exists == false
 
 - name: Test if csf is working
   command: perl /usr/local/csf/bin/csftest.pl
-  sudo: yes
+  become: yes
   register: check_contents
   failed_when: check_contents.stdout.find("csf should function on this server") == -1
 
 - name: copy conf
   template: src=csf.conf.j2 dest=/etc/csf/csf.conf
-  sudo: yes
+  become: yes
 
 - name: copy csf.allow
   template: src=csf.allow.j2 dest=/etc/csf/csf.allow
-  sudo: yes
+  become: yes
 
 - name: copy ui.allow
   template: src=ui.allow.j2 dest=/etc/csf/ui/ui.allow
-  sudo: yes
+  become: yes
 
 - name: copy csfpre.sh
   template:
@@ -47,7 +47,7 @@
     dest: /etc/csf/csfpre.sh
     mode: 0755
   when: csf_csfpre_file | default("") != ""
-  sudo: yes
+  become: yes
 
 - name: copy csfpost.sh
   template:
@@ -55,23 +55,23 @@
     dest: /etc/csf/csfpost.sh
     mode: 0755
   when: csf_csfpost_file | default("") != ""
-  sudo: yes
+  become: yes
 
 - name: csf update
   command: csf -u
-  sudo: yes
+  become: yes
 
 - name: csf enable
   command: csf -e
-  sudo: yes
+  become: yes
 
 - name: csf restart
   command: csf -r
-  sudo: yes
+  become: yes
 
 - name: lfd restart
   service: name=lfd state=restarted
-  sudo: yes
+  become: yes
 
 # Check csf configuration
 # For some reason, csf logs configuration errors to stdout, so fail when the

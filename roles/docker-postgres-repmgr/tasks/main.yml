@@ -1,5 +1,5 @@
 - name: Ensure docker postgres repmgr directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -12,7 +12,7 @@
 
 
 - name: Copy docker postgres repmgr repmgr.conf
-  sudo: yes
+  become: yes
   template:
     src: repmgr.conf.j2
     dest: "{{ docker_postgres_repmgr_conf_file }}"
@@ -23,7 +23,7 @@
 
 
 - name: Restart docker postgres repmgr container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_postgres_repmgr_name }}"
   tags:
     - restart

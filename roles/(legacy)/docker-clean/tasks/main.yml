@@ -1,5 +1,5 @@
 - name: Delete all docker containers
-  sudo: yes
+  become: yes
   shell: "docker rm -f $(docker ps -aq)"
   ignore_errors: yes
   tags:
@@ -9,7 +9,7 @@
 
 
 - name: Delete all docker images
-  sudo: yes
+  become: yes
   shell: "docker rmi -f $(docker images -q)"
   ignore_errors: yes
   tags:

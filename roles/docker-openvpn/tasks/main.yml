@@ -1,5 +1,5 @@
 - name: Restart docker openvpn container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_openvpn_name }}"
   tags:
     - restart

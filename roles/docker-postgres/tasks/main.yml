@@ -1,12 +1,12 @@
 - name: Restart docker postgres container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_postgres_name }}"
   tags:
     - restart
 
 
 - name: Ensure docker postgres directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"

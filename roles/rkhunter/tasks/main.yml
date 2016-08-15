@@ -8,12 +8,12 @@
 # NOTE: This should only be run when config files are known to be good
 - name: Set baseline file properties
   command: rkhunter --propupd
-  sudo: yes
+  become: yes
   when: rkhunter_propupd|bool
 
 - name: Run checks
   command: rkhunter -c --skip-keypress
-  sudo: yes
+  become: yes
   when: rkhunter_run_checks|bool
   ignore_errors: yes
 

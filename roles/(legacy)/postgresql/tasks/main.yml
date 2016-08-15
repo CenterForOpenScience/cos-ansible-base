@@ -2,7 +2,7 @@
 
 - name: Install postgresql
   apt: pkg={{ item }}
-  sudo: yes
+  become: yes
   with_items:
     - postgresql-9.3
     - postgresql-server-dev-9.3

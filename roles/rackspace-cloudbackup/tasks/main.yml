@@ -5,24 +5,24 @@
 
 
 - name: Install the Cloud Backup Agent package
-  sudo: yes
+  become: yes
   apt:
     deb: /tmp/cloudbackup-updater-latest.deb
     state: present
 
 
 - name: Update apt package cache (this can sometimes fail)
-  sudo: yes
+  become: yes
   apt: update_cache=yes
 
 
 - name: Run an apt install force
-  sudo: yes
+  become: yes
   command: apt-get install -f
 
 
 - name: Check the installation
-  sudo: yes
+  become: yes
   command: cloudbackup-updater -v
 
 

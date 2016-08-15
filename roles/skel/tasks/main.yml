@@ -2,7 +2,7 @@
 # - modified \h to \H to display FQDN
 
 - name: Set /etc/skel/.bashrc
-  sudo: yes
+  become: yes
   copy:
     src: .bashrc
     dest: /etc/skel/.bashrc

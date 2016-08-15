@@ -1,12 +1,12 @@
 - name: Ensure newrelic sysmond apt repository
-  sudo: yes
+  become: yes
   apt_repository:
     repo: "deb http://apt.newrelic.com/debian/ newrelic non-free"
     state: present
 
 
 - name: Import public key used by apt
-  sudo: yes
+  become: yes
   apt_key:
     keyserver: hkp://pgp.mit.edu:80
     id: 548C16BF
@@ -14,12 +14,12 @@
 
 
 - name: Update APT package cache
-  sudo: yes
+  become: yes
   apt: update_cache=yes
 
 
 - name: Install newrelic sysmond
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: newrelic-sysmond
@@ -35,7 +35,7 @@
 
 
 - name: Start the newrelic sysmon daemon
-  sudo: yes
+  become: yes
   service:
     name: newrelic-sysmond
     state: restarted

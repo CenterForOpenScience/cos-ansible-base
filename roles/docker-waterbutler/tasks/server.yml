@@ -1,5 +1,5 @@
 - name: Ensure docker waterbutler server directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -25,7 +25,7 @@
 
 
 - name: Restart docker waterbutler server container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_waterbutler_server_name }}_{{ item }}"
   with_sequence: count={{ docker_waterbutler_server_instances }}
   when: docker_waterbutler_server_instances > 0

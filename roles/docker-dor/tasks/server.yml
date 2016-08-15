@@ -1,5 +1,5 @@
 - name: Ensure docker dor server directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -33,7 +33,7 @@
 
 
 - name: Restart docker dor server container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_dor_server_name }}"
   tags:
     - restart

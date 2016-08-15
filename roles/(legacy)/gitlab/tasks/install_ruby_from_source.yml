@@ -18,4 +18,4 @@
   command: make install
     chdir=/tmp/ruby-2.1.2
     creates=/usr/local/bin/ruby
-  sudo: yes
+  become: yes

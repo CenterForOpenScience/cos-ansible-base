@@ -1,6 +1,6 @@
 - name: test csf | csf restart
   command: csf -r
-  sudo: yes
+  become: yes
   changed_when: false
 
 

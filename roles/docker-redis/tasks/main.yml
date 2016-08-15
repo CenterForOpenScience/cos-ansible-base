@@ -1,12 +1,12 @@
 - name: Restart docker redis container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_redis_name }}"
   tags:
     - restart
 
 
 - name: Ensure docker redis directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ docker_redis_data_dir }}"

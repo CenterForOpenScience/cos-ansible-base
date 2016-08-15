@@ -1,5 +1,5 @@
 - name: Ensure htop system dependency
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: htop

@@ -16,4 +16,4 @@
     dest: "{{ deploy_script_file }}"
     owner: "{{ deploy_script_owner }}"
     mode: 0500
-  sudo: yes
+  become: yes

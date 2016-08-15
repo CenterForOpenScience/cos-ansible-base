@@ -1,5 +1,5 @@
 - name: Install script csf-docker-wait.conf in upstart
-  sudo: yes
+  become: yes
   copy:
     src: csf-docker-wait.conf
     dest: /etc/init/csf-docker-wait.conf
@@ -9,7 +9,7 @@
 
 
 - name: Install script csf-docker-started.conf in upstart
-  sudo: yes
+  become: yes
   copy:
     src: csf-docker-started.conf
     dest: /etc/init/csf-docker-started.conf
@@ -19,7 +19,7 @@
 
 
 - name: Install script csfdocker.sh
-  sudo: yes
+  become: yes
   copy:
     src: csfdocker.sh
     dest: /etc/csf/csfdocker.sh
@@ -29,7 +29,7 @@
 
 
 - name: Restart CSF & LFD
-  sudo: yes
+  become: yes
   command: csf -ra
   tags:
     - install

@@ -8,7 +8,7 @@
 
 
 - name: Ensure docker scrapi celery directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -21,7 +21,7 @@
 
 
 - name: Restart docker scrapi celery container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_scrapi_celery_name }}_{{ item }}"
   with_sequence: count={{ docker_scrapi_celery_instances }}
   when: docker_scrapi_celery_instances > 0

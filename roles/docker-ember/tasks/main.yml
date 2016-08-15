@@ -7,7 +7,7 @@
 
 
 - name: Ensure docker ember directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -31,7 +31,7 @@
 
 
 - name: Restart docker ember container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_ember_name }}"
   tags:
     - restart

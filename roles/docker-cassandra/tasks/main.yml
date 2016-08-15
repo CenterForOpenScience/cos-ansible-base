@@ -1,12 +1,12 @@
 - name: Restart docker cassandra container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_cassandra_name }}"
   tags:
     - restart
 
 
 - name: Ensure docker cassandra directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"

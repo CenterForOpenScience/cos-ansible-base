@@ -1,5 +1,5 @@
 - name: Ensure tmux system dependency
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: tmux

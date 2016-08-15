@@ -8,8 +8,8 @@
                    password={{ gitlab_db_pass }}
                    port={{gitlab_db_port}}
                    state=present
-  sudo_user: postgres  # the superuser created after installing postgres
-  sudo: yes
+  become_user: postgres  # the superuser created after installing postgres
+  become: yes
 
 
 - name: Create the gitlab database
@@ -17,5 +17,5 @@
                  port={{ gitlab_db_port }}
                  owner={{ gitlab_user }}
                  state=present
-  sudo_user: postgres
-  sudo: yes
+  become_user: postgres
+  become: yes

@@ -3,4 +3,4 @@
   with_items:
     - python-apt
     - python-pycurl
-  sudo: yes
+  become: yes

@@ -1,19 +1,19 @@
 - name: Ensure rackspace apt repository
-  sudo: yes
+  become: yes
   apt_repository:
     repo: "deb http://stable.packages.cloudmonitoring.rackspace.com/ubuntu-14.04-x86_64 cloudmonitoring main"
     state: present
 
 
 - name: Ensure rackspace apt key
-  sudo: yes
+  become: yes
   apt_key:
     url: https://monitoring.api.rackspacecloud.com/pki/agent/linux.asc
     state: present
 
 
 - name: Update apt package cache (this can sometimes fail)
-  sudo: yes
+  become: yes
   apt: update_cache=yes
 
 
@@ -25,7 +25,7 @@
 
 
 - name: Install new rackspace cloud monitoring agent
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: rackspace-monitoring-agent

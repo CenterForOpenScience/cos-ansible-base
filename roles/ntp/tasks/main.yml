@@ -1,5 +1,5 @@
 - name: Ensure ntp system dependency
-  sudo: yes
+  become: yes
   apt:
     state: present
     pkg: ntp

@@ -17,28 +17,28 @@
 
 
 - name: Create the file to be used for swap
-  sudo: yes
+  become: yes
   shell: fallocate -l {{ swap_swapfile_size }} /swapfile
   tags:
     - install
 
 
 - name: Secure swap file permissions
-  sudo: yes
+  become: yes
   shell: chmod 600 /swapfile
   tags:
     - install
 
 
 - name: Format the swapfile
-  sudo: yes
+  become: yes
   shell: mkswap /swapfile
   tags:
     - install
 
 
 - name: Add the file to the system as a swap file
-  sudo: yes
+  become: yes
   shell: swapon /swapfile
   tags:
     - install

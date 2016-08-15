@@ -4,7 +4,7 @@
 
 ## Requirements
 
-- ansible >= 1.6
+- ansible >= 2.1
 - virtualbox
 - vagrant >= 1.6
 - invoke (Python task execution library)
@@ -130,9 +130,9 @@ The above would temporarily disable SSH configuration testing.
 
 ## Setting up for Single Packet Authorization
 
-If using encryption and HMAC keys, execute on client: 
+If using encryption and HMAC keys, execute on client:
 
-```bash 
+```bash
 fwknop -A tcp/22 -a PUBLIC_CLIENT_IP -D TARGET_SERVER_IP --key-gen --use-hmac --save-rc-stanza
  ```
 
@@ -142,13 +142,13 @@ Print your newly generated keys:
  grep KEY ~/.fwknoprc
  ```
 And add to Single Packet Authorization Server access configuration /etc/fwknop/access.conf:
- 
+
  ```
  SOURCE              ANY
  KEY_BASE64          [KEY]
  HMAC_KEY_BASE64     [HMAC_KEY]
  ```
- 
+
 
 ## Setting up for OSF deployment
 

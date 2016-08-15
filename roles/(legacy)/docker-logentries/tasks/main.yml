@@ -1,5 +1,5 @@
 - name: Restart docker logentries container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_rabbitmq_name }}"
   tags:
     - restart

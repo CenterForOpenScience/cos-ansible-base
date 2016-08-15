@@ -7,14 +7,14 @@
     keyserver: hkp://keyserver.ubuntu.com:80
     id: 7F0CEB10
     state: present
-  sudo: yes
+  become: yes
 
 - name: Add mongo apt repository
   apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' update_cache=yes
 
 - name: Install latest stable version of mongodb
   apt: name=mongodb-org state=present
-  sudo: yes
+  become: yes
 
 - name: Ensure mongo service is running
   service: name=mongod state=started

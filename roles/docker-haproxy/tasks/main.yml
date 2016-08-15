@@ -1,5 +1,5 @@
 - name: Ensure docker haproxy directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -42,14 +42,14 @@
 
 
 - name: Restart docker haproxy container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_haproxy_name }}"
   tags:
     - restart
 
 
 - name: Reload docker haproxy container
-  sudo: yes
+  become: yes
   shell: "docker kill --signal=SIGHUP {{ docker_haproxy_name }}"
   tags:
     - reload

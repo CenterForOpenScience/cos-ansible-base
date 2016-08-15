@@ -1,5 +1,5 @@
 - name: Restart docker postgres vacuumlo container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_postgres_vacuumlo_name }}"
   tags:
     - restart

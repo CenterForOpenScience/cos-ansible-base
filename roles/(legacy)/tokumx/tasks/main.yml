@@ -8,13 +8,13 @@
     keyserver: keyserver.ubuntu.com
     id: 505A7412
     state: present
-  sudo: yes
+  become: yes
 
 - name: Add deb entry for TokuMX
   copy:
     src: tokumx.list
     dest: /etc/apt/sources.list.d/tokumx.list
-  sudo: yes
+  become: yes
 
 - name: Add tokumx apt repository
   shell: echo "deb [arch=amd64] http://s3.amazonaws.com/tokumx-debs $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/tokumx.list
@@ -23,7 +23,7 @@
 
 - name: Update APT package cache
   apt: update_cache=yes
-  sudo: yes
+  become: yes
 
 - name: Install TokuMX with apt
   apt: name=tokumx state=present

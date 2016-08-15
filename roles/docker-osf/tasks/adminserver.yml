@@ -1,5 +1,5 @@
 - name: Ensure docker osf adminserver directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -11,7 +11,7 @@
 
 
 - name: Ensure docker osf adminserver data directories exist
-  sudo: yes
+  become: yes
   file:
     state: directory
     path: "{{ item }}"
@@ -37,7 +37,7 @@
 
 
 - name: Restart docker osf adminserver container
-  sudo: yes
+  become: yes
   shell: "docker restart {{ docker_osf_adminserver_name }}"
   tags:
     - restart
