@@ -114,7 +114,7 @@ def provision(user, inventory=SITE_INVENTORY, sudo=True, ask_sudo_pass=True,
 
 
 @task
-def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=True, ask_vault_pass=True
+def vplay(playbook, user='vagrant', sudo=True, ask_sudo_pass=True, ask_vault_pass=True,
           verbose=False, extra='', key=None, limit=None, tags=None, list_tasks=False):
     """Run a playbook against the vagrant hosts."""
     # If private key not provided, take a good guess
