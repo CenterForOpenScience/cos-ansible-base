@@ -117,6 +117,29 @@
     docker_osf_sharejs_volumes_from:
       - "{{ docker_storage_name }}"
 
+    docker_preprints: no
+    docker_preprints_source_branch: develop
+    docker_preprints_source_repo: https://github.com/CenterForOpenScience/ember-preprints.git
+    docker_preprints_working_dir: /preprints/
+    docker_preprints_name: "{{ docker_env }}_preprints_1"
+    docker_preprints_image: centerforopenscience/ember:latest
+    docker_preprints_command: gosu www-data ember build --env production --output-path=/preprints/dist/preprints
+    docker_preprints_source_conf_dir: roles/docker-spa/files/preprints/
+    docker_preprints_code_dir: "/opt/{{ docker_env }}_preprints/code/"
+    docker_preprints_conf_dir: "/opt/{{ docker_env }}_preprints/conf/"
+    docker_preprints_env:
+      SOURCE_BRANCH: "{{ docker_preprints_source_branch }}"
+      SOURCE_REPO: "{{ docker_preprints_source_repo }}"
+      WORKDIR: "{{ docker_preprints_working_dir }}"
+      BACKEND: "{{ docker_preprints_backend }}"
+    docker_preprints_net: bridge
+    docker_preprints_hostname: "{{ hostname_name }}"
+    docker_preprints_links: []
+    docker_preprints_volumes:
+      - "{{ docker_preprints_code_dir }}:{{ docker_preprints_working_dir }}:rw"
+      - "{{ docker_preprints_conf_dir }}env:{{ docker_preprints_working_dir }}.env:rw"
+    docker_preprints_volumes_from: []
+
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_osf_nginx_1"
     docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
@@ -132,8 +155,10 @@
       - "{{ docker_osf_server_name }}:server"
       - "{{ docker_osf_sharejs_name }}:sharejs"
       - "{{ docker_prerender_name }}:prerender"
+      - "{{ docker_preprints_name }}:preprints"
     docker_nginx_volumes_from:
       - "{{ docker_storage_name }}"
+      - "{{ docker_preprints_name }}"
   roles:
     - role: docker-storage
       when: docker_storage
@@ -157,6 +182,24 @@
       when: docker_prerender
 
     - role: docker-osf
+
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_preprints_source_branch }}"
+      docker_ember_source_repo: "{{ docker_preprints_source_repo }}"
+      docker_ember_working_dir: "{{ docker_preprints_working_dir }}"
+      docker_ember_name: "{{ docker_preprints_name }}"
+      docker_ember_image: "{{ docker_preprints_image }}"
+      docker_ember_command: "{{ docker_preprints_command }}"
+      docker_ember_source_conf_dir: "{{ docker_preprints_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_preprints_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_preprints_conf_dir }}"
+      docker_ember_env: "{{ docker_preprints_env }}"
+      docker_ember_net: "{{ docker_preprints_net }}"
+      docker_ember_hostname: "{{ docker_preprints_hostname }}"
+      docker_ember_links: "{{ docker_preprints_links }}"
+      docker_ember_volumes: "{{ docker_preprints_volumes }}"
+      docker_ember_volumes_from: "{{ docker_preprints_volumes_from }}"
+      when: docker_preprints
 
     - role: docker-nginx
       when: docker_nginx
