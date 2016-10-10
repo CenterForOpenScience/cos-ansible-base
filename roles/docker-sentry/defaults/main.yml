@@ -24,7 +24,7 @@ docker_sentry_celery_beat: no
 docker_sentry_celery_beat_instances: 1
 docker_sentry_celery_beat_name: sentry_celery_beat
 docker_sentry_celery_beat_image: centerforopenscience/sentry
-docker_sentry_celery_beat_command: celery beat --pidfile=
+docker_sentry_celery_beat_command: run cron --pidfile=
 docker_sentry_celery_beat_data_dir: /opt/sentry_celery_beat/data/
 docker_sentry_celery_beat_env: {}
 docker_sentry_celery_beat_net: bridge
@@ -41,7 +41,7 @@ docker_sentry_celery_worker: no
 docker_sentry_celery_worker_instances: 1
 docker_sentry_celery_worker_name: sentry_celery_worker
 docker_sentry_celery_worker_image: centerforopenscience/sentry
-docker_sentry_celery_worker_command: celery worker
+docker_sentry_celery_worker_command: run worker
 docker_sentry_celery_worker_env: {}
 docker_sentry_celery_worker_net: bridge
 docker_sentry_celery_worker_hostname: "{{ hostname_name }}"

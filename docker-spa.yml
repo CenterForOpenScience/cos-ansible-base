@@ -74,7 +74,7 @@
     docker_cos_source_repo: https://github.com/CenterForOpenScience/centerforopenscience.org
     docker_cos_working_dir: /cos/
     docker_cos_name: "{{ docker_env }}_cos_1"
-    docker_cos_image: mattclarkdocker/docker-library:old-cos
+    docker_cos_image: centerforopenscience/cos-legacy
     docker_cos_command: gosu www-data python main.py
     docker_cos_source_conf_dir: roles/docker-spa/files/cos/
     docker_cos_code_dir: "/opt/{{ docker_env }}_cos/code/"
@@ -83,7 +83,7 @@
       SOURCE_BRANCH: "{{ docker_cos_source_branch }}"
       SOURCE_REPO: "{{ docker_cos_source_repo }}"
       WORKDIR: "{{ docker_cos_working_dir }}"
-    docker_cos_net: bridge
+      ENV: "{{ docker_cos_environment }}"    docker_cos_net: bridge
     docker_cos_hostname: "{{ hostname_name }}"
     docker_cos_links: []
     docker_cos_volumes:
