@@ -123,7 +123,7 @@
       - "{{ docker_lookit_name }}"
       - "{{ docker_isp_name }}"
       - "{{ docker_cos_name }}"
-      - "{{ docker_badges_name }}"
+ #     - "{{ docker_badges_name }}"
   roles:
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_experimenter_source_branch }}"
