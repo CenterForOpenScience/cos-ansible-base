@@ -81,3 +81,6 @@ csf_lf_su_email_alert: 1
 
 
 csf_ui_allowed_ips:
+
+csf_ct_limit: "0"
+csf_ct_ports: ""
