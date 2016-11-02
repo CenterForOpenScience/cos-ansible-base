@@ -83,7 +83,8 @@
       SOURCE_BRANCH: "{{ docker_cos_source_branch }}"
       SOURCE_REPO: "{{ docker_cos_source_repo }}"
       WORKDIR: "{{ docker_cos_working_dir }}"
-      ENV: "{{ docker_cos_environment }}"    docker_cos_net: bridge
+      ENV: "{{ docker_cos_environment }}"
+    docker_cos_net: bridge
     docker_cos_hostname: "{{ hostname_name }}"
     docker_cos_links: []
     docker_cos_volumes:
@@ -143,7 +144,6 @@
       docker_ember_volumes_from: "{{ docker_experimenter_volumes_from }}"
       when: docker_experimenter
 
-  roles:
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_isp_source_branch }}"
       docker_ember_source_repo: "{{ docker_isp_source_repo }}"
