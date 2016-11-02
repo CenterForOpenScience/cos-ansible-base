@@ -62,6 +62,29 @@
     docker_osf_adminserver_volumes_from:
       - "{{ docker_storage_name }}"
 
+    docker_preprints: no
+    docker_preprints_source_branch: develop
+    docker_preprints_source_repo: https://github.com/CenterForOpenScience/ember-preprints.git
+    docker_preprints_working_dir: /preprints/
+    docker_preprints_name: "{{ docker_env }}_preprints_1"
+    docker_preprints_image: centerforopenscience/ember:latest
+    docker_preprints_command: gosu www-data ember build --env production --output-path=/preprints/dist/preprints
+    docker_preprints_source_conf_dir: roles/docker-spa/files/preprints/
+    docker_preprints_code_dir: "/opt/{{ docker_env }}_preprints/code/"
+    docker_preprints_conf_dir: "/opt/{{ docker_env }}_preprints/conf/"
+    docker_preprints_env:
+      SOURCE_BRANCH: "{{ docker_preprints_source_branch }}"
+      SOURCE_REPO: "{{ docker_preprints_source_repo }}"
+      WORKDIR: "{{ docker_preprints_working_dir }}"
+      BACKEND: "{{ docker_preprints_backend }}"
+    docker_preprints_net: bridge
+    docker_preprints_hostname: "{{ hostname_name }}"
+    docker_preprints_links: []
+    docker_preprints_volumes:
+      - "{{ docker_preprints_code_dir }}:{{ docker_preprints_working_dir }}:rw"
+      - "{{ docker_preprints_conf_dir }}env:{{ docker_preprints_working_dir }}.env:rw"
+    docker_preprints_volumes_from: []
+ 
     docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
     docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf/"
     docker_osf_apiserver_links:
@@ -79,7 +102,8 @@
       - "{{ docker_rabbitmq_name }}:rabbitmq"
     docker_osf_server_volumes_from:
       - "{{ docker_storage_name }}"
-
+      - "{{ docker_preprints_name }}"
+ 
     docker_osf_celery_beat_name: "{{ docker_env }}_osf_celery_beat"
     docker_osf_celery_beat_data_dir: "/opt/{{ docker_env }}_osf_celery_beat/data/"
     docker_osf_celery_beat_log_dir: "/opt/{{ docker_env }}_osf_celery_beat/log/"
@@ -116,29 +140,6 @@
       - "{{ docker_tokumx_name }}:tokumx"
     docker_osf_sharejs_volumes_from:
       - "{{ docker_storage_name }}"
-
-    docker_preprints: no
-    docker_preprints_source_branch: develop
-    docker_preprints_source_repo: https://github.com/CenterForOpenScience/ember-preprints.git
-    docker_preprints_working_dir: /preprints/
-    docker_preprints_name: "{{ docker_env }}_preprints_1"
-    docker_preprints_image: centerforopenscience/ember:latest
-    docker_preprints_command: gosu www-data ember build --env production --output-path=/preprints/dist/preprints
-    docker_preprints_source_conf_dir: roles/docker-spa/files/preprints/
-    docker_preprints_code_dir: "/opt/{{ docker_env }}_preprints/code/"
-    docker_preprints_conf_dir: "/opt/{{ docker_env }}_preprints/conf/"
-    docker_preprints_env:
-      SOURCE_BRANCH: "{{ docker_preprints_source_branch }}"
-      SOURCE_REPO: "{{ docker_preprints_source_repo }}"
-      WORKDIR: "{{ docker_preprints_working_dir }}"
-      BACKEND: "{{ docker_preprints_backend }}"
-    docker_preprints_net: bridge
-    docker_preprints_hostname: "{{ hostname_name }}"
-    docker_preprints_links: []
-    docker_preprints_volumes:
-      - "{{ docker_preprints_code_dir }}:{{ docker_preprints_working_dir }}:rw"
-      - "{{ docker_preprints_conf_dir }}env:{{ docker_preprints_working_dir }}.env:rw"
-    docker_preprints_volumes_from: []
 
     docker_nginx: no
     docker_nginx_name: "{{ docker_env }}_osf_nginx_1"
