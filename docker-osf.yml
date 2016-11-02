@@ -182,8 +182,6 @@
     - role: docker-prerender
       when: docker_prerender
 
-    - role: docker-osf
-
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_preprints_source_branch }}"
       docker_ember_source_repo: "{{ docker_preprints_source_repo }}"
@@ -201,6 +199,8 @@
       docker_ember_volumes: "{{ docker_preprints_volumes }}"
       docker_ember_volumes_from: "{{ docker_preprints_volumes_from }}"
       when: docker_preprints
+
+    - role: docker-osf
 
     - role: docker-nginx
       when: docker_nginx
