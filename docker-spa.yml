@@ -9,7 +9,7 @@
     docker_experimenter_working_dir: /experimenter/
     docker_experimenter_name: "{{ docker_env }}_experimenter_1"
     docker_experimenter_image: centerforopenscience/ember:latest
-    docker_experimenter_command: gosu www-data ember build --env staging
+    docker_experimenter_command: gosu www-data ember build --env production
     docker_experimenter_source_conf_dir: roles/docker-spa/files/experimenter/
     docker_experimenter_code_dir: "/opt/{{ docker_env }}_experimenter/code/"
     docker_experimenter_conf_dir: "/opt/{{ docker_env }}_experimenter/conf/"
@@ -31,7 +31,7 @@
     docker_isp_working_dir: /isp/
     docker_isp_name: "{{ docker_env }}_isp_1"
     docker_isp_image: centerforopenscience/ember:latest
-    docker_isp_command: gosu www-data ember build --env staging
+    docker_isp_command: gosu www-data ember build --env production
     docker_isp_source_conf_dir: roles/docker-spa/files/isp/
     docker_isp_code_dir: "/opt/{{ docker_env }}_isp/code/"
     docker_isp_conf_dir: "/opt/{{ docker_env }}_isp/conf/"
@@ -53,7 +53,7 @@
     docker_lookit_working_dir: /lookit/
     docker_lookit_name: "{{ docker_env }}_lookit_1"
     docker_lookit_image: centerforopenscience/ember:latest
-    docker_lookit_command: gosu www-data ember build --env staging
+    docker_lookit_command: gosu www-data ember build --env production
     docker_lookit_source_conf_dir: roles/docker-spa/files/lookit/
     docker_lookit_code_dir: "/opt/{{ docker_env }}_lookit/code/"
     docker_lookit_conf_dir: "/opt/{{ docker_env }}_lookit/conf/"

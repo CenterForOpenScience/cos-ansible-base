@@ -7,7 +7,7 @@ docker_ember_working_dir: /<CHANGE>/
 docker_ember: no
 docker_ember_name: ember_1
 docker_ember_image: centerforopenscience/<CHANGE>:latest
-docker_ember_command: gosu www-data ember build --env staging
+docker_ember_command: gosu www-data ember build --env production
 docker_ember_source_conf_dir: roles/docker-ember/files/
 docker_ember_code_dir: /opt/ember/code/
 docker_ember_conf_dir: /opt/ember/conf/
