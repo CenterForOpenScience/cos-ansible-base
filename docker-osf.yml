@@ -49,6 +49,7 @@
       - "{{ docker_rabbitmq_name }}:rabbitmq"
 
     # redis
+    docker_redis: no
     docker_redis_name: "{{ docker_env }}_osf_prerender_redis_1"
     docker_redis_data_dir: "/opt/{{ docker_env }}_osf_prerender_redis/data/"
 
