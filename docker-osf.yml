@@ -108,6 +108,30 @@
       - "{{ docker_preprints_conf_dir }}env:{{ docker_preprints_working_dir }}.env:rw"
     docker_preprints_volumes_from: []
  
+
+    docker_registries: no
+    docker_registries_source_branch: develop
+    docker_registries_source_repo: https://github.com/CenterForOpenScience/ember-registries.git
+    docker_registries_working_dir: /registries/
+    docker_registries_name: "{{ docker_env }}_registries_1"
+    docker_registries_image: centerforopenscience/ember:latest
+    docker_registries_command: gosu www-data ember build --env production --output-path=/registries/dist/registries
+    docker_registries_source_conf_dir: roles/docker-spa/files/registries/
+    docker_registries_code_dir: "/opt/{{ docker_env }}_registries/code/"
+    docker_registries_conf_dir: "/opt/{{ docker_env }}_registries/conf/"
+    docker_registries_env:
+      SOURCE_BRANCH: "{{ docker_registries_source_branch }}"
+      SOURCE_REPO: "{{ docker_registries_source_repo }}"
+      WORKDIR: "{{ docker_registries_working_dir }}"
+      BACKEND: "{{ docker_registries_backend }}"
+    docker_registries_net: bridge
+    docker_registries_hostname: "{{ hostname_name }}"
+    docker_registries_links: []
+    docker_registries_volumes:
+      - "{{ docker_registries_code_dir }}:{{ docker_registries_working_dir }}:rw"
+      - "{{ docker_registries_conf_dir }}env:{{ docker_registries_working_dir }}.env:rw"
+    docker_registries_volumes_from: []
+ 
     docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
     docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf/"
     docker_osf_apiserver_links:
@@ -128,6 +152,7 @@
     docker_osf_server_volumes_from:
       - "{{ docker_storage_name }}"
       - "{{ docker_preprints_name }}"
+      - "{{ docker_registries_name }}"
  
     docker_osf_celery_beat_name: "{{ docker_env }}_osf_celery_beat"
     docker_osf_celery_beat_data_dir: "/opt/{{ docker_env }}_osf_celery_beat/data/"
@@ -185,9 +210,11 @@
       - "{{ docker_osf_sharejs_name }}:sharejs"
       - "{{ docker_prerender_name }}:prerender"
       - "{{ docker_preprints_name }}:preprints"
+      - "{{ docker_registries_name }}:registries"
     docker_nginx_volumes_from:
       - "{{ docker_storage_name }}"
       - "{{ docker_preprints_name }}"
+      - "{{ docker_registries_name }}"
   roles:
     - role: docker-storage
       when: docker_storage
@@ -233,6 +260,25 @@
       docker_ember_volumes: "{{ docker_preprints_volumes }}"
       docker_ember_volumes_from: "{{ docker_preprints_volumes_from }}"
       when: docker_preprints
+
+
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_registries_source_branch }}"
+      docker_ember_source_repo: "{{ docker_registries_source_repo }}"
+      docker_ember_working_dir: "{{ docker_registries_working_dir }}"
+      docker_ember_name: "{{ docker_registries_name }}"
+      docker_ember_image: "{{ docker_registries_image }}"
+      docker_ember_command: "{{ docker_registries_command }}"
+      docker_ember_source_conf_dir: "{{ docker_registries_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_registries_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_registries_conf_dir }}"
+      docker_ember_env: "{{ docker_registries_env }}"
+      docker_ember_net: "{{ docker_registries_net }}"
+      docker_ember_hostname: "{{ docker_registries_hostname }}"
+      docker_ember_links: "{{ docker_registries_links }}"
+      docker_ember_volumes: "{{ docker_registries_volumes }}"
+      docker_ember_volumes_from: "{{ docker_registries_volumes_from }}"
+      when: docker_registries
 
     - role: docker-osf
 
