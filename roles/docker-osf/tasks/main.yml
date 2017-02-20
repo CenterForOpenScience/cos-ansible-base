@@ -45,6 +45,24 @@
 
 - include: celery.yml
   vars:
+    docker_osf_celery_instances: "{{ docker_osf_celery_worker_priority_instances }}"
+    docker_osf_celery_name: "{{ docker_osf_celery_worker_priority_name }}"
+    docker_osf_celery_image: "{{ docker_osf_celery_worker_priority_image }}"
+    docker_osf_celery_command: "{{ docker_osf_celery_worker_priority_command }}"
+    docker_osf_celery_data_dir: "{{ docker_osf_celery_worker_priority_data_dir }}"
+    docker_osf_celery_log_dir: "{{ docker_osf_celery_worker_priority_log_dir }}"
+    docker_osf_celery_env: "{{ docker_osf_celery_worker_priority_env }}"
+    docker_osf_celery_net: "{{ docker_osf_celery_worker_priority_net }}"
+    docker_osf_celery_hostname: "{{ docker_osf_celery_worker_priority_hostname }}"
+    docker_osf_celery_expose: "{{ docker_osf_celery_worker_priority_expose }}"
+    docker_osf_celery_ports: "{{ docker_osf_celery_worker_priority_ports }}"
+    docker_osf_celery_links: "{{ docker_osf_celery_worker_priority_links }}"
+    docker_osf_celery_volumes: "{{ docker_osf_celery_worker_priority_volumes }}"
+    docker_osf_celery_volumes_from: "{{ docker_osf_celery_worker_priority_volumes_from }}"
+  when: docker_osf_celery_worker_priority
+
+- include: celery.yml
+  vars:
     docker_osf_celery_instances: "{{ docker_osf_cron_instances }}"
     docker_osf_celery_name: "{{ docker_osf_cron_name }}"
     docker_osf_celery_image: "{{ docker_osf_cron_image }}"
