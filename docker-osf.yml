@@ -107,7 +107,7 @@
       - "{{ docker_preprints_code_dir }}:{{ docker_preprints_working_dir }}:rw"
       - "{{ docker_preprints_conf_dir }}env:{{ docker_preprints_working_dir }}.env:rw"
     docker_preprints_volumes_from: []
- 
+
 
     docker_registries: no
     docker_registries_source_branch: develop
@@ -131,7 +131,7 @@
       - "{{ docker_registries_code_dir }}:{{ docker_registries_working_dir }}:rw"
       - "{{ docker_registries_conf_dir }}env:{{ docker_registries_working_dir }}.env:rw"
     docker_registries_volumes_from: []
- 
+
     docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
     docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf/"
     docker_osf_apiserver_links:
@@ -153,7 +153,7 @@
       - "{{ docker_storage_name }}"
       - "{{ docker_preprints_name }}"
       - "{{ docker_registries_name }}"
- 
+
     docker_osf_celery_beat_name: "{{ docker_env }}_osf_celery_beat"
     docker_osf_celery_beat_data_dir: "/opt/{{ docker_env }}_osf_celery_beat/data/"
     docker_osf_celery_beat_log_dir: "/opt/{{ docker_env }}_osf_celery_beat/log/"
@@ -175,6 +175,18 @@
       - "{{ docker_postgres_repmgr_name }}:postgres"
     docker_osf_celery_worker_volumes_from:
       - "{{ docker_storage_name }}"
+
+    docker_osf_celery_worker_priority_name: "{{ docker_env }}_osf_celery_worker_priority"
+    docker_osf_celery_worker_priority_data_dir: "/opt/{{ docker_env }}_osf_celery_worker/data/"
+    docker_osf_celery_worker_priority_log_dir: "/opt/{{ docker_env }}_osf_celery_worker/log/"
+    docker_osf_celery_worker_priority_links:
+      - "{{ docker_rabbitmq_name }}:rabbitmq"
+      - "{{ docker_elasticsearch_name }}:elasticsearch"
+      - "{{ docker_tokumx_name }}:tokumx"
+      - "{{ docker_postgres_repmgr_name }}:postgres"
+    docker_osf_celery_worker_priority_volumes_from:
+      - "{{ docker_storage_name }}"
+
 
     docker_osf_cron_name: "{{ docker_env }}_osf_cron"
     docker_osf_cron_links:
