@@ -1,3 +1,16 @@
 docker_redis_name: redis_1
-docker_redis_env: {}
+docker_redis_image: redis:3
+docker_redis_command: redis-server /usr/local/etc/redis/redis.conf
+docker_redis_conf_dir: /opt/redis/conf/
+docker_redis_conf_file: "{{ docker_mongo_conf_dir }}redis.conf"
+docker_redis_source_conf_file: redis.conf
 docker_redis_data_dir: /opt/redis/data/
+docker_redis_env: {}
+docker_redis_hostname: "{{ hostname_name }}"
+docker_redis_net: bridge
+docker_redis_expose:
+  - 6379
+docker_redis_ports: []
+docker_redis_volumes:
+  - "{{ docker_redis_conf_file }}:/usr/local/etc/redis/redis.conf:ro"
+  - "{{ docker_redis_data_dir }}:/data"

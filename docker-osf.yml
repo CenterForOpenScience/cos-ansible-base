@@ -63,10 +63,10 @@
     docker_celery_flower_links:
       - "{{ docker_rabbitmq_name }}:rabbitmq"
 
-    # redis
     docker_redis: no
-    docker_redis_name: "{{ docker_env }}_osf_prerender_redis_1"
-    docker_redis_data_dir: "/opt/{{ docker_env }}_osf_prerender_redis/data/"
+    docker_redis_name: "{{ docker_env }}_osf_redis_1"
+    docker_redis_conf_dir: "/opt/{{ docker_env }}_osf_redis/conf/"
+    docker_redis_data_dir: "/opt/{{ docker_env }}_osf_redis/data/"
 
     docker_prerender: no
     docker_prerender_name: "{{ docker_env }}_osf_prerender_1"
@@ -272,7 +272,6 @@
       docker_ember_volumes: "{{ docker_preprints_volumes }}"
       docker_ember_volumes_from: "{{ docker_preprints_volumes_from }}"
       when: docker_preprints
-
 
     - role: docker-ember
       docker_ember_source_branch: "{{ docker_registries_source_branch }}"

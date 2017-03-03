@@ -1,3 +1,27 @@
+- name: Ensure docker redis directories exist
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_redis_conf_dir }}"
+    - "{{ docker_redis_data_dir }}"
+  tags:
+    - install
+    - upgrade
+
+
+- name: Copy docker redis configuration settings
+  copy:
+    src: "{{ docker_redis_source_conf_file }}"
+    dest: "{{ docker_redis_conf_file }}"
+    mode: 0644
+  tags:
+    - install
+    - settings
+    - upgrade
+
+
 - name: Restart docker redis container
   become: yes
   shell: "docker restart {{ docker_redis_name }}"
@@ -5,26 +29,20 @@
     - restart
 
 
-- name: Ensure docker redis directories exist
-  become: yes
-  file:
-    state: directory
-    path: "{{ docker_redis_data_dir }}"
-  tags:
-    - install
-    - upgrade
-
-
 - name: Run docker redis container
   docker:
-    name: "{{ docker_redis_name }}"
-    state: running
-    image: "redis:latest"
-    restart_policy: always
-    hostname: "{{ hostname_name }}"
+    command: "{{ docker_redis_command }}"
     env: "{{ docker_redis_env }}"
-    volumes:
-      - "{{ docker_redis_data_dir }}:/data"
+    expose: "{{ docker_redis_expose }}"
+    name: "{{ docker_redis_name }}"
+    hostname: "{{ docker_redis_hostname }}"
+    net: "{{ docker_redis_net }}"
+    ports: "{{ docker_redis_ports }}"
+    pull: always
+    restart_policy: always
+    image: "{{ docker_redis_image }}"
+    state: reloaded
+    volumes: "{{ docker_redis_volumes }}"
   tags:
     - install
     - upgrade
