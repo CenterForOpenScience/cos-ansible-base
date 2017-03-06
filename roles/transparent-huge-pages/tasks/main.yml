@@ -1,4 +1,4 @@
-# Disables transparent-huge-pages for tokumx
+# Disables transparent-huge-pages for applications like tokumx and redis
 
 - name: Disables transparent-huge-pages (for tokumx)
   become: yes
