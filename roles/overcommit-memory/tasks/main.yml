@@ -1,0 +1,8 @@
+- name: Set vm.overcommit_memory in /etc/sysctl.conf
+  sysctl:
+    name: vm.overcommit_memory
+    value: "{{ overcommit_memory }}"
+    state: present
+  tags:
+    - install
+
