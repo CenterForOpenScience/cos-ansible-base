@@ -71,7 +71,7 @@
     docker_prerender: no
     docker_prerender_name: "{{ docker_env }}_osf_prerender_1"
     docker_prerender_conf_dir: "/opt/{{ docker_env }}_osf_prerender/conf/"
-    docker_sentry_server_links:
+    docker_prerender_server_links:
       - "{{ docker_redis_name }}:redis"
 
     docker_osf_adminserver_name: "{{ docker_env }}_osf_adminserver_1"
