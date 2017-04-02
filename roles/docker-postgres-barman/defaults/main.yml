@@ -1,0 +1,23 @@
+docker_postgres_barman_name: postgres_barman_1
+docker_postgres_barman_image: centerforopenscience/postgres:9.6-barman
+docker_postgres_barman_source_conf_dir: roles/docker-postgres-barman/files/conf/
+docker_postgres_barman_source_barman_conf_file: "{{ docker_postgres_barman_source_conf_dir }}barman.conf"
+docker_postgres_barman_source_crontab_file: "{{ docker_postgres_barman_source_conf_dir }}crontab"
+docker_postgres_barman_source_barmand_dir: "{{ docker_postgres_barman_source_conf_dir }}barman.d/"
+docker_postgres_barman_conf_dir: /opt/postgres_barman/conf/
+docker_postgres_barman_data_dir: /opt/postgres_barman/data/
+docker_postgres_barman_barman_conf_file: "{{ docker_postgres_barman_conf_dir }}barman.conf"
+docker_postgres_barman_crontab_file: "{{ docker_postgres_barman_conf_dir }}crontab"
+docker_postgres_barman_barmand_dir: "{{ docker_postgres_barman_conf_dir }}barman.d/"
+docker_postgres_barman_hostname: "{{ hostname_name }}"
+docker_postgres_barman_net: bridge
+docker_postgres_barman_expose: []
+docker_postgres_barman_ports: []
+docker_postgres_barman_env: {}
+docker_postgres_barman_links: []
+docker_postgres_barman_volumes:
+  - "{{ docker_postgres_barman_crontab_file }}:/var/spool/cron/crontabs/barman"
+  - "{{ docker_postgres_barman_barmand_dir }}:/etc/barman.d"
+  - "{{ docker_postgres_barman_barman_conf_file }}:/etc/barman.conf"
+  - "{{ docker_postgres_barman_data_dir }}:/var/lib/barman"
+  

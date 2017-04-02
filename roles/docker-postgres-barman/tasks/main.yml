@@ -1,0 +1,70 @@
+- name: Ensure docker postgres barman directories exist
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ docker_postgres_barman_conf_dir }}"
+    - "{{ docker_postgres_barman_barmand_dir }}"
+    - "{{ docker_postgres_barman_data_dir }}"
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker postgres barman barman.conf file
+  copy:
+    src: "{{ docker_postgres_barman_source_barman_conf_file }}"
+    dest: "{{ docker_postgres_barman_barman_conf_file }}"
+    mode: 0644
+  when: docker_postgres_barman_source_barman_conf_file | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker postgres barman crontab file
+  copy:
+    src: "{{ docker_postgres_barman_source_crontab_file }}"
+    dest: "{{ docker_postgres_barman_crontab_file }}"
+    mode: 0644
+  when: docker_postgres_barman_source_crontab_file | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Copy docker postgres barman barman.d directory
+  copy:
+    mode: 0644
+    src: "{{ docker_postgres_barman_source_barmand_dir }}"
+    dest: "{{ docker_postgres_barman_barmand_dir }}"
+  when: docker_postgres_barman_source_barmand_dir | default("") != ""
+  tags:
+    - install
+    - settings
+
+
+- name: Restart docker postgres barman container
+  become: yes
+  shell: "docker restart {{ docker_postgres_barman_name }}"
+  tags:
+    - restart
+
+
+- name: Run docker postgres barman container
+  docker:
+    env: "{{ docker_postgres_barman_env }}"
+    expose: "{{ docker_postgres_barman_expose }}"
+    hostname: "{{ docker_postgres_barman_hostname }}"
+    image: "{{ docker_postgres_barman_image }}"
+    links: "{{ docker_postgres_barman_links }}"
+    name: "{{ docker_postgres_barman_name }}"
+    net: "{{ docker_postgres_barman_net }}"
+    ports: "{{ docker_postgres_barman_ports }}"
+    pull: always
+    restart_policy: always
+    state: reloaded
+    volumes: "{{ docker_postgres_barman_volumes }}"
+  tags:
+    - install
