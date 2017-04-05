@@ -62,7 +62,7 @@ import json
 import optparse
 import sys
 
-from docker import APIClient
+from docker import Client
 from docker.errors import APIError
 
 
@@ -78,7 +78,7 @@ class DockerService(object):
     def barman_check(self):
         """Connect to the Barman Docker object and check configuration. Error out on failure."""
 
-        docker_client = APIClient(base_url=self.url)
+        docker_client = Client(base_url=self.url)
 
         try:
             # TODO: verify that the barman container is running
