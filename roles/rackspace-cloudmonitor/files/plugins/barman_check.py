@@ -75,6 +75,17 @@ class DockerService(object):
         self.container = container
         self.command = 'barman check ' + database
 
+    def slugify(value):
+        """
+        Converts to lowercase, removes non-word characters (alphanumerics and
+        underscores) and converts spaces to hyphens. Also strips leading and
+        trailing whitespace.
+        """
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+        value = re.sub('[^\w\s-]', '', value).strip().lower()
+        return mark_safe(re.sub('[-\s]+', '-', value))
+        slugify = allow_lazy(slugify, six.text_type)
+        
     def barman_check(self):
         """Connect to the Barman Docker object and check configuration. Error out on failure."""
 
@@ -90,19 +101,23 @@ class DockerService(object):
         try:
             exec_id = docker_client.exec_create(self.container, self.command)
             response = docker_client.exec_start(exec_id)
-
-            success = 0
-            for line in response.splitlines():
-                if 'FAILED' in line:
-                    failure = ((line.split('FAILED'))[0]).strip(': \t\n\r')
-                    success = 1
-                    print('status err ' + failure + ' failed in barman check.')
-            sys.exit(success)
         except Exception:
             print('stats err failed to execute barman check command in the container.')
             sys.exit(1)
 
+        failed = False
+        for line in response.splitlines()[1:]:
+            check, value = line.strip().split(': ', 1)
+            slug = check.lower().replace(' ', '_').replace('-', '_')
+            print('metric {} string {}'.format(slug, value))
+            if value.startswith('FAILED'):
+                failed = True
+        if failed:
+            print('status err failure in barman check')
+            sys.exit(1)
+        print('status ok all checks passed')
 
+        
 def main():
     """Instantiate a DockerService and Check Barman Configuration"""
 
