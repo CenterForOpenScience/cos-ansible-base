@@ -21,17 +21,6 @@
     - upgrade
 
 
-- name: Copy docker dor server application settings
-  copy:
-    src: "{{ docker_dor_server_source_app_file }}"
-    dest: "{{ docker_dor_server_app_file }}"
-    mode: 0644
-  tags:
-    - install
-    - settings
-    - upgrade
-
-
 - name: Restart docker dor server container
   become: yes
   shell: "docker restart {{ docker_dor_server_name }}"
@@ -41,19 +30,21 @@
 
 - name: Run docker dor server container
   docker:
-    command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+    command: "{{ docker_dor_server_command }}"
     env: "{{ docker_dor_server_env }}"
     expose: "{{ docker_dor_server_expose }}"
-    hostname: "{{ hostname_name }}"
+    hostname: "{{ docker_dor_server_hostname }}"
     image: "{{ docker_dor_server_image }}"
     links: "{{ docker_dor_server_links }}"
     name: "{{ docker_dor_server_name }}"
+    net: "{{ docker_dor_server_net }}"
     ports: "{{ docker_dor_server_ports }}"
     pull: always
     restart_policy: always
     state: reloaded
-    volumes_from: "{{ docker_dor_server_volumes_from }}"
+    tty: yes
     volumes: "{{ docker_dor_server_volumes }}"
+    volumes_from: "{{ docker_dor_server_volumes_from }}"
   tags:
     - install
     - upgrade

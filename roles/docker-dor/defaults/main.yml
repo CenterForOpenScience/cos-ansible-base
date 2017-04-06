@@ -1,70 +1,25 @@
 # variables
+docker_dor_source_branch: master
+docker_dor_source_repo: https://github.com/CenterForOpenScience/DirectoryOfRepositories.git
 
-docker_dor_env: test
-
-
-# shared storage
-
-docker_dor_storage: no
-docker_dor_storage_name: "{{ docker_dor_env }}_dor_storage_1"
-docker_dor_storage_volumes:
-  - /tmp
-  - /code
-
-
-# # support servers
-#
-# docker_dor_postgres: no
-# docker_dor_postgres_name: "{{ docker_dor_env }}_dor_postgres_1"
-# docker_dor_postgres_data_dir: "/opt/{{ docker_dor_env }}_dor_postgres/data"
-# docker_dor_postgres_env:
-#   POSTGRES_DB: dor_staging
-# docker_dor_postgres_expose:
-#   - 5432
-# docker_dor_postgres_ports: []
-#
-# docker_dor_nginx: no
-# docker_dor_nginx_name: "{{ docker_dor_env }}_dor_nginx_1"
-# docker_dor_nginx_image: nginx:1
-# docker_dor_nginx_source_conf_file: nginx.conf
-# docker_dor_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
-# docker_dor_nginx_conf_dir: "/opt/{{ docker_dor_env }}_dor_nginx/conf/"
-# docker_dor_nginx_conf_file: "{{ docker_dor_nginx_conf_dir }}nginx.conf"
-# docker_dor_nginx_ssl_dir: "{{ docker_dor_nginx_conf_dir }}ssl/"
-# docker_dor_nginx_env: {}
-# docker_dor_nginx_expose:
-#   - 80
-#   - 443
-# docker_dor_nginx_ports: []
-# docker_dor_nginx_links: []
-# docker_dor_nginx_volumes:
-#   - "{{ docker_dor_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
-#   - "{{ docker_dor_nginx_ssl_dir }}:/etc/ssl/private:ro"
-# docker_dor_nginx_volumes_from:
-#   - "{{ docker_dor_storage_name }}"
-
-
-# servers
-
-docker_dor_uwsgi: no
-docker_dor_uwsgi_name: "{{ docker_dor_env }}_dor_uwsgi_1"
-docker_dor_uwsgi_image: centerforopenscience/dor:latest
-docker_dor_uwsgi_source_branch: master
-docker_dor_uwsgi_source_repo: https://github.com/mfraezz/DirectoryOfRepositories.git
-docker_dor_uwsgi_source_conf_file: uwsgi.ini
-docker_dor_uwsgi_source_app_file: local.py
-docker_dor_uwsgi_conf_dir: "/opt/{{ docker_dor_env }}_dor_uwsgi/conf/"
-docker_dor_uwsgi_conf_file: "{{ docker_dor_uwsgi_conf_dir }}uwsgi.ini"
-docker_dor_uwsgi_app_file: "{{ docker_dor_uwsgi_conf_dir }}local.py"
-docker_dor_uwsgi_env:
-  SOURCE_BRANCH: "{{ docker_dor_uwsgi_source_branch }}"
-  SOURCE_REPO: "{{ docker_dor_uwsgi_source_repo }}"
-docker_dor_uwsgi_expose: []
-docker_dor_uwsgi_ports: []
-docker_dor_uwsgi_links:
-  - "{{ docker_dor_postgres_name }}:postgres"
-docker_dor_uwsgi_volumes:
-  - "{{ docker_dor_uwsgi_conf_file }}:/etc/uwsgi/uwsgi.ini"
-  - "{{ docker_dor_uwsgi_app_file }}:/home/.cos/local.py"
-docker_dor_uwsgi_volumes_from:
-  - "{{ docker_dor_storage_name }}"
+# server
+docker_dor_server: no
+docker_dor_server_name: dor_server_1
+docker_dor_server_image: centerforopenscience/dor:laster
+docker_dor_server_command: "uwsgi --ini /etc/uwsgi/uwsgi.ini"
+docker_dor_server_source_conf_file: uwsgi.ini
+docker_dor_server_conf_dir: /opt/dor_server/conf/
+docker_dor_server_conf_file: "{{ docker_dor_server_conf_dir }}uwsgi.ini"
+docker_dor_server_env:
+  SOURCE_BRANCH: "{{ docker_dor_source_branch }}"
+  SOURCE_REPO: "{{ docker_dor_source_repo }}"
+docker_dor_server_net: bridge
+docker_dor_server_hostname: "{{ hostname_name }}"
+docker_dor_server_expose:
+  - 8000
+docker_dor_server_ports: []
+docker_dor_server_links: []
+docker_dor_server_volumes:
+  - "{{ docker_dor_server_conf_file }}:/etc/uwsgi/uwsgi.ini"
+  - "{{ docker_storage_conf_dir }}local.py:/code/RepoDir/settings/local.py:ro"
+docker_dor_server_volumes_from: []
