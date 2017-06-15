@@ -2,12 +2,18 @@ docker_nginx_name: nginx_1
 docker_nginx_image: centerforopenscience/nginx:1 # auto reload on /etc/hosts change
 docker_nginx_source_conf_dir: roles/docker-nginx/files/conf/
 docker_nginx_source_nginx_conf_file: "{{ docker_nginx_source_conf_dir }}nginx.conf"
+docker_nginx_source_crs_conf_file: "{{ docker_nginx_source_conf_dir }}crs-setup.conf"
+docker_nginx_source_modsecurity_conf_file: "{{ docker_nginx_source_conf_dir }}modsecurity.conf"
+docker_nginx_source_modsec_includes_conf_file: "{{ docker_nginx_source_conf_dir }}modsec_includes.conf"
 docker_nginx_source_htpasswd_file: ""
 docker_nginx_source_confd_dir: "{{ docker_nginx_source_conf_dir }}conf.d/"
 docker_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
 docker_nginx_env: {}
 docker_nginx_conf_dir: "/opt/nginx/conf/"
 docker_nginx_nginx_conf_file: "{{ docker_nginx_conf_dir }}nginx.conf"
+docker_nginx_crs_conf_file: "{{ docker_nginx_conf_dir }}crs-setup.conf"
+docker_nginx_modsecurity_conf_file: "{{ docker_nginx_conf_dir }}modsecurity.conf"
+docker_nginx_modsec_includes_conf_file: "{{ docker_nginx_conf_dir }}modsec_includes.conf"
 docker_nginx_htpasswd_file: "{{ docker_nginx_conf_dir }}.htpasswd"
 docker_nginx_confd_dir: "{{ docker_nginx_conf_dir }}conf.d/"
 docker_nginx_ssl_dir: "{{ docker_nginx_conf_dir }}ssl/"
@@ -18,6 +24,9 @@ docker_nginx_expose: []
 docker_nginx_ports: []
 docker_nginx_volumes:
   - "{{ docker_nginx_nginx_conf_file }}:/etc/nginx/nginx.conf:ro"
+  - "{{ docker_nginx_crs_conf_file }}:/etc/nginx/rules/crs-setup.conf:ro"
+  - "{{ docker_nginx_modsecurity_conf_file }}:/etc/nginx/modsecurity.conf:ro"
+  - "{{ docker_nginx_modsec_includes_conf_file }}:/etc/nginx/modsec_includes.conf:ro"
   # - "{{ docker_nginx_htpasswd_file }}:/etc/nginx/.htpasswd:ro"
   - "{{ docker_nginx_confd_dir }}:/etc/nginx/conf.d:ro"
   - "{{ docker_nginx_ssl_dir }}:/etc/ssl/private:ro"
