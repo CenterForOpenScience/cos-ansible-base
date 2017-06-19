@@ -29,6 +29,10 @@
   register: check_contents
   failed_when: check_contents.stdout.find("csf should function on this server") == -1
 
+- name: register systemctl path
+  shell: which systemctl
+  register: systemctl_path
+
 - name: copy conf
   template: src=csf.conf.j2 dest=/etc/csf/csf.conf
   become: yes

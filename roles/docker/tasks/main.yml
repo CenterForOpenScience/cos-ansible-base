@@ -61,9 +61,22 @@
   with_items:
     - apparmor
     - libltdl7
-    - libsystemd-journal0
     - linux-image-extra-virtual
     - "linux-image-extra-{{ uname_r.stdout }}"
+  tags:
+    - v1.7
+    - v1.8
+    - v1.11
+    - v1.13
+
+
+- name: Install docker system dependencies (Ubuntu 14.04)
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - libsystemd-journal0
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == '14'
   tags:
     - v1.7
     - v1.8
@@ -104,6 +117,19 @@
     - v1.8
     - v1.11
     - v1.13
+
+
+- name: Configure daemon.json (overlay2 storage driver and disable icc)
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= '16'
+  tags:
+    - v1.13
+    - settings
 
 
 - name: Download Docker Engine deb (v1.13)

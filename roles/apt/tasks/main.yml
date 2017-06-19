@@ -5,5 +5,5 @@
   when: apt_update_cache|bool
 
 - name: Run apt-get upgrade
-  apt: upgrade=full
+  apt: upgrade=dist
   become: yes
