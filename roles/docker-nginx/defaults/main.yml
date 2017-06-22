@@ -6,7 +6,6 @@ docker_nginx_source_crs_conf_file: "{{ docker_nginx_source_conf_dir }}crs-setup.
 docker_nginx_source_modsecurity_conf_file: "{{ docker_nginx_source_conf_dir }}modsecurity.conf"
 docker_nginx_source_modsec_includes_conf_file: "{{ docker_nginx_source_conf_dir }}modsec_includes.conf"
 docker_nginx_source_htpasswd_file: ""
-docker_nginx_source_confd_dir: "{{ docker_nginx_source_conf_dir }}conf.d/"
 docker_nginx_source_ssl_dir: roles/docker-nginx/files/ssl/
 docker_nginx_env: {}
 docker_nginx_conf_dir: "/opt/nginx/conf/"

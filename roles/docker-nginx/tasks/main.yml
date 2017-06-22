@@ -81,7 +81,7 @@
 
 - name: Clear docker nginx conf.d directory
   shell: "rm -Rf {{ docker_nginx_confd_dir }}*"
-  when: docker_nginx_source_confd_dir | default("") != ""
+  when: docker_nginx_source_conf_dir | default("") != ""
   tags:
     - install
     - nginx-install
@@ -92,9 +92,9 @@
 - name: Copy docker nginx conf.d directory
   copy:
     mode: 0644
-    src: "{{ docker_nginx_source_confd_dir }}"
+    src: "{{ docker_nginx_source_conf_dir }}"
     dest: "{{ docker_nginx_confd_dir }}"
-  when: docker_nginx_source_confd_dir | default("") != ""
+  when: docker_nginx_source_conf_dir | default("") != ""
   tags:
     - install
     - nginx-install
