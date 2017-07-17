@@ -27,6 +27,45 @@
     - nginx-settings
 
 
+- name: Copy docker crs-setup.conf file
+  copy:
+    src: "{{ docker_nginx_source_crs_conf_file }}"
+    dest: "{{ docker_nginx_crs_conf_file }}"
+    mode: 0644
+  when: docker_nginx_source_crs_conf_file | default("") != ""
+  tags:
+    - install
+    - nginx-install
+    - settings
+    - nginx-settings
+
+
+- name: Copy docker modsec_includes.conf file
+  copy:
+    src: "{{ docker_nginx_source_modsec_includes_conf_file }}"
+    dest: "{{ docker_nginx_modsec_includes_conf_file }}"
+    mode: 0644
+  when: docker_nginx_source_modsec_includes_conf_file | default("") != ""
+  tags:
+    - install
+    - nginx-install
+    - settings
+    - nginx-settings
+
+
+- name: Copy docker modsecurity.conf file
+  copy:
+    src: "{{ docker_nginx_source_modsecurity_conf_file }}"
+    dest: "{{ docker_nginx_modsecurity_conf_file }}"
+    mode: 0644
+  when: docker_nginx_source_modsecurity_conf_file | default("") != ""
+  tags:
+    - install
+    - nginx-install
+    - settings
+    - nginx-settings
+
+
 - name: Copy docker nginx .htpasswd file
   copy:
     src: "{{ docker_nginx_source_htpasswd_file }}"
@@ -40,9 +79,9 @@
     - nginx-settings
 
 
-- name: Clear docker nginx conf.d directory
-  shell: "rm -Rf {{ docker_nginx_confd_dir }}*"
-  when: docker_nginx_source_confd_dir | default("") != ""
+- name: Clear docker nginx conf directory
+  shell: "rm -Rf {{ docker_nginx_conf_dir }}*"
+  when: docker_nginx_source_conf_dir | default("") != ""
   tags:
     - install
     - nginx-install
@@ -50,12 +89,12 @@
     - nginx-settings
 
 
-- name: Copy docker nginx conf.d directory
+- name: Copy docker nginx conf directory
   copy:
     mode: 0644
-    src: "{{ docker_nginx_source_confd_dir }}"
-    dest: "{{ docker_nginx_confd_dir }}"
-  when: docker_nginx_source_confd_dir | default("") != ""
+    src: "{{ docker_nginx_source_conf_dir }}"
+    dest: "{{ docker_nginx_conf_dir }}"
+  when: docker_nginx_source_conf_dir | default("") != ""
   tags:
     - install
     - nginx-install
