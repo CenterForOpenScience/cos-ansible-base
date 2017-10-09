@@ -30,7 +30,7 @@
   failed_when: check_contents.stdout.find("csf should function on this server") == -1
 
 - name: register systemctl path
-  shell: which systemctl
+  shell: which systemctl || echo /usr/bin/systemctl
   register: systemctl_path
 
 - name: copy conf
