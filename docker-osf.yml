@@ -139,6 +139,29 @@
       - "{{ docker_registries_conf_dir }}env:{{ docker_registries_working_dir }}.env:rw"
     docker_registries_volumes_from: []
 
+    docker_reviews: no
+    docker_reviewss_source_branch: develop
+    docker_reviews_source_repo: https://github.com/CenterForOpenScience/ember-osf-reviews.git
+    docker_reviews_working_dir: /reviews/
+    docker_reviews_name: "{{ docker_env }}_reviews_1"
+    docker_reviews_image: centerforopenscience/ember:latest
+    docker_reviews_command: gosu www-data ember build --env production --output-path=/reviews/dist/reviews
+    docker_reviews_source_conf_dir: roles/docker-spa/files/reviews/
+    docker_reviews_code_dir: "/opt/{{ docker_env }}_reviews/code/"
+    docker_reviews_conf_dir: "/opt/{{ docker_env }}_reviews/conf/"
+    docker_reviews_env:
+      SOURCE_BRANCH: "{{ docker_reviews_source_branch }}"
+      SOURCE_REPO: "{{ docker_reviews_source_repo }}"
+      WORKDIR: "{{ docker_reviews_working_dir }}"
+      BACKEND: "{{ docker_reviews_backend }}"
+    docker_reviews_net: bridge
+    docker_reviews_hostname: "{{ hostname_name }}"
+    docker_reviews_links: []
+    docker_reviews_volumes:
+      - "{{ docker_reviews_code_dir }}:{{ docker_reviews_working_dir }}:rw"
+      - "{{ docker_reviews_conf_dir }}env:{{ docker_reviews_working_dir }}.env:rw"
+    docker_reviews_volumes_from: []
+
     docker_osf_apiserver_name: "{{ docker_env }}_osf_apiserver_1"
     docker_osf_apiserver_conf_dir: "/opt/{{ docker_env }}_osf_apiserver/conf/"
     docker_osf_apiserver_links:
@@ -160,6 +183,7 @@
       - "{{ docker_storage_name }}"
       - "{{ docker_preprints_name }}"
       - "{{ docker_registries_name }}"
+      - "{{ docker_reviews_name }}"
 
     docker_osf_celery_beat_name: "{{ docker_env }}_osf_celery_beat"
     docker_osf_celery_beat_data_dir: "/opt/{{ docker_env }}_osf_celery_beat/data/"
@@ -229,10 +253,12 @@
       - "{{ docker_prerender_name }}:prerender"
       - "{{ docker_preprints_name }}:preprints"
       - "{{ docker_registries_name }}:registries"
+      - "{{ docker_reviews_name }}:reviews"
     docker_nginx_volumes_from:
       - "{{ docker_storage_name }}"
       - "{{ docker_preprints_name }}"
       - "{{ docker_registries_name }}"
+      - "{{ docker_reviews_name }}"
   roles:
     - role: docker-storage
       when: docker_storage
@@ -299,6 +325,24 @@
       docker_ember_volumes: "{{ docker_registries_volumes }}"
       docker_ember_volumes_from: "{{ docker_registries_volumes_from }}"
       when: docker_registries
+
+    - role: docker-ember
+      docker_ember_source_branch: "{{ docker_reviews_source_branch }}"
+      docker_ember_source_repo: "{{ docker_reviews_source_repo }}"
+      docker_ember_working_dir: "{{ docker_reviews_working_dir }}"
+      docker_ember_name: "{{ docker_reviews_name }}"
+      docker_ember_image: "{{ docker_reviews_image }}"
+      docker_ember_command: "{{ docker_reviews_command }}"
+      docker_ember_source_conf_dir: "{{ docker_reviews_source_conf_dir }}"
+      docker_ember_code_dir: "{{ docker_reviews_code_dir }}"
+      docker_ember_conf_dir: "{{ docker_reviews_conf_dir }}"
+      docker_ember_env: "{{ docker_reviews_env }}"
+      docker_ember_net: "{{ docker_reviews_net }}"
+      docker_ember_hostname: "{{ docker_reviews_hostname }}"
+      docker_ember_links: "{{ docker_reviews_links }}"
+      docker_ember_volumes: "{{ docker_reviews_volumes }}"
+      docker_ember_volumes_from: "{{ docker_reviews_volumes_from }}"
+      when: docker_reviews
 
     - role: docker-osf
 
