@@ -10,7 +10,7 @@
     docker_fluentd_conf_file: "{{ docker_fluentd_conf_dir }}fluent.conf"
     docker_fluentd_data_dir: /opt/fluentd/data/
     docker_fluentd_env:
-      FLUENTD_GEMS: "fluent-plugin-order fluent-plugin-record-reformer fluent-plugin-rewrite-tag-filter fluent-plugin-jsonbucket" # fluent-plugin-docker-format (fixed but not released on rubygems.org) # fluent-plugin-logentries removed (pr in for fix)
+      FLUENTD_GEMS: "fluent-plugin-order fluent-plugin-record-reformer fluent-plugin-jsonbucket" # fluent-plugin-rewrite-tag-filter (major version incompatible, use 1.6.0), fluent-plugin-docker-format (fixed but not released on rubygems.org), fluent-plugin-logentries removed (pr in for fix)
     docker_fluentd_volumes:
       - "{{ docker_fluentd_data_dir }}:/data"
       - "{{ docker_fluentd_conf_dir }}:/etc/fluent:ro"
